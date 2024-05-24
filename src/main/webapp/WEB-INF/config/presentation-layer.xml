@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 컨트롤러(@Controller)가 위치한 패키지 스캔해서 객체 생성 -->
+	<!-- <context:component-scan base-package="com.spring.biz.view" /> -->
+	<context:component-scan base-package="com.spring.biz" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+	</context:component-scan>
+	
+	<!-- 어노테이션 설정 방식 사용 + 기타 다양한 객체 생성 -->
+	<mvc:annotation-driven />
+	
+	<!-- 정적데이터 사용 위치 설정 -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	
+	<!-- 파일업로드 관련 설정(MultipartResolver 등록) 
+		Resolver 명칭이 있는 객체명은 대체로 정해져 있음 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10000000" />
+	</bean>
+	
+	<!-- 예외 처리를 위한 설정 -->
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="/common/error.jsp" />
+		<property name="exceptionMappings"> 
+			<props>
+				<prop key="IllegalArgumentException">
+					common/illegalArgError
+				</prop>
+				<prop key="NullPointerException">
+					common/nullPointerError
+				</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 스프링 ViewResolver 등록 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />	
+	</bean>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

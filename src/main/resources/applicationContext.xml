@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- base-package 설정위치 포함 하위 패키지 모두 검색 처리
+		여러개 선언해도 되고, 구분자(빈칸, 콤마, 세미콜른 등) -->
+	<!-- <context:component-scan base-package="com.spring.biz.user, com.spring.biz.board" /> -->
+
+	<!-- 여러개 선언 방식
+	<context:component-scan base-package="com.spring.biz.user" />
+	<context:component-scan base-package="com.spring.biz.board" />
+	-->
+	<!-- base-package 설정 : include, exclude 필터 사용 설정 -->
+	<context:component-scan base-package="com.spring.biz">
+		<!-- <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/> -->
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<!-- ======================= -->
+	<!-- DataSource 설정 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+			destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="mystudy" />
+		<property name="password" value="mystudypw" />
+	</bean>
+	
+	<!-- 스프링-마이바티스 연동 설정 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath:mappings/**/*Mapper.xml"></property>
+		
+		<!-- alias 설정 : 해당위치 클래스명 대소문자 구분없이 별칭 사용 -->
+		<property name="typeAliasesPackage" value="com.spring.biz" />
+		
+	</bean>
+	
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- Mapper 인터페이스 사용 방식 적용 -->
+	<mybatis-spring:scan base-package="com.spring.biz.**.dao"/>
+	
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
