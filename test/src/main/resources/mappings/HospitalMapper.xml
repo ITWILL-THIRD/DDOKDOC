@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.spring.biz.hosSearch.dao.AllHospitalDAO">
+
+	<!-- 동적 비교처리(병원 검색) --> 
+	<select id="getHosList" parameterType="string" resultType="AllHospitalVO">
+		SELECT *
+		FROM HOSPITAL H, HOSADDRESS HA
+		WHERE H.HOSIDX = HA.HOSIDX
+		<if test='search == "hosName" and keyword != ""'>
+			AND H.HOSNAME LIKE '%' || #{hosName} || '%'
+		</if>
+		<if test='search == "address" and keyword != ""'>
+			AND HA.ROADADDRESSNAME LIKE '%' || #{roadAddressName} || '%'
+			OR HA.ADDRESSNAME LIKE '%' || #{addressName} || '%'
+		</if>
+		ORDER BY SEQ DESC
+	</select>	
+  
+</mapper>

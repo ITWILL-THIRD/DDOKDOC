@@ -7,7 +7,7 @@
 		<setting name="jdbcTypeForNull" value="NULL"/>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
-
+	
 	<!-- applicationContext.xml 에서 typeAliasesPackage 설정으로 대체 -->
 	<!-- <typeAliases>
 		<typeAlias alias="boardVO" type="com.spring.biz.board.BoardVO"/>

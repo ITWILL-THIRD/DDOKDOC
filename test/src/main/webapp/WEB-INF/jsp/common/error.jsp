@@ -13,12 +13,12 @@
 </head>
 <body>
 
-<div id="container">
-	<h2>기본 에러 화면 [error.jsp]</h2>
-	<hr>
-	<p class="orange">Message : ${exception.message }</p>
-	<p>시스템 담당자(8282)에게 연락바랍니다</p>
-</div>
+<!-- <div id="container"> -->
+<!-- 	<h2>기본 에러 화면 [error.jsp]</h2> -->
+<!-- 	<hr> -->
+<%-- 	<p class="orange">Message : ${exception.message }</p> --%>
+<!-- 	<p>시스템 담당자(8282)에게 연락바랍니다</p> -->
+<!-- </div> -->
 
 </body>
 </html>
