@@ -62,8 +62,5 @@
 	<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
 	<div id="map" style="width:300px;height:300px;margin-top:10px;"></div>
 	
-	
-
-	
 </body>
 </html>
