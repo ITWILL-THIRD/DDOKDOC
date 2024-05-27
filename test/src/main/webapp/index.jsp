@@ -27,7 +27,7 @@
 					dispHtml += board.cnt + ", ";
 					dispHtml += "</li>";
 				}
-				
+				 
 				dispHtml += "</ul>";
 				$("#listDisp").html(dispHtml);
 			},
