@@ -9,10 +9,10 @@
 	
 	<!-- base-package 설정위치 포함 하위 패키지 모두 검색 처리
 		여러개 선언해도 되고, 구분자(빈칸, 콤마, 세미콜른 등) -->
-	<!-- <context:component-scan base-package="com.todoc.biz.hospital" /> -->
+	<!-- <context:component-scan base-package="com.todoc.hospital" /> -->
 	
 	<!-- base-package 설정 : include, exclude 필터 사용 설정 -->
-	<context:component-scan base-package="com.todoc.biz">
+	<context:component-scan base-package="com.todoc">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
@@ -35,7 +35,7 @@
 		<property name="mapperLocations" value="classpath:mappings/**/*Mapper.xml"></property>
 		
 		<!-- alias 설정 : 해당위치 클래스명 대소문자 구분없이 별칭 사용 -->
-		<property name="typeAliasesPackage" value="com.todoc.biz" />
+		<property name="typeAliasesPackage" value="com.todoc" />
 		
 	</bean>
 	
@@ -44,7 +44,7 @@
 	</bean>
 	
 	<!-- Mapper 인터페이스 사용 방식 적용 -->
-	<mybatis-spring:scan base-package="com.todoc.biz.**.dao"/>
+	<mybatis-spring:scan base-package="com.todoc.**.dao"/>
 	
 </beans>
 
