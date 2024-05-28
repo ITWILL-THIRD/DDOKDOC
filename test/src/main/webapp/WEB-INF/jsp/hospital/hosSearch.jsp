@@ -1,15 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>토닥토닥 메인</title>
-<script>
-// 	function hosSearch() {
-// 		alert("병원 검색~~");
-// 	}
-</script>
+
 
 </head>
 <body>
@@ -21,9 +18,9 @@
 		
 		<h3>병원 검색</h3>
 		<form action="hosSearch.do" method="post">
-			<select name="category">
-				<option value="hosName">병원명</option>
-				<option value="address">주소</option>
+			<select name="searchCondition">
+				<option value="HOSNAME">병원명</option>
+				<option value="ADDRESS">주소</option>
 				<option value="2">일반병원</option>
 				<option value="3">특수병원</option>
 				<option value="4">야간진료</option>
@@ -42,12 +39,14 @@
 				</tr>
 			</thead>
 			<tbody>
+				<c:forEach var="hospital" items="hospitalList">
 				<tr>
-					<td>번호-1</td>
-					<td>병원명-메이병원</td>
-					<td>주소-강남구 역삼동~~</td>
-					<td>전화번호-02~~</td>
+					<td>${hospital.hosidx }</td>
+					<td>${hospital.hosname }</td>
+					<td>${hospital.roadaddressname }</td>
+					<td>${hospital.hosphone }</td>
 				</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 		

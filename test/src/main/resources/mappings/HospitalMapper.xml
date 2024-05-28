@@ -6,16 +6,16 @@
 <mapper namespace="com.spring.biz.hosSearch.dao.AllHospitalDAO">
 
 	<!-- 동적 비교처리(병원 검색) --> 
-	<select id="getHosList" parameterType="string" resultType="AllHospitalVO">
+	<select id="getHosList" parameterType="hashMap" resultType="AllHospitalVO">
 		SELECT *
 		FROM HOSPITAL H, HOSADDRESS HA
 		WHERE H.HOSIDX = HA.HOSIDX
-		<if test='search == "hosName" and keyword != ""'>
+		<if test="category == 'HOSNAME' and keyword != ''">
 			AND H.HOSNAME LIKE '%' || #{hosName} || '%'
 		</if>
-		<if test='search == "address" and keyword != ""'>
-			AND HA.ROADADDRESSNAME LIKE '%' || #{roadAddressName} || '%'
-			OR HA.ADDRESSNAME LIKE '%' || #{addressName} || '%'
+		<if test="category == 'ADDRESS' and keyword != ''">
+			AND HA.ROADADDRESSNAME LIKE '%' || #{address} || '%'
+			OR HA.ADDRESSNAME LIKE '%' || #{address} || '%'
 		</if>
 		ORDER BY SEQ DESC
 	</select>	
