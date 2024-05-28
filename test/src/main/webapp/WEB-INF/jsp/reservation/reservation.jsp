@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>예약하기</title>
+<title>병원1예약하기</title>
 </head>
 <body>
 
