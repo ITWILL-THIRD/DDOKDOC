@@ -1,4 +1,4 @@
-package com.todoc.hosSearch;
+package com.todoc.hosMain;
 
 public class hosaddressVO {
 	private int hosidx;

@@ -1,44 +1,44 @@
-package com.todoc.hosSearch;
+package com.todoc.hosMain;
 
 public class hospitalVO {
-	private int hosidx;
-	private String inhosid;
-	private String hospw;
-	private String hosname;
-	private String hosphone;
+	private int hosIdx;
+	private String hosId;
+	private String hosPw;
+	private String hosName;
+	private String hosPhone;
 	private String animal;
 	private double score;
 	private String condition;
 	
 	public int getHosidx() {
-		return hosidx;
+		return hosIdx;
 	}
 	public void setHosidx(int hosidx) {
-		this.hosidx = hosidx;
+		this.hosIdx = hosidx;
 	}
 	public String getInhosid() {
-		return inhosid;
+		return hosId;
 	}
 	public void setInhosid(String inhosid) {
-		this.inhosid = inhosid;
+		this.hosId = inhosid;
 	}
 	public String getHospw() {
-		return hospw;
+		return hosPw;
 	}
 	public void setHospw(String hospw) {
-		this.hospw = hospw;
+		this.hosPw = hospw;
 	}
 	public String getHosname() {
-		return hosname;
+		return hosName;
 	}
 	public void setHosname(String hosname) {
-		this.hosname = hosname;
+		this.hosName = hosname;
 	}
 	public String getHosphone() {
-		return hosphone;
+		return hosPhone;
 	}
 	public void setHosphone(String hosphone) {
-		this.hosphone = hosphone;
+		this.hosPhone = hosphone;
 	}
 	public String getAnimal() {
 		return animal;
@@ -61,8 +61,9 @@ public class hospitalVO {
 	
 	@Override
 	public String toString() {
-		return "hospitalVO [hosidx=" + hosidx + ", inhosid=" + inhosid + ", hospw=" + hospw + ", hosname=" + hosname
-				+ ", hosphone=" + hosphone + ", animal=" + animal + ", score=" + score + ", condition=" + condition
+		return "hospitalVO [hosIdx=" + hosIdx + ", hosId=" + hosId + ", hosPw=" + hosPw + ", hosName=" + hosName
+				+ ", hosPhone=" + hosPhone + ", animal=" + animal + ", score=" + score + ", condition=" + condition
 				+ "]";
 	}
+	
 }

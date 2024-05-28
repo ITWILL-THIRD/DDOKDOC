@@ -1,51 +1,52 @@
-package com.todoc.hosSearch;
+package com.todoc.hosMain;
 
-public class AllHospitalVO {
-	private int hosidx;
-	private String inhosid;
-	private String hospw;
-	private String hosname;
-	private String hosphone;
+public class JoinHospitalVO {
+	//hospital 테이블
+	private int hosIdx;
+	private String hosId;
+	private String hosPw;
+	private String hosName;
+	private String hosPhone;
 	private String animal;
 	private double score;
 	private String condition;
-	
-	private String addressname;
-	private String roadaddressname;
+	//hosaddress 테이블
+	private String addressName;
+	private String roadAddressName;
 	private String addx;
 	private String addy;
 	private String sido;
 	private String sigungu;
 	
 	public int getHosidx() {
-		return hosidx;
+		return hosIdx;
 	}
 	public void setHosidx(int hosidx) {
-		this.hosidx = hosidx;
+		this.hosIdx = hosidx;
 	}
 	public String getInhosid() {
-		return inhosid;
+		return hosId;
 	}
 	public void setInhosid(String inhosid) {
-		this.inhosid = inhosid;
+		this.hosId = inhosid;
 	}
 	public String getHospw() {
-		return hospw;
+		return hosPw;
 	}
 	public void setHospw(String hospw) {
-		this.hospw = hospw;
+		this.hosPw = hospw;
 	}
 	public String getHosname() {
-		return hosname;
+		return hosName;
 	}
 	public void setHosname(String hosname) {
-		this.hosname = hosname;
+		this.hosName = hosname;
 	}
 	public String getHosphone() {
-		return hosphone;
+		return hosPhone;
 	}
 	public void setHosphone(String hosphone) {
-		this.hosphone = hosphone;
+		this.hosPhone = hosphone;
 	}
 	public String getAnimal() {
 		return animal;
@@ -68,16 +69,16 @@ public class AllHospitalVO {
 
 	
 	public String getAddressname() {
-		return addressname;
+		return addressName;
 	}
 	public void setAddressname(String addressname) {
-		this.addressname = addressname;
+		this.addressName = addressname;
 	}
 	public String getRoadaddressname() {
-		return roadaddressname;
+		return roadAddressName;
 	}
 	public void setRoadaddressname(String roadaddressname) {
-		this.roadaddressname = roadaddressname;
+		this.roadAddressName = roadaddressname;
 	}
 	public String getAddx() {
 		return addx;
@@ -106,9 +107,11 @@ public class AllHospitalVO {
 	
 	@Override
 	public String toString() {
-		return "AllHospitalVO [hosidx=" + hosidx + ", inhosid=" + inhosid + ", hospw=" + hospw + ", hosname=" + hosname
-				+ ", hosphone=" + hosphone + ", animal=" + animal + ", score=" + score + ", condition=" + condition
-				+ ", addressname=" + addressname + ", roadaddressname=" + roadaddressname + ", addx=" + addx + ", addy="
+		return "JoinHospitalVO [hosIdx=" + hosIdx + ", hosId=" + hosId + ", hosPw=" + hosPw + ", hosName=" + hosName
+				+ ", hosPhone=" + hosPhone + ", animal=" + animal + ", score=" + score + ", condition=" + condition
+				+ ", addressName=" + addressName + ", roadAddressName=" + roadAddressName + ", addx=" + addx + ", addy="
 				+ addy + ", sido=" + sido + ", sigungu=" + sigungu + "]";
 	}
+	
+	
 }

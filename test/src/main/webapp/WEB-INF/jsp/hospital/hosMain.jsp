@@ -6,28 +6,29 @@
 <head>
 <meta charset="UTF-8">
 <title>토닥토닥 메인</title>
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 </head>
 <body>
+\${hosList } : ${hosList }
 	<div id="container">
 		<h1>병원 예약</h1>
 		<hr>
-		<hr>
 		<br>
-		
 		<h3>병원 검색</h3>
-		<form action="hosSearch.do" method="post">
+		<form>
 			<select name="searchCondition">
-				<option value="HOSNAME">병원명</option>
-				<option value="ADDRESS">주소</option>
+				<option selected disabled>선택</option>
+				<option value="0">병원명</option>
+				<option value="1">주소</option>
 				<option value="2">일반병원</option>
 				<option value="3">특수병원</option>
 				<option value="4">야간진료</option>
 			</select>
 			
-			<input type="text" name="keyword" placeholder="병원명/주소 입력하세요">
-			<input type="submit" value="검색">
+			<input type="text" name="searchKeyword" placeholder="병원명/주소 입력하세요">
+			<input type="button" value="검색" onclick = "getAjaxHosList(this.form)">
+<!-- 			<input type="submit" value="검색"> -->
 		</form>
 		<table>
 			<thead>
@@ -38,13 +39,15 @@
 					<th>전화번호</th>
 				</tr>
 			</thead>
-			<tbody>
-				<c:forEach var="hospital" items="hospitalList">
+			<tbody id="listDisp">
+				<c:forEach var="hospital" items="${hosList }">
 				<tr>
-					<td>${hospital.hosidx }</td>
-					<td>${hospital.hosname }</td>
-					<td>${hospital.roadaddressname }</td>
-					<td>${hospital.hosphone }</td>
+					<td>${hospital.hosidx}</td>
+					<td>
+						<a href="hosDetail.do?hosIdx=${hospital.hosidx}">${hospital.hosname}</a>
+					</td>
+					<td>${hospital.roadaddressname}</td>
+					<td>${hospital.hosphone}</td>
 				</tr>
 				</c:forEach>
 			</tbody>
