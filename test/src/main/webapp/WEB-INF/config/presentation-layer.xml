@@ -9,7 +9,7 @@
 
 	<!-- 컨트롤러(@Controller)가 위치한 패키지 스캔해서 객체 생성 -->
 	<!-- <context:component-scan base-package="com.spring.biz.view" /> -->
-	<context:component-scan base-package="com.spring.biz" use-default-filters="false">
+	<context:component-scan base-package="com.todoc" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
@@ -28,19 +28,19 @@
 	</bean>
 	
 	<!-- 예외 처리를 위한 설정 -->
-	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="defaultErrorView" value="/common/error.jsp" />
-		<property name="exceptionMappings"> 
-			<props>
-				<prop key="IllegalArgumentException">
-					common/illegalArgError
-				</prop>
-				<prop key="NullPointerException">
-					common/nullPointerError
-				</prop>
-			</props>
-		</property>
-	</bean>
+<!-- 	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> -->
+<!-- 		<property name="defaultErrorView" value="/common/error.jsp" /> -->
+<!-- 		<property name="exceptionMappings">  -->
+<!-- 			<props> -->
+<!-- 				<prop key="IllegalArgumentException"> -->
+<!-- 					common/illegalArgError -->
+<!-- 				</prop> -->
+<!-- 				<prop key="NullPointerException"> -->
+<!-- 					common/nullPointerError -->
+<!-- 				</prop> -->
+<!-- 			</props> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 	<!-- 스프링 ViewResolver 등록 -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
