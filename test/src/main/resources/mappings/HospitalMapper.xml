@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.todoc.biz.hospital.dao.HospitalDAO">
+
+	<select id="getHospitalList" parameterType="HospitalVO" resultType="HospitalVO">
+		SELECT *
+		FROM HOSPITAL
+		ORDER BY SEQ DESC
+	</select>
+	<select id="getHospital" parameterType="HospitalVO" resultType="HospitalVO">
+		SELECT *
+		FROM HOSPITAL
+		WHERE HOSIDX = #{hosIdx}
+	</select>
+	
+	
+</mapper>
+
+
+
+
+
