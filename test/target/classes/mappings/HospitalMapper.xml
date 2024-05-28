@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.todoc.biz.hospital.dao.HospitalDAO">
+<mapper namespace="com.todoc.hospital.dao.HospitalDAO">
 
 	<select id="getHospitalList" parameterType="HospitalVO" resultType="HospitalVO">
 		SELECT *
