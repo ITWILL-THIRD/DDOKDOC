@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 
+@SessionAttributes(value = {"hospital"})
 @Controller
-//@RequestMapping("/test2")
 public class HospitalController {
 	@Autowired
 	private HospitalService hospitalService;
@@ -32,8 +33,10 @@ public class HospitalController {
 	@RequestMapping("/getHospital.do")
 	public String getHospital(HospitalVO vo, Model model) {
 		System.out.println(">> 병원 상세");
+		System.out.println(vo);
 		
 		HospitalVO hospital = hospitalService.getHospital(vo);
+		System.out.println("hospital : " + hospital);
 		
 		model.addAttribute("hospital", hospital);
 		

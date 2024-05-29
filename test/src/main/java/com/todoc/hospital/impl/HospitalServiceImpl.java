@@ -38,8 +38,7 @@ public class HospitalServiceImpl implements HospitalService{
 
 	@Override
 	public HospitalVO getHospital(HospitalVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+		return hospitalDAO.getHospital(vo);
 	}
 
 	@Override
