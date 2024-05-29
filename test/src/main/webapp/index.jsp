@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>시작페이지</title>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script>
 	//Ajax 요청처리에 의해 데이터 가져와서 화면 표시
 	function getJsonBoardListData() {
@@ -27,7 +27,6 @@
 					dispHtml += board.cnt + ", ";
 					dispHtml += "</li>";
 				}
-				
 				dispHtml += "</ul>";
 				$("#listDisp").html(dispHtml);
 			},
@@ -41,7 +40,7 @@
 <body>
 
 <div id="container">
-	<h1>테스트</h1>
+	<h1>프로젝트명 수정</h1>
 	<hr>
 	<p>
 		<a href="login.do">로그인 페이지로 이동(GET)</a>
@@ -57,6 +56,12 @@
 			<li>데이터 가져와서 출력하기</li>
 		</ul>
 	</div>
+	
+	<!-- <네비게이션 바>병원예약 페이지 연결 -->
+	<h2>[병원 예약]</h2>
+	<p>
+		<a href="hospital/hosMain.do">병원 검색으로 이동</a>
+	</p>
 </div>
 <script>
 	function getJsonBoardData() {

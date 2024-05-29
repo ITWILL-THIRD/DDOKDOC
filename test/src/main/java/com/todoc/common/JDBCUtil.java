@@ -1,4 +1,4 @@
-package com.spring.biz.common;
+package com.todoc.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
