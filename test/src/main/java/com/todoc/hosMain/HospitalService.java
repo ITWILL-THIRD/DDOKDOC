@@ -9,7 +9,7 @@ public interface HospitalService {
 	List<JoinHospitalVO> selectList();
 	
 	//병원 1개 조회
-	JoinHospitalVO selectOne(hospitalVO vo);
+	JoinHospitalVO selectOne(JoinHospitalVO vo);
 	
 	//병원 정보 수정
 	

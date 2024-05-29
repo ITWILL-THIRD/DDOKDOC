@@ -7,23 +7,19 @@ import org.springframework.stereotype.Service;
 
 import com.todoc.hosMain.HospitalService;
 import com.todoc.hosMain.JoinHospitalVO;
-import com.todoc.hosMain.hospitalVO;
-import com.todoc.hosMain.dao.HospitalDAO;
 import com.todoc.hosMain.dao.JoinHospitalDAO;
 
 @Service("hospitalService")
 public class HospitalServiceImpl implements HospitalService {
 	@Autowired
-	private HospitalDAO hospitalDAO;
-	@Autowired
 	private JoinHospitalDAO joinHospitalDAO;
 	
-	public HospitalServiceImpl(HospitalDAO hospitalDAO) {
-		System.out.println(">> HospitalServiceImpl(HospitalDAO) 객체 생성");
+	public HospitalServiceImpl(JoinHospitalDAO joinHospitalDAO) {
+		System.out.println(">> HospitalServiceImpl(joinHospitalDAO) 객체 생성");
 	}
 
 	@Override
-	public JoinHospitalVO selectOne(hospitalVO vo) {
+	public JoinHospitalVO selectOne(JoinHospitalVO vo) {
 		return joinHospitalDAO.selectOne(vo);
 	}
 
@@ -31,7 +27,7 @@ public class HospitalServiceImpl implements HospitalService {
 	public List<JoinHospitalVO> selectList() {
 		return joinHospitalDAO.selectList();
 	}
-	
+
 	
 
 }

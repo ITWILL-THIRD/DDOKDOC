@@ -40,14 +40,12 @@ public class HospitalMainController {
 	}
 	
 	@RequestMapping("hospital/hosDetail.do")
-	public String hosInfo(hospitalVO vo, Model model) {
+	public String hosInfo(JoinHospitalVO vo, Model model) {
 		System.out.println(":: 병원 정보(예약,리뷰)");
-		//hospitalVO voOne = new hospitalVO();
-		//model.addAttribute("hospital", voOne);
-		//System.out.println("voOne" + voOne);
 		System.out.println("vo : " + vo);
 		
 		JoinHospitalVO joinHospitalVO = hospitalService.selectOne(vo);
+		System.out.println("joinHospitalVO : " + joinHospitalVO);
 		
 		model.addAttribute("joinHospitalVO", joinHospitalVO);
 		
