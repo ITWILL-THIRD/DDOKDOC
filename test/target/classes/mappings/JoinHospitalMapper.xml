@@ -5,11 +5,11 @@
   
 <mapper namespace="com.todoc.hosMain.dao.JoinHospitalDAO">
 	<!-- 병원 정보 1개 조회 -->
-	<select id="selectOne" parameterType="JoinHospitalVO" resultType="JoinHospitalVO">
+	<select id="selectOne" parameterType="int" resultType="JoinHospitalVO">
 		SELECT *
 		FROM HOSPITAL H, HOSADDRESS HA
 		WHERE H.HOSIDX = HA.HOSIDX
-		AND H.HOSIDX = #{hosIdx}
+		AND H.HOSIDX = #{hosidx}
 	</select>
 	
 	<!-- 병원 전체 조회 -->

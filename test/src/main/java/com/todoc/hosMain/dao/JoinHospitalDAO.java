@@ -7,5 +7,5 @@ import com.todoc.hosMain.JoinHospitalVO;
 public interface JoinHospitalDAO {
 	
 	List<JoinHospitalVO> selectList();
-	JoinHospitalVO selectOne(JoinHospitalVO vo);
+	JoinHospitalVO selectOne(int hosIdx);
 }
