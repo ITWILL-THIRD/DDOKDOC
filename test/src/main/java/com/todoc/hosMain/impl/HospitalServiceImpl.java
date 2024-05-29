@@ -19,8 +19,8 @@ public class HospitalServiceImpl implements HospitalService {
 	}
 
 	@Override
-	public JoinHospitalVO selectOne(JoinHospitalVO vo) {
-		return joinHospitalDAO.selectOne(vo);
+	public JoinHospitalVO selectOne(int hosIdx) {
+		return joinHospitalDAO.selectOne(hosIdx);
 	}
 
 	@Override

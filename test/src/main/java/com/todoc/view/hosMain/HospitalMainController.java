@@ -2,16 +2,15 @@ package com.todoc.view.hosMain;
 
 import java.util.List;
 
-import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.todoc.hosMain.HospitalService;
 import com.todoc.hosMain.JoinHospitalVO;
-import com.todoc.hosMain.hospitalVO;
 
 //@SessionAttributes : 같은 컨트롤러에서 모델객체 공유해서 사용하려는 경우에 사용
 //데이터 사용후 SessionStatus 객체의 setComplete() 메소드 사용 해제
@@ -40,14 +39,13 @@ public class HospitalMainController {
 	}
 	
 	@RequestMapping("hospital/hosDetail.do")
-	public String hosInfo(JoinHospitalVO vo, Model model) {
+	public String hosInfo(@ModelAttribute("hosIdx") int hosIdx, Model model) {
 		System.out.println(":: 병원 정보(예약,리뷰)");
-		System.out.println("vo : " + vo);
 		
-		JoinHospitalVO joinHospitalVO = hospitalService.selectOne(vo);
-		System.out.println("joinHospitalVO : " + joinHospitalVO);
+		JoinHospitalVO hospital = hospitalService.selectOne(hosIdx);
+		System.out.println("hospital : " + hospital);
 		
-		model.addAttribute("joinHospitalVO", joinHospitalVO);
+		model.addAttribute("hospital", hospital);
 		
 		return "hospital/hosDetail";
 	}
