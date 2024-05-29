@@ -1,3 +1,4 @@
+<%@page import="com.todoc.user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,7 +12,14 @@
 </script>
 </head>
 <body>
-
+<%
+	// 임시 사용자 데이터 저장
+    HttpSession ss = request.getSession();
+    if (session.getAttribute("user") == null) {
+        UserVO user = new UserVO(1, "user@example.com", "usernick");
+        session.setAttribute("user", user);
+    }
+%>
 <div id="container">
 	<h1>TODOC</h1>
 	<hr>
@@ -22,6 +30,10 @@
 	
 	<h2>병원예약하기</h2>
 	<p><a href="getHospitalList.do">병원목록페이지로 이동</a></p>
+	<hr>
+	
+	<h2>마이펫등록하기</h2>
+	<p><a href="insertMyPetView.do?userIdx=1">마이펫 등록페이지로 이동</a></p>
 	<hr>
 	
 </div>
