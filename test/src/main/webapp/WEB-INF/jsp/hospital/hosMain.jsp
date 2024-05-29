@@ -10,7 +10,7 @@
 
 </head>
 <body>
-\${hosList } : ${hosList }
+\${hosList } : ${hosList }<br>
 	<div id="container">
 		<h1>병원 예약</h1>
 		<hr>
@@ -30,13 +30,15 @@
 			<input type="button" value="검색" onclick = "getAjaxHosList(this.form)">
 <!-- 			<input type="submit" value="검색"> -->
 		</form>
-		<table>
+		<table border="">
 			<thead>
 				<tr>
 					<th>번호</th>
 					<th>병원명</th>
 					<th>주소</th>
 					<th>전화번호</th>
+					<th>진료시간</th>
+					<th>진료동물</th>
 				</tr>
 			</thead>
 			<tbody id="listDisp">
@@ -46,8 +48,10 @@
 					<td>
 						<a href="hosDetail.do?hosIdx=${hospital.hosidx}">${hospital.hosname}</a>
 					</td>
-					<td>${hospital.roadaddressname}</td>
+					<td>${hospital.roadaddressname} ${hospital.detailAddress}</td>
 					<td>${hospital.hosphone}</td>
+					<td>${hospital.openTime} ~ ${hospital.closeTime}</td>
+					<td>${hospital.animal}</td>
 				</tr>
 				</c:forEach>
 			</tbody>

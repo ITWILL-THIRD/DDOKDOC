@@ -14,9 +14,6 @@ public class HospitalServiceImpl implements HospitalService {
 	@Autowired
 	private JoinHospitalDAO joinHospitalDAO;
 	
-	public HospitalServiceImpl(JoinHospitalDAO joinHospitalDAO) {
-		System.out.println(">> HospitalServiceImpl(joinHospitalDAO) 객체 생성");
-	}
 
 	@Override
 	public JoinHospitalVO selectOne(int hosIdx) {

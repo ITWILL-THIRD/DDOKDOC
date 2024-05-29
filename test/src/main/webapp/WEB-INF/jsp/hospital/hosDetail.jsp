@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,9 @@
 <script type="https://code.jquery.com/jquery-1.12.4.js"></script>
 </head>
 <body>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38a906000cd6c18d4d8489d1eddaec85&libraries=services,clusterer,drawing"></script>
+
 	\${hospital } : ${hospital } <br>
 	\${hosIdx } : ${hosIdx } <br>
 <div id="container">
@@ -20,15 +24,15 @@
 		</tr>
 		<tr>
 			<th>주소</th>
-			<td>${hospital.roadaddressname}</td>
+			<td>${hospital.roadaddressname} ${hospital.detailAddress}</td>
 		</tr>
 		<tr>
 			<th>전화번호</th>
 			<td>${hospital.hosphone}</td>
 		</tr>
 		<tr>
-			<th>영업시간</th>
-			<td>${hospital.condition }</td>
+			<th>진료시간</th>
+			<td>${hospital.openTime} ~ ${hospital.closeTime}</td>
 		</tr>
 		<tr>
 			<th>진료동물</th>
@@ -39,16 +43,81 @@
 			<td>${hospital.score}</td>
 		</tr>
 	</table>
-	<div>
-		<h4>지도 표시</h4>
-		
-	</div>
+	
+	<h4>지도 표시</h4>
+	<div id="map" style="width:300px;height:300px;margin-top:10px;"></div>
 	
 	<p class="center">
 		<a href="reservationHos.do">예약</a>
 		<a href="hosMain.do">병원 목록</a>
 	</p>
+	
+	<h4>공지사항</h4>
+	<div>
+		<table border="">
+			<tr>
+				<th>작성일</th>
+				<th>제목</th>
+				<th>조회수</th>
+			</tr>
+			<c:forEach var="notice" items="${noticeList }">
+			<tr>
+				<td>${notice.noticeDate }</td>
+				<td>
+					<a href="../notice/getNotice.do?noticeIdx=${notice.noticeIdx }">${notice.noticeTitle }</a>
+				</td>
+				<td>${notice.hit }</td>
+			</tr>
+			</c:forEach>
+		</table>
+	</div>
 </div>
 	
+<script>
+	window.onload = function(){
+    	console.log("windowOpen() 실행~~");
+    	console.log("${hospital}");
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapOption = {
+		    center: new kakao.maps.LatLng("${hospital.addy}","${hospital.addx}"), // 지도의 중심좌표
+		    level: 3 // 지도의 확대 레벨
+		};  
+		
+		//지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+		
+		//주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		//주소로 좌표를 검색합니다
+		geocoder.addressSearch("${hospital.roadaddressname}", function(result, status) {
+		
+			// 정상적으로 검색이 완료됐으면 
+			if (status === kakao.maps.services.Status.OK) {
+			
+			    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			    console.log("result[0].y : " + result[0].y + ", result[0].x : " + result[0].x);
+			
+			    // 결과값으로 받은 위치를 마커로 표시합니다
+			    var marker = new kakao.maps.Marker({
+			        map: map,
+			        position: coords
+			    });
+			
+			    // 인포윈도우로 장소에 대한 설명을 표시합니다
+			    var infowindow = new kakao.maps.InfoWindow({
+			        content: '<div style="width:150px;text-align:center;padding:6px 0;">${hospital.hosname}</div>'
+			    });
+			    infowindow.open(map, marker);
+			
+			    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			    map.setCenter(coords);
+			 	// 마커를 결과값으로 받은 위치로 옮긴다.
+             	//marker.setPosition(coords)
+			} 
+		});
+		
+	};
+</script>
 </body>
 </html>

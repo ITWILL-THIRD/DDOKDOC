@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.todoc.hosMain.HospitalService;
 import com.todoc.hosMain.JoinHospitalVO;
+import com.todoc.notice.NoticeService;
+import com.todoc.notice.NoticeVO;
 
 //@SessionAttributes : 같은 컨트롤러에서 모델객체 공유해서 사용하려는 경우에 사용
 //데이터 사용후 SessionStatus 객체의 setComplete() 메소드 사용 해제
@@ -18,6 +20,8 @@ import com.todoc.hosMain.JoinHospitalVO;
 @Controller
 public class HospitalMainController {
 	private HospitalService hospitalService;
+	@Autowired
+	private NoticeService noticeService;
 	
 	@Autowired
 	public HospitalMainController(HospitalService hospitalService) {
@@ -27,9 +31,9 @@ public class HospitalMainController {
 	}
 	
 	@RequestMapping("hospital/hosMain.do")
-	public String hosRevMain(JoinHospitalVO joinVo, Model model) {
+	public String hosRevMain(JoinHospitalVO vo, Model model) {
 		System.out.println(":: 병원 목록 전체보기");
-		System.out.println("joinVo: " + joinVo);
+		System.out.println("vo: " + vo);
 		//DB 연동하여 selectList
 		List<JoinHospitalVO> hosList = hospitalService.selectList();
 		
@@ -43,9 +47,10 @@ public class HospitalMainController {
 		System.out.println(":: 병원 정보(예약,리뷰)");
 		
 		JoinHospitalVO hospital = hospitalService.selectOne(hosIdx);
-		System.out.println("hospital : " + hospital);
-		
 		model.addAttribute("hospital", hospital);
+
+		List<NoticeVO> noticeList = noticeService.getNoticeList(hosIdx);
+		model.addAttribute("noticeList", noticeList);
 		
 		return "hospital/hosDetail";
 	}
