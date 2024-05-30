@@ -29,7 +29,7 @@
 	
 	<!-- *.do 요청에 대하여 스프링 DispatcherServlet 이 처리하도록 설정 
 		기본으로 /WEB-INF/서블링명-servlet.xml 설정파일을 읽어서 처리
-		init-param 태그에 contextConfigLocation 갑설정으로 파일위치, 파일명 변경 적용 -->
+		init-param 태그에 contextConfigLocation 값설정으로 파일위치, 파일명 변경 적용 -->
 	<servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

@@ -46,6 +46,8 @@ public class NoticeController {
 		noticeService.insertNotice(vo);
 		System.out.println("vo.getHosIdx() : " + vo.getHosIdx());
 		
-		return "hospital/hosDetail?hosIdx=" + vo.getHosIdx();
+		String add = "redirect:/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
+		
+		return add;
 	}
 }
