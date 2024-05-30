@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.todoc.hosMain.HospitalService;
-import com.todoc.hosMain.JoinHospitalVO;
+import com.todoc.hosMain.HospitalVO;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
 
@@ -19,23 +19,17 @@ import com.todoc.notice.NoticeVO;
 @SessionAttributes(value = {"hospital"})
 @Controller
 public class HospitalMainController {
+	@Autowired
 	private HospitalService hospitalService;
 	@Autowired
 	private NoticeService noticeService;
 	
-	@Autowired
-	public HospitalMainController(HospitalService hospitalService) {
-		System.out.println("===> HospitalSearchController(HospitalService) 객체 생성!!");
-		System.out.println(">> HospitalService hospitalService : " + hospitalService);
-		this.hospitalService = hospitalService;
-	}
-	
 	@RequestMapping("hospital/hosMain.do")
-	public String hosRevMain(JoinHospitalVO vo, Model model) {
+	public String hosRevMain(HospitalVO vo, Model model) {
 		System.out.println(":: 병원 목록 전체보기");
 		System.out.println("vo: " + vo);
 		//DB 연동하여 selectList
-		List<JoinHospitalVO> hosList = hospitalService.selectList();
+		List<HospitalVO> hosList = hospitalService.selectList();
 		
 		model.addAttribute("hosList", hosList);
 		
@@ -46,7 +40,7 @@ public class HospitalMainController {
 	public String hosInfo(@ModelAttribute("hosIdx") int hosIdx, Model model) {
 		System.out.println(":: 병원 정보(예약,리뷰)");
 		
-		JoinHospitalVO hospital = hospitalService.selectOne(hosIdx);
+		HospitalVO hospital = hospitalService.selectOne(hosIdx);
 		model.addAttribute("hospital", hospital);
 
 		List<NoticeVO> noticeList = noticeService.getNoticeList(hosIdx);

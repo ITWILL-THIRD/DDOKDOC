@@ -3,6 +3,7 @@ package com.todoc.hosMain;
 import java.sql.Time;
 
 public class HospitalVO {
+	//hospital 테이블
 	private int hosIdx;
 	private String hosId;
 	private String hosPw;
@@ -11,10 +12,12 @@ public class HospitalVO {
 	private String animal;
 	private double score;
 	private String condition;
+	//hostime 테이블
 	private Time openTime;
 	private Time closeTime;
 	private Time lunchTime;
 	private Time endLunchTime;
+	//hosaddress 테이블
 	private String addressName;
 	private String roadAddressName;
 	private String detailAddress;
@@ -23,35 +26,35 @@ public class HospitalVO {
 	private String sido;
 	private String sigungu;
 	
-	public int getHosIdx() {
+	public int getHosidx() {
 		return hosIdx;
 	}
-	public void setHosIdx(int hosIdx) {
-		this.hosIdx = hosIdx;
+	public void setHosidx(int hosidx) {
+		this.hosIdx = hosidx;
 	}
-	public String getHosId() {
+	public String getInhosid() {
 		return hosId;
 	}
-	public void setHosId(String hosId) {
-		this.hosId = hosId;
+	public void setInhosid(String inhosid) {
+		this.hosId = inhosid;
 	}
-	public String getHosPw() {
+	public String getHospw() {
 		return hosPw;
 	}
-	public void setHosPw(String hosPw) {
-		this.hosPw = hosPw;
+	public void setHospw(String hospw) {
+		this.hosPw = hospw;
 	}
-	public String getHosName() {
+	public String getHosname() {
 		return hosName;
 	}
-	public void setHosName(String hosName) {
-		this.hosName = hosName;
+	public void setHosname(String hosname) {
+		this.hosName = hosname;
 	}
-	public String getHosPhone() {
+	public String getHosphone() {
 		return hosPhone;
 	}
-	public void setHosPhone(String hosPhone) {
-		this.hosPhone = hosPhone;
+	public void setHosphone(String hosphone) {
+		this.hosPhone = hosphone;
 	}
 	public String getAnimal() {
 		return animal;
@@ -62,7 +65,7 @@ public class HospitalVO {
 	public double getScore() {
 		return score;
 	}
-	public void setScore(double score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
 	public String getCondition() {
@@ -71,6 +74,7 @@ public class HospitalVO {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
+	
 	public Time getOpenTime() {
 		return openTime;
 	}
@@ -95,17 +99,18 @@ public class HospitalVO {
 	public void setEndLunchTime(Time endLunchTime) {
 		this.endLunchTime = endLunchTime;
 	}
-	public String getAddressName() {
+	
+	public String getAddressname() {
 		return addressName;
 	}
-	public void setAddressName(String addressName) {
-		this.addressName = addressName;
+	public void setAddressname(String addressname) {
+		this.addressName = addressname;
 	}
-	public String getRoadAddressName() {
+	public String getRoadaddressname() {
 		return roadAddressName;
 	}
-	public void setRoadAddressName(String roadAddressName) {
-		this.roadAddressName = roadAddressName;
+	public void setRoadaddressname(String roadaddressname) {
+		this.roadAddressName = roadaddressname;
 	}
 	public String getDetailAddress() {
 		return detailAddress;

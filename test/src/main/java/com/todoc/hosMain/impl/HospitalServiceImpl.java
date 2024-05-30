@@ -6,23 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.todoc.hosMain.HospitalService;
-import com.todoc.hosMain.JoinHospitalVO;
-import com.todoc.hosMain.dao.JoinHospitalDAO;
+import com.todoc.hosMain.HospitalVO;
+import com.todoc.hosMain.dao.HospitalDAO;
 
 @Service("hospitalService")
 public class HospitalServiceImpl implements HospitalService {
 	@Autowired
-	private JoinHospitalDAO joinHospitalDAO;
+	private HospitalDAO hospitalDAO;
 	
 
 	@Override
-	public JoinHospitalVO selectOne(int hosIdx) {
-		return joinHospitalDAO.selectOne(hosIdx);
+	public HospitalVO selectOne(int hosIdx) {
+		return hospitalDAO.selectOne(hosIdx);
 	}
 
 	@Override
-	public List<JoinHospitalVO> selectList() {
-		return joinHospitalDAO.selectList();
+	public List<HospitalVO> selectList() {
+		return hospitalDAO.selectList();
 	}
 
 	

@@ -8,11 +8,24 @@
 </head>
 <body>
 	<h2>공지사항 입력[insertNotice.jsp]</h2>
-	<form action="notice/insertNotice/do" method="post">
-		<input type="text" name="noticeTitle">
-		<textarea rows="5" cols="20" name="noticeContent"></textarea>
-		
+	<form action="insertNotice.do" method="post">
+		<table>
+			<tr>
+				<th>제목</th>
+				<th>
+					<input type="text" name="noticeTitle">
+				</th>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<th>
+					<textarea rows="10" cols="50" name="noticeContent"></textarea>
+				</th>
+			</tr>
+		</table>
+		<input type="hidden" name="hosIdx" value="${hosIdx}">
 		<input type="submit" value="등록">
+		<input type="button" value="뒤로가기" onclick="../hostipal/hosDetail.do?hosIdx=">
 	</form>
 	
 </body>

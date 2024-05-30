@@ -7,6 +7,13 @@
 <meta charset="UTF-8">
 <title>병원 상세 보기(정보,지도,예약,리뷰)</title>
 <script type="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script>
+	function insertNotice(hosIdx){
+		//병원(기업)계정만 공지 작성
+		//해당 병원 계정 일치 여부 확인 후, 공지 입력
+		location.href = "../notice/insertProNotice.do?hosIdx=" + hosIdx;
+	}
+</script>
 </head>
 <body>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -48,12 +55,14 @@
 	<div id="map" style="width:300px;height:300px;margin-top:10px;"></div>
 	
 	<p class="center">
-		<a href="reservationHos.do">예약</a>
+		<a href="temp.do">예약</a>
 		<a href="hosMain.do">병원 목록</a>
 	</p>
 	
 	<h4>공지사항</h4>
 	<div>
+		<input type="button" value="공지 작성" data-hos-idx="${hosIdx}" 
+			onclick="insertNotice(this.dataset.hosIdx)">
 		<table border="">
 			<tr>
 				<th>작성일</th>
@@ -64,7 +73,7 @@
 			<tr>
 				<td>${notice.noticeDate }</td>
 				<td>
-					<a href="../notice/getNotice.do?noticeIdx=${notice.noticeIdx }">${notice.noticeTitle }</a>
+					<a href="../notice/getNotice.do?hosIdx=${notice.hosIdx}&noticeIdx=${notice.noticeIdx }">${notice.noticeTitle }</a>
 				</td>
 				<td>${notice.hit }</td>
 			</tr>

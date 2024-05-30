@@ -5,13 +5,20 @@
   
 <mapper namespace="com.todoc.notice.dao.NoticeDAO">
 	<select id="getNoticeList" parameterType="int" resultType="NoticeVO">
-		SELECT * FROM NOTICE WHERE HOSIDX = #{hosidx}
+		SELECT * FROM NOTICE WHERE HOSIDX = #{hosIdx} ORDER BY NOTICEIDX DESC
 	</select>
 	
 	<select id="getNotice" parameterType="int" resultType="NoticeVO">
 		SELECT *
 		FROM NOTICE
 		WHERE NOTICEIDX = #{noticeIdx}
+		ORDER BY NOTICEIDX DESC
 	</select>
+	
+	<insert id="insertNotice" parameterType="NoticeVO">
+		INSERT INTO NOTICE(NOTICEIDX, NOTICETITLE, NOTICECONTENT, NOTICEDATE, HIT, HOSIDX)
+		VALUES((SELECT NVL(MAX(NOTICEIDX), 0) + 1 FROM NOTICE), #{noticeTitle}, #{noticeContent},
+				SYSDATE, 0, #{hosIdx})
+	</insert>
 	
 </mapper>

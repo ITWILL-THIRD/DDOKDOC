@@ -6,10 +6,10 @@ public interface HospitalService {
 	//병원 동적 검색(조회)
 	
 	//병원 전체 조회
-	List<JoinHospitalVO> selectList();
+	List<HospitalVO> selectList();
 	
 	//병원 1개 조회
-	JoinHospitalVO selectOne(int hosIdx);
+	HospitalVO selectOne(int hosIdx);
 	
 	//병원 정보 수정
 	

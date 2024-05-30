@@ -3,9 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.todoc.hosMain.dao.JoinHospitalDAO">
+<mapper namespace="com.todoc.hosMain.dao.HospitalDAO">
 	<!-- 병원 정보 1개 조회 -->
-	<select id="selectOne" parameterType="int" resultType="JoinHospitalVO">
+	<select id="selectOne" parameterType="int" resultType="HospitalVO">
 		SELECT *
 		FROM HOSPITAL H, HOSTIME HT, HOSADDRESS HA
 		WHERE H.HOSIDX = HT.HOSIDX
@@ -14,7 +14,7 @@
 	</select>
 	
 	<!-- 병원 전체 조회 -->
-	<select id="selectList" resultType="JoinHospitalVO">
+	<select id="selectList" resultType="HospitalVO">
 		SELECT *
 		FROM HOSPITAL H, HOSTIME HT, HOSADDRESS HA
 		WHERE H.HOSIDX = HT.HOSIDX

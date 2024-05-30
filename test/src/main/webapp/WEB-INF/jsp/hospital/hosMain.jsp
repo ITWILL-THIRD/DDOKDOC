@@ -58,7 +58,7 @@
 		</table>
 		
 		<hr>
-		<p><a href="insertHosAdrress.do">병원 입력</a></p>
+		<p><a href="temp.do">병원 입력</a></p>
 	</div>
 </body>
 </html>
