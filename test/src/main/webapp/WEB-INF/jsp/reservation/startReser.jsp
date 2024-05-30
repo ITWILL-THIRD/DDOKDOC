@@ -26,33 +26,47 @@
         center: 'title',
         right: 'dayGridMonth,dayGridWeek,dayGridDay'
       },
-      navLinks: true, // can click day/week names to navigate views
       editable: false,
       eventLimit: true, // allow "more" link when too many events
       selectable: false,
       eventSources:[
-    	{googleCalendarId:'ko.south_korea#holiday@group.v.calendar.google.com',
-    		className:'ko_event',
-    		color:'white',
-    		textColor:'red'
-    		}],
-  		eventClick: function(info) {
-  		      // 클릭한 이벤트가 구글 캘린더 이벤트인지 확인
-  		      if (info.event.source.googleCalendarId) {
-  		        return false; // 구글 캘린더 이벤트 클릭 무시
-  		      } else {
-  		        // 다른 이벤트 클릭 시 기본 동작 수행
-  		        window.open(info.event.url, '_blank'); // 새 창으로 이벤트 URL 열기
-  		        return false; // 기본 이벤트 처리 막기
-  		      }
-  		    },		
+        {
+          googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+          className: 'ko_event',
+          color: 'white',
+          textColor: 'red'
+        }
+      ],
+      eventRender: function(info) {
+        // href 속성 제거
+        if (info.el.tagName === 'A') {
+          info.el.removeAttribute('href');
+        }
+        // 부모 노드로부터 링크 제거
+        if (info.el.parentNode) {
+          var parent = info.el.parentNode;
+          if (parent.tagName === 'A') {
+            parent.replaceWith(info.el);
+          }
+        }
+      },
       dateClick: function(info) {
-    	// 특정 날짜만 클릭 비활성화 (예: 2024-05-28)
-    	// 휴무일 데이터 테이블 만들어서 처리(아마도....)
-          if (info.dateStr === '2024-05-30') {
-            alert('2024-05-30은 병원 휴무입니다:)');
+    	  alert(info.dateStr);
+    	  
+    	  var today = new Date();
+          today.setHours(0, 0, 0, 0); // 시간을 0으로 설정해야 오늘 날짜를 클릭 가능함.
+          var clickedDate = new Date(info.dateStr);
+
+          // 오늘 이전 날짜 클릭 비활성화
+          if (clickedDate < today) {
+            alert('지난 날짜는 선택할 수 없습니다.');
             return;
           }
+        // 특정 날짜만 클릭 비활성화 (예: 2024-05-30)
+        if (info.dateStr === '2024-05-30') {
+          alert('2024-05-30은 병원 휴무입니다:)');
+          return;
+        }
         // 클릭한 날짜가 선택된 날짜인지 확인
         if (selectedDate === info.dateStr) {
           // 선택된 날짜 다시 클릭 시 해제
@@ -72,9 +86,9 @@
           info.dayEl.style.backgroundColor = 'lightblue'; // 선택된 색상 설정
           selectedDate = info.dateStr; // 선택된 날짜 업데이트
           document.getElementById('dateStr').value = info.dateStr; // 숨겨진 필드 업데이트
-		  
-          // 선택된 날짜가 없으면 예약하기 안넘어가게 코드 추가
-		  
+          
+          // 예약 가능한 날짜 비동기처리
+          
         }
       }
     });
@@ -82,14 +96,12 @@
     calendar.render();
   });
 
-  
   function selectTime(time) {
     document.getElementById('selectedTime').value = time;
   }
 
 </script>
 <style>
-
   body {
     margin: 40px 10px;
     padding: 0;
@@ -99,19 +111,17 @@
 
   #calendar {
     max-width: 700px;
-	margin-left: 100px;
+    margin-left: 100px;
   }
-
 </style>
 </head>
 <body>
 \${hospital } : ${hospital }<br>
   <div id='calendar'></div>
-  <form action="insertReservation.do" method="post" > 
-	  <input type="submit" value="예약하기">
-	  <!-- 날짜, 시간 데이터 전송 -->
-	  <input type="hidden" id="dateStr" name="dateStr">
+  <form action="insertReservation.do" method="post"> 
+    <input type="submit" value="예약하기">
+    <!-- 날짜, 시간 데이터 전송 -->
+    <input type="hidden" id="dateStr" name="dateStr">
   </form>
-
 </body>
 </html>
