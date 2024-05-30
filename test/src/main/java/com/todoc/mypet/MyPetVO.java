@@ -7,17 +7,17 @@ public class MyPetVO {
 	private String petName;
 	private int petAge;
 	
-	public int getPetidx() {
+	public int getPetIdx() {
 		return petIdx;
 	}
-	public void setPetidx(int petidx) {
-		this.petIdx = petidx;
+	public void setPetIdx(int petIdx) {
+		this.petIdx = petIdx;
 	}
-	public int getUseridx() {
+	public int getUserIdx() {
 		return userIdx;
 	}
-	public void setUseridx(int useridx) {
-		this.userIdx = useridx;
+	public void setUserIdx(int userIdx) {
+		this.userIdx = userIdx;
 	}
 	public String getAnimal() {
 		return animal;
@@ -25,23 +25,23 @@ public class MyPetVO {
 	public void setAnimal(String animal) {
 		this.animal = animal;
 	}
-	public String getPetname() {
+	public String getPetName() {
 		return petName;
 	}
-	public void setPetname(String petname) {
-		this.petName = petname;
+	public void setPetName(String petName) {
+		this.petName = petName;
 	}
-	public int getPetage() {
+	public int getPetAge() {
 		return petAge;
 	}
-	public void setPetage(int petage) {
-		this.petAge = petage;
+	public void setPetAge(int petAge) {
+		this.petAge = petAge;
 	}
 	
 	@Override
 	public String toString() {
-		return "MyPetVO [petidx=" + petIdx + ", useridx=" + userIdx + ", animal=" + animal + ", petname=" + petName
-				+ ", petage=" + petAge + "]";
+		return "MyPetVO [petIdx=" + petIdx + ", userIdx=" + userIdx + ", animal=" + animal + ", petName=" + petName
+				+ ", petAge=" + petAge + "]";
 	}
 	
 }

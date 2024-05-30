@@ -4,5 +4,17 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoc.mypet.dao.MyPetDAO">
 	
+	<!-- 마이펫 조회 -->
+	<select id="getMyPetList" parameterType="MyPetVO" resultType="MyPetVO">
+		SELECT PETIDX, USERIDX, ANIMAL, PETNAME, PETAGE
+		FROM MYPET
+		WHERE USERIDX = #{userIdx}
+	</select>	
+	
+	<!-- 마이펫 등록 -->
+	<insert id="insertMyPet" parameterType="MyPetVO">
+		INSERT INTO MYPET (PETIDX, USERIDX, ANIMAL, PETNAME, PETAGE)
+		VALUES (SEQ_PETIDX.NEXTVAL, #{userIdx}, #{animal}, #{petName}, #{petAge})	
+	</insert>
 	
 </mapper>

@@ -9,5 +9,5 @@ public interface MyPetDAO {
 	void updateMyPet(MyPetVO vo);
 	void deleteMyPet(MyPetVO vo);
 	MyPetVO getMyPet(MyPetVO vo);
-	List<MyPetVO> getMyPetList(MyPetVO vo);
+	List<MyPetVO> getMyPetList(int userIdx);
 }

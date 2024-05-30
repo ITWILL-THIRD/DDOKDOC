@@ -18,8 +18,10 @@
     if (session.getAttribute("user") == null) {
         UserVO user = new UserVO(1, "user@example.com", "usernick");
         session.setAttribute("user", user);
+        System.out.println(user);
     }
 %>
+
 <div id="container">
 	<h1>TODOC</h1>
 	<hr>
@@ -32,9 +34,9 @@
 	<p><a href="getHospitalList.do">병원목록페이지로 이동</a></p>
 	<hr>
 	
-	<h2>마이펫등록하기</h2>
-	<p><a href="insertMyPetView.do?userIdx=1">마이펫 등록페이지로 이동</a></p>
-	<hr>
+	<h2>마이페이지</h2>
+    <p><a href="myPage.do">마이페이지로 이동</a></p>
+    <hr>
 	
 </div>
 <script>
@@ -42,15 +44,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

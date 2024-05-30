@@ -22,12 +22,14 @@ public class MyPetController {
 		System.out.println(">> 마이펫 등록페이지");
 		return "mypet/insertMyPet";
 	}
-/*	
-	public String insertMyPet(MyPetVO vo, HttpSession ss, RedirectAttributes redi) {
-		// 임시 데이터 저장용
-		int userIdx = ((UserVO) ss.getAttribute("user")).getUserIdx();
-		
+	
+	@RequestMapping("/insertMyPet.do")
+	public String insertMyPet(MyPetVO vo, HttpSession session, RedirectAttributes redirectAttr) {
+		UserVO user = (UserVO) session.getAttribute("user");
+		vo.setUserIdx(user.getUserIdx());
+		myPetService.insertMyPet(vo);
+		redirectAttr.addFlashAttribute("message", "등록이 완료되었습니다");
+		return "redirect:myPage.do";
 	}
-*/	
 	
 }

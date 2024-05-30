@@ -1,5 +1,6 @@
 package com.todoc.mypet.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,7 @@ public class MyPetServiceImpl implements MyPetService {
 	
 	@Override
 	public void insertMyPet(MyPetVO vo) {
-		// TODO Auto-generated method stub
-		
+		myPetDAO.insertMyPet(vo);
 	}
 
 	@Override
@@ -43,9 +43,12 @@ public class MyPetServiceImpl implements MyPetService {
 	}
 
 	@Override
-	public List<MyPetVO> getMyPetList(MyPetVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MyPetVO> getMyPetList(int userIdx) {
+		List<MyPetVO> pets = myPetDAO.getMyPetList(userIdx);
+		if (pets == null) {
+			pets = new ArrayList<>();
+		}
+		return pets;
 	}
 
 }
