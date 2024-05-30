@@ -27,7 +27,7 @@
 	    var emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 	    if (!emailReg.test(checkEmail)) {
 	        alert("이메일 형식이 올바르지 않습니다.");
-	        frm.email.value = "";
+// 	        frm.email.value = "";
 	        return false;
 	    }
 	   
@@ -71,17 +71,19 @@
 		}
 		var email = $('#email').val();
 		$.ajax({
-			url:'/getJsonUserJoin.do',
-			type:'post',
+			url:'email.do',
+			type:'POST',
 			data: { email: email },
+// 			data: JSON.stringify(vo),
+			contentType: "application/json",
 			dataType: "json",
 			success:function(data){
 				if (data == 1){
-					frm.email.value=1;
+					$('#email').val(1);
 					alert("이미 사용중인 이메일 입니다.")
 					
 				} else if (data == 0){
-					frm.email.value=0;
+					$('#email').val(0);
 					alert("사용 가능한 이메일입니다.");
 					
 				}
@@ -101,6 +103,8 @@
 	        .replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
 	}
 	
+	var isCheckDup = false;
+	
 	function userJoin_ok(frm) {
 		
 		console.log(document.forms[0]);
@@ -114,6 +118,11 @@
 				htmlObj.focus();
 				return;
 			}
+		}
+		
+		if(!isCheckDup) {
+			alert("이메일 중복체크를 먼저 해주세요.");
+			return;
 		}
 		
 		frm.action="userJoin.do";

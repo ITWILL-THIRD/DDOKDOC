@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.todoc.user.dao.HosDAO">
+<!-- 	병원 로그인 -->
+	<select id="getHos" resultType="com.todoc.user.HospitalVO">
+		SELECT * 
+		FROM HOSPITAL
+		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw}
+	</select>
+	
+	<!-- 병원 회원가입 -->
+	<insert id="insertHos" parameterType="com.todoc.user.HospitalVO">
+		INSERT INTO HOSPITAL
+			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE, ANIMAL, SCORE, CONDITION)
+		VALUES (SEQ_HOSIDX.NEXTVAL, #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}, #{animal}, #{score}, #{condition})
+	</insert>
+	
+</mapper>
+
+
+
+
+

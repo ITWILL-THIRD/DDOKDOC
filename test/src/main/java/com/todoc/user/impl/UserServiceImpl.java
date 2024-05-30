@@ -22,10 +22,10 @@ public class UserServiceImpl implements UserService{
 	public void insertUser(UserVO vo) {
 		userDAO.insertUser(vo);
 	}
+	//이메일 중복 체크
 	@Override
-	public int email(String email) {
-		int cnt = userDAO.email(email);
-		System.out.println("cnt : " + cnt);
+	public int email(UserVO vo) throws Exception {
+		int cnt = userDAO.email(vo);
 		return cnt;
 	}
 
