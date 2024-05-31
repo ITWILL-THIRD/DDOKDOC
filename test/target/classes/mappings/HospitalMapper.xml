@@ -40,6 +40,10 @@
 				        OR ANIMAL LIKE '%' || #{searchKeyword} || '%'
 				    )
 	            </when>
+	            <when test='searchCondition == "address"'>
+	        		AND A.SIDO LIKE '%' || #{sido} || '%'
+					AND A.SIGUNGU LIKE '%' || #{sigungu} || '%'
+	        	</when>
 	            <when test='searchCondition == "addressName" and searchKeyword != "" '>
 	                AND (A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
 	                OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%')
