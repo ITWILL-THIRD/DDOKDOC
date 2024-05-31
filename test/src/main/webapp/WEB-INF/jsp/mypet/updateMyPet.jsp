@@ -53,7 +53,7 @@
 			            <td><input type="number" name="petAge" value="${pet.petAge}"></td>
 			        </tr>
 			        <tr>
-			            <td colspan="2"><input type="submit" value="수정" /></td>
+			            <td colspan="2"><input type="submit" value="수정" onclick="alert('펫 정보 수정이 완료되었습니다')" /></td>
 			        </tr>
 			    </table>
 			</form>

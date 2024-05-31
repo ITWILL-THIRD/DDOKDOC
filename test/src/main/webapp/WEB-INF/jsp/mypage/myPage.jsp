@@ -29,7 +29,7 @@
 						<button type="submit">수정</button>
 					</form>
 					
-					<form action="deleteMyPet.do" method="post">
+					<form action="deleteMyPet.do" method="post" onsubmit="return confirm('펫을 삭제하시겠습니까?')">
 						<input type="hidden" name="petIdx" value="${pet.petIdx}">
 						<button type="submit">삭제</button>
 					</form>

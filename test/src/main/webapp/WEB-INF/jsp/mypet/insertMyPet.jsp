@@ -53,7 +53,7 @@
 					<td><input type="number" name="petAge"></td>
 				</tr>
 				<tr>
-					<td colspan="2"><input type="submit" value="등록"></td>
+					<td colspan="2"><input type="submit" value="등록" onclick="alert('펫 등록이 완료되었습니다')"></td>
 				</tr>
 			</table>
 		</form>
