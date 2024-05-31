@@ -24,7 +24,7 @@ public class HospitalMainController {
 	@Autowired
 	private NoticeService noticeService;
 	
-	@RequestMapping("hospital/hosMain.do")
+	@RequestMapping("/hospital/hosMain.do")
 	public String hosRevMain(HospitalVO vo, Model model) {
 		System.out.println(":: 병원 목록 전체보기");
 		System.out.println("vo: " + vo);
@@ -36,7 +36,7 @@ public class HospitalMainController {
 		return "hospital/hosMain";
 	}
 	
-	@RequestMapping("hospital/hosDetail.do")
+	@RequestMapping("/hospital/hosDetail.do")
 	public String hosInfo(@ModelAttribute("hosIdx") int hosIdx, Model model) {
 		System.out.println(":: 병원 정보(예약,리뷰)");
 		

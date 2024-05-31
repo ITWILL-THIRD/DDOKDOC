@@ -25,7 +25,8 @@
 		</table>
 		<input type="hidden" name="hosIdx" value="${hosIdx}">
 		<input type="submit" value="등록">
-		<input type="button" value="뒤로가기" onclick="../hostipal/hosDetail.do?hosIdx=">
+		<input type="button" value="뒤로가기" 
+			onclick="javascript:location.href='../hospital/hosDetail.do?hosIdx=${hosIdx}'">
 	</form>
 	
 </body>

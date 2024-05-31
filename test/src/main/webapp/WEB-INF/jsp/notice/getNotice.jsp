@@ -28,17 +28,26 @@
 	}
 </style>
 <script>
-	function insertNotice(){
-		//병원(기업)계정만 공지 작성
-		//해당 병원 계정 일치 여부 확인 후, 공지 입력
+// 	function updateProNotice(){
+// 		document.noticeForm.action = "updateProNotice.do";
+// 		document.noticeForm.submit();
 		
-		location.href="/notice/insertNotice.do";
-	}
+// 		//location.href = "updateProNotice.do";
+// 	}
+	
+// 	function deleteNotice(){
+// 		document.noticeForm.action = "deleteNotice.do";
+// 		document.noticeForm.submit();
+		
+// 		//location.href = "updateProNotice.do";
+// 	}
+	
 </script>
 </head>
 <body>
 	\${notice } : ${notice }
 	<div id="container">
+	<form id="noticeForm" method="post">
 		<table>
 			<tbody>
 			<tr>
@@ -52,14 +61,24 @@
 			</tr>
 			</tbody>
 			<tfoot>
-				<tr>
-					<td>
-						<input type="button" value="뒤로 가기" onclick="javascript:hosMain.do">
-						<input type="button" value="공지 작성" onclick="insertNotice()">
-					</td>
-				</tr>
+			<tr>
+				<td>
+					<input type="submit" value="수정" 
+						onclick="javascript:noticeForm.action='updateProNotice.do';">
+					<input type="submit" value="삭제" 
+						onclick="javascript:noticeForm.action='deleteNotice.do';">
+					<input type="hidden" name="noticeIdx" value="${notice.noticeIdx}">  
+					<input type="hidden" name="noticeTitle" value="${notice.noticeTitle}">  
+					<input type="hidden" name="noticeContent" value="${notice.noticeContent}">  
+					<input type="hidden" name="hosIdx" value="${notice.hosIdx}">  
+					
+					<input type="button" value="뒤로 가기" 
+						onclick="javascript:location.href='../hospital/hosDetail.do?hosIdx=${notice.hosIdx}'">
+				</td>
+			</tr>
 			</tfoot>
 		</table>
+	</form>
 	</div>
 </body>
 </html>

@@ -61,7 +61,7 @@
 	
 	<h4>공지사항</h4>
 	<div>
-		<input type="button" value="공지 작성" data-hos-idx="${hosIdx}" 
+		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}" 
 			onclick="insertNotice(this.dataset.hosIdx)">
 		<table border="">
 			<tr>
