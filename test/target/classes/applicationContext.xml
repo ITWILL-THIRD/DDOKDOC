@@ -27,8 +27,8 @@
 			destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="TODOC" />
-		<property name="password" value="todocpw" />
+		<property name="username" value="PROJECT_FINAL" />
+		<property name="password" value="final1" />
 	</bean>
 	
 	<!-- 스프링-마이바티스 연동 설정 -->
