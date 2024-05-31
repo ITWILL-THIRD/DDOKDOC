@@ -2,8 +2,9 @@ package com.todoc.hosMain;
 
 import java.sql.Time;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class HospitalVO {
-	//hospital 테이블
 	private int hosIdx;
 	private String hosId;
 	private String hosPw;
@@ -12,11 +13,13 @@ public class HospitalVO {
 	private String animal;
 	private double score;
 	private String condition;
+
 	//hostime 테이블
 	private Time openTime;
 	private Time closeTime;
 	private Time lunchTime;
 	private Time endLunchTime;
+
 	//hosaddress 테이블
 	private String addressName;
 	private String roadAddressName;
@@ -56,6 +59,42 @@ public class HospitalVO {
 	public void setHosphone(String hosphone) {
 		this.hosPhone = hosphone;
 	}
+	//병원 검색 조건 처리용
+	@JsonIgnore
+	private String searchCondition;
+	@JsonIgnore
+	private String searchKeyword;
+	
+	public int getHosIdx() {
+		return hosIdx;
+	}
+	public void setHosIdx(int hosIdx) {
+		this.hosIdx = hosIdx;
+	}
+	public String getHosId() {
+		return hosId;
+	}
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+	public String getHosPw() {
+		return hosPw;
+	}
+	public void setHosPw(String hosPw) {
+		this.hosPw = hosPw;
+	}
+	public String getHosName() {
+		return hosName;
+	}
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+	public String getHosPhone() {
+		return hosPhone;
+	}
+	public void setHosPhone(String hosPhone) {
+		this.hosPhone = hosPhone;
+	}
 	public String getAnimal() {
 		return animal;
 	}
@@ -65,7 +104,7 @@ public class HospitalVO {
 	public double getScore() {
 		return score;
 	}
-	public void setScore(int score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 	public String getCondition() {
@@ -74,7 +113,6 @@ public class HospitalVO {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
-	
 	public Time getOpenTime() {
 		return openTime;
 	}
@@ -99,7 +137,6 @@ public class HospitalVO {
 	public void setEndLunchTime(Time endLunchTime) {
 		this.endLunchTime = endLunchTime;
 	}
-	
 	public String getAddressname() {
 		return addressName;
 	}
@@ -142,6 +179,20 @@ public class HospitalVO {
 	public void setSigungu(String sigungu) {
 		this.sigungu = sigungu;
 	}
+	//병원 검색 조건 처리용
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
+	}
+
 	@Override
 	public String toString() {
 		return "HospitalVO [hosIdx=" + hosIdx + ", hosId=" + hosId + ", hosPw=" + hosPw + ", hosName=" + hosName
@@ -149,7 +200,8 @@ public class HospitalVO {
 				+ ", openTime=" + openTime + ", closeTime=" + closeTime + ", lunchTime=" + lunchTime + ", endLunchTime="
 				+ endLunchTime + ", addressName=" + addressName + ", roadAddressName=" + roadAddressName
 				+ ", detailAddress=" + detailAddress + ", addx=" + addx + ", addy=" + addy + ", sido=" + sido
-				+ ", sigungu=" + sigungu + "]";
+
+				+ ", sigungu=" + sigungu + ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
+				+ "]";
 	}
-	
 }
