@@ -9,9 +9,17 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script>
 	function fetchData(category) {
+		let intSido = document.querySelector("select[name='sido']").value;
+		let sidoNames = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", 
+			"경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"];
+		intSido = sidoNames[intSido - 1];
+
 		let vo = {};
 		vo.searchCondition = category;
 		vo.searchKeyword = document.querySelector("input[name='searchKeyword']").value;
+		vo.sido = intSido;
+
+		vo.sigungu = document.querySelector("select[name='sigungu']").value;
 		$.ajax("getHosSearch.do", { 
 	        type: 'GET',
 	        data: vo,
@@ -19,6 +27,7 @@
 	        	$("#listDisp").empty();
  
 			    let dispHtml = "";
+			    
 			    for (let hospital of data) {
 			        dispHtml += "<tr>";
 			        dispHtml += "<td>" + hospital.hosIdx + "</td>";
@@ -46,32 +55,14 @@
 		    <hr>
 		    <br>
 		    <h3>병원 검색</h3>
-		    <form id="getHosSearchList" onsubmit="fetchData('search'); return false;">
+		    <form id="getHosSearch" onsubmit="fetchData('search'); return false;">
 		        <p>통합검색</p>
 		        <input type="text" name="searchKeyword" placeholder="Search">
 		        <input type="submit" value="검색">
 		    </form>
-		    <form>
-		    	<select>
-		    		<option value="sido">시/도</option>
-		    		<option value="seoul">시/도</option>
-		    		<option value="gyeonggi">시/도</option>
-		    		<option value="incheon">시/도</option>
-		    		<option value="daejeon">시/도</option>
-		    		<option value="sejong">시/도</option>
-		    		<option value="chungbug">시/도</option>
-		    		<option value="chungnam">시/도</option>
-		    		<option value="chungbug">시/도</option>
-		    		<option value="chungbug">시/도</option>
-		    		<option value="chungbug">시/도</option>
-		    		<option value="chungbug">시/도</option>
-		    	</select>
-		    	<select>
-		    		<option value="sigungu">시/군/구</option>		    	
-		    	</select>
-				<select>
-		    		<option value="eupMyeonDong">읍면동</option>				
-				</select>
+		    <form id="getAdSearch" onsubmit="fetchData('address'); return false;">
+		    	<jsp:include page="partials/searchAdress.jsp"></jsp:include> 
+		    	<input type="submit" value="검색">
 		    </form>
 		    <div>
 		    	<button class="tab" onclick="fetchData('all')">전체</button>
