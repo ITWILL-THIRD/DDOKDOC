@@ -3,17 +3,16 @@ package com.todoc.view.hosMain;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.todoc.hosMain.HospitalService;
 import com.todoc.hosMain.HospitalVO;
+import com.todoc.notice.NoticeService;
+import com.todoc.notice.NoticeVO;
 
 //@SessionAttributes : 같은 컨트롤러에서 모델객체 공유해서 사용하려는 경우에 사용
 //데이터 사용후 SessionStatus 객체의 setComplete() 메소드 사용 해제

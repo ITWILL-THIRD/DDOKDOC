@@ -31,7 +31,7 @@
 		</tr>
 		<tr>
 			<th>주소</th>
-			<td>${hospital.roadaddressname} ${hospital.detailAddress}</td>
+			<td>${hospital.roadAddressName} ${hospital.detailAddress}</td>
 		</tr>
 		<tr>
 			<th>전화번호</th>
@@ -99,7 +99,7 @@
 		var geocoder = new kakao.maps.services.Geocoder();
 		
 		//주소로 좌표를 검색합니다
-		geocoder.addressSearch("${hospital.roadaddressname}", function(result, status) {
+		geocoder.addressSearch("${hospital.roadAddressName}", function(result, status) {
 		
 			// 정상적으로 검색이 완료됐으면 
 			if (status === kakao.maps.services.Status.OK) {
@@ -115,7 +115,7 @@
 			
 			    // 인포윈도우로 장소에 대한 설명을 표시합니다
 			    var infowindow = new kakao.maps.InfoWindow({
-			        content: '<div style="width:150px;text-align:center;padding:6px 0;">${hospital.hosname}</div>'
+			        content: '<div style="width:150px;text-align:center;padding:6px 0;">${hospital.hosName}</div>'
 			    });
 			    infowindow.open(map, marker);
 			

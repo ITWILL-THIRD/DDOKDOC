@@ -87,7 +87,7 @@
 			<c:forEach var="hospital" items="${hosList }">
 			<tr>
 				<td>${hospital.hosIdx}</td>
-				<td><a href="hosDetail.do?hosIdx=${hospital.hosidx}">${hospital.hosName}</a>
+				<td><a href="hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName}</a>
 				</td>
 				<td>${hospital.roadAddressName} ${hospital.detailAddress}</td>
 				<td>${hospital.hosPhone}</td>
@@ -99,7 +99,6 @@
 	</table>
 	<hr>
 	<p><a href="temp.do">병원 등록</a></p>
-</div>
 </body>
 </html>
 
