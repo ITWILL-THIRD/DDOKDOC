@@ -16,15 +16,15 @@
 	<table>
 		<tr>
 			<th>병원명</th>
-			<td>${hospital.hosname}</td>
+			<td>${hospital.hosName}</td>
 		</tr>
 		<tr>
 			<th>주소</th>
-			<td>${hospital.roadaddressname}</td>
+			<td>${hospital.roadAddressName}</td>
 		</tr>
 		<tr>
 			<th>전화번호</th>
-			<td>${hospital.hosphone}</td>
+			<td>${hospital.hosPhone}</td>
 		</tr>
 		<tr>
 			<th>영업시간</th>
