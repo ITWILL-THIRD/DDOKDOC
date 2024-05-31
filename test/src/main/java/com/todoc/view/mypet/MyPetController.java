@@ -4,9 +4,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.todoc.mypet.MyPetService;
 import com.todoc.mypet.MyPetVO;
@@ -24,12 +26,32 @@ public class MyPetController {
 	}
 	
 	@RequestMapping("/insertMyPet.do")
-	public String insertMyPet(MyPetVO vo, HttpSession session, RedirectAttributes redirectAttr) {
+	public String insertMyPet(MyPetVO vo, Model model, HttpSession session) {
 		UserVO user = (UserVO) session.getAttribute("user");
 		vo.setUserIdx(user.getUserIdx());
 		myPetService.insertMyPet(vo);
-		redirectAttr.addFlashAttribute("message", "등록이 완료되었습니다");
 		return "redirect:myPage.do";
+	}
+
+	@GetMapping("/updateMyPetView.do")
+	public String updateMyPetView(@RequestParam("petIdx") int petIdx, Model model) {
+		System.out.println(">> 마이펫 수정페이지");
+		MyPetVO pet = myPetService.getMyPet(petIdx);
+		System.out.println("pet: " + pet);
+		model.addAttribute("pet", pet);
+	    return "mypet/updateMyPet";
+	}
+
+	@PostMapping("/updateMyPet.do")
+	public String updateMyPet(MyPetVO vo, Model model) {
+		myPetService.updateMyPet(vo);
+		return "redirect:myPage.do";
+	}
+	
+	@PostMapping("/deleteMyPet.do")
+	public String deleteMyPet(@RequestParam("petIdx") int petIdx, Model model) {
+	    myPetService.deleteMyPet(petIdx);
+	    return "redirect:/myPage.do"; 
 	}
 	
 }

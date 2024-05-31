@@ -12,35 +12,28 @@ import com.todoc.mypet.dao.MyPetDAO;
 
 @Service("myPetService")
 public class MyPetServiceImpl implements MyPetService {
-	@Autowired
-	private MyPetDAO myPetDAO;
-	
-	public MyPetServiceImpl() {
-		System.out.println(">> MyPetServiceImpl() 객체 생성");
-	}
-	
-	@Override
-	public void insertMyPet(MyPetVO vo) {
-		myPetDAO.insertMyPet(vo);
-	}
+    @Autowired
+    private MyPetDAO myPetDAO;
 
-	@Override
-	public void updateMyPet(MyPetVO vo) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void insertMyPet(MyPetVO vo) {
+        myPetDAO.insertMyPet(vo);
+    }
 
-	@Override
-	public void deleteMyPet(MyPetVO vo) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void updateMyPet(MyPetVO vo) {
+        myPetDAO.updateMyPet(vo);
+    }
 
-	@Override
-	public MyPetVO getMyPet(MyPetVO vo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void deleteMyPet(int petIdx) {
+        myPetDAO.deleteMyPet(petIdx);
+    }
+
+    @Override
+    public MyPetVO getMyPet(int petIdx) {
+        return myPetDAO.getMyPet(petIdx);
+    }
 
 	@Override
 	public List<MyPetVO> getMyPetList(int userIdx) {

@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+
 </head>
 <body>
 
@@ -22,10 +23,20 @@
 					<p>동물분류: ${pet.animal}</p>
 					<p>펫이름: ${pet.petName}</p>
 					<p>펫나이: ${pet.petAge}살</p>
+					
+					<form action="updateMyPetView.do" method="get">
+						<input type="hidden" name="petIdx" value="${pet.petIdx}">
+						<button type="submit">수정</button>
+					</form>
+					
+					<form action="deleteMyPet.do" method="post">
+						<input type="hidden" name="petIdx" value="${pet.petIdx}">
+						<button type="submit">삭제</button>
+					</form>
 				</c:forEach>
 			</c:otherwise>
-		</c:choose>
-			
-	<p><a href="insertMyPetView.do?userIdx=1">마이펫 등록페이지로 이동</a></p>
+		</c:choose>			
+	<p><a href="insertMyPetView.do">마이펫 등록페이지로 이동</a></p>
+
 </body>
 </html>

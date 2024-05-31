@@ -9,12 +9,32 @@
 		SELECT PETIDX, USERIDX, ANIMAL, PETNAME, PETAGE
 		FROM MYPET
 		WHERE USERIDX = #{userIdx}
-	</select>	
+	</select>
+	
+	<!-- 선택펫 조회 -->
+	<select id="getMyPet" parameterType="MyPetVO" resultType="MyPetVO">
+		SELECT PETIDX, USERIDX, ANIMAL, PETNAME, PETAGE
+		FROM MYPET
+		WHERE PETIDX = #{petIdx}
+	</select>
 	
 	<!-- 마이펫 등록 -->
 	<insert id="insertMyPet" parameterType="MyPetVO">
 		INSERT INTO MYPET (PETIDX, USERIDX, ANIMAL, PETNAME, PETAGE)
 		VALUES (SEQ_PETIDX.NEXTVAL, #{userIdx}, #{animal}, #{petName}, #{petAge})	
 	</insert>
+	
+	<!-- 마이펫 수정 -->
+    <update id="updateMyPet" parameterType="MyPetVO">
+        UPDATE MYPET
+        SET ANIMAL = #{animal}, PETNAME = #{petName}, PETAGE = #{petAge}
+        WHERE PETIDX = #{petIdx}
+    </update>		
+	
+	<!-- 마이펫 삭제 -->
+	<delete id="deleteMyPet" parameterType="int">
+		DELETE FROM MYPET
+		WHERE PETIDX = #{petIdx}		
+	</delete>
 	
 </mapper>
