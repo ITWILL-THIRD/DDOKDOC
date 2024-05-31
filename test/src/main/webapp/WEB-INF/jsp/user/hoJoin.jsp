@@ -20,9 +20,44 @@
 		return true;
 	}
 	
-	function checkDup(frm) {
+	var isCheckDup = false;
 	
-	}
+	function checkDup(frm) {
+		var checkDup = frm.hosId.value;
+		if (checkDup.trim().length == 0) {
+			alert("아이디를 입력해주세요");
+			return false;
+		}
+		var hosId = $('#hosId').val();
+		$.ajax({
+			url:'hosId.do',
+			type:'POST',
+			data: JSON.stringify ({ "hosId" : $("#hosId").val() }),
+// 			data: JSON.stringify(vo),
+			contentType: "application/json",
+			dataType: "json",
+			success:function(data){
+				if (data == 1){
+// 					$('#email').val(1);
+					alert("이미 사용중인 이메일 입니다.")
+					isCheckDup = false;
+					
+				} else if (data == 0){
+// 					$('#email').val(0);
+					alert("사용 가능한 이메일입니다.");
+					isCheckDup = true;
+					
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown){
+	            alert("Ajax 처리 실패:\n" +
+	                      "jqXHR.readyState: " + jqXHR.readyState + "\n" +
+	                      "textStatus: " + textStatus + "\n" +
+	                      "errorThrown: " + errorThrown);
+	         }
+		});
+	};
+	
 	
 
 	function oninputPhone(target) {
@@ -67,7 +102,7 @@
 <table>
 	<tr>
 		<td>병원 아이디</td>
-		<td><input type="text" name="hosId" value="${hospitalVO.hosId }" onblur="check_email(this.form)"></td>
+		<td><input id="hosId" type="text" name="hosId" value="${hospitalVO.hosId }"></td>
 		<td>
 			<input type="button" value="중복확인" onclick="checkDup(this.form)"/>
 		</td>

@@ -66,7 +66,7 @@
 
   function loginWithKakao() {
     Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:8080/biz/user/redirect.do',
+      redirectUri: 'http://localhost:8080/todoc/user/redirect.do',
       state: 'userme'
     });
   }

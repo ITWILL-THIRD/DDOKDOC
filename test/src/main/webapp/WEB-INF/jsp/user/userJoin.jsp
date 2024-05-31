@@ -62,7 +62,9 @@
 // 		        }
 // 		});
 // 	};
-
+	
+	var isCheckDup = false;
+	
 	function checkDup(frm) {
 		var checkDup = frm.email.value;
 		if (checkDup.trim().length == 0) {
@@ -73,18 +75,20 @@
 		$.ajax({
 			url:'email.do',
 			type:'POST',
-			data: { email: email },
+			data: JSON.stringify ({ "email" : $("#email").val() }),
 // 			data: JSON.stringify(vo),
 			contentType: "application/json",
 			dataType: "json",
 			success:function(data){
 				if (data == 1){
-					$('#email').val(1);
+// 					$('#email').val(1);
 					alert("이미 사용중인 이메일 입니다.")
+					isCheckDup = false;
 					
 				} else if (data == 0){
-					$('#email').val(0);
+// 					$('#email').val(0);
 					alert("사용 가능한 이메일입니다.");
+					isCheckDup = true;
 					
 				}
 			},
@@ -127,6 +131,8 @@
 		
 		frm.action="userJoin.do";
 		frm.submit();
+		var msg = '${msg}';
+		alert(msg);
 	}
 </script>
 </head>

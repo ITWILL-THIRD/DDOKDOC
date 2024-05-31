@@ -22,6 +22,7 @@ import com.todoc.user.UserService;
 import com.todoc.user.UserVO;
 
 @Controller
+//@RequestMapping("/user")
 public class UserController {
 	@Autowired
 	private UserService userService;
@@ -32,8 +33,8 @@ public class UserController {
 		System.out.println("=======> UserController()객체생성");
 	}
 //	@ModelAttribute("user")
-	@PostMapping("user/login.do")
-	public String login(UserVO vo, Model model) {
+	@PostMapping("/user/login.do")
+	public String login(UserVO vo, Model model, HttpSession session ) {
 		System.out.println(">> 로그인 처리");
 		System.out.println("vo : " + vo);
 		
@@ -53,6 +54,7 @@ public class UserController {
 		if (user != null) {
 			model.addAttribute("msg", "로그인 성공");
 			System.out.println(">>로그인 성공");
+			session.setAttribute("user", user);
 			return "user/login";
 //			return "../../index";
 			
@@ -62,9 +64,16 @@ public class UserController {
 			return "user/login";
 		}
 	}
+	
+//	@RequestMapping("/main.do")
+//	public String main() {
+//		return "../../index";
+//	}
+	
+	
 	//병원로그인======
-	@PostMapping("user/hoLogin.do")
-	public String hoLogin(HospitalVO ho, Model model) {
+	@PostMapping("/user/hoLogin.do")
+	public String hoLogin(HospitalVO ho, Model model, HttpSession session) {
 		System.out.println(">> 병원로그인 처리");
 		System.out.println("ho : " + ho);
 		
@@ -81,6 +90,7 @@ public class UserController {
 		if (user != null) {
 			model.addAttribute("msg", "로그인 성공");
 			System.out.println(">>로그인 성공");
+			
 			return "user/hoLogin";
 //			return "../../index";
 			
@@ -124,21 +134,25 @@ public class UserController {
 	}
 	//개인 회원가입 처리
 	@PostMapping("user/userJoin.do")
-	public String userJoinOk(UserVO vo) {
-		userService.insertUser(vo);
-		if (vo != null) {
+	public String userJoinOk(UserVO vo, Model model) throws Exception {
+		int cnt = userService.email(vo);
+		
+		
+		if (cnt == 0) {
+			userService.insertUser(vo);
 			System.out.println("vo : " + vo);
 			System.out.println(">>회원가입 완료");
+			model.addAttribute("msg", "회원가입 완료");
+			return "user/userJoin";
+			//return "../index";
 			
 		} else {
 			System.out.println("vo : " + vo);
 			System.out.println(">>회원가입 실패");
+			model.addAttribute("msg", "회원가입 실패");
+			return "user/userJoin";
 		}
-		
-		
-		return "user/userJoin";
-		
-		
+	
 	}
 	
 	//기업회원가입
@@ -153,32 +167,41 @@ public class UserController {
 		if (vo != null) {
 			System.out.println("vo : " + vo);
 			System.out.println(">>회원가입 완료");
+			return "user/login";
 			
 		} else {
 			System.out.println("vo : " + vo);
 			System.out.println(">>회원가입 실패");
+			return "user/hoJoin";
 		}
-		return "user/hoJoin";
+//		return "user/hoJoin";
 		
 		
 	}
 
 //	//로그인 화면 전환
-	@GetMapping("user/login.do")
+	@RequestMapping("user/login.do")
 	public String loginView(@ModelAttribute("user")UserVO vo) {
 		System.out.println(">> 로그인화면이동");
 		vo.setEmail(vo.getEmail());
 		vo.setPassword(vo.getPassword());
 		return "user/login";
 	}
+	
+	//로그인 후 메인페이지로 화면 전환
+	
+	
+	
 	//카카오 redirect
 	@RequestMapping(value = "user/redirect.do", method = RequestMethod.GET)
-	public String kakaoRedirect(@RequestParam("code") String code, @RequestParam("state") String state, HttpSession session) {
+	public String kakaoRedirect(@RequestParam("code") String code, @RequestParam("state") String state, HttpSession session, UserVO vo) {
   System.out.println(">> 카카오 로그인 리디렉션 처리 - code: " + code + ", state: " + state);
-
+  
   // 여기에 카카오 API를 사용하여 access token을 요청하고 세션에 저장하는 코드를 추가하세요.
   // 이후, 사용자 정보를 요청하여 session에 저장하거나 적절한 처리를 할 수 있습니다.
-
+  
+  
+  
   return "user/redirect"; // /WEB-INF/jsp/ + user/redirect + .jsp
 }
 	

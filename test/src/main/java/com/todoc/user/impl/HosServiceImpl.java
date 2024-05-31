@@ -22,5 +22,11 @@ public class HosServiceImpl implements HosService {
 	public void insertHos(HospitalVO vo) {
 		hosDAO.insertHos(vo);
 	}
+	//아이디 중복체크
+	@Override
+	public int hosId(HospitalVO ho) throws Exception {
+		int cnt = hosDAO.hosId(ho);
+		return cnt;
+	}
 
 }
