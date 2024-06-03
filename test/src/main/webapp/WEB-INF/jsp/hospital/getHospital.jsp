@@ -10,5 +10,6 @@
 \${hospital } : ${hospital }<br>
 	<h1>병원 1</h1>
 	<p><a href="reservation.do?hosIdx=1">예약하기</a></p>
+	<p><a href="reservationList.do?hosIdx=1">예약목록</a></p>
 </body>
 </html>

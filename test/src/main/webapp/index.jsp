@@ -1,46 +1,69 @@
-<%@page import="com.todoc.user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>시작페이지</title>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script>
-	
-</script>
+
+<script></script>
+<style>
+
+li {
+	 	 float: left;
+	   	 display: block;
+		 padding: 10px 26px;}
+
+</style>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
 </head>
 <body>
-<%
-	// 임시 사용자 데이터 저장
-    HttpSession ss = request.getSession();
-    if (session.getAttribute("user") == null) {
-        UserVO user = new UserVO(1, "user@example.com", "usernick");
-        session.setAttribute("user", user);
-        System.out.println(user);
-    }
-%>
-
 <div id="container">
+
+	<h1>토닥토닥 로고</h1>
+<ul>
+	<li>
+		<a href="hospital/hosMain.do">병원예약</a>
+	</li>
+	<li>
+		<a href="user/login.do">정보나눔</a>
+	</li>
+	<li>
+		<a href="user/login.do">멤버십</a>
+	</li>
+		<a href="myPage.do">마이페이지</a>
+	<li>
+<c:choose>
+	<c:when test="${not empty sessionScope.user}">
+		<a href="logout.do">로그아웃</a>
+	</c:when>
+	<c:otherwise>
+        <a href="user/login.do">로그인 /회원가입</a>
+    </c:otherwise>
+
+</c:choose>	
+	</li>
+
+</ul>
+</div>	
+<br><br><br>
+
+<hr>
+
+
+
 	<h1>TODOC</h1>
-	<hr>
-	<p>
-		<a href="login.do">로그인 페이지로 이동(GET)</a>
-	</p>
-	<hr><hr>
+
+	<br>
 	
-	<h2>병원예약하기</h2>
-	<p><a href="getHospitalList.do">병원목록페이지로 이동</a></p>
-	<hr>
-	
-	<h2>마이페이지</h2>
-    <p><a href="myPage.do">마이페이지로 이동</a></p>
-    <hr>
 	
 </div>
-<script>
-	
-</script>
+
+
 </body>
 </html>

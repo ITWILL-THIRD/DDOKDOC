@@ -17,12 +17,6 @@ public class HospitalServiceImpl implements HospitalService{
 	public HospitalServiceImpl() {
 		System.out.println(">> HospitalServiceImpl() 객체 생성");
 	}
-	
-	@Override
-	public void insertHospital(HospitalVO vo) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void updateHospital(HospitalVO vo) {
@@ -36,14 +30,36 @@ public class HospitalServiceImpl implements HospitalService{
 		
 	}
 
+	//병원 상세 조회
 	@Override
-	public HospitalVO getHospital(HospitalVO vo) {
-		return hospitalDAO.getHospital(vo);
+	public HospitalVO selectOne(int hosIdx) {
+		return hospitalDAO.selectOne(hosIdx);
+	}
+
+	//병원 전체 조회
+	@Override
+	public List<HospitalVO> selectList() {
+		return hospitalDAO.selectList();
 	}
 
 	@Override
-	public List<HospitalVO> getHospitalList(HospitalVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<HospitalVO> getHosSearch(HospitalVO vo) {
+		return hospitalDAO.getHosSearch(vo);
+	}
+	
+	@Override
+	public HospitalVO getHos(HospitalVO ho) {
+		return hospitalDAO.getHos(ho);
+	}
+	
+	@Override
+	public void insertHospital(HospitalVO vo) {
+		hospitalDAO.insertHospital(vo);
+	}
+	//아이디 중복체크
+	@Override
+	public int hosId(HospitalVO ho) throws Exception {
+		int cnt = hospitalDAO.hosId(ho);
+		return cnt;
 	}
 }

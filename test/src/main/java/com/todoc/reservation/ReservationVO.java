@@ -9,7 +9,8 @@ public class ReservationVO {
 	private int userIdx;
 	private int petIdx;
 	private Date reserDate;
-	private Time resertime;
+	private String dayStr; //요일임.
+	private Time reserTime;
 	private String memo;
 	
 	public int getReserIdx() {
@@ -42,11 +43,17 @@ public class ReservationVO {
 	public void setReserDate(Date reserDate) {
 		this.reserDate = reserDate;
 	}
-	public Time getResertime() {
-		return resertime;
+	public String getDayStr() {
+		return dayStr;
 	}
-	public void setResertime(Time resertime) {
-		this.resertime = resertime;
+	public void setDayStr(String dayStr) {
+		this.dayStr = dayStr;
+	}
+	public Time getReserTime() {
+		return reserTime;
+	}
+	public void setReserTime(Time reserTime) {
+		this.reserTime = reserTime;
 	}
 	public String getMemo() {
 		return memo;
@@ -58,7 +65,7 @@ public class ReservationVO {
 	@Override
 	public String toString() {
 		return "ReservationVO [reserIdx=" + reserIdx + ", hosIdx=" + hosIdx + ", userIdx=" + userIdx + ", petIdx="
-				+ petIdx + ", reserDate=" + reserDate + ", resertime=" + resertime + ", memo=" + memo + "]";
+				+ petIdx + ", reserDate=" + reserDate + ", dayStr=" + dayStr + ", reserTime=" + reserTime + ", memo="
+				+ memo + "]";
 	}
-	
 }

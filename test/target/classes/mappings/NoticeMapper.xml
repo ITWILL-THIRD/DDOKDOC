@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.todoc.notice.dao.NoticeDAO">
+	<!-- 병원인덱스로 공지 전체 조회 -->
+	<select id="getNoticeList" parameterType="int" resultType="NoticeVO">
+		SELECT * FROM NOTICE WHERE HOSIDX = #{hosIdx} ORDER BY NOTICEIDX DESC
+	</select>
+	
+	<!-- 공지인덱스로 공지 1개 조회 -->
+	<select id="getNotice" parameterType="int" resultType="NoticeVO">
+		SELECT *
+		FROM NOTICE
+		WHERE NOTICEIDX = #{noticeIdx}
+		ORDER BY NOTICEIDX DESC
+	</select>
+	
+	<!-- 공지 입력 -->
+	<insert id="insertNotice" parameterType="NoticeVO">
+		INSERT INTO NOTICE(NOTICEIDX, NOTICETITLE, NOTICECONTENT, NOTICEDATE, HIT, HOSIDX)
+		VALUES((SELECT NVL(MAX(NOTICEIDX), 0) + 1 FROM NOTICE), #{noticeTitle}, #{noticeContent},
+				SYSDATE, 0, #{hosIdx})
+	</insert>
+	
+	<!-- 공지 수정 -->
+	<update id="updateNotice" parameterType="NoticeVO">
+		UPDATE NOTICE
+		SET NOTICETITLE = #{noticeTitle}, NOTICECONTENT = #{noticeContent}
+		WHERE NOTICEIDX = #{noticeIdx}
+	</update>
+	
+	<!-- 공지 삭제 -->
+	<delete id="deleteNotice" parameterType="NoticeVO">
+		DELETE FROM NOTICE
+		WHERE NOTICEIDX = #{noticeIdx}
+	</delete>
+	
+</mapper>
