@@ -35,7 +35,7 @@ li {
 	<li>
 		<a href="user/login.do">멤버십</a>
 	</li>
-
+		<a href="myPage.do">마이페이지</a>
 	<li>
 <c:choose>
 	<c:when test="${not empty sessionScope.user}">
