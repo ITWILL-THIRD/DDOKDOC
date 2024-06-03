@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -40,7 +41,7 @@ li {
 <c:choose>
 	<c:when test="${not empty sessionScope.user}">
 		<a href="logout.do">로그아웃</a>
-		<a href="#">마이페이지</a>
+		<a href="myPage.do">마이페이지</a>
 	</c:when>
 	<c:otherwise>
         <a href="user/login.do">로그인 /회원가입</a>
@@ -71,6 +72,7 @@ li {
 
 </body>
 </html>
+
 
 
 
