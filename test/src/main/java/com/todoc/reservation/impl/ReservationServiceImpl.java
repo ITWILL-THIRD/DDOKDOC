@@ -9,7 +9,7 @@ import com.todoc.reservation.ReservationService;
 import com.todoc.reservation.ReservationVO;
 import com.todoc.reservation.dao.ReservationDAO;
 
-@Service("reservaionService")
+@Service("reservationService")
 public class ReservationServiceImpl implements ReservationService{
 	@Autowired
 	private ReservationDAO reservationDAO;
@@ -43,9 +43,15 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public List<ReservationVO> getReservationlList(ReservationVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReservationVO> getReservationList(ReservationVO vo) {
+		return reservationDAO.getReservationList(vo);
 	}
+
+	@Override
+	public List<ReservationVO> getDateReservationList(ReservationVO vo) {
+		return reservationDAO.getDateReservationList(vo);
+	}
+
+	
 
 }

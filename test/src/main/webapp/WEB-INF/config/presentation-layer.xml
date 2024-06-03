@@ -27,7 +27,7 @@
 	</bean>
 	
 	<!-- 예외 처리를 위한 설정 -->
-	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="defaultErrorView" value="/common/error.jsp" />
 		<property name="exceptionMappings"> 
 			<props>
@@ -39,7 +39,7 @@
 				</prop>
 			</props>
 		</property>
-	</bean>
+	</bean> -->
 	<!-- 스프링 ViewResolver 등록 -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

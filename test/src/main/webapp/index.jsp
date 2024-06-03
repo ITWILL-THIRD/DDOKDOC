@@ -19,6 +19,10 @@
 		<a href="login.do">로그인 페이지로 이동(GET)</a>
 	</p>
 	<hr><hr>
+	<h2>세션에 로그인 정보 저장</h2>
+	<%
+		session.setAttribute("user", "1");
+	%>
 	
 	<h2>병원예약하기</h2>
 	<p><a href="getHospitalList.do">병원목록페이지로 이동</a></p>
