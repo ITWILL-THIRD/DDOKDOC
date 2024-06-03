@@ -8,8 +8,6 @@ public interface HospitalDAO {
 	void insertHospital(HospitalVO vo);
 	void updateHospital(HospitalVO vo);
 	void deleteHospital(HospitalVO vo);
-	HospitalVO getHospital(HospitalVO vo);
-	List<HospitalVO> getHospitalList(HospitalVO vo);
 	//map branch
 	List<HospitalVO> selectList();
 	HospitalVO selectOne(int hosIdx);

@@ -36,16 +36,6 @@ public class HospitalServiceImpl implements HospitalService{
 		
 	}
 
-	@Override
-	public HospitalVO getHospital(HospitalVO vo) {
-		return hospitalDAO.getHospital(vo);
-	}
-
-	@Override
-	public List<HospitalVO> getHospitalList(HospitalVO vo) {
-		// TODO Auto-generated method stub
-		return null;
-
 	//병원 상세 조회
 	@Override
 	public HospitalVO selectOne(int hosIdx) {

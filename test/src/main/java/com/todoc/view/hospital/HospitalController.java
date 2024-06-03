@@ -18,38 +18,13 @@ import com.todoc.notice.NoticeVO;
 //@SessionAttributes : 같은 컨트롤러에서 모델객체 공유해서 사용하려는 경우에 사용
 //데이터 사용후 SessionStatus 객체의 setComplete() 메소드 사용 해제
 @SessionAttributes(value = { "hospital" })
+@RequestMapping("/hospital")
 @Controller
 public class HospitalController {
 	@Autowired
 	private HospitalService hospitalService;
 	@Autowired
 	private NoticeService noticeService;
-	
-	//병원목록
-	@RequestMapping("/getHospitalList.do")
-	public String getHospitalList(HospitalVO vo, Model model) {
-		System.out.println(">> 병원 목록");
-		
-		List<HospitalVO> hospitalList = hospitalService.getHospitalList(vo);
-		
-		model.addAttribute("hospitalList", hospitalList);
-		
-		return "hospital/getHospitalList";
-	}
-
-	//병원상세
-	@RequestMapping("/getHospital.do")
-	public String getHospital(HospitalVO vo, Model model) {
-		System.out.println(">> 병원 상세");
-		System.out.println(vo);
-		
-		HospitalVO hospital = hospitalService.getHospital(vo);
-		System.out.println("hospital : " + hospital);
-		
-		model.addAttribute("hospital", hospital);
-		
-		return "hospital/getHospital";
-	}
 
 	@RequestMapping("/hosMain.do")
 	public String hosRevMain(HospitalVO vo, Model model) {
