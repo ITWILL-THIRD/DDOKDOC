@@ -9,19 +9,17 @@
 
 	<!-- base-package 설정위치 포함 하위 패키지 모두 검색 처리
 		여러개 선언해도 되고, 구분자(빈칸, 콤마, 세미콜른 등) -->
-	<!-- <context:component-scan base-package="com.spring.biz.user, com.spring.biz.board" /> -->
+	<context:component-scan base-package="com.todoc" />
 
-	<!-- 여러개 선언 방식
-	<context:component-scan base-package="com.spring.biz.user" />
-	<context:component-scan base-package="com.spring.biz.board" />
-	-->
 	<!-- base-package 설정 : include, exclude 필터 사용 설정 -->
 	<context:component-scan base-package="com.todoc">
-		<!-- <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/> -->
+
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
-	<!-- ======================= -->
+	<!-- === Spring JDBC 관련 설정 === -->
 	<!-- DataSource 설정 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
 			destroy-method="close">

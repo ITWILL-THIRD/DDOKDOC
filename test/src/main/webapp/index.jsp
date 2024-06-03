@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>시작페이지</title>
+
 <script></script>
 <style>
 
@@ -15,10 +16,14 @@ li {
 	   	 display: block;
 		 padding: 10px 26px;
 </style>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
 </head>
 <body>
-
 <div id="container">
+
 	<h1>토닥토닥 로고</h1>
 <ul>
 	<li>
@@ -47,24 +52,19 @@ li {
 </div>	
 <br><br><br>
 
-
-
-
-
-
-
 <hr>
 
+
+
+	<h1>TODOC</h1>
+	<hr>
+	<p>
+		<a href="hospital/hosMain.do">병원 검색으로 이동</a>
+	</p>
+	<br>
 	
-<!-- 	<h2>Ajax 요청 처리</h2> -->
-<!-- 	<p><a href="javascript:getJsonBoardListData()">JSON 데이터 가져오기(BoardList)</a></p> -->
-<!-- 	<p><a href="javascript:getJsonBoardData()">JSON 데이터 가져오기(Board)</a></p> -->
-<!-- 	<hr> -->
-<!-- 	<div id="listDisp"> -->
-<!-- 		<ul> -->
-<!-- 			<li>데이터 가져와서 출력하기</li> -->
-<!-- 		</ul> -->
-<!-- 	</div> -->
+	
+</div>
 
 
 </body>

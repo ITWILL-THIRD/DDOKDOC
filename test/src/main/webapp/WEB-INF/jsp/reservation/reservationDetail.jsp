@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>예약하기</title>
+<title>예약 상세보기 (예약 완료 화면)</title>
 </head>
 <body>
 
