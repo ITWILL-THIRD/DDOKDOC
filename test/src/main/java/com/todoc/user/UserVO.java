@@ -65,5 +65,4 @@ public class UserVO {
 				+ ", name=" + name + ", birth=" + birth + ", phone=" + phone + ", role=" + role + "]";
 	}
 };
-	
-	
+
