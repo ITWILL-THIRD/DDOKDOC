@@ -40,6 +40,7 @@
 			</props>
 		</property>
 	</bean> -->
+
 	<!-- 스프링 ViewResolver 등록 -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

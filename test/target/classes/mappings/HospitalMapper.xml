@@ -19,10 +19,71 @@
 		AND H.HOSIDX = #{hosIdx}
 	</select>
 	
+	<!-- 병원 정보 1개 조회 -->
+	<select id="selectOne" parameterType="int" resultType="HospitalVO">
+		SELECT *
+		FROM HOSPITAL H, HOSTIME HT, HOSADDRESS HA
+		WHERE H.HOSIDX = HT.HOSIDX
+		AND H.HOSIDX = HA.HOSIDX
+		AND H.HOSIDX = #{hosidx}
+	</select>
+	
+	<!-- 병원 전체 조회 -->
+	<select id="selectList" resultType="HospitalVO">
+		SELECT *
+		FROM HOSPITAL H, HOSTIME HT, HOSADDRESS HA
+		WHERE H.HOSIDX = HT.HOSIDX
+		AND H.HOSIDX = HA.HOSIDX
+		ORDER BY H.HOSIDX DESC
+	</select>
+	
+  	<!-- 동적처리(병원 정보 조회) -->
+	<select id="getHosSearch" resultType="HospitalVO">
+	    SELECT *
+	    FROM HOSPITAL H
+	    JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+	    JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+	    <where>
+	        <choose>
+	        	<when test='searchCondition == "all"'>
+	        		1=1
+	        	</when>
+	            <when test='searchCondition == "search" and searchKeyword != "" '>
+	                AND (
+				        H.HOSNAME LIKE '%' || #{searchKeyword} || '%'
+				        OR A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+				        OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+				        OR ANIMAL LIKE '%' || #{searchKeyword} || '%'
+				    )
+	            </when>
+	            <when test='searchCondition == "address"'>
+	        		AND A.SIDO LIKE '%' || #{sido} || '%'
+					AND A.SIGUNGU LIKE '%' || #{sigungu} || '%'
+	        	</when>
+	            <when test='searchCondition == "addressName" and searchKeyword != "" '>
+	                AND (A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+	                OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%')
+	            </when>
+	            <when test='searchCondition == "common"'>
+	                AND ANIMAL = '일반'
+	            </when>
+	            <when test='searchCondition == "special"'>
+	                AND ANIMAL = '특수'
+				</when>
+ 	            <when test='searchCondition == "night"'>
+ 	            	<![CDATA[
+	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI:SS') > '18:00:00'
+	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI:SS') <= '23:59:59'
+	                AND TO_CHAR(T.OPENTIME, 'HH24:MI:SS') != '00:00:00'
+	             	]]>
+	            </when>
+	            <when test='searchCondition == "24h"'>
+	                AND TO_CHAR(T.OPENTIME, 'HH24:MI:SS') = '00:00:00'
+	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI:SS') = '23:59:59'
+	            </when>
+	        </choose>
+	    </where>
+	    ORDER BY H.HOSIDX DESC
+	</select>
 	
 </mapper>
-
-
-
-
-

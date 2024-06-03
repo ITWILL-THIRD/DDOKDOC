@@ -10,4 +10,9 @@ public interface HospitalDAO {
 	void deleteHospital(HospitalVO vo);
 	HospitalVO getHospital(HospitalVO vo);
 	List<HospitalVO> getHospitalList(HospitalVO vo);
+	//map branch
+	List<HospitalVO> selectList();
+	HospitalVO selectOne(int hosIdx);
+	List<HospitalVO> getHosSearch(HospitalVO vo);
 }
+
