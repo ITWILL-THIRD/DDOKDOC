@@ -22,7 +22,6 @@ import com.todoc.user.UserService;
 import com.todoc.user.UserVO;
 
 @Controller
-//@RequestMapping("/user")
 public class UserController {
 	@Autowired
 	private UserService userService;
@@ -55,8 +54,8 @@ public class UserController {
 			model.addAttribute("msg", "로그인 성공");
 			System.out.println(">>로그인 성공");
 			session.setAttribute("user", user);
-			return "user/login";
-//			return "../../index";
+//			return "user/login";
+			return "redirect:/index.jsp";
 			
 		} else {
 			model.addAttribute("msg", "로그인 실패");
@@ -65,10 +64,7 @@ public class UserController {
 		}
 	}
 	
-//	@RequestMapping("/main.do")
-//	public String main() {
-//		return "../../index";
-//	}
+
 	
 	
 	//병원로그인======
@@ -89,10 +85,10 @@ public class UserController {
 		
 		if (user != null) {
 			model.addAttribute("msg", "로그인 성공");
+			session.setAttribute("user", user);
 			System.out.println(">>로그인 성공");
 			
-			return "user/hoLogin";
-//			return "../../index";
+			return "redirect:/index.jsp";
 			
 		} else {
 			model.addAttribute("msg", "로그인 실패");
@@ -101,10 +97,6 @@ public class UserController {
 		}
 		
 	}
-	
-	
-	//이메일 중복체크
-	
 	
 	
 	
@@ -143,7 +135,8 @@ public class UserController {
 			System.out.println("vo : " + vo);
 			System.out.println(">>회원가입 완료");
 			model.addAttribute("msg", "회원가입 완료");
-			return "user/userJoin";
+//			return "user/userJoin";
+			return "user/login";
 			//return "../index";
 			
 		} else {
@@ -155,7 +148,7 @@ public class UserController {
 	
 	}
 	
-	//기업회원가입
+	//기업회원가입 화면전환
 	@RequestMapping("user/hoJoin.do")
 	public String hoJoin(UserVO vo) {
 		return "user/hoJoin";
@@ -215,13 +208,13 @@ public class UserController {
 	}
 	
 	//로그아웃
-	@RequestMapping("user/logout.do")
+	@RequestMapping("logout.do")
 	public String logout(HttpSession session) {
 
 		System.out.println(">> 로그아웃 처리");
 		session.invalidate();
 		
-		return "user/login";
+		return "redirect:/index.jsp";
 		
 	}
 	

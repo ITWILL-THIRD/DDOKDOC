@@ -149,7 +149,7 @@
 	</tr>
 	<tr>
 		<td>닉네임</td>
-		<td><input type="text" name="nickName" value="${userVO.nickName }"></td>
+		<td><input type="text" name="nickname" value="${userVO.nickname }"></td>
 	</tr>
 	<tr>
 		<td>비밀번호</td>
@@ -174,6 +174,7 @@
 		<input type="text"  name="phone" value="${userVO.phone }" oninput="oninputPhone(this)" maxlength="14">
 		</td>
 	</tr>
+	
 	<tr>
 		<td colspan="2">
 			<input class="loginbtn" type="button" value="회원가입" onclick="userJoin_ok(this.form)">

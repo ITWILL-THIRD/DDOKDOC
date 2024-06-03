@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,10 +30,19 @@ li {
 	<li>
 		<a href="user/login.do">멤버십</a>
 	</li>
-	
+
 	<li>
-		<a href="user/login.do">로그인 /회원가입</a>
+<c:choose>
+	<c:when test="${not empty sessionScope.user}">
+		<a href="logout.do">로그아웃</a>
+	</c:when>
+	<c:otherwise>
+        <a href="user/login.do">로그인 /회원가입</a>
+    </c:otherwise>
+
+</c:choose>	
 	</li>
+
 </ul>
 </div>	
 <br><br><br>
