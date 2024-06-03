@@ -16,6 +16,7 @@ li {
 	 	 float: left;
 	   	 display: block;
 		 padding: 10px 26px;
+	}
 </style>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
