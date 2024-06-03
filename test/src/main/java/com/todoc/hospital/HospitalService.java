@@ -1,4 +1,4 @@
-package com.todoc.hosMain;
+package com.todoc.hospital;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.todoc.view.hosMain;
+package com.todoc.view.hospital;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.todoc.hosMain.HospitalService;
-import com.todoc.hosMain.HospitalVO;
+import com.todoc.hospital.HospitalService;
+import com.todoc.hospital.HospitalVO;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
 
@@ -18,7 +18,7 @@ import com.todoc.notice.NoticeVO;
 //데이터 사용후 SessionStatus 객체의 setComplete() 메소드 사용 해제
 @SessionAttributes(value = { "hospital" })
 @Controller
-public class HospitalMainController {
+public class HospitalController {
 	@Autowired
 	private HospitalService hospitalService;
 	@Autowired

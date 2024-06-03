@@ -1,8 +1,8 @@
-package com.todoc.hosMain.dao;
+package com.todoc.hospital.dao;
 
 import java.util.List;
 
-import com.todoc.hosMain.HospitalVO;
+import com.todoc.hospital.HospitalVO;
 
 public interface HospitalDAO {
 	

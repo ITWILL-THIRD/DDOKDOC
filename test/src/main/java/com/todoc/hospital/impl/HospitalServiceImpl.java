@@ -1,13 +1,13 @@
-package com.todoc.hosMain.impl;
+package com.todoc.hospital.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.todoc.hosMain.HospitalService;
-import com.todoc.hosMain.HospitalVO;
-import com.todoc.hosMain.dao.HospitalDAO;
+import com.todoc.hospital.HospitalService;
+import com.todoc.hospital.HospitalVO;
+import com.todoc.hospital.dao.HospitalDAO;
 
 @Service("hospitalService")
 public class HospitalServiceImpl implements HospitalService {

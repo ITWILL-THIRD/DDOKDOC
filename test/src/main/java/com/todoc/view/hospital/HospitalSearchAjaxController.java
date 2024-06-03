@@ -1,4 +1,4 @@
-package com.todoc.view.hosMain;
+package com.todoc.view.hospital;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.todoc.hosMain.HospitalService;
-import com.todoc.hosMain.HospitalVO;
+import com.todoc.hospital.HospitalService;
+import com.todoc.hospital.HospitalVO;
 
 @RestController
 public class HospitalSearchAjaxController {
