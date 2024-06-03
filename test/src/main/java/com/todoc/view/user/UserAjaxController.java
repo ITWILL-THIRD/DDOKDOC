@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.todoc.user.HosService;
-import com.todoc.user.HospitalVO;
+import com.todoc.hospital.HospitalService;
+import com.todoc.hospital.HospitalVO;
 import com.todoc.user.UserService;
 import com.todoc.user.UserVO;
 @RestController
@@ -25,7 +25,7 @@ public class UserAjaxController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private HosService hosService;
+	private HospitalService hospitalService;
 	
 	public UserAjaxController() {
 		System.out.println("=======> UserAjaxController()객체생성");
@@ -46,7 +46,7 @@ public class UserAjaxController {
 		@RequestMapping(value = "user/hosId.do",  method = RequestMethod.POST)
 		public int email(@RequestBody HospitalVO ho) throws Exception {
 			System.out.println("hosId 메소드 실행 ");
-			int cnt = hosService.hosId(ho);
+			int cnt = hospitalService.hosId(ho);
 			System.out.println("cnt : " + cnt);
 			return cnt;
 		}

@@ -2,8 +2,8 @@ package com.todoc.hospital;
 
 import java.util.List;
 
+
 public interface HospitalService {
-	void insertHospital(HospitalVO vo);
 	void updateHospital(HospitalVO vo);
 	void deleteHospital(HospitalVO vo);
 	//병원 전체 조회
@@ -12,4 +12,8 @@ public interface HospitalService {
 	HospitalVO selectOne(int hosIdx);
 	//병원 동적 검색
 	List<HospitalVO> getHosSearch(HospitalVO vo);
+	//주은
+	HospitalVO getHos(HospitalVO ho);
+	void insertHospital(HospitalVO vo);
+	int hosId(HospitalVO ho) throws Exception;
 }

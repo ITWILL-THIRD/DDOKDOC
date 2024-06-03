@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.todoc.user.HosService;
-import com.todoc.user.HospitalVO;
+import com.todoc.hospital.HospitalService;
+import com.todoc.hospital.HospitalVO;
 import com.todoc.user.UserService;
 import com.todoc.user.UserVO;
 
@@ -26,7 +26,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private HosService hosService;
+	private HospitalService hospitalService;;
 	
 	public UserController() {
 		System.out.println("=======> UserController()객체생성");
@@ -80,7 +80,7 @@ public class UserController {
 		if (ho.getHosPw() == null || ho.getHosPw().equals("")) {
 			System.out.println("비번입력하세요");
 		}
-		HospitalVO user = hosService.getHos(ho);
+		HospitalVO user = hospitalService.getHos(ho);
 		System.out.println("hoUser : " + user);
 		
 		if (user != null) {
@@ -156,7 +156,7 @@ public class UserController {
 //	//기업 회원가입 처리
 	@PostMapping("user/hoJoin.do")
 	public String hoJoinOk(HospitalVO vo) {
-		hosService.insertHos(vo);
+		hospitalService.insertHospital(vo);
 		if (vo != null) {
 			System.out.println("vo : " + vo);
 			System.out.println(">>회원가입 완료");

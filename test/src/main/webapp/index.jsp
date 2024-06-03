@@ -27,7 +27,7 @@ li {
 	<h1>토닥토닥 로고</h1>
 <ul>
 	<li>
-		<a href="user/login.do">병원예약</a>
+		<a href="hospital/hosMain.do">병원예약</a>
 	</li>
 	<li>
 		<a href="user/login.do">정보나눔</a>
@@ -57,10 +57,7 @@ li {
 
 
 	<h1>TODOC</h1>
-	<hr>
-	<p>
-		<a href="hospital/hosMain.do">병원 검색으로 이동</a>
-	</p>
+
 	<br>
 	
 	
