@@ -205,12 +205,9 @@
 </style>
 </head>
 <body>
-<%
-	//세션에서 로그인 정보 가져오기
-	System.out.println("session : " + session.getAttribute("user"));
-%>
 \${hospital } : ${hospital }<br>
 \${reservationList } : ${reservationList }<br>
+\${user } : ${user }<br>
 \${session.getAttribute } : ${userIdx }<br>
 
 	<div>

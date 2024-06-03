@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.reservation.ReservationService;
 import com.todoc.reservation.ReservationVO;
+import com.todoc.user.UserVO;
 
 @RequestMapping("/reservation")
 @Controller
@@ -31,7 +34,7 @@ public class ReservationController {
 	@Autowired
 	private ReservationService reservationService;
 	
-	//예약진행
+	//예약날짜,시간 선택화면
 	@RequestMapping("/reservation.do")
 	public String startReser(HospitalVO vo, Model model) {
 		System.out.println(">> 예약페이지");
@@ -61,40 +64,62 @@ public class ReservationController {
 		return "reservation/startReser";
 	}
 
+	//예약조회
+	@RequestMapping("/reservationDetail.do")
+	public String getReservation(HttpSession session, Model model) {
+		System.out.println(">> 예약 조회");
+		
+		int idx = (int) session.getAttribute("idx");
+		System.out.println(idx);
+		// 세션에서 예약 ID를 제거
+        session.removeAttribute("idx");
+		
+		ReservationVO vo = new ReservationVO();
+		vo.setReserIdx(idx);
+		
+		ReservationVO reservation = reservationService.getReservation(vo);
+		System.out.println("reservation : " + reservation);
+		
+		model.addAttribute("reservation", reservation);
+		
+		return "reservation/reservationDetail";
+	}
 	
-	//예약하기
+	//예약등록하기
 	@PostMapping("/insertReservation.do")
-	public String insertReser(@ModelAttribute("hospital") HospitalVO hospital, ReservationVO vo, String selectTime, Model model) {
+	public String insertReser(@ModelAttribute("hospital") HospitalVO hospital, ReservationVO vo, String selectTime, Model model, HttpSession session) {
 		System.out.println(">> 예약하기 예약 등록");
 		System.out.println(vo);
 		System.out.println(selectTime);
-		//System.out.println(hospital.getHosIdx());
-		
-		 // Convert String to java.sql.Time
-	    try {
+
+		//String 타입 selectTime을 형변환 해서 vo에 저장
+		try {
 	        LocalTime localTime = LocalTime.parse(selectTime);
 	        Time sqlTime = Time.valueOf(localTime);
 	        vo.setReserTime(sqlTime);
 	        System.out.println(sqlTime);
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        // Handle exception - maybe set a default time or return an error response
 	    }
 		
 		vo.setHosIdx(hospital.getHosIdx());
-		//vo.setUserIdx(//유저 정보 넣기);
-		vo.setUserIdx(1);
+		UserVO user = (UserVO) session.getAttribute("user");
+		vo.setUserIdx(user.getUserIdx());
 		//vo.setPetIdx(//펫 정보 넣기);
 		vo.setPetIdx(1);
 		System.out.println(vo);
 		
 		reservationService.insertReservation(vo);
+		int idx = vo.getReserIdx();
+		
+		System.out.println("idx : " + idx);
 		System.out.println("작성완료");
 		
-		//예약 등록 후 넘어가는 페이지로 이동시키기
-		//경로에 int값들어갈수 없음. String으로 들어가거나 변수에 넣어서 들어가야함.
-		
-		return "reservation/reservationDetail";
+		 // 예약 ID를 세션에 저장
+        session.setAttribute("idx", idx);
+
+        // 예약 등록 후 넘어가는 페이지로 이동시키기
+        return "redirect:reservationDetail.do";
 	}
 	
 }

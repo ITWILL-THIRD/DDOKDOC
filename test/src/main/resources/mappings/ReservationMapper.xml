@@ -24,6 +24,13 @@
 		AND RESERDATE = #{reserDate} -->
     </select>
     
+    <!-- 예약내역가져오기 -->
+    <select id="getReservation" parameterType="ReservationVO" resultType="ReservationVO">
+    	SELECT *
+    	FROM RESERVATION
+    	WHERE RESERIDX = #{reserIdx}
+    </select>
+    
     <!-- 예약 등록 -->
     <insert id="insertReservation" parameterType="ReservationVO">
     	INSERT INTO RESERVATION (RESERIDX, HOSIDX, USERIDX, 
@@ -32,5 +39,8 @@
 		VALUES (SEQ_RESERIDX.NEXTVAL, #{hosIdx}, #{userIdx}, 
 					#{petIdx}, #{reserDate}, #{reserTime}, 
 					#{memo})   
+		<selectKey keyProperty="reserIdx" resultType="int" order="AFTER">
+		     SELECT SEQ_RESERIDX.CURRVAL FROM DUAL
+		</selectKey>			
     </insert>
 </mapper>
