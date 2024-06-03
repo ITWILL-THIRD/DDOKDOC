@@ -1,7 +1,9 @@
 package com.todoc.view.reservation;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
@@ -12,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.todoc.hospital.HospitalVO;
 import com.todoc.reservation.ReservationService;
@@ -22,6 +26,7 @@ import com.todoc.reservation.ReservationVO;
 
 @RequestMapping("/reservation")
 @Controller
+@SessionAttributes("hospital")
 public class ReservationController {
 	@Autowired
 	private ReservationService reservationService;
@@ -59,13 +64,32 @@ public class ReservationController {
 	
 	//예약하기
 	@PostMapping("/insertReservation.do")
-	public String insertReser(ReservationVO vo, String selectTime, Model model) {
+	public String insertReser(@ModelAttribute("hospital") HospitalVO hospital, ReservationVO vo, String selectTime, Model model) {
 		System.out.println(">> 예약하기 예약 등록");
 		System.out.println(vo);
 		System.out.println(selectTime);
+		//System.out.println(hospital.getHosIdx());
 		
-		//reservationService.insertReservaion(vo);
+		 // Convert String to java.sql.Time
+	    try {
+	        LocalTime localTime = LocalTime.parse(selectTime);
+	        Time sqlTime = Time.valueOf(localTime);
+	        vo.setReserTime(sqlTime);
+	        System.out.println(sqlTime);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        // Handle exception - maybe set a default time or return an error response
+	    }
 		
+		vo.setHosIdx(hospital.getHosIdx());
+		//vo.setUserIdx(//유저 정보 넣기);
+		vo.setUserIdx(1);
+		//vo.setPetIdx(//펫 정보 넣기);
+		vo.setPetIdx(1);
+		System.out.println(vo);
+		
+		reservationService.insertReservation(vo);
+		System.out.println("작성완료");
 		
 		//예약 등록 후 넘어가는 페이지로 이동시키기
 		//경로에 int값들어갈수 없음. String으로 들어가거나 변수에 넣어서 들어가야함.

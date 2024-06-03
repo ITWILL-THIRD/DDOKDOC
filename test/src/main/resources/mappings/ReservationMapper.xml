@@ -23,4 +23,14 @@
 		WHERE HOSIDX = #{hosIdx}
 		AND RESERDATE = #{reserDate} -->
     </select>
+    
+    <!-- 예약 등록 -->
+    <insert id="insertReservation" parameterType="ReservationVO">
+    	INSERT INTO RESERVATION (RESERIDX, HOSIDX, USERIDX, 
+    								PETIDX, RESERDATE, RESERTIME, 
+    								MEMO)          
+		VALUES (SEQ_RESERIDX.NEXTVAL, #{hosIdx}, #{userIdx}, 
+					#{petIdx}, #{reserDate}, #{reserTime}, 
+					#{memo})   
+    </insert>
 </mapper>

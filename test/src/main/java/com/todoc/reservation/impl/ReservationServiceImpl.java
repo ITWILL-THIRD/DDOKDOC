@@ -19,19 +19,19 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 	
 	@Override
-	public void insertReservaion(ReservationVO vo) {
+	public void insertReservation(ReservationVO vo) {
+		System.out.println(">> insertReservation 실행");
+		reservationDAO.insertReservation(vo);
+	}
+
+	@Override
+	public void updateReservation(ReservationVO vo) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateReservaion(ReservationVO vo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteReservaion(ReservationVO vo) {
+	public void deleteReservation(ReservationVO vo) {
 		// TODO Auto-generated method stub
 		
 	}

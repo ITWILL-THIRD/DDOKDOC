@@ -109,7 +109,7 @@
 
 	    // 병원 ID 및 선택된 날짜를 포함하여 데이터 전송
 	    let vo = {
-	      hosIdx: 1,
+	      hosIdx: ${hospital.hosIdx },
 	      reserDate: selectedDate,
 	      dayStr: selectedDay
 	    };
