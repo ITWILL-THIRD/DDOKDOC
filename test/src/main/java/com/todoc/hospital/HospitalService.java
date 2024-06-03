@@ -6,8 +6,6 @@ public interface HospitalService {
 	void insertHospital(HospitalVO vo);
 	void updateHospital(HospitalVO vo);
 	void deleteHospital(HospitalVO vo);
-	HospitalVO getHospital(HospitalVO vo);
-	List<HospitalVO> getHospitalList(HospitalVO vo);
 	//병원 전체 조회
 	List<HospitalVO> selectList();
 	//병원 1개 조회

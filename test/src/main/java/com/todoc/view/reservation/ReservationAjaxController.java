@@ -19,6 +19,7 @@ import com.todoc.hospital.HospitalVO;
 import com.todoc.reservation.ReservationService;
 import com.todoc.reservation.ReservationVO;
 
+@RequestMapping("reservation")
 @RestController
 public class ReservationAjaxController {
     @Autowired
@@ -40,10 +41,7 @@ public class ReservationAjaxController {
         System.out.println("ajax ReservationVO date : " + vo.getReserDate());
         int hosIdx = vo.getHosIdx();
         
-        HospitalVO idxHos = new HospitalVO();
-        idxHos.setHosIdx(hosIdx);
-        
-        HospitalVO hospital = hospitalService.getHospital(idxHos);
+        HospitalVO hospital = hospitalService.selectOne(hosIdx);
 
         //해당 날짜에 대한 예약 내역
         List<ReservationVO> reserList = reservationService.getDateReservationList(vo);
