@@ -52,18 +52,6 @@ li {
 </div>	
 <br><br><br>
 
-<hr>
-
-
-
-	<h1>TODOC</h1>
-
-	<br>
-	
-	
-</div>
-
-
 </body>
 </html>
 

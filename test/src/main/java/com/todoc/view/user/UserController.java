@@ -157,6 +157,8 @@ public class UserController {
 	@PostMapping("user/hoJoin.do")
 	public String hoJoinOk(HospitalVO vo) {
 		hospitalService.insertHospital(vo);
+		hospitalService.insertHosAddress(vo);
+		hospitalService.insertHosTime(vo);
 		if (vo != null) {
 			System.out.println("vo : " + vo);
 			System.out.println(">>회원가입 완료");

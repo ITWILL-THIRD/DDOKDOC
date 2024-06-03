@@ -3,22 +3,43 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoc.hospital.dao.HospitalDAO">
-<!-- 	주은 -->
-	<!-- 	병원 로그인 -->
+<!-- 주은 -->
+	<!-- 병원 로그인 -->
 	<select id="getHos" resultType="HospitalVO">
 		SELECT * 
 		FROM HOSPITAL
 		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw}
 	</select>
 	
-	<!-- 병원 회원가입 -->
+	<!-- 병원 회원가입(다른 테이블 3개 따로 입력) -->
 	<insert id="insertHospital" parameterType="HospitalVO">
 		INSERT INTO HOSPITAL
-			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE, ANIMAL, SCORE, CONDITION)
-		VALUES (SEQ_HOSIDX.NEXTVAL, #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}, #{animal}, #{score}, #{condition})
+			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE
+			, ANIMAL, SCORE, CONDITION)
+		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSPITAL), #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}
+			, #{animal}, #{score}, #{condition})
 	</insert>
+	<insert id="insertHosAddress" parameterType="HospitalVO">
+		INSERT INTO HOSADDRESS
+			(HOSIDX, ADDRESSNAME, ROADADDRESSNAME, DETAILADDRESS, ADDX
+			, ADDY, SIDO, SIGUNGU)
+		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSADDRESS), #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
+			, #{addy}, #{sido}, #{sigungu})
+	</insert>
+	<select id="insertHosTime" parameterType="HosptialVO">
+		INSERT INTO HOSTIME(HOSIDX
+		    , OPENTIME, CLOSETIME
+		   	, LUNCHTIME, ENDLUNCHTIME
+		   	, SATOPENTIME, SATCLOSETIME
+		  	 , SATLUNCHTIME, SATENDLUNCHTIME)
+		VALUES((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSTIME)
+			  , TO_DATE(#{openTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{closeTime}, 'YYYY-MM-DD HH24:MI:SS')
+			  , TO_DATE(#{lunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{endLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
+			  , TO_DATE(#{satOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{satCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
+		      , TO_DATE(#{satLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{satEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'));
+	</select>
 	
-<!-- 	병원 아이디 중복체크 -->
+	<!-- 병원 아이디 중복체크 -->
 	<select id="hosId" resultType="int">
 		SELECT COUNT(*) FROM HOSPITAL
 		WHERE HOSID = #{hosId}
@@ -32,7 +53,7 @@
 	<select id="getHospital" parameterType="HospitalVO" resultType="HospitalVO">
 		SELECT H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE, H.ANIMAL, H.SCORE, H.CONDITION, 
 		        T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME,
-		        A.ADDRESSNAME, A.ROADADDRESSNAME, A.ADDX, A.ADDY, A.SIDO, A.SIGUNGU
+		        A.ADDRESSNAME, A.ROADADDRESSNAME, A.DETAILADDRESS, A.ADDX, A.ADDY, A.SIDO, A.SIGUNGU, A.EUPMYEONDONG
 		FROM HOSPITAL H, HOSTIME T, HOSADDRESS A
 		WHERE H.HOSIDX = T.HOSIDX
 		AND H.HOSIDX = A.HOSIDX
@@ -45,7 +66,7 @@
 		FROM HOSPITAL H, HOSTIME HT, HOSADDRESS HA
 		WHERE H.HOSIDX = HT.HOSIDX
 		AND H.HOSIDX = HA.HOSIDX
-		AND H.HOSIDX = #{hosidx}
+		AND H.HOSIDX = #{hosIdx}
 	</select>
 	
 	<!-- 병원 전체 조회 -->

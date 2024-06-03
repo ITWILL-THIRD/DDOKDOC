@@ -15,7 +15,12 @@ public interface HospitalDAO {
 	List<HospitalVO> getHosSearch(HospitalVO vo);
 	//주은 
 	HospitalVO getHos(HospitalVO ho);
+	//병원 정보 입력
 	void insertHospital(HospitalVO vo);
+	//병원 주소 입력
+	void insertHosAddress(HospitalVO vo);
+	//병원 운영시간 입력
+	void insertHosTime(HospitalVO vo);
 	int hosId(HospitalVO ho) throws Exception;
 }
 

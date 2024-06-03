@@ -32,36 +32,36 @@ public class UserAjaxController {
 	}
 	
 	//이메일 중복체크 ajax
-		@ResponseBody
-		@RequestMapping(value = "user/email.do",  method = RequestMethod.POST)
-		public int email(@RequestBody UserVO vo) throws Exception {
-			System.out.println("email 메소드 실행 ");
-			int cnt = userService.email(vo);
-			System.out.println("cnt : " + cnt);
-			return cnt;
-		}
+	@ResponseBody
+	@RequestMapping(value = "user/email.do",  method = RequestMethod.POST)
+	public int email(@RequestBody UserVO vo) throws Exception {
+		System.out.println("email 메소드 실행 ");
+		int cnt = userService.email(vo);
+		System.out.println("cnt : " + cnt);
+		return cnt;
+	}
 	
 	//병원 아이디 중복체크 ajax
-		@ResponseBody
-		@RequestMapping(value = "user/hosId.do",  method = RequestMethod.POST)
-		public int email(@RequestBody HospitalVO ho) throws Exception {
-			System.out.println("hosId 메소드 실행 ");
-			int cnt = hospitalService.hosId(ho);
-			System.out.println("cnt : " + cnt);
-			return cnt;
-		}
+	@ResponseBody
+	@RequestMapping(value = "user/hosId.do",  method = RequestMethod.POST)
+	public int email(@RequestBody HospitalVO ho) throws Exception {
+		System.out.println("hosId 메소드 실행 ");
+		int cnt = hospitalService.hosId(ho);
+		System.out.println("cnt : " + cnt);
+		return cnt;
+	}
 	//카카오 로그인 사용자 정보 받아 세션에 저장
-		@PostMapping("user/saveUserInfo.do")
-		 public ResponseEntity<?> saveUserInfo(@RequestBody UserVO user, HttpSession session) {
-	        try {
-	            // 사용자 정보를 세션에 저장
-	            session.setAttribute("user", user);
-	            return ResponseEntity.ok(Collections.singletonMap("success", true));
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("success", false));
-	        }
-	    }
+	@PostMapping("user/saveUserInfo.do")
+	 public ResponseEntity<?> saveUserInfo(@RequestBody UserVO user, HttpSession session) {
+        try {
+            // 사용자 정보를 세션에 저장
+            session.setAttribute("user", user);
+            return ResponseEntity.ok(Collections.singletonMap("success", true));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("success", false));
+        }
+    }
 		
 
 }
