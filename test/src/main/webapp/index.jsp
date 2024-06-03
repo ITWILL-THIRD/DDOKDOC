@@ -40,6 +40,7 @@ li {
 <c:choose>
 	<c:when test="${not empty sessionScope.user}">
 		<a href="logout.do">로그아웃</a>
+		<a href="#">마이페이지</a>
 	</c:when>
 	<c:otherwise>
         <a href="user/login.do">로그인 /회원가입</a>
@@ -54,7 +55,11 @@ li {
 
 <hr>
 
+<p>이메일: ${sessionScope.user.email}</p>
+<p>닉네임: ${sessionScope.user.nickname}</p>
 
+<%-- <p>병원아이디: ${sessionScope.user.hosId}</p> --%>
+<%-- <p>병원이름: ${sessionScope.user.hosName}</p> --%>
 
 	<h1>TODOC</h1>
 

@@ -147,6 +147,9 @@ public class UserController {
 		}
 	
 	}
+	//카카오 로그인 회원가입 처리
+	
+	
 	
 	//기업회원가입 화면전환
 	@RequestMapping("user/hoJoin.do")

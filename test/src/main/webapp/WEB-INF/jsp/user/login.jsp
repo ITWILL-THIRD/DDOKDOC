@@ -21,8 +21,9 @@
 	}
 	
 	function login_ok(frm) {
-		var msg = '${msg}';
-		alert(msg);
+// 		var msg = '${msg}';
+// 		alert(msg);
+		alert('로그인 되었습니다');
 	}
 	
 	
