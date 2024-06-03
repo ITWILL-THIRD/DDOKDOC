@@ -8,6 +8,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<!-- 컨트롤러(@Controller)가 위치한 패키지 스캔해서 객체 생성 -->
+
 	<context:component-scan base-package="com.todoc" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
@@ -27,6 +28,7 @@
 	</bean>
 	
 	<!-- 예외 처리를 위한 설정 -->
+
 	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="defaultErrorView" value="/common/error.jsp" />
 		<property name="exceptionMappings"> 
@@ -40,6 +42,7 @@
 			</props>
 		</property>
 	</bean> -->
+
 
 	<!-- 스프링 ViewResolver 등록 -->
 	<bean id="viewResolver"

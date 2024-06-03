@@ -3,7 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoc.hospital.dao.HospitalDAO">
-
+<!-- 	주은 -->
+	<!-- 	병원 로그인 -->
+	<select id="getHos" resultType="HospitalVO">
+		SELECT * 
+		FROM HOSPITAL
+		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw}
+	</select>
+	
+	<!-- 병원 회원가입 -->
+	<insert id="insertHospital" parameterType="HospitalVO">
+		INSERT INTO HOSPITAL
+			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE, ANIMAL, SCORE, CONDITION)
+		VALUES (SEQ_HOSIDX.NEXTVAL, #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}, #{animal}, #{score}, #{condition})
+	</insert>
+	
+<!-- 	병원 아이디 중복체크 -->
+	<select id="hosId" resultType="int">
+		SELECT COUNT(*) FROM HOSPITAL
+		WHERE HOSID = #{hosId}
+	</select>
+	
 	<select id="getHospitalList" parameterType="HospitalVO" resultType="HospitalVO">
 		SELECT *
 		FROM HOSPITAL
