@@ -29,6 +29,11 @@
 		WHERE EMAIL = #{email}
 	</select>
 	
+<!-- 	카카오 이메일 있나 확인 -->
+	<select id="getUserByEmail" parameterType="String" resultType="userVO">
+        SELECT * FROM DDOKUSER WHERE email = #{email}
+    </select>
+	
 </mapper>
 
 
