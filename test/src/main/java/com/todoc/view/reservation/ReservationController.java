@@ -20,6 +20,7 @@ import com.todoc.hospital.HospitalVO;
 import com.todoc.reservation.ReservationService;
 import com.todoc.reservation.ReservationVO;
 
+@RequestMapping("/reservation")
 @Controller
 public class ReservationController {
 	@Autowired
@@ -69,7 +70,7 @@ public class ReservationController {
 		//예약 등록 후 넘어가는 페이지로 이동시키기
 		//경로에 int값들어갈수 없음. String으로 들어가거나 변수에 넣어서 들어가야함.
 		
-		return "redirect:/getHospital.do?hosIdx=1";
+		return "reservation/reservationDetail";
 	}
 	
 }

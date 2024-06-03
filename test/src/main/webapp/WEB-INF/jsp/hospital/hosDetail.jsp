@@ -55,7 +55,7 @@
 	<div id="map" style="width:300px;height:300px;margin-top:10px;"></div>
 	
 	<p class="center">
-		<a href="temp.do">예약</a>
+		<a href="../reservation/reservation.do?hosIdx=1">예약</a>
 		<a href="hosMain.do">병원 목록</a>
 	</p>
 	
