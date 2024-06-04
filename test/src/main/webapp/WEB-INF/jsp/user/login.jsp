@@ -1,3 +1,5 @@
+<%@ page session="true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,7 +11,6 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script>
-	
 
 	function user_join(frm) {
 		location.href = "userJoin.do";
@@ -20,42 +21,23 @@
 		frm.submit();
 	}
 	
-	function login_ok(frm) {
-// 		var msg = '${msg}';
-// 		alert(msg);
-		alert('로그인 되었습니다');
-	}
-	
-	
 
 	
-// 	function kakaoLogin() {
-// 		window.kakao.Auth.login({
-// 			scope: 'profile_nickname, account_email',
-// 			success: function(authObj){
-// 				window.Kakao.API.request({
-// 					url: 'user/login'
-// 					success: res => {
-// 						const name = res.kakao_account.nickname;
-// 						const email = res.kakao_account.email;
-						
-// 						console.log(name);
-// 						console.log(email);
-						
-// 						${'#kakaoemail'}.val(email);
-// 						${'#kakaonickname'}.val(name);
-// 						document.login_frm.submit();
-// 					}
-// 				})
-				
-				
-// 			}
-			
-// 		})
-// 	}
-	
-	
-	
+	function getQueryParam(param) {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+	window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const msg = urlParams.get('msg');
+            if (msg === 'success') {
+                alert('회원가입 성공');
+            } else if (msg === 'failure') {
+                alert('로그인 실패');
+            }
+        }
+
 </script>
 
 <!-- 카카오데모 -->
@@ -90,7 +72,7 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="로그인" onclick="login_ok(this.form)">
+			<input type="submit" value="로그인">
 		</td>
 	</tr>
 	
@@ -105,8 +87,6 @@
 <!-- <a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=f42292ed4450e56e6fb79480339b9fd8&redirect_uri=http://localhost:8080/biz/user/login.do&response_type=code"> -->
 <!--   <img src="../img/kakao_login.png" alt="카카오 로그인 버튼" /> -->
 <!-- </a> -->
-
-
 
 </form>
 

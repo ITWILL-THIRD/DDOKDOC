@@ -6,5 +6,10 @@ public interface UserService {
 //	int email(String email);
 	int email(UserVO vo) throws Exception;
 	UserVO getUserByEmail(String email);
+	UserVO getUserInfo(int userIdx);
+	void updateUser(UserVO vo);
+	void updatePwd(UserVO vo);
+	void deleteUser(int userIdx);
+	
 	
 }

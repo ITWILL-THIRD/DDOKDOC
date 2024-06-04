@@ -39,12 +39,12 @@
 			success:function(data){
 				if (data == 1){
 // 					$('#email').val(1);
-					alert("이미 사용중인 이메일 입니다.")
+					alert("이미 사용중인 아이디입니다.");
 					isCheckDup = false;
 					
 				} else if (data == 0){
 // 					$('#email').val(0);
-					alert("사용 가능한 이메일입니다.");
+					alert("사용 가능한 아이디입니다.");
 					isCheckDup = true;
 					
 				}

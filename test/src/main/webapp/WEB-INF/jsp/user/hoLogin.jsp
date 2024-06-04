@@ -17,11 +17,27 @@
 	}
 
 
-	function hosLogin_ok(frm) {
-// 		var msg = '${msg}';
-// 		alert(msg);
-		alert('로그인 되었습니다.');
-	}
+	function getQueryParam(param) {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+//     window.onload = function() {
+//         var msg = getQueryParam("msg");
+//         if (msg === "failure") {
+//             alert("로그인 실패");
+//         }
+//     }
+    
+	window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const msg = urlParams.get('msg');
+        if (msg === 'success') {
+            alert('회원가입 성공');
+        } else if (msg === 'failure') {
+            alert('로그인 실패');
+        }
+    }
 	</script>
 </head>
 <body>
@@ -40,7 +56,7 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="로그인" onclick="hosLogin_ok(this.form)">
+			<input type="submit" value="로그인">
 		</td>
 	</tr>
 	

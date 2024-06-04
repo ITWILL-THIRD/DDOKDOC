@@ -132,9 +132,17 @@
 		frm.action="userJoin.do";
 		frm.submit();
 		
-		var msg = '${msg}';
-		alert(msg);
+		
 	}
+
+// 	 window.onload = function() {
+//          const urlParams = new URLSearchParams(window.location.search);
+//          const msg = urlParams.get('msg');
+//          if (msg === 'failure') {
+//              alert('회원가입 실패');
+//          }
+//      }
+ 
 </script>
 </head>
 <body>

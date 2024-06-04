@@ -3,13 +3,30 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>시작페이지</title>
+<script>
+        function getQueryParam(param) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
 
-<script></script>
+        window.onload = function() {
+            var msg = getQueryParam("msg");
+            if (msg === "success") {
+                alert("로그인 성공");
+            } else if (msg === "delete") {
+            	alert("탈퇴가 완료되었습니다.");
+            }
+        }
+    </script>
+<script>
+
+</script>
 <style>
 
 li {
@@ -43,6 +60,10 @@ li {
 		<a href="logout.do">로그아웃</a>
 		<a href="myPage.do">마이페이지</a>
 	</c:when>
+	<c:when test="${not empty sessionScope.hoUser}">
+        <a href="logout.do">로그아웃</a>
+        <a href="hoMyPage.do">병원 마이페이지</a>
+    </c:when>
 	<c:otherwise>
         <a href="user/login.do">로그인 /회원가입</a>
     </c:otherwise>
@@ -56,8 +77,8 @@ li {
 
 <hr>
 
-<p>이메일: ${sessionScope.user.email}</p>
-<p>닉네임: ${sessionScope.user.nickname}</p>
+<%-- <p>이메일: ${sessionScope.user.email}</p> --%>
+<%-- <p>닉네임: ${sessionScope.user.nickname}</p> --%>
 
 <%-- <p>병원아이디: ${sessionScope.user.hosId}</p> --%>
 <%-- <p>병원이름: ${sessionScope.user.hosName}</p> --%>
