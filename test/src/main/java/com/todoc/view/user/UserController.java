@@ -1,9 +1,18 @@
 package com.todoc.view.user;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
@@ -26,7 +32,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private HospitalService hospitalService;;
+	private HospitalService hospitalService;
 	
 	public UserController() {
 		System.out.println("=======> UserController()객체생성");
@@ -153,14 +159,92 @@ public class UserController {
 	public String hoJoin(UserVO vo) {
 		return "user/hoJoin";
 	}
-//	//기업 회원가입 처리
+	//기업 회원가입 처리
 	@PostMapping("user/hoJoin.do")
-	public String hoJoinOk(HospitalVO vo) {
-		hospitalService.insertHospital(vo);
-		hospitalService.insertHosAddress(vo);
-		hospitalService.insertHosTime(vo);
+	public String hoJoinOk(HospitalVO vo, String openTimeStr, String closeTimeStr
+						, String lunchTimeStr, String endLunchTimeStr
+						, String satOpenTimeStr, String satCloseTimeStr
+						, String satLunchTimeStr, String satEndLunchTimeStr) {
 		if (vo != null) {
-			System.out.println("vo : " + vo);
+	        System.out.println("openTimeStr : " + openTimeStr);
+	        System.out.println("closeTimeStr : " + closeTimeStr);
+	        System.out.println("lunchTimeStr : " + lunchTimeStr);
+	        System.out.println("endLunchTimeStr : " + endLunchTimeStr);
+	        System.out.println("satOpenTimeStr : " + satOpenTimeStr);
+	        System.out.println("satCloseTimeStr : " + satCloseTimeStr);
+	        System.out.println("satLunchTimeStr : " + satLunchTimeStr);
+	        System.out.println("satEndLunchTimeStr : " + satEndLunchTimeStr);
+			// 기본 형식으로 변환
+	        LocalTime openTime = LocalTime.parse(openTimeStr);
+	        LocalTime closeTime = LocalTime.parse(closeTimeStr);
+	        LocalTime lunchTime = LocalTime.parse(lunchTimeStr);
+	        LocalTime endLunchTime = LocalTime.parse(endLunchTimeStr);
+	        LocalTime satOpenTime = LocalTime.parse(satOpenTimeStr);
+	        LocalTime satCloseTime = LocalTime.parse(satCloseTimeStr);
+	        LocalTime satLunchTime = LocalTime.parse(satLunchTimeStr);
+	        LocalTime satEndLunchTime = LocalTime.parse(satEndLunchTimeStr);
+	        System.out.println("Formatted openTime: " + openTime + closeTime + lunchTime + endLunchTime
+	        		+ satOpenTime + satCloseTime + satLunchTime + satEndLunchTime);
+	        // 특정 형식으로 변환
+//	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//	        LocalTime openTime = LocalTime.parse(openTimeStr, formatter);
+//	        LocalTime closeTime = LocalTime.parse(closeTimeStr, formatter);
+//	        LocalTime lunchTime = LocalTime.parse(lunchTimeStr, formatter);
+//	        LocalTime endLunchTime = LocalTime.parse(endLunchTimeStr, formatter);
+//	        LocalTime satOpenTime = LocalTime.parse(satOpenTimeStr, formatter);
+//	        LocalTime satCloseTime = LocalTime.parse(satCloseTimeStr, formatter);
+//	        LocalTime satLunchTime = LocalTime.parse(satLunchTimeStr, formatter);
+//	        LocalTime satEndLunchTime = LocalTime.parse(satEndLunchTimeStr, formatter);
+//	        System.out.println("Formatted openTime: " + openTime + closeTime + lunchTime + endLunchTime
+//	        		+ satOpenTime + satCloseTime + satLunchTime + satEndLunchTime);
+	        vo.setOpenTime(openTime);
+	        vo.setCloseTime(closeTime);
+	        vo.setLunchTime(lunchTime);
+	        vo.setEndLunchTime(endLunchTime);
+	        vo.setSatOpenTime(satOpenTime);
+	        vo.setSatCloseTime(satCloseTime);
+	        vo.setSatLunchTime(satLunchTime);
+	        vo.setSatEndLunchTime(satEndLunchTime);
+	//        try {
+	//            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm"); // 입력 형식
+	//            java.util.Date dateOpenTime = sdf.parse(openTimeStr); // 문자열을  Date 객체로 파싱
+	//            java.util.Date dateCloseTime = sdf.parse(closeTimeStr); // 문자열을  Date 객체로 파싱
+	//            java.util.Date dateLunchTime = sdf.parse(lunchTimeStr); // 문자열을  Date 객체로 파싱
+	//            java.util.Date dateEndLunchTime = sdf.parse(endLunchTimeStr); // 문자열을  Date 객체로 파싱
+	//            java.util.Date dateSatOpenTime = sdf.parse(satOpenTimeStr); // 문자열을  Date 객체로 파싱
+	//            java.util.Date dateSatCloseTime = sdf.parse(satCloseTimeStr); // 문자열을  Date 객체로 파싱
+	//            java.util.Date dateSatLunchTime = sdf.parse(satLunchTimeStr); // 문자열을  Date 객체로 파싱
+	//            java.util.Date dateSatEndLunchTime = sdf.parse(satEndLunchTimeStr); // 문자열을  Date 객체로 파싱
+	//            Time openTime = new Time(dateOpenTime.getTime()); // Date를 Time으로 변환
+	//            Time closeTime = new Time(dateCloseTime.getTime()); // Date를 Time으로 변환
+	//            Time lunchTime = new Time(dateLunchTime.getTime()); // Date를 Time으로 변환
+	//            Time endLunchTime = new Time(dateEndLunchTime.getTime()); // Date를 Time으로 변환
+	//            Time satOpenTime = new Time(dateSatOpenTime.getTime()); // Date를 Time으로 변환
+	//            Time satCloseTime = new Time(dateSatCloseTime.getTime()); // Date를 Time으로 변환
+	//            Time satLunchTime = new Time(dateSatLunchTime.getTime()); // Date를 Time으로 변환
+	//            Time satEndLunchTime = new Time(dateSatEndLunchTime.getTime()); // Date를 Time으로 변환
+	//            
+	//            vo.setOpenTime(openTime);
+	//            vo.setCloseTime(closeTime);
+	//            vo.setLunchTime(lunchTime);
+	//            vo.setEndLunchTime(endLunchTime);
+	//            vo.setSatOpenTime(satOpenTime);
+	//            vo.setSatCloseTime(satCloseTime);
+	//            vo.setSatLunchTime(satLunchTime);
+	//            vo.setSatEndLunchTime(satEndLunchTime);
+	//        } catch (Exception e) {
+	//            e.printStackTrace();
+	//        }
+			System.out.println(vo.getOpenTime());
+			System.out.println(vo.getCloseTime());
+			System.out.println("hoJoinOk 메소드 실행~~");
+			//hospital 테이블 입력
+			hospitalService.insertHospital(vo);
+			//hosaddress 테이블 입력
+			hospitalService.insertHosAddress(vo);
+			//hostime 테이블 입력
+			hospitalService.insertHosTime(vo);
+		
 			System.out.println(">>회원가입 완료");
 			return "user/login";
 			
@@ -169,9 +253,17 @@ public class UserController {
 			System.out.println(">>회원가입 실패");
 			return "user/hoJoin";
 		}
-//		return "user/hoJoin";
+	}
+	//병원 운영시간 임시 테스트용
+	@PostMapping("/test.do")
+	public String testTime(HospitalVO vo, @ModelAttribute("openTime") Time openTime) {
+		System.out.println(">> testTime() 메소드 실행~~");
+		String time = openTime.toString();
+		System.out.println("time : " + time);
+		System.out.println("vo : " + vo);
 		
-		
+		//hospitalService.insertHosTime(vo);
+		return "user/hoJoin";
 	}
 
 //	//로그인 화면 전환

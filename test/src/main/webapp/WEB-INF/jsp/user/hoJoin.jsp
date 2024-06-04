@@ -92,6 +92,7 @@
 			}
 			
 			frm.action="hoJoin.do";
+			//alert($('#openTimeStr').val());
 			frm.submit();
 		}
 	
@@ -192,18 +193,18 @@
 	<tr>
 		<th rowspan="2">운영시간</th>
 		<td>주중<br>
-			운영시간 <input type="time" title="주중 시작시간" name="openTime"> 
-				~ <input type="time" title="주중 마감시간" name="closeTime"><br>
-			점심시간 <input type="time" title="주중 점심 시작시간" name="lunchTime"> 
-				~ <input type="time" title="주중 점심 마감시간" name="endLunchTime"><br>
+			운영시간 <input type="time" title="주중 시작시간" id="openTimeStr" name="openTimeStr"> 
+				~ <input type="time" title="주중 마감시간" name="closeTimeStr"><br>
+			점심시간 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr"> 
+				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr"><br>
 		</td>
 	</tr>
 	<tr>
 		<td>토요일<br>
-			운영시간 <input type="time" title="토요일 시작시간" name="satOpenTime"> 
-				~ <input type="time" title="토요일 마감시간" name="satCloseTime"><br>
-			점심시간 <input type="time" title="토요일 점심 시작시간" name="satLunchTime"> 
-				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTime"><br>
+			운영시간 <input type="time" title="토요일 시작시간" name="satOpenTimeStr"> 
+				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr"><br>
+			점심시간 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr"> 
+				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr"><br>
 		</td>
 	</tr>
 	<tr>

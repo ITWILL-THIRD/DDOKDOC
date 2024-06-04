@@ -26,19 +26,30 @@
 		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSADDRESS), #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
 			, #{addy}, #{sido}, #{sigungu})
 	</insert>
-	<select id="insertHosTime" parameterType="HosptialVO">
+	<insert id="insertHosTime" parameterType="HospitalVO">
 		INSERT INTO HOSTIME(HOSIDX
-		    , OPENTIME, CLOSETIME
-		   	, LUNCHTIME, ENDLUNCHTIME
-		   	, SATOPENTIME, SATCLOSETIME
-		  	 , SATLUNCHTIME, SATENDLUNCHTIME)
+		     	, OPENTIME, CLOSETIME
+		     	, LUNCHTIME, ENDLUNCHTIME
+		     	, SATOPENTIME, SATCLOSETIME
+		     	, SATLUNCHTIME, SATENDLUNCHTIME)
 		VALUES((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSTIME)
-			  , TO_DATE(#{openTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{closeTime}, 'YYYY-MM-DD HH24:MI:SS')
-			  , TO_DATE(#{lunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{endLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
-			  , TO_DATE(#{satOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{satCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
-		      , TO_DATE(#{satLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{satEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'));
-	</select>
-	
+			  , TO_DATE('1970-01-01 ' || #{openTime} || ':00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{closeTime} || ':00', 'YYYY-MM-DD HH24:MI:SS')
+			  , TO_DATE('1970-01-01 ' || #{lunchTime} || ':00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{endLunchTime} || ':00', 'YYYY-MM-DD HH24:MI:SS')
+			  , TO_DATE('1970-01-01 ' || #{satOpenTime} || ':00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{satCloseTime} || ':00', 'YYYY-MM-DD HH24:MI:SS')
+		      , TO_DATE('1970-01-01 ' || #{satLunchTime} || ':00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{satEndLunchTime} || ':00', 'YYYY-MM-DD HH24:MI:SS'))
+	</insert>
+<!-- 	<insert id="insertHosTime" parameterType="HospitalVO"> -->
+<!-- 		INSERT INTO HOSTIME(HOSIDX -->
+<!-- 		     	, OPENTIME, CLOSETIME -->
+<!-- 		     	, LUNCHTIME, ENDLUNCHTIME -->
+<!-- 		     	, SATOPENTIME, SATCLOSETIME -->
+<!-- 		     	, SATLUNCHTIME, SATENDLUNCHTIME) -->
+<!--  		VALUES((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSTIME) -->
+<!--  			, TO_TIMESTAMP('1970-01-01 ' || #{openTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{closeTime}, 'YYYY-MM-DD HH24:MI:SS') -->
+<!--           	, TO_TIMESTAMP('1970-01-01 ' || #{lunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{endLunchTime}, 'YYYY-MM-DD HH24:MI:SS') -->
+<!--           	, TO_TIMESTAMP('1970-01-01 ' || #{satOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satCloseTime}, 'YYYY-MM-DD HH24:MI:SS') -->
+<!--          	, TO_TIMESTAMP('1970-01-01 ' || #{satLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')) -->
+<!-- 	</insert> -->
 	<!-- 병원 아이디 중복체크 -->
 	<select id="hosId" resultType="int">
 		SELECT COUNT(*) FROM HOSPITAL

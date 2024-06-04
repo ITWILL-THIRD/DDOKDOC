@@ -20,6 +20,7 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 	
+	//병원 공지사항 목록 조회
 	@RequestMapping("/getNotice.do")
 	public String hosNotice(@ModelAttribute("noticeIdx") int noticeIdx, Model model) {
 		System.out.println(">> 병원 공지사항 상세 : hosNotice() 메소드");
@@ -30,7 +31,7 @@ public class NoticeController {
 		
 		return "notice/getNotice";
 	}
-	
+	//공지 작성 폼 전환
 	@RequestMapping("/insertProNotice.do")
 	public String insertProNotice(NoticeVO vo
 								, @ModelAttribute("hosIdx") int hosIdx
@@ -42,7 +43,7 @@ public class NoticeController {
 		
 		return "notice/insertNotice";
 	}
-	
+	//공지 작성
 	@PostMapping("/insertNotice.do")
 	public String insertNotice(NoticeVO vo) {
 		System.out.println(">> insertNotice(NoticeVO) 메소드 실행");
@@ -55,7 +56,7 @@ public class NoticeController {
 		
 		return add;
 	}
-	
+	//공지 수정폼 전환
 	@PostMapping("/updateProNotice.do")
 	public String updateProNotice(NoticeVO notice, Model model) {
 		System.out.println(">> updateProNotice(NoticeVO) 메소드 실행~");
@@ -65,7 +66,7 @@ public class NoticeController {
 		
 		return "notice/updateProNotice";
 	}
-	
+	//공지 수정
 	@RequestMapping("/updateNotice.do")
 	public String updateNotice(NoticeVO notice) {
 		System.out.println(">> updateNotice(NoticeVO) 메소드 실행~");
@@ -77,8 +78,7 @@ public class NoticeController {
 		
 		return add;
 	}
-	
-	
+	//공지 삭제
 	@PostMapping("/deleteNotice.do")
 	public String deleteNotice(NoticeVO vo, SessionStatus sessionStatus) {
 		System.out.println(">> deleteNotice(vo) 메소드 실행");
