@@ -2,6 +2,8 @@ package com.todoc.view.hospital;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,9 +62,9 @@ public class HospitalController {
 	}
 	
 	@RequestMapping("/insertReview.do")
-	public String insertReview(@ModelAttribute("UserVO") UserVO userVo, HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model) {
+	public String insertReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model,  HttpSession session) {
 		System.out.println(":: 병원 리뷰 작성");
-		
+		vo.setUserIdx(((UserVO) session.getAttribute("user")).getUserIdx());
 		System.out.println("vo  : " + vo);
 		
 		model.addAttribute("hosIdx", hosIdx);

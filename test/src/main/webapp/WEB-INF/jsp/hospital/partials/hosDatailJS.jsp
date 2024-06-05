@@ -110,6 +110,7 @@
 	    document.getElementById('edit_' + reviewIdx).classList.add('hidden');
 	    document.getElementById('view_' + reviewIdx).classList.remove('hidden');
 	}
+	
 	//ajax 처리중 ㅠㅠ - 지수
 	/* $(document).ready(function() {
 		function getReviewList(hosIdx) {
