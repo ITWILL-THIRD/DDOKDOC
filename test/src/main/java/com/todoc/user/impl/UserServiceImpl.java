@@ -28,5 +28,9 @@ public class UserServiceImpl implements UserService{
 		int cnt = userDAO.email(vo);
 		return cnt;
 	}
+	//카카오 이메일 있나 확인
+	 public UserVO getUserByEmail(String email) {
+	        return userDAO.getUserByEmail(email);
+	 }
 
 }

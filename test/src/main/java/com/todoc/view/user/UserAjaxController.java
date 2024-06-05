@@ -1,6 +1,8 @@
 package com.todoc.view.user;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -50,18 +52,31 @@ public class UserAjaxController {
 			System.out.println("cnt : " + cnt);
 			return cnt;
 		}
+		
 	//카카오 로그인 사용자 정보 받아 세션에 저장
 		@PostMapping("user/saveUserInfo.do")
-		 public ResponseEntity<?> saveUserInfo(@RequestBody UserVO user, HttpSession session) {
+		 public Map<String, Object> saveUserInfo(@RequestBody UserVO userVO, HttpSession session) {
+	        Map<String, Object> response = new HashMap<>();
 	        try {
-	            // 사용자 정보를 세션에 저장
-	            session.setAttribute("user", user);
-	            return ResponseEntity.ok(Collections.singletonMap("success", true));
+	            // 사용자 정보가 존재하는지 확인
+	            UserVO existingUser = userService.getUserByEmail(userVO.getEmail());
+	            if (existingUser == null) {
+	                // 새로운 사용자 정보 저장
+	                userService.insertUser(userVO);
+	            }
+	            // 세션에 사용자 정보 저장
+	            session.setAttribute("user", userVO);
+	            response.put("success", true);
 	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("success", false));
+	            response.put("success", false);
+	            response.put("message", e.getMessage());
 	        }
+	        return response;
 	    }
+	}
+		
 		
 
-}
+		
+
+

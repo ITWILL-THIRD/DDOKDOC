@@ -131,6 +131,7 @@
 		
 		frm.action="userJoin.do";
 		frm.submit();
+		
 		var msg = '${msg}';
 		alert(msg);
 	}
