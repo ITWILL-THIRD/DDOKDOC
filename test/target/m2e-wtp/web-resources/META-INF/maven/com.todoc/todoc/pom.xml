@@ -47,6 +47,13 @@
 		    <version>2.11.4</version>
 		</dependency>
 		
+		<!-- 난수 생성 설정 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+		
 		<!-- 파일 업로드 관련 설정 -->
 		<dependency>
 		    <groupId>commons-fileupload</groupId>

@@ -1,3 +1,4 @@
+
 package com.todoc.hospital.dao;
 
 import java.util.List;
@@ -17,6 +18,11 @@ public interface HospitalDAO {
 	List<HospitalVO> getHosSearch(HospitalVO vo);
 	//주은 
 	HospitalVO getHos(HospitalVO ho);
+	void insertHospital(HospitalVO vo);
+	int hosId(HospitalVO ho) throws Exception;
+	HospitalVO hoFindId(HospitalVO vo);
+	int hoFindPwd(HospitalVO vo);
+	void hoUpdateExPwd(HospitalVO vo);
 	//민지
 	//병원 정보 입력
 	void insertHospital(HospitalVO vo);
@@ -24,3 +30,4 @@ public interface HospitalDAO {
 	void insertHosAddress(HospitalVO vo);
 	int hosId(HospitalVO ho) throws Exception;
 }
+

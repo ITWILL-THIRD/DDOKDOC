@@ -1,7 +1,11 @@
 package com.todoc.view.user;
 
+import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +35,7 @@ public class UserController {
 	public UserController() {
 		System.out.println("=======> UserController()객체생성");
 	}
-//	@ModelAttribute("user")
+
 	@PostMapping("/user/login.do")
 	public String login(UserVO vo, Model model, HttpSession session ) {
 		System.out.println(">> 로그인 처리");
@@ -49,23 +53,18 @@ public class UserController {
 		System.out.println("user : " + user);
 		
 		
-		//(나중에 main화면으로 return 변경)
 		if (user != null) {
 			model.addAttribute("msg", "로그인 성공");
 			System.out.println(">>로그인 성공");
 			session.setAttribute("user", user);
-//			return "user/login";
-			return "redirect:/index.jsp";
+			return "redirect:/index.jsp?msg=success";
 			
 		} else {
 			model.addAttribute("msg", "로그인 실패");
 			System.out.println(">>로그인 실패");
-			return "user/login";
+			return "redirect:login.do?msg=failure";
 		}
 	}
-	
-
-	
 	
 	//병원로그인======
 	@PostMapping("/user/hoLogin.do")
@@ -85,39 +84,17 @@ public class UserController {
 		
 		if (user != null) {
 			model.addAttribute("msg", "로그인 성공");
-			session.setAttribute("user", user);
+			session.setAttribute("hoUser", user);
 			System.out.println(">>로그인 성공");
 			
-			return "redirect:/index.jsp";
+			return "redirect:/index.jsp?msg=success";
 			
 		} else {
 			model.addAttribute("msg", "로그인 실패");
 			System.out.println(">>로그인 실패");
-			return "user/hoLogin";
+			return "redirect:hoLogin.do?msg=failure";
 		}
-		
 	}
-	
-	
-	
-//	//======카카오로그인============
-//	
-//	// 1번 카카오톡에 사용자 코드 받기(jsp의 a태그 href에 경로 있음)
-//		@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
-//		public ModelAndView kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Throwable {
-//
-//			// 1번
-//			System.out.println("code:" + code);
-//			return null;	
-//			// return에 페이지를 해도 되고, 여기서는 코드가 넘어오는지만 확인할거기 때문에 따로 return 값을 두지는 않았음
-//
-//		}
-
-	
-	
-	
-//===================
-	
 	
 	//개인 회원가입으로 화면전환
 	@RequestMapping("user/userJoin.do")
@@ -135,27 +112,22 @@ public class UserController {
 			System.out.println("vo : " + vo);
 			System.out.println(">>회원가입 완료");
 			model.addAttribute("msg", "회원가입 완료");
-//			return "user/userJoin";
-			return "user/login";
-			//return "../index";
+			return "redirect:login.do?msg=success";
 			
 		} else {
 			System.out.println("vo : " + vo);
 			System.out.println(">>회원가입 실패");
 			model.addAttribute("msg", "회원가입 실패");
-			return "user/userJoin";
+			return "redirect:userJoin.do";
 		}
-	
 	}
-	//카카오 로그인 회원가입 처리
-	
-	
-	
+
 	//기업회원가입 화면전환
 	@RequestMapping("/user/hoJoin.do")
 	public String hoJoin(UserVO vo) {
 		return "user/hoJoin";
 	}
+
 	@PostMapping("/user/hoJoin.do")
 	public String hoJoinchk(Model model, HospitalVO vo
 			, @RequestParam("openTimeStr")String openTimeStr, @RequestParam ("closeTimeStr")String closeTimeStr
@@ -187,6 +159,7 @@ public class UserController {
 			String fullSunCloseTimeStr = sunCloseTimeStr + ":00";
 			String fullSunLunchTimeStr = sunLunchTimeStr + ":00";
 			String fullSunEndLunchTimeStr = sunEndLunchTimeStr + ":00";
+
 			
 			//운영 시간에서 시각 0~23 유효성 검사 및 수정하는 메서드 호출
 			String validOpenTime = validateAndCorrectTime(fullOpenTimeStr);
@@ -238,7 +211,7 @@ public class UserController {
 	}
 
 
-//	//로그인 화면 전환
+	//로그인 화면 전환
 	@RequestMapping("user/login.do")
 	public String loginView(@ModelAttribute("user")UserVO vo) {
 		System.out.println(">> 로그인화면이동");
@@ -246,20 +219,17 @@ public class UserController {
 		vo.setPassword(vo.getPassword());
 		return "user/login";
 	}
-	
-	
+
 	//카카오 redirect
 	@RequestMapping(value = "user/redirect.do", method = RequestMethod.GET)
 	public String kakaoRedirect(@RequestParam("code") String code, @RequestParam("state") String state, HttpSession session, UserVO vo) {
-  System.out.println(">> 카카오 로그인 리디렉션 처리 - code: " + code + ", state: " + state);
+		System.out.println(">> 카카오 로그인 리디렉션 처리 - code: " + code + ", state: " + state);
   
   // 여기에 카카오 API를 사용하여 access token을 요청하고 세션에 저장하는 코드를 추가하세요.
   // 이후, 사용자 정보를 요청하여 session에 저장하거나 적절한 처리를 할 수 있습니다.
-  
-  
-  
-  return "user/redirect"; // /WEB-INF/jsp/ + user/redirect + .jsp
-}
+ 
+		return "user/redirect"; 
+	}
 	
 	//병원로그인 화면전환
 	@GetMapping("user/hoLogin.do")
@@ -280,4 +250,105 @@ public class UserController {
 		return "redirect:/index.jsp";
 		
 	}
+
+	//개인 이메일찾기 화면전환
+	@RequestMapping("user/findEmail.do")
+	public String findEmailView() {
+		return "user/findEmail";
+	}
+	
+	//개인 이메일 찾기
+	@PostMapping("user/findEmail.do")
+	public String findEmail(UserVO vo, HttpServletRequest request, Model model,
+			@RequestParam String name, @RequestParam String phone) {
+		try {
+			vo.setName(name);
+			vo.setPhone(phone);
+			UserVO email = userService.findEmail(vo);
+			String findEmail = email.getEmail();
+			model.addAttribute("findEmail", findEmail);
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "user/findEmailResult";
+	}
+	
+	//개인 비번찾기 화면전환
+	@RequestMapping("user/findPwd.do")
+	public String findPwdView() {
+		return "user/findPwd";
+	}
+	
+	//개인 비번찾기
+	@PostMapping("user/findPwd.do")
+	public String findPwd(UserVO vo, HttpServletRequest request, Model model,
+			@RequestParam String name, @RequestParam String email) {
+		vo.setName(name);
+		vo.setEmail(email);
+		int search = userService.findPwd(vo);
+		
+		if (search == 0) {
+			model.addAttribute("msg", "가입된 정보가 없습니다.");
+			return "user/findPwd";
+		}
+		
+		String newPwd = RandomStringUtils.randomAlphanumeric(10);
+		vo.setPassword(newPwd);
+		userService.updateExPwd(vo);
+		
+		model.addAttribute("newPwd", newPwd);
+		
+		return "user/findPwdResult";
+	}
+	
+	//병원 아이디 찾기 화면전환
+	@RequestMapping("user/hoFindId.do")
+	public String hoFindIdView() {
+		return "user/hoFindId";
+	}
+	
+	//병원 아이디 찾기
+	@PostMapping("user/hoFindId.do")
+	public String hoFindId(HospitalVO vo, HttpServletRequest request, Model model,
+			@RequestParam String hosName, @RequestParam String hosPhone) {
+		try {
+			vo.setHosName(hosName);
+			vo.setHosPhone(hosPhone);
+			HospitalVO hosId = hospitalService.hoFindId(vo);
+			String findHosId = hosId.getHosId();
+			model.addAttribute("findHosId", findHosId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "user/hoFindIdResult";
+	}
+	
+	//병원비번 찾기 화면전환
+	@RequestMapping("user/hoFindPwd.do")
+	public String hoFindPwdView() {
+		return "user/hoFindPwd";
+	}
+	
+	//병원 비번찾기 
+	@PostMapping("user/hoFindPwd.do")
+	public String hoFindPwd(HospitalVO vo, HttpServletRequest request, Model model,
+			@RequestParam String hosName, @RequestParam String hosId) {
+		vo.setHosName(hosName);
+		vo.setHosId(hosId);
+		int search = hospitalService.hoFindPwd(vo);
+		
+		if (search == 0) {
+			model.addAttribute("msg", "가입된 정보가 없습니다.");
+			return "user/hoFindPwd";
+		}
+		String newPwd = RandomStringUtils.randomAlphanumeric(10);
+		vo.setHosPw(newPwd);
+		hospitalService.hoUpdateExPwd(vo);
+		model.addAttribute("newPwd", newPwd);
+		
+		return "user/hoFindPwdResult";
+	}
+	
+	
+
 }
