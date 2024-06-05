@@ -11,12 +11,6 @@
 		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw}
 	</select>
 	
-	<!-- 병원 회원가입 -->
-	<insert id="insertHospital" parameterType="HospitalVO">
-		INSERT INTO HOSPITAL
-			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE, ANIMAL, SCORE, CONDITION)
-		VALUES (SEQ_HOSIDX.NEXTVAL, #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}, #{animal}, #{score}, #{condition})
-	</insert>
 	
 <!-- 	병원 아이디 중복체크 -->
 	<select id="hosId" resultType="int">
