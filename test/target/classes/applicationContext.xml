@@ -48,24 +48,18 @@
 	<!-- Mapper 인터페이스 사용 방식 적용 -->
 	<mybatis-spring:scan base-package="com.todoc.**.dao"/>
 	
+    <!-- GCSConfig 클래스 스캔 -->
+    <context:component-scan base-package="com.todoc.googlecloudstorage"/>
+	
+    <!-- GCP 프로젝트 ID 및 인증 파일 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties">
+            <props>
+                <prop key="gcp.project-id">arctic-odyssey-425007-a2</prop>
+                <prop key="gcp.credentials.file">classpath:arctic-odyssey-425007-a2-8fe0a8ca9532.json</prop>
+                <prop key="gcp.bucket.name">todoc-storage</prop>
+            </props>
+        </property>
+    </bean>
+
 </beans>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

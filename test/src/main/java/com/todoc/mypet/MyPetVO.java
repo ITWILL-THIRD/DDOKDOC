@@ -6,7 +6,14 @@ public class MyPetVO {
 	private String animal;
 	private String petName;
 	private int petAge;
+	private String petImg;
 	
+	public String getPetImg() {
+		return petImg;
+	}
+	public void setPetImg(String petImg) {
+		this.petImg = petImg;
+	}
 	public int getPetIdx() {
 		return petIdx;
 	}
@@ -41,7 +48,7 @@ public class MyPetVO {
 	@Override
 	public String toString() {
 		return "MyPetVO [petIdx=" + petIdx + ", userIdx=" + userIdx + ", animal=" + animal + ", petName=" + petName
-				+ ", petAge=" + petAge + "]";
+				+ ", petAge=" + petAge + ", petImg=" + petImg + "]";
 	}
 	
 }
