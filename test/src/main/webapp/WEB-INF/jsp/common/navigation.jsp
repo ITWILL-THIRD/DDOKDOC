@@ -16,6 +16,7 @@
 * {
 	font-family: 'Pretendard-Regular';
 }
+	.nav {background-color: #fff;}
 
 	.top {
 		background-color: #fff;
@@ -80,7 +81,7 @@
     <div class="topnav">
         <a href="#">병원예약</a>
         <a href="getBoardList.do">정보나눔</a>
-        <a href="#">멤버십</a>
+        <a href="checkout.do">멤버십</a>
     </div>
 </div>
 </body>
