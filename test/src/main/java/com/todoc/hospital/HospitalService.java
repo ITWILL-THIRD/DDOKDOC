@@ -4,6 +4,7 @@ import java.util.List;
 
 
 public interface HospitalService {
+
 	void updateHospital(HospitalVO vo);
 	void deleteHospital(HospitalVO vo);
 	//병원 전체 조회
@@ -11,7 +12,12 @@ public interface HospitalService {
 	//병원 1개 조회
 	HospitalVO selectOne(int hosIdx);
 	//병원 동적 검색
-	List<HospitalVO> getHosSearch(HospitalVO vo);
+	List<HospitalVO> getHosSearch(HospitalVO vo);	
+	//병원 리뷰 조회
+	List<HosReviewVO> getHosReview(int hosIdx);
+	//병원 리뷰 입력,수정,삭제
+	void insertReview(HosReviewVO vo);
+	void updateReview(HosReviewVO vo);
 	//주은
 	HospitalVO getHos(HospitalVO ho);
 	HospitalVO hoFindId(HospitalVO vo);
@@ -24,4 +30,3 @@ public interface HospitalService {
 	void insertHosAddress(HospitalVO vo);
 	int hosId(HospitalVO ho) throws Exception;
 }
-

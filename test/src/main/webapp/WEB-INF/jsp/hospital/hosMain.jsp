@@ -85,6 +85,7 @@
 		</thead>
 		<tbody id="listDisp">
 			<c:forEach var="hospital" items="${hosList }">
+
 			<tr>
 				<td>${hospital.hosIdx}</td>
 				<td><a href="hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName}</a>

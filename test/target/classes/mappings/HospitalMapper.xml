@@ -2,6 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.todoc.hospital.dao.HospitalDAO">
 <!-- 주은 -->
 	<!-- 	병원 로그인 -->
@@ -66,7 +67,6 @@
          	, TO_TIMESTAMP('1970-01-01 ' || #{satLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
 	
-	
 	<select id="getHospitalList" parameterType="HospitalVO" resultType="HospitalVO">
 		SELECT *
 		FROM HOSPITAL
@@ -82,7 +82,7 @@
 		AND H.HOSIDX = A.HOSIDX
 		AND H.HOSIDX = #{hosIdx}
 	</select>
-	
+
 	<!-- 병원 정보 1개 조회 -->
 	<select id="selectOne" parameterType="int" resultType="HospitalVO">
 		SELECT *
@@ -99,6 +99,15 @@
 		WHERE H.HOSIDX = HT.HOSIDX
 		AND H.HOSIDX = HA.HOSIDX
 		ORDER BY H.HOSIDX DESC
+	</select>
+	
+	<!-- 병원 리뷰 조회 -->
+	<select id="getHosReview" parameterType="int" resultType="HosReviewVO">
+	    SELECT R.*, U.NICKNAME AS NICKNAME 
+		FROM HOSREVIEW R, DDOKUSER U
+		WHERE R.USERIDX = U.USERIDX 
+		AND HOSIDX = #{hosIdx}
+		ORDER BY HOSIDX DESC
 	</select>
 	
   	<!-- 동적처리(병원 정보 조회) -->
@@ -149,6 +158,18 @@
 	    </where>
 	    ORDER BY H.HOSIDX DESC
 	</select>
+ 	<insert id="insertReview" parameterType="HosReviewVO">
+		INSERT INTO HOSREVIEW(REVIEWIDX, HOSIDX, USERIDX, CONTENT, SCORE, REVIEWDATE) 
+		VALUES((SELECT NVL(MAX(REVIEWIDX), 0) + 1 FROM HOSREVIEW), 
+				#{hosIdx}, #{userIdx}, #{content}, #{score}, SYSDATE)
+	</insert>
+	
+	<update id="updateReview" parameterType="HosReviewVO">
+		UPDATE HOSREVIEW 
+		SET CONTENT = #{content}, SCORE = #{score}, REVIEWDATE = SYSDATE 
+		WHERE REVIEWIDX = #{reviewIdx}
+	</update>
+	
 	
 </mapper>
 

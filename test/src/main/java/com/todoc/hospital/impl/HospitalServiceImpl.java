@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.HospitalDAO;
 
 @Service("hospitalService")
+
 public class HospitalServiceImpl implements HospitalService{
 	@Autowired
 	private HospitalDAO hospitalDAO;
@@ -77,7 +79,20 @@ public class HospitalServiceImpl implements HospitalService{
 	public void hoUpdateExPwd(HospitalVO vo) {
 		hospitalDAO.hoUpdateExPwd(vo);
 	}
-
+	//병원 리뷰 전체 조회
+	@Override
+	public List<HosReviewVO> getHosReview(int hosIdx) {
+		return hospitalDAO.getHosReview(hosIdx);
+	}
+	//병원 리뷰 입력
+	@Override
+	public void insertReview(HosReviewVO vo) {
+		hospitalDAO.insertReview(vo);
+	}
+	//병원 리뷰 수정
+	@Override
+	public void updateReview(HosReviewVO vo) {
+		hospitalDAO.updateReview(vo);
+	}
 
 }
-

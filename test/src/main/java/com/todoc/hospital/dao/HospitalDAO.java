@@ -2,11 +2,11 @@
 package com.todoc.hospital.dao;
 
 import java.util.List;
-
+import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalVO;
 
 public interface HospitalDAO {
-	
+
 	void updateHospital(HospitalVO vo);
 	void deleteHospital(HospitalVO vo);
 	//민지
@@ -16,6 +16,10 @@ public interface HospitalDAO {
 	HospitalVO selectOne(int hosIdx);
 	//지수
 	List<HospitalVO> getHosSearch(HospitalVO vo);
+	List<HosReviewVO> getHosReview(int hosIdx);
+	void insertReview(HosReviewVO vo);
+	void updateReview(HosReviewVO vo);
+	//void deleteReview(HosReviewVO vo);
 	//주은 
 	HospitalVO getHos(HospitalVO ho);
 	HospitalVO hoFindId(HospitalVO vo);
