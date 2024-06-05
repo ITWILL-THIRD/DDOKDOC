@@ -19,6 +19,8 @@ function userDelete_ok(frm) {
 </head>
 <body>
 <h1>마이페이지</h1>
+<a href="index.do">메인가기</a>
+
 <hr>
 	<h2>내 정보</h2>
 	<form action="updateUser.do">

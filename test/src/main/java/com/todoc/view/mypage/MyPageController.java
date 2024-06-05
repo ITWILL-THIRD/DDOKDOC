@@ -86,6 +86,11 @@ public class MyPageController {
 		System.out.println(">> 탈퇴 완료");
 		return "redirect:/index.jsp?msg=delete";
 	}
+	//메인페이지로 이동
+	@RequestMapping("/index.do")
+	public String index() {
+		return "redirect:/index.jsp";
+	}
 	
 	
     @RequestMapping("/myPage.do")
