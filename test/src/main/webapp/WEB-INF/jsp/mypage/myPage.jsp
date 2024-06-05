@@ -20,6 +20,9 @@
 			</c:when>
 			<c:otherwise>
 				<c:forEach var="pet" items="${pets}">
+					<c:if test="${not empty pet.petImg}">
+						<img src="${pet.petImg}" alt="${pet.petName}의 이미지" style="max-width: 150px;">
+					</c:if>
 					<p>동물분류: ${pet.animal}</p>
 					<p>펫이름: ${pet.petName}</p>
 					<p>펫나이: ${pet.petAge}살</p>
@@ -36,7 +39,7 @@
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>			
-	<p><a href="insertMyPetView.do">마이펫 등록페이지로 이동</a></p>
+	<p><a href="insertMyPetView.do">마이펫 등록</a></p>
 
 </body>
 </html>
