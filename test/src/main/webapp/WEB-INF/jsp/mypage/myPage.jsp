@@ -70,6 +70,9 @@ function userDelete_ok(frm) {
 			</c:when>
 			<c:otherwise>
 				<c:forEach var="pet" items="${pets}">
+					<c:if test="${not empty pet.petImg}">
+						<img src="${pet.petImg}" alt="${pet.petName}의 이미지" style="max-width: 150px;">
+					</c:if>
 					<p>동물분류: ${pet.animal}</p>
 					<p>펫이름: ${pet.petName}</p>
 					<p>펫나이: ${pet.petAge}살</p>
@@ -86,7 +89,7 @@ function userDelete_ok(frm) {
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>			
-	<p><a href="insertMyPetView.do">마이펫 등록페이지로 이동</a></p>
+	<p><a href="insertMyPetView.do">마이펫 등록</a></p>
 
 	<p><a href="myReserList.do">내 진료 예약내역 보기</a>
 	<p><a href="myOldReserList.do">내 진료 지난 예약내역 보기</a>
