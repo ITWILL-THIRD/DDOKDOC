@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>토닥토닥 메인</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../common/navigation.jsp"/>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script>
 	function fetchData(category) {

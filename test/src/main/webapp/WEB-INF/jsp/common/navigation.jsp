@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,10 +80,26 @@
         <img src="" alt="로고">
     </div>
     <div class="topnav">
-        <a href="#">병원예약</a>
-        <a href="getBoardList.do">정보나눔</a>
-        <a href="checkout.do">멤버십</a>
+        <a href="hospital/hosMain.do">병원예약</a>
+        <a href="../getBoardList.do">정보나눔</a>
+        <a href="../checkout.do">멤버십</a>
+        
+        <c:choose>
+	<c:when test="${not empty sessionScope.user}">
+		<a href="logout.do">로그아웃</a>
+		<a href="myPage.do">마이페이지</a>
+	</c:when>
+	<c:when test="${not empty sessionScope.hoUser}">
+        <a href="logout.do">로그아웃</a>
+        <a href="hoMyPage.do">병원 마이페이지</a>
+    </c:when>
+	<c:otherwise>
+        <a href="user/login.do">로그인 /회원가입</a>
+    </c:otherwise>
+
+</c:choose>	
     </div>
 </div>
+
 </body>
 </html>
