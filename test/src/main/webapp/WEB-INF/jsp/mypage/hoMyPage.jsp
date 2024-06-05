@@ -31,6 +31,7 @@
 		<tr>
 			<td>평점</td>
 			<td>${hoUser.score }</td>
+			
 		</tr>
 	</table>
 </form>
