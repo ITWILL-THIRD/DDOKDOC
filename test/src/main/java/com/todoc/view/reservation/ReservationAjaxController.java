@@ -40,6 +40,7 @@ public class ReservationAjaxController {
         System.out.println("ajax ReservationVO : " + vo);
         System.out.println("ajax ReservationVO date : " + vo.getReserDate());
         int hosIdx = vo.getHosIdx();
+        System.out.println("병원" + hosIdx + "운영시간");
         
         HospitalVO hospital = hospitalService.selectOne(hosIdx);
 

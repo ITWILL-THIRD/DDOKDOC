@@ -63,16 +63,13 @@ li {
 <%-- <p>병원이름: ${sessionScope.user.hosName}</p> --%>
 
 	<h1>TODOC</h1>
-
 	<br>
-	
 	
 </div>
 
 
 </body>
 </html>
-
 
 
 

@@ -19,6 +19,8 @@
     var calendarEl = document.getElementById('calendar');
     var selectedDate = null; 
     var selectedDay = null;
+    var initialDate = '${reservationVO.reserDate}'; // 기존 예약 날짜
+    var initialTime = '${reservationVO.formattedTime}'; // 기존 예약 시간
     
     var calendar = new FullCalendar.Calendar(calendarEl, {
       googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
@@ -107,9 +109,30 @@
     });
 
     calendar.render();
+
+ 	// 초기 예약 날짜 및 시간 설정
+    if (initialDate) {
+      selectedDate = initialDate;
+      document.getElementById('reserDate').value = initialDate; // 숨겨진 필드 업데이트
+      var initialDayEl = document.querySelector('[data-date="' + initialDate + '"]');
+      if (initialDayEl) {
+        initialDayEl.style.backgroundColor = 'lightblue'; // 선택된 색상 설정
+        selectedDay = new Date(initialDate).getDay(); //선택된 날짜의 요일
+        getJsonTimeData(initialDate, selectedDay, initialTime);
+      }
+    }
+ 	
+ 	// 초기 예약 시간이 있으면 해당 시간을 선택 상태로 만듦
+    if (initialTime) {
+      var initialTimeBtn = $('.time-btn[data-time="' + initialTime + '"]');
+      if (initialTimeBtn.length) {
+        initialTimeBtn.addClass("selected");
+        $('#selectTime').val(initialTime); // resertime에 선택된 시간 저장
+      }
+    }
   });
 
-  function getJsonTimeData(selectedDate, selectedDay) {
+  function getJsonTimeData(selectedDate, selectedDay, initialTime) {
     alert("예약 가능한 시간");
     var selectedTime = null; 
 
@@ -133,13 +156,21 @@
         
         let dispHtml = "";
         for (let time of response.availableTimes) {
-          if (response.reservedTimes.includes(time)) {
-            dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
-          } else {
-            dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
-          }
-          dispHtml += time;
-          dispHtml += "</button><br>";
+        	// 기존 예약 시간과 같을 때 선택 상태로 설정
+        	/* alert("time : " + time);
+        	alert("initialTime : " + initialTime);
+        	alert("time == initialTime : " + time == initialTime); */
+            if (response.reservedTimes.includes(time)) {
+            	if (time == initialTime) {
+            		dispHtml += `<button type="button" class="time-btn selected" data-time="${time}">`;
+            	} else {
+	                dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
+            	}
+            } else {
+                dispHtml += `<button type="button" class="time-btn ${selectedClass}" data-time="${time}">`;
+            }
+            dispHtml += time;
+            dispHtml += "</button><br>";
         }
         $("#listDisp").html(dispHtml);
 
@@ -155,6 +186,14 @@
           }
         });
 
+        // 초기 예약 시간 설정
+        if (initialTime) {
+          let initialTimeBtn = $('.time-btn[data-time="' + initialTime + '"]');
+          if (initialTimeBtn.length) {
+            initialTimeBtn.addClass("selected");
+            $('#selectTime').val(initialTime); // resertime에 선택된 시간 저장
+          }
+        }
       },
       error: function() {
         alert("실패~~");
@@ -181,7 +220,7 @@
     });
   });
   
-  function insertReservation(frm) {
+  function updateReservation(frm) {
     let selectedDate = document.getElementById('reserDate').value;
     let selectedTime = document.getElementById('selectTime').value;
     let selectedPet = document.getElementById('petIdxStr').value;
@@ -196,7 +235,7 @@
     alert("Selected Date: " + selectedDate);
     alert("Select Time: " + selectedTime);
     
-    frm.action = "insertReservation.do";
+    frm.action = "updateReservation.do";
     frm.submit();
   }
   
@@ -235,18 +274,20 @@
 </style>
 </head>
 <body>
-\${hospital } : ${hospital }<br>
+<%-- \${hospital } : ${hospital }<br>
 \${reservationList } : ${reservationList }<br>
 \${user } : ${user }<br>
 \${myPetList } : ${myPetList }<br>
-\${session.getAttribute } : ${userIdx }<br>
+\${session.getAttribute } : ${userIdx }<br> --%>
+\${reservationVO } : ${reservationVO }<br> 
 
+	<h2>예약변경하기</h2>
   <div>
     <div id="selectPetDiv">
       <select id="selectPet">
         <option value="null">진료볼 마이펫을 선택하세요</option>
         <c:forEach var="myPet" items="${myPetList }">
-          <option value="${myPet.petIdx}">${myPet.petName}</option>
+          <option value="${myPet.petIdx}" <c:if test="${myPet.petIdx == reservationVO.petIdx}">selected</c:if>>${myPet.petName}</option>
         </c:forEach>
       </select>
     </div>
@@ -257,11 +298,12 @@
       </ul>
     </div>
     <form method="post">
-      <textarea rows="4" cols="5" id="memo" name="memo">메모를 남겨주세요</textarea>
-      <input type="button" value="예약하기" onclick="insertReservation(this.form)">
+      <textarea rows="4" cols="5" id="memo" name="memo">${reservation.memo}</textarea>
+      <input type="button" value="예약 변경하기" onclick="updateReservation(this.form)">
+      <input type="hidden" id="reserIdx" name="reserIdx" value="${reservationVO.reserIdx}">
       <input type="hidden" id="reserDate" name="reserDate">
-      <input type="hidden" id="selectTime" name="selectTime">
-      <input type="hidden" id="petIdxStr" name="petIdxStr">
+      <input type="hidden" id="selectTime" name="selectTime" value="${reservation.reserTime}">
+      <input type="hidden" id="petIdxStr" name="petIdxStr" value="${reservation.petIdx}">
     </form>
   </div>
 

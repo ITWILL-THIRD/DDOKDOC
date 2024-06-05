@@ -4,23 +4,86 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoc.reservation.dao.ReservationDAO">
 	
-	<!-- 병원 전체 예약 -->
+	<!-- 병원 전체 예약 내역 -->
     <select id="getReservationList" parameterType="ReservationVO" resultType="ReservationVO">
         SELECT *
         FROM RESERVATION
         WHERE HOSIDX = #{hosIdx}
     </select>
     
-    <!-- 특정날짜 예약 -->
+    <!-- 특정날짜 예약 내역 -->
     <select id="getDateReservationList" parameterType="ReservationVO" resultType="ReservationVO">
-		SELECT RESERIDX, HOSIDX, USERIDX, PETIDX, RESERDATE, RESERTIME, MEMO
+		SELECT *
 		FROM RESERVATION
 		WHERE HOSIDX = #{hosIdx}
 		AND TO_CHAR(RESERDATE, 'YYYY-MM-DD') = TO_CHAR(#{reserDate}, 'YYYY-MM-DD')
-
+		AND CONDITION IS NULL
         <!-- SELECT *
 		FROM RESERVATION
 		WHERE HOSIDX = #{hosIdx}
 		AND RESERDATE = #{reserDate} -->
+    </select>
+    
+    <!-- reserIdx로 예약 1개 조회 -->
+    <select id="getReservation" parameterType="ReservationVO" resultType="ReservationVO">
+    	SELECT R.RESERIDX, R.HOSIDX, R.USERIDX, R.PETIDX, R.RESERDATE, R.RESERTIME, R.MEMO, R.CONDITION, H.HOSNAME, P.PETNAME
+		FROM RESERVATION R, HOSPITAL H, MYPET P
+    	WHERE RESERIDX = #{reserIdx}
+    	AND R.HOSIDX = H.HOSIDX
+		AND R.PETIDX = P.PETIDX
+    </select>
+    
+    <!-- 예약 등록 -->
+    <insert id="insertReservation" parameterType="ReservationVO">
+    	INSERT INTO RESERVATION (RESERIDX, HOSIDX, USERIDX, 
+    								PETIDX, RESERDATE, RESERTIME, 
+    								MEMO)          
+		VALUES (SEQ_RESERIDX.NEXTVAL, #{hosIdx}, #{userIdx}, 
+					#{petIdx}, #{reserDate}, #{reserTime}, 
+					#{memo})   
+		<selectKey keyProperty="reserIdx" resultType="int" order="AFTER">
+		     SELECT SEQ_RESERIDX.CURRVAL FROM DUAL
+		</selectKey>			
+    </insert>
+    
+    <!-- USER의 예약 리스트 -->
+    <select id="myReserList" parameterType="int" resultType="ReservationVO">
+    	SELECT ROWNUM, R.*, H.HOSNAME HOSNAME, P.PETNAME PETNAME
+		FROM RESERVATION R, HOSPITAL H, MYPET P
+		WHERE R.USERIDX = #{userIdx}
+		AND R.RESERDATE >= SYSDATE-1
+		AND R.HOSIDX = H.HOSIDX
+		AND R.PETIDX = P.PETIDX
+		AND R.CONDITION IS NULL
+    </select>
+    
+    <!-- 지난예약 조회 -->
+    <select id="myOldReserList" parameterType="int" resultType="ReservationVO">
+    <![CDATA[	
+    	SELECT ROWNUM, R.*, H.HOSNAME HOSNAME, P.PETNAME PETNAME
+		FROM RESERVATION R, HOSPITAL H, MYPET P
+		WHERE R.USERIDX = #{hosIdx}
+		AND R.RESERDATE <= SYSDATE-1
+		AND R.HOSIDX = H.HOSIDX
+		AND R.PETIDX = P.PETIDX
+		AND R.CONDITION IS NULL
+	]]>
+    </select>
+    
+    <!-- 예약 취소 -->
+    <update id="cancleReservaion" parameterType="int">
+    	UPDATE RESERVATION
+		SET CONDITION='CANCLE'
+		WHERE RESERIDX = #{reserIdx}
+    </update>
+    
+    <!-- 취소한 예약 리스트 -->
+    <select id="myCancleReserList" parameterType="int" resultType="ReservationVO">
+    	SELECT ROWNUM, R.*, H.HOSNAME HOSNAME, P.PETNAME PETNAME
+		FROM RESERVATION R, HOSPITAL H, MYPET P
+		WHERE R.USERIDX = #{hosIdx}
+		AND R.HOSIDX = H.HOSIDX
+		AND R.PETIDX = P.PETIDX
+		 AND R.CONDITION='CANCLE'
     </select>
 </mapper>

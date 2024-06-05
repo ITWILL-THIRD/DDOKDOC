@@ -8,5 +8,4 @@ public interface UserDAO {
 //	 String email(String email);
 	 int email(UserVO vo) throws Exception;
 	 UserVO getUserByEmail(String email);
-	 
 }
