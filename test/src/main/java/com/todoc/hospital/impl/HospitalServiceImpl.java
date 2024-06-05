@@ -59,11 +59,6 @@ public class HospitalServiceImpl implements HospitalService{
 	public void insertHosAddress(HospitalVO vo) {
 		hospitalDAO.insertHosAddress(vo);
 	}
-	//병원 운영시간 입력
-	@Override
-	public void insertHosTime(HospitalVO vo) {
-		hospitalDAO.insertHosTime(vo);
-	}
 	//아이디 중복체크
 	@Override
 	public int hosId(HospitalVO ho) throws Exception {

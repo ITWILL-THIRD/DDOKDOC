@@ -60,8 +60,6 @@
 		});
 	};
 	
-	
-
 	function oninputPhone(target) {
 	    target.value = target.value
 	        .replace(/[^0-9]/g, '')
@@ -90,11 +88,20 @@
 				alert("아이디 중복체크를 먼저 해주세요.");
 				return;
 			}
-			
+			//병원 회원 가입 및 시간(0~23) 유효성 검사
 			frm.action="hoJoin.do";
+			
 			//alert($('#openTimeStr').val());
 			frm.submit();
 		}
+	
+	window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const msg = urlParams.get('msg');
+        if (msg === 'failure') {
+            alert('회원가입 실패');
+        }
+    }
 	
 	//카카오 지도 API 사용
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -157,7 +164,7 @@
 </head>
 <body>
 <h1>병원회원가입</h1>
-<form action="hoJoin.do" method="post">
+<form method="post">
 <table border="">
 	<tr>
 		<th>아이디</th>
@@ -191,25 +198,33 @@
 		</td>
 	</tr>
 	<tr>
-		<th rowspan="2">운영시간</th>
+		<th rowspan="3">운영시간</th>
 		<td>주중<br>
-			운영시간 <input type="time" title="주중 시작시간" id="openTimeStr" name="openTimeStr"> 
-				~ <input type="time" title="주중 마감시간" name="closeTimeStr"><br>
-			점심시간 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr"> 
-				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr"><br>
+			운영시간 <input type="time" title="주중 시작시간" id="openTimeStr" name="openTimeStr" value="00:00"> 
+				~ <input type="time" title="주중 마감시간" name="closeTimeStr" value="00:00"><br>
+			점심시간 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="00:00"> 
+				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="00:00"><br>
 		</td>
 	</tr>
 	<tr>
 		<td>토요일<br>
-			운영시간 <input type="time" title="토요일 시작시간" name="satOpenTimeStr"> 
-				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr"><br>
-			점심시간 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr"> 
-				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr"><br>
+			운영시간 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="00:00"> 
+				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="00:00"><br>
+			점심시간 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="00:00"> 
+				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="00:00"><br>
+		</td>
+	</tr>
+	<tr>
+		<td>일요일<br>
+			운영시간 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="00:00"> 
+				~ <input type="time" title="일요일 마감시간" name="sunCloseTimeStr" value="00:00"><br>
+			점심시간 <input type="time" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="00:00"> 
+				~ <input type="time" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="00:00"><br>
 		</td>
 	</tr>
 	<tr>
 		<th>전화번호</th>
-		<td><input type="tel" title="전화번호" name="hosPhone" value="${hospitalVO.hosPhone }" oninput="oninputPhone(this)" maxlength="14"></td>
+		<td><input type="tel" title="전화번호" name="hosPhone" value="${hospitalVO.hosPhone }" oninput="oninputPhone(this)"></td>
 	</tr>
 	<tr>
 		<th>사업자 등록증</th>

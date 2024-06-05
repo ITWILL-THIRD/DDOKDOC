@@ -1,6 +1,6 @@
 package com.todoc.hospital;
 
-import java.time.LocalTime;
+import java.sql.Time;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,15 +15,19 @@ public class HospitalVO {
    private double score;
    private String condition;
    //hostime 테이블
-   private LocalTime openTime;
-   private LocalTime closeTime;
-   private LocalTime lunchTime;
-   private LocalTime endLunchTime;
-   // +토요일 시간 컬럼4개 추가
-   private LocalTime satOpenTime;
-   private LocalTime satCloseTime;
-   private LocalTime satLunchTime;
-   private LocalTime satEndLunchTime;
+   private Time openTime;
+   private Time closeTime;
+   private Time lunchTime;
+   private Time endLunchTime;
+   // +토,일요일 시간 컬럼4개 추가
+   private Time satOpenTime;
+   private Time satCloseTime;
+   private Time satLunchTime;
+   private Time satEndLunchTime;
+   private Time sunOpenTime;
+   private Time sunCloseTime;
+   private Time sunLunchTime;
+   private Time sunEndLunchTime;
    //hosaddress 테이블
    private String addressName;
    private String roadAddressName;
@@ -87,53 +91,77 @@ public class HospitalVO {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
-	public LocalTime getOpenTime() {
+	public Time getOpenTime() {
 		return openTime;
 	}
-	public void setOpenTime(LocalTime openTime) {
+	public void setOpenTime(Time openTime) {
 		this.openTime = openTime;
 	}
-	public LocalTime getCloseTime() {
+	public Time getCloseTime() {
 		return closeTime;
 	}
-	public void setCloseTime(LocalTime closeTime) {
+	public void setCloseTime(Time closeTime) {
 		this.closeTime = closeTime;
 	}
-	public LocalTime getLunchTime() {
+	public Time getLunchTime() {
 		return lunchTime;
 	}
-	public void setLunchTime(LocalTime lunchTime) {
+	public void setLunchTime(Time lunchTime) {
 		this.lunchTime = lunchTime;
 	}
-	public LocalTime getEndLunchTime() {
+	public Time getEndLunchTime() {
 		return endLunchTime;
 	}
-	public void setEndLunchTime(LocalTime endLunchTime) {
+	public void setEndLunchTime(Time endLunchTime) {
 		this.endLunchTime = endLunchTime;
 	}
-	public LocalTime getSatOpenTime() {
+	public Time getSatOpenTime() {
 		return satOpenTime;
 	}
-	public void setSatOpenTime(LocalTime satOpenTime) {
+	public void setSatOpenTime(Time satOpenTime) {
 		this.satOpenTime = satOpenTime;
 	}
-	public LocalTime getSatCloseTime() {
+	public Time getSatCloseTime() {
 		return satCloseTime;
 	}
-	public void setSatCloseTime(LocalTime satCloseTime) {
+	public void setSatCloseTime(Time satCloseTime) {
 		this.satCloseTime = satCloseTime;
 	}
-	public LocalTime getSatLunchTime() {
+	public Time getSatLunchTime() {
 		return satLunchTime;
 	}
-	public void setSatLunchTime(LocalTime satLunchTime) {
+	public void setSatLunchTime(Time satLunchTime) {
 		this.satLunchTime = satLunchTime;
 	}
-	public LocalTime getSatEndLunchTime() {
+	public Time getSatEndLunchTime() {
 		return satEndLunchTime;
 	}
-	public void setSatEndLunchTime(LocalTime satEndLunchTime) {
+	public void setSatEndLunchTime(Time satEndLunchTime) {
 		this.satEndLunchTime = satEndLunchTime;
+	}
+	public Time getSunOpenTime() {
+		return sunOpenTime;
+	}
+	public void setSunOpenTime(Time sunOpenTime) {
+		this.sunOpenTime = sunOpenTime;
+	}
+	public Time getSunCloseTime() {
+		return sunCloseTime;
+	}
+	public void setSunCloseTime(Time sunCloseTime) {
+		this.sunCloseTime = sunCloseTime;
+	}
+	public Time getSunLunchTime() {
+		return sunLunchTime;
+	}
+	public void setSunLunchTime(Time sunLunchTime) {
+		this.sunLunchTime = sunLunchTime;
+	}
+	public Time getSunEndLunchTime() {
+		return sunEndLunchTime;
+	}
+	public void setSunEndLunchTime(Time sunEndLunchTime) {
+		this.sunEndLunchTime = sunEndLunchTime;
 	}
 	public String getAddressName() {
 		return addressName;
@@ -189,16 +217,18 @@ public class HospitalVO {
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
 	}
+	   
 	@Override
 	public String toString() {
 		return "HospitalVO [hosIdx=" + hosIdx + ", hosId=" + hosId + ", hosPw=" + hosPw + ", hosName=" + hosName
 				+ ", hosPhone=" + hosPhone + ", animal=" + animal + ", score=" + score + ", condition=" + condition
 				+ ", openTime=" + openTime + ", closeTime=" + closeTime + ", lunchTime=" + lunchTime + ", endLunchTime="
 				+ endLunchTime + ", satOpenTime=" + satOpenTime + ", satCloseTime=" + satCloseTime + ", satLunchTime="
-				+ satLunchTime + ", satEndLunchTime=" + satEndLunchTime + ", addressName=" + addressName
-				+ ", roadAddressName=" + roadAddressName + ", detailAddress=" + detailAddress + ", addx=" + addx
-				+ ", addy=" + addy + ", sido=" + sido + ", sigungu=" + sigungu + ", searchCondition=" + searchCondition
-				+ ", searchKeyword=" + searchKeyword + "]";
+				+ satLunchTime + ", satEndLunchTime=" + satEndLunchTime + ", sunOpenTime=" + sunOpenTime
+				+ ", sunCloseTime=" + sunCloseTime + ", sunLunchTime=" + sunLunchTime + ", sunEndLunchTime="
+				+ sunEndLunchTime + ", addressName=" + addressName + ", roadAddressName=" + roadAddressName
+				+ ", detailAddress=" + detailAddress + ", addx=" + addx + ", addy=" + addy + ", sido=" + sido
+				+ ", sigungu=" + sigungu + ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
+				+ "]";
 	}
-	   
 }

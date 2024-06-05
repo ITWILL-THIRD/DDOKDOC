@@ -25,7 +25,13 @@
 		alert(msg);
 	}
 	
-	
+	window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const msg = urlParams.get('msg');
+        if (msg === 'success') {
+            alert('회원가입 성공');
+        }
+    }
 
 	
 // 	function kakaoLogin() {

@@ -11,13 +11,13 @@
 		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw}
 	</select>
 	
-	<!-- 병원 회원가입(다른 테이블 3개 따로 입력) -->
+	<!-- 병원 회원가입(다른 테이블 3개 각자 입력 - HOSTIM은 TimeMapper로 따로 작성) -->
 	<insert id="insertHospital" parameterType="HospitalVO">
 		INSERT INTO HOSPITAL
 			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE
 			, ANIMAL, SCORE, CONDITION)
 		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSPITAL), #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}
-			, #{animal}, #{score}, #{condition})
+			, #{animal}, 0, #{condition})
 	</insert>
 	<insert id="insertHosAddress" parameterType="HospitalVO">
 		INSERT INTO HOSADDRESS
@@ -26,30 +26,19 @@
 		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSADDRESS), #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
 			, #{addy}, #{sido}, #{sigungu})
 	</insert>
+
 	<insert id="insertHosTime" parameterType="HospitalVO">
 		INSERT INTO HOSTIME(HOSIDX
 		     	, OPENTIME, CLOSETIME
 		     	, LUNCHTIME, ENDLUNCHTIME
 		     	, SATOPENTIME, SATCLOSETIME
 		     	, SATLUNCHTIME, SATENDLUNCHTIME)
-		VALUES((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSTIME)
-			  , TO_DATE('1970-01-01 ' || #{openTime} || ':00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{closeTime} || ':00', 'YYYY-MM-DD HH24:MI:SS')
-			  , TO_DATE('1970-01-01 ' || #{lunchTime} || ':00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{endLunchTime} || ':00', 'YYYY-MM-DD HH24:MI:SS')
-			  , TO_DATE('1970-01-01 ' || #{satOpenTime} || ':00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{satCloseTime} || ':00', 'YYYY-MM-DD HH24:MI:SS')
-		      , TO_DATE('1970-01-01 ' || #{satLunchTime} || ':00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{satEndLunchTime} || ':00', 'YYYY-MM-DD HH24:MI:SS'))
+ 		VALUES((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSTIME)
+ 			, TO_TIMESTAMP('1970-01-01 ' || #{openTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{closeTime}, 'YYYY-MM-DD HH24:MI:SS')
+          	, TO_TIMESTAMP('1970-01-01 ' || #{lunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{endLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
+          	, TO_TIMESTAMP('1970-01-01 ' || #{satOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
+         	, TO_TIMESTAMP('1970-01-01 ' || #{satLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
-<!-- 	<insert id="insertHosTime" parameterType="HospitalVO"> -->
-<!-- 		INSERT INTO HOSTIME(HOSIDX -->
-<!-- 		     	, OPENTIME, CLOSETIME -->
-<!-- 		     	, LUNCHTIME, ENDLUNCHTIME -->
-<!-- 		     	, SATOPENTIME, SATCLOSETIME -->
-<!-- 		     	, SATLUNCHTIME, SATENDLUNCHTIME) -->
-<!--  		VALUES((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSTIME) -->
-<!--  			, TO_TIMESTAMP('1970-01-01 ' || #{openTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{closeTime}, 'YYYY-MM-DD HH24:MI:SS') -->
-<!--           	, TO_TIMESTAMP('1970-01-01 ' || #{lunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{endLunchTime}, 'YYYY-MM-DD HH24:MI:SS') -->
-<!--           	, TO_TIMESTAMP('1970-01-01 ' || #{satOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satCloseTime}, 'YYYY-MM-DD HH24:MI:SS') -->
-<!--          	, TO_TIMESTAMP('1970-01-01 ' || #{satLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')) -->
-<!-- 	</insert> -->
 	<!-- 병원 아이디 중복체크 -->
 	<select id="hosId" resultType="int">
 		SELECT COUNT(*) FROM HOSPITAL

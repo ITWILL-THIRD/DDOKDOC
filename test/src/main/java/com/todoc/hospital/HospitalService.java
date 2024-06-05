@@ -19,7 +19,5 @@ public interface HospitalService {
 	void insertHospital(HospitalVO vo);
 	//병원 주소 입력
 	void insertHosAddress(HospitalVO vo);
-	//병원 운영시간 입력
-	void insertHosTime(HospitalVO vo);
 	int hosId(HospitalVO ho) throws Exception;
 }
