@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 public class ReservationVO {
+	private int rownum;
 	private int reserIdx;
 	private int hosIdx;
 	private int userIdx;
@@ -12,7 +13,17 @@ public class ReservationVO {
 	private String dayStr; //요일임.
 	private Time reserTime;
 	private String memo;
+	private String hosName;
+	private String petName;
+	private String condition;
+	private String formattedTime;
 	
+	public int getRownum() {
+		return rownum;
+	}
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}
 	public int getReserIdx() {
 		return reserIdx;
 	}
@@ -61,11 +72,38 @@ public class ReservationVO {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
+	public String getHosName() {
+		return hosName;
+	}
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+	public String getPetName() {
+		return petName;
+	}
+	public void setPetName(String petName) {
+		this.petName = petName;
+	}
+	public String getCondition() {
+		return condition;
+	}
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+	public String getFormattedTime() {
+		return formattedTime;
+	}
+	public void setFormattedTime(String formattedTime) {
+		this.formattedTime = formattedTime;
+	}
 	
 	@Override
 	public String toString() {
-		return "ReservationVO [reserIdx=" + reserIdx + ", hosIdx=" + hosIdx + ", userIdx=" + userIdx + ", petIdx="
-				+ petIdx + ", reserDate=" + reserDate + ", dayStr=" + dayStr + ", reserTime=" + reserTime + ", memo="
-				+ memo + "]";
+		return "ReservationVO [rownum=" + rownum + ", reserIdx=" + reserIdx + ", hosIdx=" + hosIdx + ", userIdx="
+				+ userIdx + ", petIdx=" + petIdx + ", reserDate=" + reserDate + ", dayStr=" + dayStr + ", reserTime="
+				+ reserTime + ", memo=" + memo + ", hosName=" + hosName + ", petName=" + petName + ", condition="
+				+ condition + ", formattedTime=" + formattedTime + "]";
 	}
+	
+	
 }

@@ -51,6 +51,26 @@ public class ReservationServiceImpl implements ReservationService{
 		return reservationDAO.getDateReservationList(vo);
 	}
 
+	@Override
+	public List<ReservationVO> myReserList(int useridx) {
+		return reservationDAO.myReserList(useridx);
+	}
+
+	@Override
+	public void cancleReservaion(int reserIdx) {
+		reservationDAO.cancleReservaion(reserIdx);
+	}
+
+	@Override
+	public List<ReservationVO> myOldReserList(int userIdx) {
+		return reservationDAO.myOldReserList(userIdx);
+	}
+
+	@Override
+	public List<ReservationVO> myCancleReserList(int userIdx) {
+		return reservationDAO.myCancleReserList(userIdx);
+	}
+
 	
 
 }

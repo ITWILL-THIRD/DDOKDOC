@@ -58,9 +58,6 @@ li {
 
 	<h1>TODOC</h1>
 	<br>
-	<c:if test="${not empty sessionScope.user}">
-		<a href="user/userReserList.do">내 예약조회</a>
-	</c:if>	
 	
 </div>
 
