@@ -25,7 +25,7 @@ public class HospitalController {
 	private HospitalService hospitalService;
 	@Autowired
 	private NoticeService noticeService;
-
+	//병원예약 페이지 onload되면 전체 목록 조회
 	@RequestMapping("/hosMain.do")
 	public String hosRevMain(HospitalVO vo, Model model) {
 		System.out.println(":: 병원 목록 전체보기");
@@ -37,7 +37,7 @@ public class HospitalController {
 
 		return "hospital/hosMain";
 	}
-
+	//1개 병원 상세 조회
 	@RequestMapping("/hosDetail.do")
 	public String hosInfo(@ModelAttribute("hosIdx") int hosIdx, Model model) {
 		System.out.println(":: 병원 정보(예약,리뷰)");

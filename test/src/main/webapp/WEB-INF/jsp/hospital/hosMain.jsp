@@ -78,8 +78,8 @@
 				<th>번호</th>
 				<th>병원명</th>
 				<th>주소</th>
-				<th>전화번호</th>
 				<th>운영시간</th>
+				<th>전화번호</th>
 				<th>분류</th>
 			</tr>
 		</thead>
@@ -90,8 +90,8 @@
 				<td><a href="hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName}</a>
 				</td>
 				<td>${hospital.roadAddressName} ${hospital.detailAddress}</td>
-				<td>${hospital.hosPhone}</td>
 				<td>${hospital.openTime} ~ ${hospital.closeTime}</td>
+				<td>${hospital.hosPhone}</td>
 				<td>${hospital.animal}</td>
 			</tr>
 		</c:forEach>

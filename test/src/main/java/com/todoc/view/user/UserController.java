@@ -3,7 +3,6 @@ package com.todoc.view.user;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
+import com.todoc.hospital.dao.TimeMapper;
 import com.todoc.user.UserService;
 import com.todoc.user.UserVO;
 
@@ -26,7 +24,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private HospitalService hospitalService;;
+	private HospitalService hospitalService;
+	@Autowired
+	private TimeMapper timeMapper;
 	
 	public UserController() {
 		System.out.println("=======> UserController()객체생성");
@@ -152,28 +152,91 @@ public class UserController {
 	
 	
 	//기업회원가입 화면전환
-	@RequestMapping("user/hoJoin.do")
+	@RequestMapping("/user/hoJoin.do")
 	public String hoJoin(UserVO vo) {
 		return "user/hoJoin";
 	}
-//	//기업 회원가입 처리
-	@PostMapping("user/hoJoin.do")
-	public String hoJoinOk(HospitalVO vo) {
-		hospitalService.insertHospital(vo);
+	@PostMapping("/user/hoJoin.do")
+	public String hoJoinchk(Model model, HospitalVO vo
+			, @RequestParam("openTimeStr")String openTimeStr, @RequestParam ("closeTimeStr")String closeTimeStr
+			, @RequestParam("lunchTimeStr")String lunchTimeStr, @RequestParam("endLunchTimeStr")String endLunchTimeStr
+			, @RequestParam("satOpenTimeStr")String satOpenTimeStr, @RequestParam ("satCloseTimeStr")String satCloseTimeStr
+			, @RequestParam ("satLunchTimeStr")String satLunchTimeStr, @RequestParam ("satEndLunchTimeStr")String satEndLunchTimeStr
+			, @RequestParam("sunOpenTimeStr")String sunOpenTimeStr, @RequestParam ("sunCloseTimeStr")String sunCloseTimeStr
+			, @RequestParam ("sunLunchTimeStr")String sunLunchTimeStr, @RequestParam ("sunEndLunchTimeStr")String sunEndLunchTimeStr
+			) {
+		//hoJoin 입력 폼에서 vo 값 넘어오는지 확인
+		System.out.println(":: TimeController.saveTime() 메소드 실행~!!");
+		System.out.println("HospitalVO vo : " + vo);
 		if (vo != null) {
-			System.out.println("vo : " + vo);
-			System.out.println(">>회원가입 완료");
-			return "user/login";
+			//hospital 테이블 입력
+			hospitalService.insertHospital(vo);
+			//hosaddress 테이블 입력
+			hospitalService.insertHosAddress(vo);
+			//시간 형식에서 ss(초) 문자열 추가
+			System.out.println("openTimeStr : " + openTimeStr);
+			String fullOpenTimeStr = openTimeStr + ":00";
+			String fullCloseTimeStr = closeTimeStr + ":00";
+			String fullLunchTimeStr = lunchTimeStr + ":00";
+			String fullEndLunchTimeStr = endLunchTimeStr + ":00";
+			String fullSatOpenTimeStr = satOpenTimeStr + ":00";
+			String fullSatCloseTimeStr = satCloseTimeStr + ":00";
+			String fullSatLunchTimeStr = satLunchTimeStr + ":00";
+			String fullsatEndLunchTimeStr = satEndLunchTimeStr + ":00";
+			String fullSunOpenTimeStr = sunOpenTimeStr + ":00";
+			String fullSunCloseTimeStr = sunCloseTimeStr + ":00";
+			String fullSunLunchTimeStr = sunLunchTimeStr + ":00";
+			String fullSunEndLunchTimeStr = sunEndLunchTimeStr + ":00";
 			
+			//운영 시간에서 시각 0~23 유효성 검사 및 수정하는 메서드 호출
+			String validOpenTime = validateAndCorrectTime(fullOpenTimeStr);
+			String validCloseTime = validateAndCorrectTime(fullCloseTimeStr);
+			String validLunchTime = validateAndCorrectTime(fullLunchTimeStr);
+			String validEndLunchTime = validateAndCorrectTime(fullEndLunchTimeStr);
+			String validSatOpenTime = validateAndCorrectTime(fullSatOpenTimeStr);
+			String validSatCloseTime = validateAndCorrectTime(fullSatCloseTimeStr);
+			String validSatLunchTime = validateAndCorrectTime(fullSatLunchTimeStr);
+			String validSatEndLunchTime = validateAndCorrectTime(fullsatEndLunchTimeStr);
+			String validSunOpenTime = validateAndCorrectTime(fullSunOpenTimeStr);
+			String validSunCloseTime = validateAndCorrectTime(fullSunCloseTimeStr);
+			String validSunLunchTime = validateAndCorrectTime(fullSunLunchTimeStr);
+			String validSunEndLunchTime = validateAndCorrectTime(fullSunEndLunchTimeStr);
+			System.out.println("validOpenTime : " + validOpenTime);
+			
+			try {
+				//hostime 테이블 입력
+				timeMapper.insertTime(vo, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
+									, validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
+									, validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime);
+				System.out.println("vo : " + vo);
+				System.out.println(">> 회원가입 완료");
+				return "redirect:/user/login.do?msg=success";
+			} catch (Exception e) {
+				System.out.println("vo : " + vo);
+				e.printStackTrace();
+				return"redirect:/user/hoJoin.do?msg=fail";
+			}
 		} else {
 			System.out.println("vo : " + vo);
-			System.out.println(">>회원가입 실패");
-			return "user/hoJoin";
+			System.out.println(">> 회원가입 실패");
+			return "redirect:/hoJoin.do?msg=fail";
 		}
-//		return "user/hoJoin";
-		
-		
 	}
+	//유효성 검사 메소드(운영 시각 0~23만 사용 가능)
+	private String validateAndCorrectTime(String timeStr) {
+		String[] timeParts = timeStr.split(":");
+        int hour = Integer.parseInt(timeParts[0]);
+        int minute = Integer.parseInt(timeParts[1]);
+        int second = Integer.parseInt(timeParts[2]);
+
+        // 시간 값이 0에서 23 사이인지 확인
+        if (hour < 0 || hour > 23) {
+            hour = hour % 24;
+        }
+        // 유효한 시간 값으로 반환
+        return String.format("%02d:%02d:%02d", hour, minute, second);
+	}
+
 
 //	//로그인 화면 전환
 	@RequestMapping("user/login.do")
@@ -183,9 +246,6 @@ public class UserController {
 		vo.setPassword(vo.getPassword());
 		return "user/login";
 	}
-	
-	//로그인 후 메인페이지로 화면 전환
-	
 	
 	
 	//카카오 redirect
@@ -220,10 +280,4 @@ public class UserController {
 		return "redirect:/index.jsp";
 		
 	}
-	
-	
-	
-	
-	
-
 }
