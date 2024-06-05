@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,9 +50,11 @@ public class HospitalAjaxController {
 	@RequestMapping(value = "hospital/updateReview.do", method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public Map<String, String> updateReview(@RequestBody HosReviewVO vo) {
+	public Map<String, String> updateReview(@RequestParam("userIdx") int userIdx, @RequestBody HosReviewVO vo) {
 	    System.out.println(":: 병원 리뷰 update");
+	    vo.setUserIdx(userIdx);
 	    System.out.println("vo : " + vo);
+	   
 	    hospitalService.updateReview(vo);
 	    System.out.println("update");
 	    
