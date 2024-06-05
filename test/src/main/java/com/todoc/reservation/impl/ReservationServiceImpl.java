@@ -19,27 +19,26 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 	
 	@Override
-	public void insertReservaion(ReservationVO vo) {
+	public void insertReservation(ReservationVO vo) {
+		System.out.println(">> insertReservation 실행");
+		reservationDAO.insertReservation(vo);
+	}
+
+	@Override
+	public void updateReservation(ReservationVO vo) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateReservaion(ReservationVO vo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteReservaion(ReservationVO vo) {
+	public void deleteReservation(ReservationVO vo) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public ReservationVO getReservation(ReservationVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+		return reservationDAO.getReservation(vo);
 	}
 
 	@Override
@@ -50,6 +49,26 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public List<ReservationVO> getDateReservationList(ReservationVO vo) {
 		return reservationDAO.getDateReservationList(vo);
+	}
+
+	@Override
+	public List<ReservationVO> myReserList(int useridx) {
+		return reservationDAO.myReserList(useridx);
+	}
+
+	@Override
+	public void cancleReservaion(int reserIdx) {
+		reservationDAO.cancleReservaion(reserIdx);
+	}
+
+	@Override
+	public List<ReservationVO> myOldReserList(int userIdx) {
+		return reservationDAO.myOldReserList(userIdx);
+	}
+
+	@Override
+	public List<ReservationVO> myCancleReserList(int userIdx) {
+		return reservationDAO.myCancleReserList(userIdx);
 	}
 
 	
