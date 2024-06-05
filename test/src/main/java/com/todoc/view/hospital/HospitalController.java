@@ -15,6 +15,7 @@ import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
+import com.todoc.user.UserVO;
 
 //@SessionAttributes : 같은 컨트롤러에서 모델객체 공유해서 사용하려는 경우에 사용
 //데이터 사용후 SessionStatus 객체의 setComplete() 메소드 사용 해제
@@ -58,14 +59,14 @@ public class HospitalController {
 
 	}
 	
-	@RequestMapping("/hospital/insertReview.do")
-	public String insertReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model) {
+	@RequestMapping("/insertReview.do")
+	public String insertReview(@ModelAttribute("UserVO") UserVO userVo, HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model) {
 		System.out.println(":: 병원 리뷰 작성");
 		
 		System.out.println("vo  : " + vo);
 		
 		model.addAttribute("hosIdx", hosIdx);
-		vo.setUserIdx(10);
+		
 		hospitalService.insertReview(vo);
 		
 		//리뷰 별점 평균 업데이트

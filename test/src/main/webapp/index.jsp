@@ -48,12 +48,11 @@ li {
 		<a href="hospital/hosMain.do">병원예약</a>
 	</li>
 	<li>
-		<a href="user/login.do">정보나눔</a>
+	    <a href="getBoardList.do">정보나눔</a>
 	</li>
 	<li>
-		<a href="user/login.do">멤버십</a>
+		<a href="checkout.do">멤버십</a>
 	</li>
-
 	<li>
 <c:choose>
 	<c:when test="${not empty sessionScope.user}">

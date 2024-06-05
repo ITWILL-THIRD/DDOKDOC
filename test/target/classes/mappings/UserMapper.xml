@@ -77,12 +77,9 @@
 		SET PASSWORD = #{password}
 		WHERE NAME = #{name} AND EMAIL = #{email}
 	</update>
+	
 
 	
+	
 </mapper>
-
-
-
-
-
 
