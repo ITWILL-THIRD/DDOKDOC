@@ -96,7 +96,7 @@
 	<c:otherwise>
         <a href="user/login.do">로그인 /회원가입</a>
     </c:otherwise>
-
+ 
 </c:choose>	
     </div>
 </div>
