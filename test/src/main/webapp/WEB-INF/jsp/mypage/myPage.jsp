@@ -37,6 +37,9 @@
 			</c:otherwise>
 		</c:choose>			
 	<p><a href="insertMyPetView.do">마이펫 등록페이지로 이동</a></p>
+	<p><a href="myReserList.do">내 진료 예약내역 보기</a>
+	<p><a href="myOldReserList.do">내 진료 지난 예약내역 보기</a>
+	<p><a href="myCancleReserList.do">취소한 예약내역 보기</a>
 
 </body>
 </html>

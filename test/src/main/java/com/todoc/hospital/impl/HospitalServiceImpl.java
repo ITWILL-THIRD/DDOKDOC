@@ -21,13 +21,11 @@ public class HospitalServiceImpl implements HospitalService{
 	@Override
 	public void updateHospital(HospitalVO vo) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void deleteHospital(HospitalVO vo) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	//병원 상세 조회
@@ -51,10 +49,15 @@ public class HospitalServiceImpl implements HospitalService{
 	public HospitalVO getHos(HospitalVO ho) {
 		return hospitalDAO.getHos(ho);
 	}
-	
+	//병원 정보 입력
 	@Override
 	public void insertHospital(HospitalVO vo) {
 		hospitalDAO.insertHospital(vo);
+	}
+	//병원 주소 입력
+	@Override
+	public void insertHosAddress(HospitalVO vo) {
+		hospitalDAO.insertHosAddress(vo);
 	}
 	//아이디 중복체크
 	@Override
@@ -62,4 +65,6 @@ public class HospitalServiceImpl implements HospitalService{
 		int cnt = hospitalDAO.hosId(ho);
 		return cnt;
 	}
+
+
 }

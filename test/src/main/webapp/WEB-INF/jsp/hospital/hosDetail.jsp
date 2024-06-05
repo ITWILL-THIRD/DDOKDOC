@@ -34,15 +34,15 @@
 			<td>${hospital.roadAddressName} ${hospital.detailAddress}</td>
 		</tr>
 		<tr>
+			<th>운영시간</th>
+			<td>${hospital.openTime} ~ ${hospital.closeTime}</td>
+		</tr>
+		<tr>
 			<th>전화번호</th>
 			<td>${hospital.hosPhone}</td>
 		</tr>
 		<tr>
-			<th>진료시간</th>
-			<td>${hospital.openTime} ~ ${hospital.closeTime}</td>
-		</tr>
-		<tr>
-			<th>진료동물</th>
+			<th>분류</th>
 			<td>${hospital.animal}</td>
 		</tr>
 		<tr>

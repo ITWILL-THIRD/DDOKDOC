@@ -5,7 +5,7 @@
 <mapper namespace="com.todoc.board.dao.BoardDAO">
 
 	<!-- 페이지에 해당하는 공지글 조회 -->
-	<select id="getBoardList" parameterType="boardVO" resultType="boardVO">
+	<select id="getBoardList" parameterType="BoardVO" resultType="BoardVO">
 		SELECT P.*, D.NICKNAME
 		FROM POST P
 		JOIN DDOKUSER D ON P.USERIDX = D.USERIDX
@@ -36,7 +36,7 @@
 	</select>
 	
 	<!-- 상세 게시물 조회 -->
-	<select id="getBoard" parameterType="boardVO" resultType="boardVO">
+	<select id="getBoard" parameterType="BoardVO" resultType="BoardVO">
 		SELECT P.*, D.NICKNAME
 		FROM POST P
 		JOIN DDOKUSER D ON P.USERIDX = D.USERIDX
@@ -44,32 +44,32 @@
 	</select>
 	
 	<!-- 게시물 작성 -->
-	<insert id="insertBoard" parameterType="boardVO">
+	<insert id="insertBoard" parameterType="BoardVO">
 		INSERT INTO POST (POSTIDX, CATEGORY, TITLE, USERIDX, CONTENT, POSTDATE, HIT, IMG)
 		VALUES ((SELECT NVL(MAX(POSTIDX),0) + 1 FROM POST), #{category}, #{title}, #{useridx}, #{content}, SYSDATE , 0, #{img})
 	</insert>
 	
 	<!-- 게시물 수정 -->
-	<update id="updateBoard" parameterType="boardVO">
+	<update id="updateBoard" parameterType="BoardVO">
 		UPDATE POST
 		SET CATEGORY = #{category}, TITLE = #{title}, CONTENT = #{content} 
 		WHERE POSTIDX = #{postidx}
 	</update>
 	
 	<!-- 게시물 삭제 -->
-	<delete id="deleteBoard" parameterType="boardVO">
+	<delete id="deleteBoard" parameterType="BoardVO">
 		DELETE FROM POST WHERE POSTIDX = #{postidx}
 	</delete>
 	
 	<!-- 카테고리로 검색 -->
-	<select id="category" parameterType="boardVO" resultType="boardVO">
+	<select id="category" parameterType="BoardVO" resultType="BoardVO">
 		SELECT * FROM POST 
 		WHERE CATEGORY LIKE '%'||?||'%' 
 		ORDER BY POSTIDX DESC
 	</select>
 	
 	<!-- 조회수 증가 -->
-	<update id="updateHit" parameterType="boardVO">
+	<update id="updateHit" parameterType="BoardVO">
 		UPDATE POST
 		SET HIT = HIT + 1
 		WHERE POSTIDX = #{postidx}
