@@ -1,4 +1,4 @@
-package com.todoc.view.hosMain;
+package com.todoc.view.hospital;
 
 import java.util.List;
 
@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.todoc.hosMain.HospitalService;
-import com.todoc.hosMain.HospitalVO;
+import com.todoc.hospital.HosReviewVO;
+import com.todoc.hospital.HospitalService;
+import com.todoc.hospital.HospitalVO;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
 
@@ -18,7 +20,7 @@ import com.todoc.notice.NoticeVO;
 //데이터 사용후 SessionStatus 객체의 setComplete() 메소드 사용 해제
 @SessionAttributes(value = { "hospital" })
 @Controller
-public class HospitalMainController {
+public class HospitalController {
 	@Autowired
 	private HospitalService hospitalService;
 	@Autowired
@@ -40,14 +42,38 @@ public class HospitalMainController {
 	public String hosInfo(@ModelAttribute("hosIdx") int hosIdx, Model model) {
 		System.out.println(":: 병원 정보(예약,리뷰)");
 		
+		model.addAttribute("hosIdx", hosIdx);
+		
 		HospitalVO hospital = hospitalService.selectOne(hosIdx);
 		model.addAttribute("hospital", hospital);
 
+		List<HosReviewVO> reviewList = hospitalService.getHosReview(hosIdx);
+		model.addAttribute("reviewList", reviewList);
+		
 		List<NoticeVO> noticeList = noticeService.getNoticeList(hosIdx);
 		model.addAttribute("noticeList", noticeList);
 		
 		return "hospital/hosDetail";
 
 	}
+	
+	@RequestMapping("/hospital/insertReview.do")
+	public String insertReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model) {
+		System.out.println(":: 병원 리뷰 작성");
+		
+		System.out.println("vo  : " + vo);
+		
+		model.addAttribute("hosIdx", hosIdx);
+		vo.setUserIdx(10);
+		hospitalService.insertReview(vo);
+		
+		//리뷰 별점 평균 업데이트
+		
+		String add = "redirect:/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
+		
+		return add;
+	}
+	
+
 
 }

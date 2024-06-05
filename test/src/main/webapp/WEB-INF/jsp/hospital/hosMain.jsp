@@ -85,16 +85,16 @@
 		</thead>
 		<tbody id="listDisp">
 			<c:forEach var="hospital" items="${hosList }">
-			<tr>
-				<td>${hospital.hosIdx}</td>
-				<td><a href="hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName}</a>
-				</td>
-				<td>${hospital.roadAddressName} ${hospital.detailAddress}</td>
-				<td>${hospital.hosPhone}</td>
-				<td>${hospital.openTime} ~ ${hospital.closeTime}</td>
-				<td>${hospital.animal}</td>
-			</tr>
-		</c:forEach>
+				<tr>
+					<td>${hospital.hosIdx}</td>
+					<td><a href="hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName}</a>
+					</td>
+					<td>${hospital.roadAddressName} ${hospital.detailAddress}</td>
+					<td>${hospital.hosPhone}</td>
+					<td>${hospital.openTime} ~ ${hospital.closeTime}</td>
+					<td>${hospital.animal}</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 	<hr>

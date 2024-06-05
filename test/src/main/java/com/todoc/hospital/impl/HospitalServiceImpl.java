@@ -1,13 +1,14 @@
-package com.todoc.hosMain.impl;
+package com.todoc.hospital.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.todoc.hosMain.HospitalService;
-import com.todoc.hosMain.HospitalVO;
-import com.todoc.hosMain.dao.HospitalDAO;
+import com.todoc.hospital.HosReviewVO;
+import com.todoc.hospital.HospitalService;
+import com.todoc.hospital.HospitalVO;
+import com.todoc.hospital.dao.HospitalDAO;
 
 @Service("hospitalService")
 public class HospitalServiceImpl implements HospitalService {
@@ -29,10 +30,33 @@ public class HospitalServiceImpl implements HospitalService {
 	public List<HospitalVO> selectList() {
 		return hospitalDAO.selectList();
 	}
-
+	
+	//병원 동적 검색
 	@Override
 	public List<HospitalVO> getHosSearch(HospitalVO vo) {
 		return hospitalDAO.getHosSearch(vo);
 	}
 
+	//병원 리뷰 전체 조회
+	@Override
+	public List<HosReviewVO> getHosReview(int hosIdx) {
+		return hospitalDAO.getHosReview(hosIdx);
+	}
+
+	@Override
+	public void insertReview(HosReviewVO vo) {
+		hospitalDAO.insertReview(vo);
+	}
+
+	@Override
+	public void updateReview(HosReviewVO vo) {
+		hospitalDAO.updateReview(vo);
+	}
+
+//	@Override
+//	public void updateReview(HosReviewVO vo) {
+//		hospitalDAO.deleteReview(vo);
+//		
+//	}
+	
 }
