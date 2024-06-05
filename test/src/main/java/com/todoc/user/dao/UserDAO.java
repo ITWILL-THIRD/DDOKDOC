@@ -7,4 +7,5 @@ public interface UserDAO {
 	 void insertUser(UserVO vo);
 //	 String email(String email);
 	 int email(UserVO vo) throws Exception;
+	 UserVO getUserByEmail(String email);
 }
