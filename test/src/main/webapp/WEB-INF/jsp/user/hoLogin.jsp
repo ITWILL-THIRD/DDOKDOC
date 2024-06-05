@@ -72,6 +72,10 @@
 		<td><input type="button" value="병원 회원가입" onclick="ho_join(this.form)"></td>
 	</tr>
 	<tr>
+		<td><a href="hoFindId.do">아이디찾기</a></td>
+		<td><a href="hoFindPwd.do">비밀번호 찾기</a></td>
+	</tr>
+	<tr>
 		<td><a href="../index.jsp">메인화면 이동</a></td>
 	</tr>
 </table>

@@ -12,5 +12,8 @@ public interface UserDAO {
 	 void updateUser(UserVO vo);
 	 void updatePwd(UserVO vo);
 	 void deleteUser(int userIdx);
+	 UserVO findEmail(UserVO vo);
+	 int findPwd(UserVO vo);
+	 void updateExPwd(UserVO vo);
 	 
 }

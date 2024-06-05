@@ -1,7 +1,11 @@
 package com.todoc.view.user;
 
+import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -178,5 +182,103 @@ public class UserController {
 		return "redirect:/index.jsp";
 		
 	}
+	//개인 이메일찾기 화면전환
+	@RequestMapping("user/findEmail.do")
+	public String findEmailView() {
+		return "user/findEmail";
+	}
+	
+	//개인 이메일 찾기
+	@PostMapping("user/findEmail.do")
+	public String findEmail(UserVO vo, HttpServletRequest request, Model model,
+			@RequestParam String name, @RequestParam String phone) {
+		try {
+			vo.setName(name);
+			vo.setPhone(phone);
+			UserVO email = userService.findEmail(vo);
+			String findEmail = email.getEmail();
+			model.addAttribute("findEmail", findEmail);
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "user/findEmailResult";
+	}
+	
+	//개인 비번찾기 화면전환
+	@RequestMapping("user/findPwd.do")
+	public String findPwdView() {
+		return "user/findPwd";
+	}
+	
+	//개인 비번찾기
+	@PostMapping("user/findPwd.do")
+	public String findPwd(UserVO vo, HttpServletRequest request, Model model,
+			@RequestParam String name, @RequestParam String email) {
+		vo.setName(name);
+		vo.setEmail(email);
+		int search = userService.findPwd(vo);
+		
+		if (search == 0) {
+			model.addAttribute("msg", "가입된 정보가 없습니다.");
+			return "user/findPwd";
+		}
+		
+		String newPwd = RandomStringUtils.randomAlphanumeric(10);
+		vo.setPassword(newPwd);
+		userService.updateExPwd(vo);
+		//기능 넣기
+		model.addAttribute("newPwd", newPwd);
+		
+		return "user/findPwdResult";
+	}
+	
+	//병원 아이디 찾기 화면전환
+	@RequestMapping("user/hoFindId.do")
+	public String hoFindIdView() {
+		return "user/hoFindId";
+	}
+	
+	//병원 아이디 찾기
+	@PostMapping("user/hoFindId.do")
+	public String hoFindId(HospitalVO vo, HttpServletRequest request, Model model,
+			@RequestParam String hosName, @RequestParam String hosPhone) {
+		try {
+			vo.setHosName(hosName);
+			vo.setHosPhone(hosPhone);
+			HospitalVO hosId = hospitalService.hoFindId(vo);
+			String findHosId = hosId.getHosId();
+			model.addAttribute("findHosId", findHosId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "user/hoFindIdResult";
+	}
+	
+	//병원비번 찾기 화면전환
+	@RequestMapping("user/hoFindPwd.do")
+	public String hoFindPwdView() {
+		return "user/hoFindPwd";
+	}
+	
+	//병원 비번찾기 
+	@PostMapping("user/hoFindPwd.do")
+	public String hoFindPwd(HospitalVO vo, HttpServletRequest request, Model model,
+			@RequestParam String hosName, @RequestParam String hosId) {
+		vo.setHosName(hosName);
+		vo.setHosId(hosId);
+		int search = hospitalService.hoFindPwd(vo);
+		
+		if (search == 0) {
+			model.addAttribute("msg", "가입된 정보가 없습니다.");
+			return "user/hoFindPwd";
+		}
+		String newPwd = RandomStringUtils.randomAlphanumeric(10);
+		vo.setHosPw(newPwd);
+		hospitalService.hoUpdateExPwd(vo);
+		model.addAttribute("newPwd", newPwd);
+		
+		return "user/hoFindPwdResult";
+	}
+	
 	
 }

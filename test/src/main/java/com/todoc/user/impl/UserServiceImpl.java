@@ -49,5 +49,18 @@ public class UserServiceImpl implements UserService{
 	 public void deleteUser(int userIdx) {
 		 userDAO.deleteUser(userIdx);
 	 }
+	 //이메일 찾기
+	 public UserVO findEmail(UserVO vo) {
+		 return userDAO.findEmail(vo);
+	 }
+	 //비번찾기
+	 public int findPwd(UserVO vo) {
+		 return userDAO.findPwd(vo);
+	 }
+	 //임시비번 할당 후 업데이트
+	 public void updateExPwd(UserVO vo) {
+		 userDAO.updateExPwd(vo);
+		 
+	 }
 
 }

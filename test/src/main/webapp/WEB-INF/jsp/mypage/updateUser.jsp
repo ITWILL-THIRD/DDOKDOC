@@ -36,7 +36,7 @@
 	<tr>
 		<td>비밀번호</td>
 		<td>
-			<input type="text" name="password" value="${user.password}" readonly>
+			<input type="password" name="password" value="${user.password}" readonly>
 		</td>
 		<td>
 		<input type="button" value="비밀번호 변경" onclick="updatePwd(document.userUpdateForm)">

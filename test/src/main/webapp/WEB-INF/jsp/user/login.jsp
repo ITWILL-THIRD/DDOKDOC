@@ -79,8 +79,6 @@
 	 
 	 
 </table>
-<!-- 로그아웃 메인페이지로 옮기기 -->
-<p><a href="logout.do">로그아웃</a></p>
 
 <!-- 카카오 로그인 -->
 
@@ -103,10 +101,10 @@
 		<td><input type="button" value="개인 회원가입" onclick="user_join(this.form)"></td>
 		<td><input type="button" value="병원 회원가입" onclick="ho_join(this.form)"></td>
 	</tr>
-<!-- 	아이디 비번 찾기 아직 구현 안함 -->
+
 	<tr>
-		<td><a href=#>아이디찾기</a></td>
-		<td><a href=#>비밀번호 찾기</a></td>
+		<td><a href="findEmail.do">이메일찾기</a></td>
+		<td><a href="findPwd.do">비밀번호 찾기</a></td>
 	</tr>
 	<tr>
 		<td><a href="../index.jsp">메인화면 이동</a></td>

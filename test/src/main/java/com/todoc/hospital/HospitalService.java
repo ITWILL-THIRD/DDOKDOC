@@ -16,4 +16,7 @@ public interface HospitalService {
 	HospitalVO getHos(HospitalVO ho);
 	void insertHospital(HospitalVO vo);
 	int hosId(HospitalVO ho) throws Exception;
+	HospitalVO hoFindId(HospitalVO vo);
+	int hoFindPwd(HospitalVO vo);
+	void hoUpdateExPwd(HospitalVO vo);
 }

@@ -24,6 +24,25 @@
 		WHERE HOSID = #{hosId}
 	</select>
 	
+<!-- 	병원 아이디 찾기 -->
+	<select id="hoFindId" resultType="HospitalVO">
+		SELECT * FROM HOSPITAL
+		WHERE HOSNAME = #{hosName} AND HOSPHONE = #{hosPhone}
+	</select>
+	
+<!-- 	병원 비번찾기 -->
+	<select id="hoFindPwd" resultType="int">
+		SELECT COUNT(*) FROM HOSPITAL
+		WHERE HOSNAME = #{hosName} AND HOSID = #{hosId}
+	</select>
+	
+<!-- 	임시비번으로 업데이트 -->
+	<update id="hoUpdateExPwd" parameterType="HospitalVO">
+		UPDATE HOSPITAL
+		SET HOSPW = #{hosPw}
+		WHERE HOSNAME = #{hosName} AND HOSID = #{hosId}
+	</update>
+	
 	<select id="getHospitalList" parameterType="HospitalVO" resultType="HospitalVO">
 		SELECT *
 		FROM HOSPITAL
