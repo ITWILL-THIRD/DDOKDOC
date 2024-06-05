@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,17 +53,17 @@
         }
       },
       dateClick: function(info) {
-    	  alert(info.dateStr);
-    	  
-    	  var today = new Date();
-          today.setHours(0, 0, 0, 0); // 시간을 0으로 설정해야 오늘 날짜를 클릭 가능함.
-          var clickedDate = new Date(info.dateStr);
+        alert(info.dateStr);
+        
+        var today = new Date();
+        today.setHours(0, 0, 0, 0); // 시간을 0으로 설정해야 오늘 날짜를 클릭 가능함.
+        var clickedDate = new Date(info.dateStr);
 
-          // 오늘 이전 날짜 클릭 비활성화
-          if (clickedDate < today) {
-            alert('지난 날짜는 선택할 수 없습니다.');
-            return;
-          }
+        // 오늘 이전 날짜 클릭 비활성화
+        if (clickedDate < today) {
+          alert('지난 날짜는 선택할 수 없습니다.');
+          return;
+        }
         // 특정 날짜만 클릭 비활성화 (예: 2024-05-30)
         if (info.dateStr === '2024-06-01') {
           alert('2024-06-01은 병원 휴무입니다:)');
@@ -77,6 +77,7 @@
           document.getElementById('reserDate').value = ''; // 숨겨진 필드 비움
           // 시간 리스트 숨김
           $("#listDisp").html("예약가능시간");
+          clearSelectedTime(); // 선택된 시간 초기화
         } else {
           // 다른 날짜를 클릭했을 때
           if (selectedDate) {
@@ -93,83 +94,112 @@
           // 예약 가능한 시간 비동기처리
           getJsonTimeData(selectedDate, selectedDay);
           document.getElementById('reserDate').value = info.dateStr; // 숨겨진 필드 업데이트
-          
+        }
+      },
+      dayRender: function(date, cell) {
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (date < today) {
+          cell.style.backgroundColor = 'lightgray';
         }
       }
+      
     });
 
     calendar.render();
-    
-    
   });
 
   function getJsonTimeData(selectedDate, selectedDay) {
-	    alert("예약 가능한 시간");
-	    var selectedTime = null; 
+    alert("예약 가능한 시간");
+    var selectedTime = null; 
 
-	    // 병원 ID 및 선택된 날짜를 포함하여 데이터 전송
-	    let vo = {
-	      hosIdx: 1,
-	      reserDate: selectedDate,
-	      dayStr: selectedDay
-	    };
-	    console.log(vo);
-	    console.log(JSON.stringify(vo));
+    // 병원 ID 및 선택된 날짜를 포함하여 데이터 전송
+    let vo = {
+      hosIdx: ${hospital.hosIdx },
+      reserDate: selectedDate,
+      dayStr: selectedDay
+    };
+    console.log(vo);
+    console.log(JSON.stringify(vo));
 
-	    
-	    $.ajax("getAvailableTimes.do", {
-	        type: "post",
-	        data: JSON.stringify(vo),
-	        contentType: "application/json",
-	        dataType: "json",
-	        success: function(response) {
-	            alert("성공~~");
-	            console.log(response);
-	            
-	            let dispHtml = "";
-                for (let time of response.availableTimes) {
-                    if (response.reservedTimes.includes(time)) {
-                        dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
-                    } else {
-                        dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
-                    }
-                    dispHtml += time;
-                    dispHtml += "</button><br>";
-                }
-                $("#listDisp").html(dispHtml);
+    $.ajax("getAvailableTimes.do", {
+      type: "post",
+      data: JSON.stringify(vo),
+      contentType: "application/json",
+      dataType: "json",
+      success: function(response) {
+        alert("성공~~");
+        console.log(response);
+        
+        let dispHtml = "";
+        for (let time of response.availableTimes) {
+          if (response.reservedTimes.includes(time)) {
+            dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
+          } else {
+            dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
+          }
+          dispHtml += time;
+          dispHtml += "</button><br>";
+        }
+        $("#listDisp").html(dispHtml);
 
-             // 시간 선택 이벤트 리스너 설정
-                $(document).on("click", ".time-btn", function() {
-                  if ($(this).hasClass("selected")) {
-                	  alert("선택된시간");
-                    $(this).removeClass("selected");
-                  } else {
-                    clearSelectedTime();
-                    $(this).addClass("selected");
-                    let selectedTime = $(this).text();  // 선택된 시간 가져오기
-                    alert(selectedTime);
-                    $('#selectTime').val(selectedTime); // resertime에 선택된 시간 저장
-                  }
-                });
+        // 시간 선택 이벤트 리스너 설정
+        $(".time-btn").on("click", function() {
+          if ($(this).hasClass("selected")) {
+            $(this).removeClass("selected");
+          } else {
+            clearSelectedTime();
+            $(this).addClass("selected");
+            let selectedTime = $(this).text();  // 선택된 시간 가져오기
+            $('#selectTime').val(selectedTime); // resertime에 선택된 시간 저장
+          }
+        });
 
+      },
+      error: function() {
+        alert("실패~~");
+      }
+    });
 
-	        },
-	        error: function() {
-	            alert("실패~~");
-	        }
-	    });
+  }
 
-	  }
-  function insertReservation(frm) {
-	frm.action = "insertReservation.do";
-	let selectedDate = document.getElementById('reserDate').value;
-    let selectedTime = document.getElementById('selectTime').value;
-    alert("Selected Date: " + selectedDate);
-    alert("Select Time: " + selectTime);
-	frm.submit();
-}
+  function clearSelectedTime() {
+    $(".time-btn").removeClass("selected");
+    $("#selectTime").val("");
+  }
   
-  	
+  $(document).ready(function(){
+    var initialPet = $("#selectPet :selected").val();
+    $("#petIdxStr").val(initialPet);
+
+    $("#selectPet").change(function(){
+      // Value값 가져오기
+      var selectedPet = $("#selectPet :selected").val();
+      alert("selectPet: " + selectedPet);
+
+      $("#petIdxStr").val(selectedPet);
+    });
+  });
+  
+  function insertReservation(frm) {
+    let selectedDate = document.getElementById('reserDate').value;
+    let selectedTime = document.getElementById('selectTime').value;
+    let selectedPet = document.getElementById('petIdxStr').value;
+    
+    // null 체크
+    if (selectedPet === "null") {
+        alert("진료볼 마이펫을 선택하세요");
+        return false; 
+    }
+    
+    alert("selectedPet: " + selectedPet);
+    alert("Selected Date: " + selectedDate);
+    alert("Select Time: " + selectedTime);
+    
+    frm.action = "insertReservation.do";
+    frm.submit();
+  }
+  
 </script>
 <style>
   body {
@@ -205,47 +235,43 @@
 </style>
 </head>
 <body>
-<%
-	//세션에서 로그인 정보 가져오기
-	System.out.println("session : " + session.getAttribute("user"));
-%>
 \${hospital } : ${hospital }<br>
 \${reservationList } : ${reservationList }<br>
+\${user } : ${user }<br>
+\${myPetList } : ${myPetList }<br>
 \${session.getAttribute } : ${userIdx }<br>
 
-	<div>
-        <div id='calendar' class="reserInfo"></div>
-        <div id="listDisp" class="reserInfo">
-            <ul>
-                <li>예약가능시간</li>
-            </ul>
-        </div>
-        <!-- <form action="insertReservation.do" method="post" >
-            <input  type="submit" value="예약하기">
-            <input type="hidden" id="user" name="userIdx">
-            <input type="hidden" id="dateStr" name="reserDate">
-            <input type="hidden" id="selectedTime" name="resertime">
-        </form> -->
-        <form method="post">
-            <input type="button" value="예약하기" onclick="insertReservation(this.form)">
-            <input type="hidden" id="reserDate" name="reserDate">
-            <input type="hidden" id="selectTime" name="selectTime">
-        </form>
+  <div>
+    <div id="selectPetDiv">
+      <select id="selectPet">
+        <option value="null">진료볼 마이펫을 선택하세요</option>
+        <c:forEach var="myPet" items="${myPetList }">
+          <option value="${myPet.petIdx}">${myPet.petName}</option>
+        </c:forEach>
+      </select>
     </div>
+    <div id="calendar" class="reserInfo"></div>
+    <div id="listDisp" class="reserInfo">
+      <ul>
+        <li>예약가능시간</li>
+      </ul>
+    </div>
+    <form method="post">
+      <textarea rows="4" cols="5" id="memo" name="memo">메모를 남겨주세요</textarea>
+      <input type="button" value="예약하기" onclick="insertReservation(this.form)">
+      <input type="hidden" id="reserDate" name="reserDate">
+      <input type="hidden" id="selectTime" name="selectTime">
+      <input type="hidden" id="petIdxStr" name="petIdxStr">
+    </form>
+  </div>
 
-    <script>
-    	//선택된 시간을 form 시간값에 저장
-        $('form').on('submit', function() {
-            let selectedTime = $('.time-btn.selected').data('time');
-            $('#selectTime').val(selectedTime);
-        });
-        function clearSelectedTime() {
-            $(".time-btn").removeClass("selected");
-        }
-        
-        
+  <script>
+    //선택된 시간을 form 시간값에 저장
+    $('form').on('submit', function() {
+        let selectedTime = $('.time-btn.selected').data('time');
+        $('#selectTime').val(selectedTime);
+    });
+  </script>
 
-    </script>
-  
 </body>
 </html>
