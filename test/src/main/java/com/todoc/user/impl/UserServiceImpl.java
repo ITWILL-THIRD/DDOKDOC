@@ -32,5 +32,35 @@ public class UserServiceImpl implements UserService{
 	 public UserVO getUserByEmail(String email) {
 	        return userDAO.getUserByEmail(email);
 	 }
+	 @Override
+	 //내 정보 조회(마이페이지)
+	 public UserVO getUserInfo(int userIdx) {
+		 return userDAO.getUserInfo(userIdx);
+	 }
+	 //내 정보 수정(마이페이지)
+	 public void updateUser(UserVO vo) {
+		 userDAO.updateUser(vo);
+	 }
+	 //비밀번호 수정(마이페이지)
+	 public void updatePwd(UserVO vo) {
+		 userDAO.updatePwd(vo);
+	 }
+	 //회원탈퇴(마이페이지)
+	 public void deleteUser(int userIdx) {
+		 userDAO.deleteUser(userIdx);
+	 }
+	 //이메일 찾기
+	 public UserVO findEmail(UserVO vo) {
+		 return userDAO.findEmail(vo);
+	 }
+	 //비번찾기
+	 public int findPwd(UserVO vo) {
+		 return userDAO.findPwd(vo);
+	 }
+	 //임시비번 할당 후 업데이트
+	 public void updateExPwd(UserVO vo) {
+		 userDAO.updateExPwd(vo);
+		 
+	 }
 
 }

@@ -2,8 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.todoc.hospital.dao.HospitalDAO">
-<!-- 	주은 -->
+<!-- 주은 -->
 	<!-- 	병원 로그인 -->
 	<select id="getHos" resultType="HospitalVO">
 		SELECT * 
@@ -11,12 +12,6 @@
 		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw}
 	</select>
 	
-	<!-- 병원 회원가입 -->
-	<insert id="insertHospital" parameterType="HospitalVO">
-		INSERT INTO HOSPITAL
-			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE, ANIMAL, SCORE, CONDITION)
-		VALUES (SEQ_HOSIDX.NEXTVAL, #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}, #{animal}, #{score}, #{condition})
-	</insert>
 	
 <!-- 	병원 아이디 중복체크 -->
 	<select id="hosId" resultType="int">
@@ -24,11 +19,60 @@
 		WHERE HOSID = #{hosId}
 	</select>
 	
+<!-- 	병원 아이디 찾기 -->
+	<select id="hoFindId" resultType="HospitalVO">
+		SELECT * FROM HOSPITAL
+		WHERE HOSNAME = #{hosName} AND HOSPHONE = #{hosPhone}
+	</select>
+	
+<!-- 	병원 비번찾기 -->
+	<select id="hoFindPwd" resultType="int">
+		SELECT COUNT(*) FROM HOSPITAL
+		WHERE HOSNAME = #{hosName} AND HOSID = #{hosId}
+	</select>
+	
+<!-- 	임시비번으로 업데이트 -->
+	<update id="hoUpdateExPwd" parameterType="HospitalVO">
+		UPDATE HOSPITAL
+		SET HOSPW = #{hosPw}
+		WHERE HOSNAME = #{hosName} AND HOSID = #{hosId}
+	</update>
+	
+	<!-- 병원 회원가입(다른 테이블 3개 각자 입력 - HOSTIM은 TimeMapper로 따로 작성) -->
+	<insert id="insertHospital" parameterType="HospitalVO">
+		INSERT INTO HOSPITAL
+			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE
+			, ANIMAL, SCORE, CONDITION)
+		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSPITAL), #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}
+			, #{animal}, 0, #{condition})
+	</insert>
+	<insert id="insertHosAddress" parameterType="HospitalVO">
+		INSERT INTO HOSADDRESS
+			(HOSIDX, ADDRESSNAME, ROADADDRESSNAME, DETAILADDRESS, ADDX
+			, ADDY, SIDO, SIGUNGU)
+		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSADDRESS), #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
+			, #{addy}, #{sido}, #{sigungu})
+	</insert>
+
+	<insert id="insertHosTime" parameterType="HospitalVO">
+		INSERT INTO HOSTIME(HOSIDX
+		     	, OPENTIME, CLOSETIME
+		     	, LUNCHTIME, ENDLUNCHTIME
+		     	, SATOPENTIME, SATCLOSETIME
+		     	, SATLUNCHTIME, SATENDLUNCHTIME)
+ 		VALUES((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSTIME)
+ 			, TO_TIMESTAMP('1970-01-01 ' || #{openTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{closeTime}, 'YYYY-MM-DD HH24:MI:SS')
+          	, TO_TIMESTAMP('1970-01-01 ' || #{lunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{endLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
+          	, TO_TIMESTAMP('1970-01-01 ' || #{satOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
+         	, TO_TIMESTAMP('1970-01-01 ' || #{satLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'))
+	</insert>
+	
 	<select id="getHospitalList" parameterType="HospitalVO" resultType="HospitalVO">
 		SELECT *
 		FROM HOSPITAL
 		ORDER BY SEQ DESC
 	</select>
+	
 	<select id="getHospital" parameterType="HospitalVO" resultType="HospitalVO">
 		SELECT H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE, H.ANIMAL, H.SCORE, H.CONDITION, 
 		        T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME,
@@ -38,14 +82,14 @@
 		AND H.HOSIDX = A.HOSIDX
 		AND H.HOSIDX = #{hosIdx}
 	</select>
-	
+
 	<!-- 병원 정보 1개 조회 -->
 	<select id="selectOne" parameterType="int" resultType="HospitalVO">
 		SELECT *
 		FROM HOSPITAL H, HOSTIME HT, HOSADDRESS HA
 		WHERE H.HOSIDX = HT.HOSIDX
 		AND H.HOSIDX = HA.HOSIDX
-		AND H.HOSIDX = #{hosidx}
+		AND H.HOSIDX = #{hosIdx}
 	</select>
 	
 	<!-- 병원 전체 조회 -->
@@ -55,6 +99,15 @@
 		WHERE H.HOSIDX = HT.HOSIDX
 		AND H.HOSIDX = HA.HOSIDX
 		ORDER BY H.HOSIDX DESC
+	</select>
+	
+	<!-- 병원 리뷰 조회 -->
+	<select id="getHosReview" parameterType="int" resultType="HosReviewVO">
+	    SELECT R.*, U.NICKNAME AS NICKNAME 
+		FROM HOSREVIEW R, DDOKUSER U
+		WHERE R.USERIDX = U.USERIDX 
+		AND HOSIDX = #{hosIdx}
+		ORDER BY HOSIDX DESC
 	</select>
 	
   	<!-- 동적처리(병원 정보 조회) -->
@@ -105,5 +158,18 @@
 	    </where>
 	    ORDER BY H.HOSIDX DESC
 	</select>
+ 	<insert id="insertReview" parameterType="HosReviewVO">
+		INSERT INTO HOSREVIEW(REVIEWIDX, HOSIDX, USERIDX, CONTENT, SCORE, REVIEWDATE) 
+		VALUES((SELECT NVL(MAX(REVIEWIDX), 0) + 1 FROM HOSREVIEW), 
+				#{hosIdx}, #{userIdx}, #{content}, #{score}, SYSDATE)
+	</insert>
+	
+	<update id="updateReview" parameterType="HosReviewVO">
+		UPDATE HOSREVIEW 
+		SET CONTENT = #{content}, SCORE = #{score}, REVIEWDATE = SYSDATE 
+		WHERE REVIEWIDX = #{reviewIdx}
+	</update>
+	
 	
 </mapper>
+

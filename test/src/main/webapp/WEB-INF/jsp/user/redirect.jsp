@@ -69,7 +69,7 @@
       Kakao.API.request({
         url: '/v2/user/me',
         data: {
-            property_keys: ['kakao_account.email', 'properties.nickname'],
+            property_keys: ['kakao_account.email', 'properties.nickname', 'kakao_account.profile'],
           },
       })
         .then(function(res) {
@@ -77,26 +77,28 @@
        // 이메일과 닉네임 추출
           const email = res.kakao_account.email;
           const nickname = res.properties.nickname;
+          const profile = res.kakao_account.profile;
           console.log("email : "+ email);
-          console.log("nickname: " + nickname);
+          console.log("nickname : " + nickname);
+          console.log("profile : " + profile);
           // 이메일과 닉네임 표시
 //           document.querySelector('#user-info').innerText = "이메일 : " + email + "닉네임 : " + nickname ;
       
           // 사용자 정보를 서버로 전송
-          sendUserInfoToServer(email, nickname);
+          sendUserInfoToServer(email, nickname, profile);
         })
         .catch(function(err) {
           alert('failed to request user information: ' + JSON.stringify(err));
         });
     }
     //==============추가================
-    function sendUserInfoToServer(email, nickname) {
+    function sendUserInfoToServer(email, nickname, profile) {
         fetch('saveUserInfo.do', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email: email, nickname: nickname }),
+          body: JSON.stringify({ email: email, nickname: nickname, profile: profile }),
         })
         .then(response => response.json())
         .then(data => {

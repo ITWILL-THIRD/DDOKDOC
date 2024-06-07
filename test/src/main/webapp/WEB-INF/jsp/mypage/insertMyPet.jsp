@@ -1,21 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>마이펫 등록하기</title>
+<script>
+	window.onload = function(){
+		var errorMessage = "<c:out value='${errorMessage}'/>";
+		if (errorMessage){
+			alert(errorMessage);
+		}
+	}
+</script>
 </head>
 <body>
-\${user } : ${user }<br>
 	<div id="container">
 		<h1>마이펫 등록</h1>
-		<form action="insertMyPet.do" method="post">
+		<form action="insertMyPet.do" method="post" enctype="multipart/form-data">
+		<input type="hidden" id="errorMessage" value="${errorMessage}" />		
 			<table>
 				<tr>
 					<th>펫종류:</th>
 					<td>
 				        <select name="animal">
+				        	<option value="" disabled selected>선택해주세요</option>
 				            <optgroup label="포유류">
 				                <option value="개">개</option>
 				                <option value="고양이">고양이</option>
@@ -53,6 +63,10 @@
 					<td><input type="number" name="petAge"></td>
 				</tr>
 				<tr>
+                    <th>펫사진:</th>
+                    <td><input type="file" name="file"></td>
+                </tr>
+				<tr>
 					<td colspan="2"><input type="submit" value="등록" onclick="alert('펫 등록이 완료되었습니다')"></td>
 				</tr>
 			</table>
@@ -60,4 +74,3 @@
 	</div>
 </body>
 </html>
-

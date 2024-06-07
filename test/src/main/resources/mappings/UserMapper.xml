@@ -34,6 +34,58 @@
         SELECT * FROM DDOKUSER WHERE email = #{email}
     </select>
 	
+<!-- 	카카오 이메일 있나 확인 -->
+	<select id="getUserByEmail" parameterType="String" resultType="userVO">
+        SELECT * FROM DDOKUSER WHERE email = #{email}
+    </select>
+    
+<!--     내 정보 수정  -->
+	<update id="updateUser" parameterType="userVO">
+		UPDATE DDOKUSER 
+		SET NICKNAME = #{nickname}, PHONE = #{phone}
+		WHERE USERIDX = #{userIdx}
+	</update>
+<!-- 	비밀번호 수정 -->
+	<update id="updatePwd" parameterType="userVO">
+		UPDATE DDOKUSER 
+		SET PASSWORD = #{password}
+		WHERE USERIDX = #{userIdx}
+	</update>
+	
+<!-- 	내 정보 조회 -->
+	<select id="getUserInfo" parameterType="int" resultType="userVO">
+		SELECT *
+		FROM DDOKUSER
+		WHERE USERIDX = #{userIdx}
+	</select>
+	
+<!-- 	회원탈퇴 -->
+	<delete id="deleteUser" parameterType="userVO">
+		DELETE FROM DDOKUSER WHERE USERIDX = #{userIdx}
+	</delete>
+	
+<!-- 	이메일찾기 -->
+	<select id="findEmail" resultType="userVO">
+		SELECT * FROM DDOKUSER
+		WHERE NAME = #{name} AND PHONE = #{phone}
+	</select>
+	
+<!-- 	비번찾기 -->
+	<select id="findPwd" resultType="int">
+		SELECT COUNT(*) FROM DDOKUSER
+		WHERE NAME = #{name} AND EMAIL = #{email}
+	</select>
+	
+<!-- 	임시비번으로 업데이트 -->
+	<update id="updateExPwd" parameterType="userVO">
+		UPDATE DDOKUSER 
+		SET PASSWORD = #{password}
+		WHERE NAME = #{name} AND EMAIL = #{email}
+	</update>
+	
+
+	
+	
 </mapper>
 
 
