@@ -105,6 +105,7 @@ public class MyPageController {
         return "mypage/myPage";
     }
     
+    //예약 리스트
     @RequestMapping("/myReserList.do")
     public String myReserList(Model model, HttpSession session) {
     	// 로그인 정보 가져오기
@@ -113,11 +114,18 @@ public class MyPageController {
     	//예약 리스트 가져오기
     	List<ReservationVO> myReserList = reservationService.myReserList(user.getUserIdx());
     	
+    	//변환된 시간 추가
+    	for (int i = 0; i < myReserList.size(); i++) {
+    		String formattedTime = myReserList.get(i).getReserTime().toString().substring(0, 5);
+    		myReserList.get(i).setFormattedTime(formattedTime);
+    	}
+    	
     	model.addAttribute("myReserList", myReserList);
     	
     	return "mypage/myReserList";
     }
     
+    //지난예약리스트
     @RequestMapping("/myOldReserList.do")
     public String myOldReserList(Model model, HttpSession session) {
     	// 로그인 정보 가져오기
@@ -126,11 +134,18 @@ public class MyPageController {
     	//예약 리스트 가져오기
     	List<ReservationVO> myOldReserList = reservationService.myOldReserList(user.getUserIdx());
     	
+    	//변환된 시간 추가
+    	for (int i = 0; i < myOldReserList.size(); i++) {
+    		String formattedTime = myOldReserList.get(i).getReserTime().toString().substring(0, 5);
+    		myOldReserList.get(i).setFormattedTime(formattedTime);
+    	}
+    	
     	model.addAttribute("myOldReserList", myOldReserList);
     	
     	return "mypage/myOldReserList";
     }
     
+    //취소한 예약 리스트
     @RequestMapping("/myCancleReserList.do")
     public String myCancleReserList(Model model, HttpSession session) {
     	// 로그인 정보 가져오기
@@ -138,6 +153,12 @@ public class MyPageController {
     	
     	//예약 리스트 가져오기
     	List<ReservationVO> myCancleReserList = reservationService.myCancleReserList(user.getUserIdx());
+    	
+    	//변환된 시간 추가
+    	for (int i = 0; i < myCancleReserList.size(); i++) {
+    		String formattedTime = myCancleReserList.get(i).getReserTime().toString().substring(0, 5);
+    		myCancleReserList.get(i).setFormattedTime(formattedTime);
+    	}
     	
     	model.addAttribute("myCancleReserList", myCancleReserList);
     	
