@@ -7,9 +7,13 @@
 <!-- 주은 -->
 	<!-- 	병원 로그인 -->
 	<select id="getHos" resultType="HospitalVO">
-		SELECT * 
-		FROM HOSPITAL
-		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw}
+<!-- 		SELECT *  -->
+<!-- 		FROM HOSPITAL -->
+<!-- 		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw} -->
+	SELECT * 
+	FROM HOSPITAL A, HOSADDRESS B, HOSTIME C
+	WHERE A.HOSIDX = B.HOSIDX AND A.HOSIDX = C.HOSIDX
+	AND A.HOSID = #{hosId} AND HOSPW = #{hosPw}
 	</select>
 	
 	

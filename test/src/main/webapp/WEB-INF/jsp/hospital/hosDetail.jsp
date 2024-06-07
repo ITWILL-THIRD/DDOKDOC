@@ -142,52 +142,54 @@
 			</tr>
 			<tbody id="listDisp">
 				<c:forEach var="review" items="${reviewList}">
-					<tr id="view_${review.reviewIdx}">
-						<td id="nickname_view_${review.reviewIdx}">${review.nickname}</td>
-						<td id="content_view_${review.reviewIdx}">${review.content}</td>
-						<td id="score_view_${review.reviewIdx}">
-							<c:choose>
-								<c:when test="${review.score eq 1}">&#9733;</c:when>
-								<c:when test="${review.score eq 2}">&#9733;&#9733;</c:when>
-								<c:when test="${review.score eq 3}">&#9733;&#9733;&#9733;</c:when>
-								<c:when test="${review.score eq 4}">&#9733;&#9733;&#9733;&#9733;</c:when>
-								<c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
-							</c:choose>
-						</td>
-						<td>${review.reviewDate}</td>
-						<td><button class="editReview_btn" type="button" data-reviewIdx="${review.reviewIdx}">수정</button></td>
-						<td><a href="deleteReview.do?reviewIdx=${review.reviewIdx}">삭제</a></td>
-					</tr>
-				
-					<tr id="edit_${review.reviewIdx}" class="hidden">
-						<td>${review.nickname}</td>
-						<td><textarea id="content_${review.reviewIdx}" name="updateContent">${review.content}</textarea></td>
-						<td>
-							<div class="star-rating2">
-								<input type="radio" id="5-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="5" ${review.score == 5 ? 'checked' : ''} />
-								<label for="5-stars_${review.reviewIdx}" class="star">&#9733;</label>
-								<input type="radio" id="4-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="4" ${review.score == 4 ? 'checked' : ''} />
-								<label for="4-stars_${review.reviewIdx}" class="star">&#9733;</label>
-								<input type="radio" id="3-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="3" ${review.score == 3 ? 'checked' : ''} />
-								<label for="3-stars_${review.reviewIdx}" class="star">&#9733;</label>
-								<input type="radio" id="2-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="2" ${review.score == 2 ? 'checked' : ''} />
-								<label for="2-stars_${review.reviewIdx}" class="star">&#9733;</label>
-								<input type="radio" id="1-star_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="1" ${review.score == 1 ? 'checked' : ''} />
-								<label for="1-star_${review.reviewIdx}" class="star">&#9733;</label>
-							</div>
-						</td>
-						<td>${review.reviewDate}</td>
-						<td><button class="saveReview_btn" type="button" data-hosIdx="${hospital.hosIdx}" data-reviewIdx="${review.reviewIdx}">저장</button></td>
-						<td><button class="cancelEdit_btn" type="button" data-reviewIdx="${review.reviewIdx}">취소</button></td>
-					</tr>
-					<tr id="view_${review.reviewIdx}">
+			    <tr id="view_${review.reviewIdx}">
+			        <td id="nickname_view_${review.reviewIdx}">${review.nickname}</td>
+			        <td id="content_view_${review.reviewIdx}">${review.content}</td>
+			        <td id="score_view_${review.reviewIdx}">
+			            <c:choose>
+			                <c:when test="${review.score eq 1}">&#9733;</c:when>
+			                <c:when test="${review.score eq 2}">&#9733;&#9733;</c:when>
+			                <c:when test="${review.score eq 3}">&#9733;&#9733;&#9733;</c:when>
+			                <c:when test="${review.score eq 4}">&#9733;&#9733;&#9733;&#9733;</c:when>
+			                <c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
+			            </c:choose>
+			        </td>
+			        <td>${review.reviewDate}</td>
+			        <td><button class="editReview_btn" type="button" data-reviewIdx="${review.reviewIdx}">수정</button></td>
+			        <td><a href="deleteReview.do?reviewIdx=${review.reviewIdx}" class="deleteReview_btn" data-reviewIdx="${review.reviewIdx}">삭제</a></td>
+			    </tr>
+			
+			    <tr id="edit_${review.reviewIdx}" class="hidden">
+			        <td>${review.nickname}</td>
+			        <td><textarea id="content_${review.reviewIdx}" name="updateContent">${review.content}</textarea></td>
+			        <td>
+			            <div class="star-rating2">
+			                <input type="radio" id="5-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="5" ${review.score == 5 ? 'checked' : ''} />
+			                <label for="5-stars_${review.reviewIdx}" class="star">&#9733;</label>
+			                <input type="radio" id="4-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="4" ${review.score == 4 ? 'checked' : ''} />
+			                <label for="4-stars_${review.reviewIdx}" class="star">&#9733;</label>
+			                <input type="radio" id="3-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="3" ${review.score == 3 ? 'checked' : ''} />
+			                <label for="3-stars_${review.reviewIdx}" class="star">&#9733;</label>
+			                <input type="radio" id="2-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="2" ${review.score == 2 ? 'checked' : ''} />
+			                <label for="2-stars_${review.reviewIdx}" class="star">&#9733;</label>
+			                <input type="radio" id="1-star_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="1" ${review.score == 1 ? 'checked' : ''} />
+			                <label for="1-star_${review.reviewIdx}" class="star">&#9733;</label>
+			            </div>
+			        </td>
+			        <td>${review.reviewDate}</td>
+			        <td><button class="saveReview_btn" type="button" data-reviewIdx="${review.reviewIdx}">저장</button></td>
+			        <td><button class="cancelEdit_btn" type="button" data-reviewIdx="${review.reviewIdx}">취소</button></td>
+			    </tr>
+			</c:forEach>
+
+					<%-- <tr id="view_${review.reviewIdx}">
 						<td id="nickname_view_${review.reviewIdx}">${review.nickname}</td>
 						<td id="content_view_${review.reviewIdx}">${review.content}</td>
 						<td id="score_view_${review.reviewIdx}">
 							<c:choose>
 								<c:when test="${review.score eq 1}">★</c:when>
 								<c:when test="${review.score eq 2}">★★</c:when>
-								<c:when test="${review.score eq 3}">★★★</c:when>
+								<c:when test="${review.scoze eq 3}">★★★</c:when>
 								<c:when test="${review.score eq 4}">★★★★</c:when>
 								<c:when test="${review.score eq 5}">★★★★★</c:when>
 							</c:choose>
@@ -217,8 +219,8 @@
 						<td>${review.reviewDate}</td>
 						<td><button class="saveReview_btn" type="button" data-hosIdx="${hospital.hosIdx }" data-reviewIdx="${review.reviewIdx}">저장</button></td>
 						<td><button class="cancelEdit_btn" type="button" data-reviewIdx="${review.reviewIdx}">취소</button></td>
-					</tr>
-				</c:forEach>
+					</tr> 
+				</c:forEach>--%>
 			</tbody>
 
 		</table>
