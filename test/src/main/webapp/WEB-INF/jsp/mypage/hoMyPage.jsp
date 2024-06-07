@@ -20,6 +20,10 @@
 			<td>${hoUser.hosId }</td>
 		</tr>
 		<tr>
+			<td>병원비번</td>
+			<td>${hoUser.hosPw }</td>
+		</tr>
+		<tr>
 			<td>병원이름</td>
 			<td>${hoUser.hosName }</td>
 		</tr>
@@ -83,6 +87,7 @@
                 </c:choose>
                </td>
 		</tr>
+	
 		<tr>
 			<td><input type="hidden" name="hosIdx" value="${hoUser.hosIdx }"></td>
 		</tr>

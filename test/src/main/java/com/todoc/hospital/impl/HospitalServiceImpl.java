@@ -9,12 +9,14 @@ import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.HospitalDAO;
+import com.todoc.hospital.dao.TimeMapper;
 
 @Service("hospitalService")
 
 public class HospitalServiceImpl implements HospitalService{
 	@Autowired
 	private HospitalDAO hospitalDAO;
+	
 
 	public HospitalServiceImpl() {
 		System.out.println(">> HospitalServiceImpl() 객체 생성");
@@ -78,6 +80,22 @@ public class HospitalServiceImpl implements HospitalService{
 	//병원 임시비번 업데이트
 	public void hoUpdateExPwd(HospitalVO vo) {
 		hospitalDAO.hoUpdateExPwd(vo);
+	}
+	//병원 정보 수정(이름, 연락처)
+	public void updateHoUser(HospitalVO vo) {
+		hospitalDAO.updateHoUser(vo);
+	}
+	//병원정보수정(주소)
+	public void updateHosAddress(HospitalVO vo) {
+		hospitalDAO.updateHosAddress(vo);
+	}
+	//병원정보수정(시간)
+	public void updateHosTime(HospitalVO vo) {
+		hospitalDAO.updateHosTime(vo);
+	}
+	//병원 비번 변경
+	public void updateHoPwd(HospitalVO vo) {
+		hospitalDAO.updateHoPwd(vo);
 	}
 	//병원 리뷰 전체 조회
 	@Override
