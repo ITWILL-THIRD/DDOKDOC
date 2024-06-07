@@ -22,6 +22,7 @@ import com.todoc.reservation.ReservationVO;
 import com.todoc.user.UserService;
 import com.todoc.user.UserVO;
 
+@RequestMapping("/mypage")
 @Controller
 public class MyPageController {
 	@Autowired
