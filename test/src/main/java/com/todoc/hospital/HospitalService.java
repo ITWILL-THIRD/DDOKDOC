@@ -28,5 +28,7 @@ public interface HospitalService {
 	int insertHospital(HospitalVO vo);
 	//병원 주소 입력
 	int insertHosAddress(HospitalVO vo);
+	//병원 파일 여러개 입력
+	int insertHosImg(HospitalVO vo);
 	int hosId(HospitalVO ho) throws Exception;
 }

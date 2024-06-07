@@ -235,7 +235,7 @@
 	</tr>
 	<tr>
 		<th>병원 사진</th>
-		<td><input type="file" title="병원 사진" name="hosImg" multiple="multiple"></td>
+		<td><input type="file" title="병원 사진" name="hosImgStr" multiple="multiple"></td>
 	</tr>
 	<tr>
 		<th>사업자 등록증</th>

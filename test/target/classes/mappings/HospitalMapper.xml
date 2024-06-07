@@ -60,25 +60,18 @@
 			, #{addy}, #{sido}, #{sigungu})
 	</insert>
 
-	<insert id="insertHosTime" parameterType="HospitalVO">
-		INSERT INTO HOSTIME(HOSIDX
-		     	, OPENTIME, CLOSETIME
-		     	, LUNCHTIME, ENDLUNCHTIME
-		     	, SATOPENTIME, SATCLOSETIME
-		     	, SATLUNCHTIME, SATENDLUNCHTIME)
- 		VALUES((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSTIME)
- 			, TO_TIMESTAMP('1970-01-01 ' || #{openTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{closeTime}, 'YYYY-MM-DD HH24:MI:SS')
-          	, TO_TIMESTAMP('1970-01-01 ' || #{lunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{endLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
-          	, TO_TIMESTAMP('1970-01-01 ' || #{satOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
-         	, TO_TIMESTAMP('1970-01-01 ' || #{satLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('1970-01-01 ' || #{satEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'))
+<!-- 병원사진 추가 -->
+	<insert id="insertHosImg" parameterType="HospitalVO">
+		INSERT INTO HOSIMG(IMGIDX, HOSIDX, HOSIMG)
+		VALUES ((SELECT MAX(NVL(IMGIDX, 0)) + 1 FROM HOSIMG), #{hosIdx}, #{hosImg});
 	</insert>
-	
+		
 	<select id="getHospitalList" parameterType="HospitalVO" resultType="HospitalVO">
 		SELECT *
 		FROM HOSPITAL
 		ORDER BY SEQ DESC
 	</select>
-	
+<!-- 안쓰는 매퍼인지 확인 후, 삭제 처리 -->	
 	<select id="getHospital" parameterType="HospitalVO" resultType="HospitalVO">
 		SELECT H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE, H.ANIMAL, H.SCORE, H.CONDITION, 
 		        T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME,

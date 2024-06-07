@@ -63,6 +63,12 @@ public class HospitalServiceImpl implements HospitalService{
 		int cnt = hospitalDAO.insertHosAddress(vo);
 		return cnt;
 	}
+	//병원 파일 여러개 입력
+	@Override
+	public int insertHosImg(HospitalVO vo) {
+		int cnt = hospitalDAO.insertHosImg(vo);
+		return cnt;
+	}
 	//아이디 중복체크
 	@Override
 	public int hosId(HospitalVO ho) throws Exception {

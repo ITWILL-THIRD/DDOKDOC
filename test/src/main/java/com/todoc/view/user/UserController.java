@@ -1,6 +1,9 @@
 package com.todoc.view.user;
 
+import java.awt.peer.LightweightPeer;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -154,7 +157,7 @@ public class UserController {
 	//기업회원가입(정보 테이블 3개 입력 처리)
 	@PostMapping("/user/hoJoin.do")
 	public String hoJoinchk(Model model, HospitalVO vo
-			, @RequestParam("hosImg") List<MultipartFile> hosImg
+			, @RequestParam("hosImgStr") List<MultipartFile> hosImgStr
 			, @RequestParam("certificateImgStr") MultipartFile certificateImgStr
 			, @RequestParam("openTimeStr")String openTimeStr, @RequestParam ("closeTimeStr")String closeTimeStr
 			, @RequestParam("lunchTimeStr")String lunchTimeStr, @RequestParam("endLunchTimeStr")String endLunchTimeStr
@@ -165,18 +168,35 @@ public class UserController {
 			) {
 		//hoJoin 입력 폼에서 vo 값 넘어오는지 확인
 		System.out.println(":: TimeController.saveTime() 메소드 실행~!!");
-		System.out.println("HospitalVO vo : " + vo);
-		//병원 사진(여러장 처리)
-		for (MultipartFile file : hosImg) {
-			try {
-				String hosImgStr = gcsService.uploadFile(file);
-				vo.setHosImg(hosImgStr);
-            } catch (IOException e) {
-                e.printStackTrace();
-                model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
-                return "redirect:user/hoJoin.do?msg=fileError";
-            }
-		}
+		//병원 상세 사진
+		System.out.println("hosImgStr : " + hosImgStr);
+		List<MultipartFile> hosImgList = new ArrayList<MultipartFile>();
+        hosImgList = hosImgStr;
+        
+        // List를 배열로 변환
+        MultipartFile[] hosImgArr = new MultipartFile[hosImgList.size()];
+        hosImgArr = hosImgList.toArray(hosImgArr);
+        // 결과 출력 (여기서는 배열의 길이만 출력)
+        System.out.println("Array length: " + hosImgArr.length);
+        //병원 사진(여러장 처리)
+        for (MultipartFile hosImgFile : hosImgArr) {
+        	try {
+        		System.out.println("MultipartFile hosImg : " + hosImgFile);
+        		String hosImg = gcsService.uploadFile(hosImgFile);
+        		vo.setHosImg(hosImg);
+        		int cntHosImg = hospitalService.insertHosImg(vo);
+    			if (cntHosImg == 0) {
+    				System.out.println(">> 사진 파일 업로드 실패");
+    				model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
+    				return "redirect:hoJoin.do?msg=fileError";
+    			}
+			} catch (IOException e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
+	            return "redirect:user/hoJoin.do?msg=fileError";
+			}
+        }
+        
 		//병원 사업자등록증 처리
 		try {
 			String certificateImg = gcsService.uploadFile(certificateImgStr);
@@ -200,6 +220,8 @@ public class UserController {
 			System.out.println(">> 회원가입 실패");
 			return "redirect:hoJoin.do?msg=fail";
 		}
+		
+		//hosTime 테이블 입력
 		//시간 형식에서 ss(초) 문자열 추가
 		System.out.println("openTimeStr : " + openTimeStr);
 		String fullOpenTimeStr = openTimeStr + ":00";
@@ -247,6 +269,7 @@ public class UserController {
 			e.printStackTrace();
 			return"redirect:hoJoin.do?msg=fail";
 		}
+		
 	}
 	//유효성 검사 메소드(운영 시각 0~23만 사용 가능)
 	private String validateAndCorrectTime(String timeStr) {
