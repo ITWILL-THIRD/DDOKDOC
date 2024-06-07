@@ -28,7 +28,7 @@ import com.todoc.board.CommentVO;
 //@SessionAttributes(value = {"board"}) //board 라는 이름의 Model 있으면 session에 저장
 @SessionAttributes({"board", "comments"})
 @Controller
-//@RequestMapping("/board") // 공통경로 지정시 사용
+@RequestMapping("/board") // 공통경로 지정시 사용
 public class BoardController {
 	//@Autowired
 	private BoardService boardService;

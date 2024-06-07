@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+<jsp:include page="../common/navigation.jsp"/>
 <script>
 function userDelete_ok(frm) {
     if (confirm("정말로 탈퇴하시겠습니까?")) {
