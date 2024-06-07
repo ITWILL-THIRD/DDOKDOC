@@ -30,7 +30,7 @@
 			<td>${reser.hosName }</td>
 			<td>${reser.petName }</td>
 			<td>${reser.reserDate }</td>
-			<td>${reser.reserTime }</td>
+			<td>${reser.formattedTime }</td>
 			<td>
 				<button onclick="reservationDetail(${reser.reserIdx})">상세보기</button>
 			</td>

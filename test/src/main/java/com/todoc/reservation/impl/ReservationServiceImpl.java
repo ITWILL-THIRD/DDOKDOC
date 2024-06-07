@@ -26,8 +26,7 @@ public class ReservationServiceImpl implements ReservationService{
 
 	@Override
 	public void updateReservation(ReservationVO vo) {
-		// TODO Auto-generated method stub
-		
+		reservationDAO.updateReservation(vo);
 	}
 
 	@Override
