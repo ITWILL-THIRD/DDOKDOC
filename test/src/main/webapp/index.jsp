@@ -22,6 +22,8 @@
                 alert("로그인 성공");
             } else if (msg === "delete") {
             	alert("탈퇴가 완료되었습니다.");
+            } else if (msg === 'admin') {
+                alert('관리자로 로그인 됐습니다.');
             }
         }
 
@@ -109,6 +111,11 @@
 			<c:when test="${not empty sessionScope.user}">
 				<a href="logout.do">로그아웃</a>
 				<a href="mypage/myPage.do">마이페이지</a>
+				<c:choose>
+				<c:when test="${sessionScope.user.role == 'admin'}">
+					<a href="admin/admin.do">관리</a>
+				</c:when>
+				</c:choose>
 			</c:when>
 			<c:when test="${not empty sessionScope.hoUser}">
 		        <a href="logout.do">로그아웃</a>

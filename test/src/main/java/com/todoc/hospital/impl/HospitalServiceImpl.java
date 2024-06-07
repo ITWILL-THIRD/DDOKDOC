@@ -53,13 +53,15 @@ public class HospitalServiceImpl implements HospitalService{
 	}
 	//병원 정보 입력
 	@Override
-	public void insertHospital(HospitalVO vo) {
-		hospitalDAO.insertHospital(vo);
+	public int insertHospital(HospitalVO vo) {
+		int cnt = hospitalDAO.insertHospital(vo);
+		return cnt;
 	}
 	//병원 주소 입력
 	@Override
-	public void insertHosAddress(HospitalVO vo) {
-		hospitalDAO.insertHosAddress(vo);
+	public int insertHosAddress(HospitalVO vo) {
+		int cnt = hospitalDAO.insertHosAddress(vo);
+		return cnt;
 	}
 	//아이디 중복체크
 	@Override

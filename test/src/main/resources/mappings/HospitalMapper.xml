@@ -46,9 +46,11 @@
 	<insert id="insertHospital" parameterType="HospitalVO">
 		INSERT INTO HOSPITAL
 			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE
-			, ANIMAL, SCORE, CONDITION)
+<!-- 			, ANIMAL, SCORE, CONDITION) -->
+			, ANIMAL, SCORE, CONDITION, HOSIMG, CERTIFICATEIMG)
 		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSPITAL), #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}
-			, #{animal}, 0, #{condition})
+<!-- 			, #{animal}, 0, #{condition}) -->
+			, #{animal}, 0, #{condition}, #{hosImg}, #{certificateImg})
 	</insert>
 	<insert id="insertHosAddress" parameterType="HospitalVO">
 		INSERT INTO HOSADDRESS

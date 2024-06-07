@@ -25,8 +25,8 @@ public interface HospitalService {
 	void hoUpdateExPwd(HospitalVO vo);
 	//기업(병원) 회원가입 시,
 	//병원 정보 입력
-	void insertHospital(HospitalVO vo);
+	int insertHospital(HospitalVO vo);
 	//병원 주소 입력
-	void insertHosAddress(HospitalVO vo);
+	int insertHosAddress(HospitalVO vo);
 	int hosId(HospitalVO ho) throws Exception;
 }

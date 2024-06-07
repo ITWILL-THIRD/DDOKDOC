@@ -73,16 +73,21 @@
 			console.log(document.forms[0]);
 			let firstForm = document.forms[0];
 			console.log(firstForm.elements);
-			
-			for (let htmlObj of firstForm.elements) {
-				if (htmlObj.value.trim() == "") {
-					console.log(htmlObj);
-					if (htmlObj.getAttribute("type") == "file") continue;
-					alert(htmlObj.title + " 입력하세요");
-					htmlObj.focus();
-					return;
-				}
-			}
+			//테스트 할때만 주석처리 하고, 본 프로젝트는 해제 처리!
+// 			for (let htmlObj of firstForm.elements) {
+// 				if (htmlObj.value.trim() == "") {
+// 					console.log(htmlObj);
+// 					if (htmlObj.getAttribute("title") == "병원 사진") continue;
+// 					if(htmlObj.title == "사업자 등록증") {
+// 						alert(htmlObj.title + " 업로드 하세요");
+// 						htmlObj.focus();
+// 					} else {
+// 						alert(htmlObj.title + " 입력하세요");
+// 						htmlObj.focus();
+// 					}
+// 					return;
+// 				}
+// 			}
 			
 			if(!isCheckDup) {
 				alert("아이디 중복체크를 먼저 해주세요.");
@@ -99,7 +104,9 @@
         const urlParams = new URLSearchParams(window.location.search);
         const msg = urlParams.get('msg');
         if (msg === 'failure') {
-            alert('회원가입 실패');
+            alert('회원가입 실패했습니다.');
+        } else if (msg === 'fileError') {
+        	alert('파일 업로드 중 오류가 발생했습니다.\n다시 시도하세요!');
         }
     }
 	
@@ -164,7 +171,7 @@
 </head>
 <body>
 <h1>병원회원가입</h1>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 <table border="">
 	<tr>
 		<th>아이디</th>
@@ -227,12 +234,16 @@
 		<td><input type="tel" title="전화번호" name="hosPhone" value="${hospitalVO.hosPhone }" oninput="oninputPhone(this)"></td>
 	</tr>
 	<tr>
+		<th>병원 사진</th>
+		<td><input type="file" title="병원 사진" name="hosImg" multiple="multiple"></td>
+	</tr>
+	<tr>
 		<th>사업자 등록증</th>
-		<td><input type="file"></td>
+		<td><input type="file" title="사업자 등록증" name="certificateImgStr"></td>
 	</tr>
 	<tr>
 		<th>분류(일반/특수병원)</th>
-		<td><input type="text" title="진료동물" name="animal" value="${hospitalVO.animal}" placeholder="일반 또는 특수 작성"></td>
+		<td><input type="text" title="병원 분류" name="animal" value="${hospitalVO.animal}" placeholder="일반 또는 특수 작성"></td>
 	</tr>
 	
 	<tr>
