@@ -27,9 +27,9 @@ public interface HospitalDAO {
 	void hoUpdateExPwd(HospitalVO vo);
 	//민지
 	//병원 정보 입력
-	void insertHospital(HospitalVO vo);
+	int insertHospital(HospitalVO vo);
 	//병원 주소 입력
-	void insertHosAddress(HospitalVO vo);
+	int insertHosAddress(HospitalVO vo);
 	int hosId(HospitalVO ho) throws Exception;
 }
 

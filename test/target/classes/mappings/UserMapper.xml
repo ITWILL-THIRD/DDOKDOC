@@ -14,7 +14,7 @@
 	<insert id="insertUser" parameterType="userVO">
 		INSERT INTO DDOKUSER
 			(USERIDX, EMAIL, NICKNAME, PASSWORD, NAME, BIRTH, PHONE, ROLE)
-		VALUES (SEQ_USERIDX.NEXTVAL, #{email}, #{nickname}, #{password}, #{name}, #{birth}, #{phone}, 'user')
+		VALUES (SEQ_USERIDX.NEXTVAL, #{email}, #{nickname}, #{password}, #{name}, #{birth}, #{phone}, #{role})
 	</insert>
 	
 	<!-- 이메일중복체크 -->

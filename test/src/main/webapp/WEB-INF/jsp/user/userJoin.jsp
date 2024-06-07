@@ -112,7 +112,7 @@
 	function userJoin_ok(frm) {
 		
 		console.log(document.forms[0]);
-		let firstForm = document.forms[0];
+		var firstForm = document.forms[0];
 		console.log(firstForm.elements);
 		
 		for (let htmlObj of firstForm.elements) {
@@ -162,7 +162,7 @@
 	</tr>
 	<tr>
 		<td>비밀번호</td>
-		<td><input type="password" name="password" value="${userVO.password }"></td>
+		<td><input id="password" type="password" name="password" value="${userVO.password }"></td>
 	</tr>
 	<tr>
 		<td>비밀번호 확인</td>
