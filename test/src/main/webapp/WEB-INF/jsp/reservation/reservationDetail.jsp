@@ -23,8 +23,12 @@
 			<td>${hospital.hosName }</td>
 		</tr>
 		<tr>
-			<th>예약일시</th>
+			<th>예약일</th>
 			<td>${reservation.reserDate }</td>
+		</tr>
+		<tr>
+			<th>예약시간</th>
+			<td>${reservation.formattedTime }</td>
 		</tr>
 		<tr>
 			<th>진료볼동물</th>
@@ -36,8 +40,8 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-				<button onclick="reserUpdate(${reservation.reserIdx})">수정</button>
-				<button onclick="reserDelete(${reservation.reserIdx})">삭제</button>
+				<button onclick="reserUpdate(${reservation.reserIdx})">예약변경</button>
+				<button onclick="reserDelete(${reservation.reserIdx})">예약취소</button>
 			</td>
 		</tr>
 	</table>

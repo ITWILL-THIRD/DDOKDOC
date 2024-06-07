@@ -122,14 +122,6 @@
       }
     }
  	
- 	// 초기 예약 시간이 있으면 해당 시간을 선택 상태로 만듦
-    if (initialTime) {
-      var initialTimeBtn = $('.time-btn[data-time="' + initialTime + '"]');
-      if (initialTimeBtn.length) {
-        initialTimeBtn.addClass("selected");
-        $('#selectTime').val(initialTime); // resertime에 선택된 시간 저장
-      }
-    }
   });
 
   function getJsonTimeData(selectedDate, selectedDay, initialTime) {
@@ -154,12 +146,12 @@
         alert("성공~~");
         console.log(response);
         
+        //초기시간값 저장
+        $('#selectTime').val(initialTime);
+        
         let dispHtml = "";
         for (let time of response.availableTimes) {
         	// 기존 예약 시간과 같을 때 선택 상태로 설정
-        	/* alert("time : " + time);
-        	alert("initialTime : " + initialTime);
-        	alert("time == initialTime : " + time == initialTime); */
             if (response.reservedTimes.includes(time)) {
             	if (time == initialTime) {
             		dispHtml += `<button type="button" class="time-btn selected" data-time="${time}">`;
@@ -186,14 +178,6 @@
           }
         });
 
-        // 초기 예약 시간 설정
-        if (initialTime) {
-          let initialTimeBtn = $('.time-btn[data-time="' + initialTime + '"]');
-          if (initialTimeBtn.length) {
-            initialTimeBtn.addClass("selected");
-            $('#selectTime').val(initialTime); // resertime에 선택된 시간 저장
-          }
-        }
       },
       error: function() {
         alert("실패~~");
@@ -302,8 +286,8 @@
       <input type="button" value="예약 변경하기" onclick="updateReservation(this.form)">
       <input type="hidden" id="reserIdx" name="reserIdx" value="${reservationVO.reserIdx}">
       <input type="hidden" id="reserDate" name="reserDate">
-      <input type="hidden" id="selectTime" name="selectTime" value="${reservation.reserTime}">
-      <input type="hidden" id="petIdxStr" name="petIdxStr" value="${reservation.petIdx}">
+      <input type="hidden" id="selectTime" name="selectTime">
+      <input type="hidden" id="petIdxStr" name="petIdxStr" value="${reservationVO.petIdx}">
     </form>
   </div>
 

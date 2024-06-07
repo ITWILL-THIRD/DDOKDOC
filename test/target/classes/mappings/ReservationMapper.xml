@@ -52,9 +52,11 @@
 		FROM RESERVATION R, HOSPITAL H, MYPET P
 		WHERE R.USERIDX = #{userIdx}
 		AND R.RESERDATE >= SYSDATE-1
+		AND TO_CHAR(R.RESERTIME, 'HH24:MI') > TO_CHAR(SYSDATE, 'HH24:MI')
 		AND R.HOSIDX = H.HOSIDX
 		AND R.PETIDX = P.PETIDX
 		AND R.CONDITION IS NULL
+		ORDER BY RESERDATE
     </select>
     
     <!-- 지난예약 조회 -->
@@ -62,11 +64,11 @@
     <![CDATA[	
     	SELECT ROWNUM, R.*, H.HOSNAME HOSNAME, P.PETNAME PETNAME
 		FROM RESERVATION R, HOSPITAL H, MYPET P
-		WHERE R.USERIDX = #{hosIdx}
-		AND R.RESERDATE <= SYSDATE-1
+		WHERE R.USERIDX = #{userIdx}
 		AND R.HOSIDX = H.HOSIDX
 		AND R.PETIDX = P.PETIDX
-		AND R.CONDITION IS NULL
+		AND R.CONDITION='FINISH'
+		ORDER BY RESERDATE DESC
 	]]>
     </select>
     
@@ -86,4 +88,13 @@
 		AND R.PETIDX = P.PETIDX
 		 AND R.CONDITION='CANCLE'
     </select>
+    
+    <!-- 예약 변경 -->
+    <update id="updateReservation" parameterType="ReservationVO">
+    	UPDATE RESERVATION
+		SET RESERDATE = #{reserDate},
+			RESERTIME = #{reserTime},
+			MEMO = #{memo}
+		WHERE RESERIDX = #{reserIdx}
+    </update>
 </mapper>

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 마이페이지</title>
+<jsp:include page="../common/navigation.jsp"/>
 </head>
 <body>
 <h1>병원 마이페이지</h1>

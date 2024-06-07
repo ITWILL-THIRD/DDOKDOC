@@ -104,6 +104,10 @@ public class ReservationController {
 		MyPetVO myPet = myPetService.getMyPet(reservation.getPetIdx());
 		System.out.println("myPet : " + myPet);
 		
+		// 예약에서 시간 뽑아서 형식 변환
+		String formattedTime = reservation.getReserTime().toString().substring(0, 5);
+		reservation.setFormattedTime(formattedTime);
+		
 		// 세션에서 유저 가져오기
 		UserVO user = (UserVO) session.getAttribute("user");
 		
@@ -161,7 +165,7 @@ public class ReservationController {
 		
 		reservationService.cancleReservaion(idx);
 		
-		return "redirect:/myReserList.do";
+		return "redirect:../mypage/myReserList.do";
 	}
 	
 	//예약 변경 화면 띄우기
@@ -193,12 +197,27 @@ public class ReservationController {
 	//예약 변경하기
 	@PostMapping("/updateReservation.do")
 	public String updateReservation(@RequestParam("reserIdx") String reserIdx, ReservationVO reservation, String selectTime) {
+		System.out.println("업데이트");
 		
 		System.out.println("reserIdx : " + reserIdx);
 		System.out.println("selectTime : " + selectTime);
 		
 		System.out.println(reservation);
 		
-		return "reservationDetail.do";
+		//String 타입 selectTime을 형변환 해서 vo에 저장
+		try {
+	        LocalTime localTime = LocalTime.parse(selectTime);
+	        // 분 단위까지만 저장
+	        LocalTime minutePrecisionTime = localTime.withSecond(0).withNano(0);
+	        Time sqlTime = Time.valueOf(minutePrecisionTime);
+	        reservation.setReserTime(sqlTime);
+	        System.out.println(sqlTime);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		reservationService.updateReservation(reservation);
+		
+//		return "reservationDetail.do?reserIdx=" + reserIdx;
+		return "redirect:reservationDetail.do?reserIdx=" + reserIdx;
 	}
 }
