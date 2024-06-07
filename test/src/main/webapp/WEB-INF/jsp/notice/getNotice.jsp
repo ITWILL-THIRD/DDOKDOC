@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 공지사항 상세보기</title>
+<jsp:include page="../common/navigation.jsp"/>
 <script type="https://code.jquery.com/jquery-1.12.4.js"></script>
 <style>
 	#container {

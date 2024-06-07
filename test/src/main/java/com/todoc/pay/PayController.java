@@ -21,6 +21,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+@RequestMapping("/membership")
 @Controller
 public class PayController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

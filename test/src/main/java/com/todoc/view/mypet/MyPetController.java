@@ -19,6 +19,7 @@ import com.todoc.mypet.MyPetService;
 import com.todoc.mypet.MyPetVO;
 import com.todoc.user.UserVO;
 
+@RequestMapping("/mypage")
 @Controller
 public class MyPetController {
 	
@@ -33,7 +34,7 @@ public class MyPetController {
 	@RequestMapping("/insertMyPetView.do")
 	public String insertMyPetView() {
 		System.out.println(">> 마이펫 등록페이지");
-		return "mypet/insertMyPet";
+		return "mypage/insertMyPet";
 	}
 	
     @RequestMapping("/insertMyPet.do")
@@ -48,7 +49,7 @@ public class MyPetController {
         } catch (IOException e) {
             e.printStackTrace();
             model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
-            return "redirect:insertMyPetView.do";
+            return "redirect:mypage/insertMyPetView.do";
         }
 	}
 
@@ -58,7 +59,7 @@ public class MyPetController {
 		MyPetVO pet = myPetService.getMyPet(petIdx);
 		System.out.println("pet: " + pet);
 		model.addAttribute("pet", pet);
-	    return "mypet/updateMyPet";
+	    return "mypage/updateMyPet";
 	}
 
 	@PostMapping("/updateMyPet.do")
@@ -70,11 +71,11 @@ public class MyPetController {
 			}
 			System.out.println("updating : " + vo); // 값 설정 확인
 			myPetService.updateMyPet(vo);
-	        return "redirect:myPage.do";
+	        return "redirect:mypage/myPage.do";
 		} catch (IOException e) {
 			e.printStackTrace();
 	        model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
-	        return "redirect:updateMyPetView.do?petIdx=" + vo.getPetIdx();
+	        return "redirect:mypage/updateMyPetView.do?petIdx=" + vo.getPetIdx();
 		}
 	}
 	
@@ -85,7 +86,7 @@ public class MyPetController {
 			gcsService.deleteFile(pet.getPetImg()); // GCS에서 파일 삭제
 		}
 	    myPetService.deleteMyPet(petIdx);
-	    return "redirect:/myPage.do"; 
+	    return "redirect:myPage.do"; 
 	}
 	
 }

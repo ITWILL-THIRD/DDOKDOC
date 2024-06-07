@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.todoc.hospital.HospitalService;
 
+@RequestMapping("/mypage")
 @Controller
 public class HoMyPageController {
 	@Autowired

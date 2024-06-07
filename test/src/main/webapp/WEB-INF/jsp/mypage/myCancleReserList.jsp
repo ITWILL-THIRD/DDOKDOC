@@ -39,7 +39,7 @@
 	</table>
 <script>
 	function reservationDetail(reserIdx) {
-		location.href="reservation/reservationDetail.do?reserIdx=" + reserIdx;
+		location.href="../reservation/reservationDetail.do?reserIdx=" + reserIdx;
 	}
 </script>
 </body>

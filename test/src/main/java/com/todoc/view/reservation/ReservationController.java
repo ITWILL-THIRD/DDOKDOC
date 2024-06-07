@@ -165,7 +165,7 @@ public class ReservationController {
 		
 		reservationService.cancleReservaion(idx);
 		
-		return "redirect:/myReserList.do";
+		return "redirect:../mypage/myReserList.do";
 	}
 	
 	//예약 변경 화면 띄우기
