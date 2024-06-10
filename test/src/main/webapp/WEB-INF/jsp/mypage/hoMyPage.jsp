@@ -36,8 +36,6 @@
 		</tr>
 	</table>
 </form>
-
-
 <hr>
 </body>
 </html>

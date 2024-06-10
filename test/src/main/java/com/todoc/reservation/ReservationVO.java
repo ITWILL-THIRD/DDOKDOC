@@ -17,6 +17,8 @@ public class ReservationVO {
 	private String petName;
 	private String condition;
 	private String formattedTime;
+	private String guardian;
+	private String guardianPhone;
 	
 	public int getRownum() {
 		return rownum;
@@ -96,14 +98,25 @@ public class ReservationVO {
 	public void setFormattedTime(String formattedTime) {
 		this.formattedTime = formattedTime;
 	}
+	public String getGuardian() {
+		return guardian;
+	}
+	public void setGuardian(String guardian) {
+		this.guardian = guardian;
+	}
+	public String getGuardianPhone() {
+		return guardianPhone;
+	}
+	public void setGuardianPhone(String guardianPhone) {
+		this.guardianPhone = guardianPhone;
+	}
 	
 	@Override
 	public String toString() {
 		return "ReservationVO [rownum=" + rownum + ", reserIdx=" + reserIdx + ", hosIdx=" + hosIdx + ", userIdx="
 				+ userIdx + ", petIdx=" + petIdx + ", reserDate=" + reserDate + ", dayStr=" + dayStr + ", reserTime="
 				+ reserTime + ", memo=" + memo + ", hosName=" + hosName + ", petName=" + petName + ", condition="
-				+ condition + ", formattedTime=" + formattedTime + "]";
+				+ condition + ", formattedTime=" + formattedTime + ", guardian=" + guardian + ", guardianPhone="
+				+ guardianPhone + "]";
 	}
-	
-	
 }

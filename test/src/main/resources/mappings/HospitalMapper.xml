@@ -170,6 +170,12 @@
 		WHERE REVIEWIDX = #{reviewIdx}
 	</update>
 	
+	<!-- 병원 휴무 정보 조회 -->
+	<select id="hosHoliday" parameterType="int" resultType="date">
+		SELECT HOLIDATE
+		FROM HOSHOLIDAY
+		WHERE HOSIDX = #{hosIdx}
+	</select>
 	
 </mapper>
 

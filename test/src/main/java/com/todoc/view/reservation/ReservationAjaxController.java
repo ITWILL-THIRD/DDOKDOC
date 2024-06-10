@@ -60,7 +60,7 @@ public class ReservationAjaxController {
         Time currentTime = openTime;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         while (currentTime.before(closeTime)) {
-            if (currentTime.compareTo(lunchTime) < 0 || currentTime.compareTo(endLunchTime) > 0) {
+            if (currentTime.compareTo(lunchTime) < 0 || currentTime.compareTo(endLunchTime) >= 0) {
                 availableTimes.add(sdf.format(currentTime));
             }
             // 30분 간격 추가

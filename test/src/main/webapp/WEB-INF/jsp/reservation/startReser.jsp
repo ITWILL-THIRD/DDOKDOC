@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,11 +17,28 @@
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@4.4.0/main.min.js"></script>
 <script>
 
+	//마이펫 등록 여부 체크
+	if (${myPetList.size()} == 0) {
+		  alert ("마이펫 등록 후 예약 가능합니다.");
+		  location.href="../mypage/insertMyPetView.do";
+	  }
+	//달력 띄우기
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var selectedDate = null; 
     var selectedDay = null;
     
+ 	// 예시 휴무일 데이터
+    // 휴무일 목록을 받아옴
+    var closedDates = [
+	    <c:forEach var="date" items="${hosHoliday}">
+	        '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
+	    </c:forEach>
+	];
+ 	alert(closedDates);
+    // 마지막 쉼표 제거
+    closedDates.pop();
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
       googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
       plugins: [ 'interaction', 'dayGrid', 'googleCalendar' ],
@@ -65,9 +83,9 @@
           alert('지난 날짜는 선택할 수 없습니다.');
           return;
         }
-        // 특정 날짜만 클릭 비활성화 (예: 2024-05-30)
-        if (info.dateStr === '2024-06-01') {
-          alert('2024-06-01은 병원 휴무입니다:)');
+        // 휴무일 클릭 비활성화
+        if (closedDates.includes(info.dateStr)) {
+          alert(info.dateStr + "은 휴무입니다:)");
           return;
         }
         // 클릭한 날짜가 선택된 날짜인지 확인
@@ -97,19 +115,32 @@
           document.getElementById('reserDate').value = info.dateStr; // 숨겨진 필드 업데이트
         }
       },
-      dayRender: function(date, cell) {
+      
+     // 과거 날짜, 휴무일 회색으로 설정
+      datesRender: function(info) {
         var today = new Date();
         today.setHours(0, 0, 0, 0);
-        if (date < today) {
-          cell.style.backgroundColor = 'lightgray';
-        }
-      }
+
+        var allDayEls = document.querySelectorAll('.fc-day');
+
+        allDayEls.forEach(function(dayEl) {
+          var dateStr = dayEl.getAttribute('data-date');
+          var date = new Date(dateStr);
+          
+          if (date < today || closedDates.includes(dateStr)) {
+              dayEl.style.backgroundColor = 'gray';
+          }
+        });
+      } 
+   
+
       
     });
 
     calendar.render();
   });
 
+  
   function getJsonTimeData(selectedDate, selectedDay) {
     alert("예약 가능한 시간");
     var selectedTime = null; 
@@ -133,16 +164,53 @@
         console.log(response);
         
         let dispHtml = "";
+        
+        var currentTime = new Date();
+        var currentHour = currentTime.getHours();
+        var currentMinute = currentTime.getMinutes();
+        
         for (let time of response.availableTimes) {
           if (response.reservedTimes.includes(time)) {
             dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
           } else {
-            dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
+        	  var timeComponents = time.split(":");
+              var hour = parseInt(timeComponents[0]);
+              var minute = parseInt(timeComponents[1]);
+              
+              var todayDate = new Date();
+              todayDate.setHours(0, 0, 0, 0); // 오늘 날짜와 시간 초기화
+              
+              var selectedDateObj = new Date(selectedDate + "T00:00:00"); // 문자열을 Date 객체로 변환
+              
+           	  console.log("비교 : " + (selectedDateObj.getTime() === todayDate.getTime()));
+              console.log(selectedDateObj.getTime());
+              console.log(todayDate.getTime());
+              
+              var today = new Date();
+              
+              if (selectedDateObj.getTime() === todayDate.getTime()) {// 날짜 비교
+            	  console.log("if문 내부 true");
+                  var currentHour = today.getHours();
+                  var currentMinute = today.getMinutes();
+                  
+                  console.log(currentHour);
+                  console.log(currentMinute);
+                  
+                  if (hour < currentHour || (hour === currentHour && minute < currentMinute)) {
+                      dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
+                  } else {
+                      dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
+                  }
+              } else {
+                  dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
+              }
+              
+              
           }
           dispHtml += time;
           dispHtml += "</button><br>";
         }
-        $("#listDisp").html(dispHtml);
+        $("#listDisp").html(dispHtml); 
 
         // 시간 선택 이벤트 리스너 설정
         $(".time-btn").on("click", function() {
@@ -186,12 +254,19 @@
     let selectedDate = document.getElementById('reserDate').value;
     let selectedTime = document.getElementById('selectTime').value;
     let selectedPet = document.getElementById('petIdxStr').value;
+    let strGuardian = document.getElementById('guardian').value;
+    let strGuardianPhone = document.getElementById('guardianPhone').value;
     
     // null 체크
     if (selectedPet === "null") {
         alert("진료볼 마이펫을 선택하세요");
         return false; 
     }
+    if (strGuardian == null || strGuardianPhone == null) {
+    	alert("보호자 정보를 입력하세요");
+    	return false;
+    }
+    
     
     alert("selectedPet: " + selectedPet);
     alert("Selected Date: " + selectedDate);
@@ -203,7 +278,7 @@
   
 </script>
 <style>
-  body {
+  #reserBody {
     margin: 40px 10px;
     padding: 0;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -236,13 +311,14 @@
 </style>
 </head>
 <body>
-\${hospital } : ${hospital }<br>
+<%-- \${hospital } : ${hospital }<br>
 \${reservationList } : ${reservationList }<br>
 \${user } : ${user }<br>
 \${myPetList } : ${myPetList }<br>
-\${session.getAttribute } : ${userIdx }<br>
+\${session.getAttribute } : ${userIdx }<br> --%>
+\${hosHoliday } : ${hosHoliday }<br>
 
-  <div>
+  <div id="reserBody">
     <div id="selectPetDiv">
       <select id="selectPet">
         <option value="null">진료볼 마이펫을 선택하세요</option>
@@ -258,6 +334,16 @@
       </ul>
     </div>
     <form method="post">
+    <c:choose>
+    	<c:when test="${not empty user.name }">
+    		<input type="text" id="guardian" name="guardian" value="${user.name }">
+      		<input type="text" id="guardianPhone" name="guardianPhone" value="${user.phone }">
+    	</c:when>
+    	<c:otherwise>
+    		<input type="text" id="guardian" name="guardian" placeholder="보호자이름">
+      		<input type="text" id="guardianPhone" name="guardianPhone" placeholder="보호자연락처">
+    	</c:otherwise>
+    </c:choose>
       <textarea rows="4" cols="5" id="memo" name="memo">메모를 남겨주세요</textarea>
       <input type="button" value="예약하기" onclick="insertReservation(this.form)">
       <input type="hidden" id="reserDate" name="reserDate">

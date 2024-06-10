@@ -1,5 +1,6 @@
 package com.todoc.view.reservation;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -59,6 +60,7 @@ public class ReservationController {
 		System.out.println("예약할 병원 : " + vo);
 		ReservationVO reser = new ReservationVO();
 		reser.setHosIdx(vo.getHosIdx());
+		System.out.println("reser : " + reser);
 		String reserDate = "2024-05-31";
 		try {
             // DateTimeFormatter를 사용하여 문자열을 LocalDate로 변환
@@ -76,8 +78,14 @@ public class ReservationController {
 		List<ReservationVO> reservationList = reservationService.getReservationList(reser);
 		System.out.println("reservationList : " + reservationList);
 		
+		System.out.println("vo : " + vo);
+		
+		List<Date> hosHoliday = hospitalService.hosHoliday(vo);
+		System.out.println("hosHoliday : " + hosHoliday);
+		
 		model.addAttribute("reservationList", reservationList);
 		model.addAttribute("myPetList", myPetList);
+		model.addAttribute("hosHoliday", hosHoliday);
 		
 		return "reservation/startReser";
 	}
@@ -146,6 +154,7 @@ public class ReservationController {
 		vo.setPetIdx(petIdx);
 		System.out.println(vo);
 		
+		System.out.println("insertVO : " + vo);
 		reservationService.insertReservation(vo);
 		int idx = vo.getReserIdx();
 		
@@ -220,4 +229,6 @@ public class ReservationController {
 //		return "reservationDetail.do?reserIdx=" + reserIdx;
 		return "redirect:reservationDetail.do?reserIdx=" + reserIdx;
 	}
+	
+	
 }

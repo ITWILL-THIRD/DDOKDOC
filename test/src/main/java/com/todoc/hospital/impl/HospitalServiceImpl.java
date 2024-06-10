@@ -1,5 +1,6 @@
 package com.todoc.hospital.impl;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,11 @@ public class HospitalServiceImpl implements HospitalService{
 	@Override
 	public void updateReview(HosReviewVO vo) {
 		hospitalDAO.updateReview(vo);
+	}
+
+	@Override
+	public List<Date> hosHoliday(HospitalVO vo) {
+		return hospitalDAO.hosHoliday(vo);
 	}
 
 }
