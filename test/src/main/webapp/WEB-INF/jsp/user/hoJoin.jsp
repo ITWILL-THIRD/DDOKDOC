@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -103,11 +104,13 @@
 	window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         const msg = urlParams.get('msg');
-        if (msg === 'failure') {
+        if (msg === 'fail') {
             alert('회원가입 실패했습니다.');
         } else if (msg === 'fileError') {
         	alert('파일 업로드 중 오류가 발생했습니다.\n다시 시도하세요!');
-        }
+        } else if (msg === 'noFile') {
+        	alert('업로드된 파일이 없습니다.\n다시 시도하세요!');
+        } 
     }
 	
 	//카카오 지도 API 사용
@@ -167,7 +170,12 @@
         }).open();
     }
 </script>
-
+<style>
+	/* 임시 */
+	div #sun {
+		border: 1px solid red;
+	}
+</style>
 </head>
 <body>
 <h1>병원회원가입</h1>
@@ -193,6 +201,7 @@
 		<td><input type="text" title="병원명" name="hosName" value="${hospitalVO.hosName }"></td>
 	</tr>
 	<tr>
+<!-- 		지번 입력하여 시도,시도군 분리하여 insert 처리 -->
 		<th>주소</th>
 		<td>
 			<input type="text" id="sample4_postcode" title="우편번호" placeholder="우편번호">
@@ -205,28 +214,96 @@
 		</td>
 	</tr>
 	<tr>
-		<th rowspan="3">운영시간</th>
-		<td>주중<br>
-			운영시간 <input type="time" title="주중 시작시간" id="openTimeStr" name="openTimeStr" value="00:00"> 
+<!-- 		점심시간 없음/주말 휴무 처리 -->
+		<th rowspan="6">운영시간</th>
+		<td>
+			평일 : 점심시간 없음 <input type="checkbox" name="lunchOff" value="Y"><br>
+	</tr>
+	<tr>
+		<td>
+			진료시간 <input type="time" title="주중 시작시간" id="openTimeStr" name="openTimeStr" value="00:00"> 
 				~ <input type="time" title="주중 마감시간" name="closeTimeStr" value="00:00"><br>
 			점심시간 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="00:00"> 
 				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="00:00"><br>
 		</td>
 	</tr>
 	<tr>
-		<td>토요일<br>
-			운영시간 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="00:00"> 
-				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="00:00"><br>
-			점심시간 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="00:00"> 
-				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="00:00"><br>
+		<td>
+			토요일 : 점심시간 없음 <input type="checkbox" id="toggleLunch" name="satLunchOff" value="Y"><br>
 		</td>
 	</tr>
 	<tr>
-		<td>일요일<br>
-			운영시간 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="00:00"> 
+		<td id="satLunch">
+			진료시간 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="00:00"> 
+				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="00:00"><br>
+			점심시간 <input type="time" class="satTime" title="토요일 점심 시작시간" name="satLunchTimeStr" value="00:00"> 
+				~ <input type="time" class="satTime" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="00:00"><br>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			일요일 : 휴무 <input type="checkbox" id="toggleSun" name="sunDayOff" value="Y"><br>
+		</td>
+	</tr>
+	<tr>
+		<td id="sun">
+			진료시간 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="00:00"> 
 				~ <input type="time" title="일요일 마감시간" name="sunCloseTimeStr" value="00:00"><br>
-			점심시간 <input type="time" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="00:00"> 
-				~ <input type="time" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="00:00"><br>
+			점심시간 <input type="time" class="lunch" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="00:00"> 
+				~ <input type="time" class="lunch" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="00:00"><br>
+<script>
+	//점심시간 없음 처리
+	document.getElementById('toggleLunch').addEventListener('click', function(){
+		var satLunch = document.getElementById('satLunch');
+		var inputs = satLunch.getElementsByTagName('input');
+		var classSatTime = inputs.getElementByClassName('satTime');
+		for (var i = 0; i < classSatTime.length; i++) {
+			classSatTime[i].style.display = 'none';
+		}
+		
+		// inputs는 HTMLCollection 객체이므로 배열로 변환
+// 		var ArrayLunch = Array.prototype.slice.call(inputs);
+// 		alert("ArrayLunch : " + ArrayLunch);
+// 	    // 클래스가 'lunch'인 요소들을 필터링합니다.
+// 	    var inputsLunch = ArrayLunch.filter(function(input) {
+// 	        return inputs.classList.contains('lunch');
+// 	    });
+// 		alert("inputsLunch : " + inputsLunch);
+	    
+// 		if (classSatTime.style.display === 'none') {
+// 			classSatTime.style.display = 'block';
+// 			//하위 input class="lunch" 요소 표시
+// 			alert(inputsLunch);
+// 			for (var i = 0; i < inputsLunch.length; i++) {
+// 				inputsLunch[i].style.display = 'block';
+// 			}
+// 		} else {
+// 			inputsLunch.style.display = 'none';
+// 			for (var i = 0; i < inputsLunch.length; i++) {
+// 				inputsLunch[i].style.display = 'none';
+// 			}
+// 		}
+	});
+	//일요일 휴무 처리
+	document.getElementById('toggleSun').addEventListener('click', function(){
+		var tdSun = document.getElementById('sun');
+		var inputs = tdSun.getElementsByTagName('input');
+		
+		if (tdSun.style.display === 'none') {
+			tdSun.style.display = 'block';
+			//하위 input 요소 표시
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].style.display = 'block';
+			}
+		} else {
+			//하위 input 요소 숨김
+			tdSun.style.display = 'none';
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].style.display = 'none';
+			}
+		}
+	});
+</script>
 		</td>
 	</tr>
 	<tr>
@@ -234,7 +311,7 @@
 		<td><input type="tel" title="전화번호" name="hosPhone" value="${hospitalVO.hosPhone }" oninput="oninputPhone(this)"></td>
 	</tr>
 	<tr>
-		<th>병원 사진</th>
+		<th>병원 외/내부사진</th>
 		<td><input type="file" title="병원 사진" name="hosImgStr" multiple="multiple"></td>
 	</tr>
 	<tr>

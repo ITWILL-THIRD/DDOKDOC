@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -165,10 +166,29 @@ public class UserController {
 			, @RequestParam ("satLunchTimeStr")String satLunchTimeStr, @RequestParam ("satEndLunchTimeStr")String satEndLunchTimeStr
 			, @RequestParam("sunOpenTimeStr")String sunOpenTimeStr, @RequestParam ("sunCloseTimeStr")String sunCloseTimeStr
 			, @RequestParam ("sunLunchTimeStr")String sunLunchTimeStr, @RequestParam ("sunEndLunchTimeStr")String sunEndLunchTimeStr
+			, @RequestParam(value="lunchOff" , required=false)String lunchOff
+			, @RequestParam (value="satLunchOff" , required=false)String satLunchOff
+			, @RequestParam(value="sunDayOff", required=false)String sunDayOff
 			) {
 		//hoJoin 입력 폼에서 vo 값 넘어오는지 확인
 		System.out.println(":: TimeController.saveTime() 메소드 실행~!!");
-		//병원 상세 사진
+		//병원 정보 및 파일(사업자등록증) 업로드 처리
+		try {
+			String certificateImg = gcsService.uploadFile(certificateImgStr);
+			vo.setCertificateImg(certificateImg);
+			//hospital 테이블 입력
+			int cntHospital = hospitalService.insertHospital(vo);
+			System.out.println("cntHospital : " + cntHospital);
+			if (cntHospital == 0) {
+				System.out.println(">> 회원가입 실패");
+				return "redirect:hoJoin.do?msg=fail";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:hoJoin.do?msg=fileError";
+		}
+		
+		//병원 파일 여러개(상세 사진) 업로드 처리
 		System.out.println("hosImgStr : " + hosImgStr);
 		List<MultipartFile> hosImgList = new ArrayList<MultipartFile>();
         hosImgList = hosImgStr;
@@ -183,35 +203,23 @@ public class UserController {
         	try {
         		System.out.println("MultipartFile hosImg : " + hosImgFile);
         		String hosImg = gcsService.uploadFile(hosImgFile);
+        		//병원 정보 입력한 hosIdx 조회
+        		int insertHosIdx = hospitalService.getHosIdx(vo);
+        		System.out.println(":: insertHosIdx : " + insertHosIdx);
+        		vo.setHosIdx(insertHosIdx);
+        		//파일 경로 설정
         		vo.setHosImg(hosImg);
+        		//병원 사진 1장 입력
         		int cntHosImg = hospitalService.insertHosImg(vo);
     			if (cntHosImg == 0) {
-    				System.out.println(">> 사진 파일 업로드 실패");
-    				model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
-    				return "redirect:hoJoin.do?msg=fileError";
+    				System.out.println(">> 업로드 파일 없음");
+    				return "redirect:hoJoin.do?msg=noFile";
     			}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
-				model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
-	            return "redirect:user/hoJoin.do?msg=fileError";
+	            return "redirect:hoJoin.do?msg=fileError";
 			}
         }
-        
-		//병원 사업자등록증 처리
-		try {
-			String certificateImg = gcsService.uploadFile(certificateImgStr);
-			vo.setCertificateImg(certificateImg);
-			//hospital 테이블 입력
-			int cntHospital = hospitalService.insertHospital(vo);
-			System.out.println("cntHospital : " + cntHospital);
-			if (cntHospital == 0) {
-				System.out.println(">> 회원가입 실패");
-				return "redirect:hoJoin.do?msg=fail";
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "redirect:hoJoin.do?msg=fileError";
-		}
 		
 		//hosAddress 테이블 입력
 		int cntHosAddress = hospitalService.insertHosAddress(vo);
@@ -256,7 +264,8 @@ public class UserController {
 			//hosTime 테이블 입력
 			int cntHosTime = timeMapper.insertTime(vo, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
 								, validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
-								, validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime);
+								, validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime
+								, lunchOff, satLunchOff, sunDayOff);
 			System.out.println("cntHosTime : " + cntHosTime);
 			if (cntHosTime == 0) {
 				System.out.println(">> 회원가입 실패");

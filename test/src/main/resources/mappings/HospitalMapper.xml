@@ -42,45 +42,57 @@
 		WHERE HOSNAME = #{hosName} AND HOSID = #{hosId}
 	</update>
 	
-	<!-- 병원 회원가입(다른 테이블 3개 각자 입력 - HOSTIM은 TimeMapper로 따로 작성) -->
+	<!-- 병원hosIdx 조회 -->
+	<select id="getHosIdx" parameterType="HospitalVO" resultType="int">
+		SELECT HOSIDX 
+		FROM HOSPITAL
+		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw}
+	</select>
+	
+	<!-- 병원 사진vo 조회 -->
+	<select id="getHosImgList" parameterType="int" resultType="HosImgVO">
+		SELECT * FROM HOSIMG WHERE HOSIDX = #{hosIdx}
+	</select>
+	
+	<!-- 병원 회원가입(다른 테이블 4개 각자 입력 - HOSTIM은 TimeMapper로 따로 작성) -->
+<!-- 병원 정보 입력 -->
 	<insert id="insertHospital" parameterType="HospitalVO">
 		INSERT INTO HOSPITAL
 			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE
-<!-- 			, ANIMAL, SCORE, CONDITION) -->
-			, ANIMAL, SCORE, CONDITION, HOSIMG, CERTIFICATEIMG)
-		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSPITAL), #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}
-<!-- 			, #{animal}, 0, #{condition}) -->
-			, #{animal}, 0, #{condition}, #{hosImg}, #{certificateImg})
+			, ANIMAL, SCORE, CONDITION, CERTIFICATEIMG)
+		VALUES ((SELECT NVL(MAX(HOSIDX), 0) + 1 FROM HOSPITAL), #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}
+			, #{animal}, 0, '승인 전', #{certificateImg})
 	</insert>
+<!-- 병원 사진(파일 여러장) 입력 -->
+	<insert id="insertHosImg" parameterType="HospitalVO">
+		INSERT INTO HOSIMG(IMGIDX, HOSIDX, HOSIMG)
+		VALUES ((SELECT NVL(MAX(IMGIDX), 0) + 1 FROM HOSIMG), #{hosIdx}, #{hosImg})
+	</insert>
+<!-- 병원 주소 입력 -->
 	<insert id="insertHosAddress" parameterType="HospitalVO">
 		INSERT INTO HOSADDRESS
 			(HOSIDX, ADDRESSNAME, ROADADDRESSNAME, DETAILADDRESS, ADDX
 			, ADDY, SIDO, SIGUNGU)
-		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSADDRESS), #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
+		VALUES ((SELECT NVL(MAX(HOSIDX), 0) + 1 FROM HOSADDRESS), #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
 			, #{addy}, #{sido}, #{sigungu})
 	</insert>
-
-<!-- 병원사진 추가 -->
-	<insert id="insertHosImg" parameterType="HospitalVO">
-		INSERT INTO HOSIMG(IMGIDX, HOSIDX, HOSIMG)
-		VALUES ((SELECT MAX(NVL(IMGIDX, 0)) + 1 FROM HOSIMG), #{hosIdx}, #{hosImg});
-	</insert>
-		
-	<select id="getHospitalList" parameterType="HospitalVO" resultType="HospitalVO">
-		SELECT *
-		FROM HOSPITAL
-		ORDER BY SEQ DESC
-	</select>
+	
 <!-- 안쓰는 매퍼인지 확인 후, 삭제 처리 -->	
-	<select id="getHospital" parameterType="HospitalVO" resultType="HospitalVO">
-		SELECT H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE, H.ANIMAL, H.SCORE, H.CONDITION, 
-		        T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME,
-		        A.ADDRESSNAME, A.ROADADDRESSNAME, A.ADDX, A.ADDY, A.SIDO, A.SIGUNGU
-		FROM HOSPITAL H, HOSTIME T, HOSADDRESS A
-		WHERE H.HOSIDX = T.HOSIDX
-		AND H.HOSIDX = A.HOSIDX
-		AND H.HOSIDX = #{hosIdx}
-	</select>
+<!-- 	<select id="getHospitalList" parameterType="HospitalVO" resultType="HospitalVO"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM HOSPITAL -->
+<!-- 		ORDER BY SEQ DESC -->
+<!-- 	</select> -->
+
+<!-- 	<select id="getHospital" parameterType="HospitalVO" resultType="HospitalVO"> -->
+<!-- 		SELECT H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE, H.ANIMAL, H.SCORE, H.CONDITION,  -->
+<!-- 		        T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME, -->
+<!-- 		        A.ADDRESSNAME, A.ROADADDRESSNAME, A.ADDX, A.ADDY, A.SIDO, A.SIGUNGU -->
+<!-- 		FROM HOSPITAL H, HOSTIME T, HOSADDRESS A -->
+<!-- 		WHERE H.HOSIDX = T.HOSIDX -->
+<!-- 		AND H.HOSIDX = A.HOSIDX -->
+<!-- 		AND H.HOSIDX = #{hosIdx} -->
+<!-- 	</select> -->
 
 	<!-- 병원 정보 1개 조회 -->
 	<select id="selectOne" parameterType="int" resultType="HospitalVO">

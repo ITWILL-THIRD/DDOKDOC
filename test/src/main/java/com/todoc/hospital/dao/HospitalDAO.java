@@ -4,11 +4,11 @@ package com.todoc.hospital.dao;
 import java.util.List;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalVO;
+import com.todoc.hospital.HosImgVO;
 
 public interface HospitalDAO {
 
 	void updateHospital(HospitalVO vo);
-	void deleteHospital(HospitalVO vo);
 	//민지
 	//병원 전체 목록 조회
 	List<HospitalVO> selectList();
@@ -25,13 +25,17 @@ public interface HospitalDAO {
 	HospitalVO hoFindId(HospitalVO vo);
 	int hoFindPwd(HospitalVO vo);
 	void hoUpdateExPwd(HospitalVO vo);
+	int hosId(HospitalVO ho) throws Exception;
 	//민지
+	//병원 hosIdx 조회
+	int getHosIdx(HospitalVO vo);
+	//병원 사진vo 조회
+	List<HosImgVO> getHosImgList(int hosIdx);
 	//병원 정보 입력
 	int insertHospital(HospitalVO vo);
+	//병원 파일 여러장 입력
+	int insertHosImg(HospitalVO vo);
 	//병원 주소 입력
 	int insertHosAddress(HospitalVO vo);
-	//병원 파일 여러개 입력
-	int insertHosImg(HospitalVO vo);
-	int hosId(HospitalVO ho) throws Exception;
 }
 
