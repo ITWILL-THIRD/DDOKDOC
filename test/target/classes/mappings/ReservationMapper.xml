@@ -37,10 +37,10 @@
     <insert id="insertReservation" parameterType="ReservationVO">
     	INSERT INTO RESERVATION (RESERIDX, HOSIDX, USERIDX, 
     								PETIDX, RESERDATE, RESERTIME, 
-    								MEMO)          
+    								MEMO, GUARDIAN, GUARDIANPHONE)          
 		VALUES (SEQ_RESERIDX.NEXTVAL, #{hosIdx}, #{userIdx}, 
 					#{petIdx}, #{reserDate}, #{reserTime}, 
-					#{memo})   
+					#{memo}, #{guardian}, #{guardianPhone})   
 		<selectKey keyProperty="reserIdx" resultType="int" order="AFTER">
 		     SELECT SEQ_RESERIDX.CURRVAL FROM DUAL
 		</selectKey>			
@@ -48,27 +48,28 @@
     
     <!-- USER의 예약 리스트 -->
     <select id="myReserList" parameterType="int" resultType="ReservationVO">
-    	SELECT ROWNUM, R.*, H.HOSNAME HOSNAME, P.PETNAME PETNAME
-		FROM RESERVATION R, HOSPITAL H, MYPET P
-		WHERE R.USERIDX = #{userIdx}
-		AND R.RESERDATE >= SYSDATE-1
-		AND TO_CHAR(R.RESERTIME, 'HH24:MI') > TO_CHAR(SYSDATE, 'HH24:MI')
-		AND R.HOSIDX = H.HOSIDX
-		AND R.PETIDX = P.PETIDX
-		AND R.CONDITION IS NULL
-		ORDER BY RESERDATE
+		SELECT ROWNUM, T.*
+		FROM (SELECT R.*, H.HOSNAME HOSNAME, P.PETNAME PETNAME
+				FROM RESERVATION R, HOSPITAL H, MYPET P
+				WHERE R.USERIDX = #{userIdx}
+				AND R.RESERDATE >= SYSDATE-1
+				AND R.HOSIDX = H.HOSIDX
+				AND R.PETIDX = P.PETIDX
+				AND R.CONDITION IS NULL
+				ORDER BY RESERDATE ) T 
     </select>
     
     <!-- 지난예약 조회 -->
     <select id="myOldReserList" parameterType="int" resultType="ReservationVO">
     <![CDATA[	
-    	SELECT ROWNUM, R.*, H.HOSNAME HOSNAME, P.PETNAME PETNAME
-		FROM RESERVATION R, HOSPITAL H, MYPET P
-		WHERE R.USERIDX = #{userIdx}
-		AND R.HOSIDX = H.HOSIDX
-		AND R.PETIDX = P.PETIDX
-		AND R.CONDITION='FINISH'
-		ORDER BY RESERDATE DESC
+		SELECT ROWNUM, T.*
+		FROM (SELECT R.*, H.HOSNAME HOSNAME, P.PETNAME PETNAME
+				FROM RESERVATION R, HOSPITAL H, MYPET P
+				WHERE R.USERIDX = #{userIdx}
+				AND R.HOSIDX = H.HOSIDX
+				AND R.PETIDX = P.PETIDX
+				AND R.CONDITION='FINISH'
+				ORDER BY RESERDATE DESC) T
 	]]>
     </select>
     
