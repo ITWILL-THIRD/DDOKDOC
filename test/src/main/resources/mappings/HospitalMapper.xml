@@ -173,10 +173,25 @@
 		WHERE REVIEWIDX = #{reviewIdx}
 	</update>
 	
+	<!-- 병원 리뷰 삭제 -->
 	<delete id="deleteReview" parameterType="HosReviewVO">
 		DELETE FROM HOSREVIEW
-		WHERE USERIDX = #{userIdx} AND REVIEWIDX = #{reviewIdx}
+		WHERE REVIEWIDX = #{reviewIdx}
 	</delete>
 	
+	<!-- 사용자 예약 내역 조회 -->
+	<select id="getReserList" parameterType="ReservationVO" resultType="int">
+		SELECT COUNT(*) 
+		FROM RESERVATION 
+		WHERE USERIDX = #{userIdx} 
+		AND HOSIDX = #{hosIdx}
+	</select>
+	
+	<!-- 병원 별점 업데이트(입력,수정,삭제 시) -->
+	<update id="updateAvgScore" parameterType="HospitalVO">
+		UPDATE HOSPITAL 
+		SET SCORE = #{score}
+		WHERE HOSIDX= #{hosIdx}
+	</update>
 </mapper>
 

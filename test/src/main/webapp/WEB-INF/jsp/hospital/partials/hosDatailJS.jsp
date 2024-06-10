@@ -50,7 +50,6 @@
 	});
 	
 };
-
 	    // 리뷰 수정 버튼 클릭 이벤트
 	    function editReview(reviewIdx) {
     	 	console.log("editReview Index: " + reviewIdx);
@@ -69,8 +68,5 @@
 		    document.getElementById('view_' + reviewIdx).classList.remove('hidden');
 		    document.getElementById('edit_' + reviewIdx).classList.add('hidden');
 		}
-
-
-
 
 </script>

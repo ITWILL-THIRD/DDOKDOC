@@ -9,6 +9,7 @@ import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.HospitalDAO;
+import com.todoc.reservation.ReservationVO;
 
 @Service("hospitalService")
 
@@ -94,11 +95,20 @@ public class HospitalServiceImpl implements HospitalService{
 	public void updateReview(HosReviewVO vo) {
 		hospitalDAO.updateReview(vo);
 	}
-
+	//병원 리뷰 삭제
 	@Override
 	public void deleteReview(HosReviewVO vo) {
 		hospitalDAO.deleteReview(vo);
+	}
+	//사용자 예약 내역 조회
+	@Override
+	public int getReserList(ReservationVO vo) {
+		return hospitalDAO.getReserList(vo);
+	}
+	//병원 별점 업데이트(입력,수정,삭제 시)
+	@Override
+	public void updateAvgScore(HospitalVO vo) {
+		hospitalDAO.updateAvgScore(vo);
 		
 	}
-
 }

@@ -2,6 +2,8 @@ package com.todoc.hospital;
 
 import java.util.List;
 
+import com.todoc.reservation.ReservationVO;
+
 
 public interface HospitalService {
 
@@ -12,13 +14,17 @@ public interface HospitalService {
 	//병원 1개 조회
 	HospitalVO selectOne(int hosIdx);
 	//병원 동적 검색
-	List<HospitalVO> getHosSearch(HospitalVO vo);	
+	List<HospitalVO> getHosSearch(HospitalVO vo);
+	// 사용자 예약 내역 조회
+	int getReserList(ReservationVO vo);
 	//병원 리뷰 조회
 	List<HosReviewVO> getHosReview(int hosIdx);
 	//병원 리뷰 입력,수정,삭제
 	void insertReview(HosReviewVO vo);
 	void updateReview(HosReviewVO vo);
 	void deleteReview(HosReviewVO vo);
+	//병원 별점 업데이트(입력,수정,삭제 시)
+	void updateAvgScore(HospitalVO vo);
 	//주은
 	HospitalVO getHos(HospitalVO ho);
 	HospitalVO hoFindId(HospitalVO vo);

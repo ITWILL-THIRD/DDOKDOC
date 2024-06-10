@@ -1,7 +1,9 @@
 <%@page import="com.todoc.user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -94,7 +96,14 @@
 		</tr>
 		<tr>
 			<th>진료시간</th>
-			<td>${hospital.formatOpenTime}~${hospital.formatCloseTime}</td>
+
+			<!-- openTime과 closeTime을 HH:MM 형식으로 변환 -->
+			
+			<fmt:formatDate value="${hospital.openTime}" pattern="HH:mm" var="openTime" />
+			<fmt:formatDate value="${hospital.closeTime}" pattern="HH:mm" var="closeTime" />
+			
+			<!-- 변환된 시간을 출력 -->
+			<td>${openTime}~${closeTime}</td>
 		</tr>
 		<tr>
 			<th>진료동물</th>
@@ -108,26 +117,26 @@
 
 	<h4>리뷰 목록</h4>
 	<div id="review">
-		<!-- 예약자만 리뷰 작성 가능하도록 추가하기 -->
-		<% %>
-		<form action="insertReview.do" method="post">
-			<div class="star-rating">
-				<input type="radio" id="5-stars" name="score" value="5" />
-				<label for="5-stars" class="star">&#9733;</label>
-				<input type="radio" id="4-stars" name="score" value="4" />
-				<label for="4-stars" class="star">&#9733;</label>
-				<input type="radio" id="3-stars" name="score" value="3" />
-				<label for="3-stars" class="star">&#9733;</label>
-				<input type="radio" id="2-stars" name="score" value="2" />
-				<label for="2-stars" class="star">&#9733;</label>
-				<input type="radio" id="1-star" name="score" value="1" />
-				<label for="1-star" class="star">&#9733;</label>
-			</div>
-			<input type="text" name="content" placeholder="리뷰를 작성하세요.">
-			<input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
-			<input type="hidden" name="score" value="">
-			<input type="submit" value="리뷰 작성">
-		</form>
+		<!-- 예약자만 리뷰 작성 form 작성 가능 -->
+		<c:if test="${reservCnt != 0 }">		
+			<form action="insertReview.do" method="post">
+				<div class="star-rating">
+					<input type="radio" id="5-stars" name="score" value="5" />
+					<label for="5-stars" class="star">&#9733;</label>
+					<input type="radio" id="4-stars" name="score" value="4" />
+					<label for="4-stars" class="star">&#9733;</label>
+					<input type="radio" id="3-stars" name="score" value="3" />
+					<label for="3-stars" class="star">&#9733;</label>
+					<input type="radio" id="2-stars" name="score" value="2" />
+					<label for="2-stars" class="star">&#9733;</label>
+					<input type="radio" id="1-star" name="score" value="1" />
+					<label for="1-star" class="star">&#9733;</label>
+				</div>
+				<input type="text" name="content" placeholder="리뷰를 작성하세요.">
+				<input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
+				<input type="submit" value="리뷰 작성">
+			</form>
+		</c:if>
 
 		<table border=1>
 			<tr>
@@ -153,15 +162,17 @@
 			            </c:choose>
 			        </td>
 			        <td>${review.reviewDate}</td>
-			        <td><button class="editReview_btn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
-			        <%-- <td><a href="deleteReview.do?reviewIdx=${review.reviewIdx}" class="deleteReview_btn" data-reviewIdx="${review.reviewIdx}">삭제</a></td> --%>
-			    	
-			    	<form id="deleteReviewForm_${review.reviewIdx }" action="deleteReview.do" action="POST">				    
-				        <td>				 
-					        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
-				        	<input type="submit" value="삭제" onClick="confirmDelete(${review.reviewIdx})">    
-				        </td> 
-				    </form>
+			        <!-- 사용자 본인만 리뷰 수정,삭제 가능 -->
+			        <c:if test="${reservCnt != 0 }">			        
+				        <td><button class="editReview_btn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
+				    	<form id="deleteReviewForm_${review.reviewIdx }" action="deleteReview.do" action="POST">				    
+					        <td>				 
+					        	<input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
+						        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
+					        	<input type="submit" value="삭제" onClick="confirmDelete(${review.reviewIdx})">    
+					        </td> 
+					    </form>
+			        </c:if>
 			    </tr>
 				
 				
@@ -232,7 +243,6 @@
 		</table>
 	</div>
 </div>
-<!-- <jsp:include page="partials/hosDatailJS.jsp"></jsp:include> -->
 <jsp:include page="partials/hosDatailJS.jsp"></jsp:include>
 </body>
 </html>
