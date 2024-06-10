@@ -18,6 +18,7 @@ public interface HospitalService {
 	//병원 리뷰 입력,수정,삭제
 	void insertReview(HosReviewVO vo);
 	void updateReview(HosReviewVO vo);
+	void deleteReview(HosReviewVO vo);
 	//주은
 	HospitalVO getHos(HospitalVO ho);
 	HospitalVO hoFindId(HospitalVO vo);

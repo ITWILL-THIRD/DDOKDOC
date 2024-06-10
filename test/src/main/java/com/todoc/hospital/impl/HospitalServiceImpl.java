@@ -95,4 +95,10 @@ public class HospitalServiceImpl implements HospitalService{
 		hospitalDAO.updateReview(vo);
 	}
 
+	@Override
+	public void deleteReview(HosReviewVO vo) {
+		hospitalDAO.deleteReview(vo);
+		
+	}
+
 }

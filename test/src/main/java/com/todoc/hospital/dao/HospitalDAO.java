@@ -17,9 +17,10 @@ public interface HospitalDAO {
 	//지수
 	List<HospitalVO> getHosSearch(HospitalVO vo);
 	List<HosReviewVO> getHosReview(int hosIdx);
+	//병원 리뷰 입력,수정,삭제
 	void insertReview(HosReviewVO vo);
 	void updateReview(HosReviewVO vo);
-	//void deleteReview(HosReviewVO vo);
+	void deleteReview(HosReviewVO vo);
 	//주은 
 	HospitalVO getHos(HospitalVO ho);
 	HospitalVO hoFindId(HospitalVO vo);

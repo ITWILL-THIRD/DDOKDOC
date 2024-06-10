@@ -158,18 +158,25 @@
 	    </where>
 	    ORDER BY H.HOSIDX DESC
 	</select>
+	
+	<!-- 병원 리뷰 입력 -->
  	<insert id="insertReview" parameterType="HosReviewVO">
 		INSERT INTO HOSREVIEW(REVIEWIDX, HOSIDX, USERIDX, CONTENT, SCORE, REVIEWDATE) 
 		VALUES((SELECT NVL(MAX(REVIEWIDX), 0) + 1 FROM HOSREVIEW), 
 				#{hosIdx}, #{userIdx}, #{content}, #{score}, SYSDATE)
 	</insert>
 	
+	<!-- 병원 리뷰 수정 -->
 	<update id="updateReview" parameterType="HosReviewVO">
 		UPDATE HOSREVIEW 
 		SET CONTENT = #{content}, SCORE = #{score}, REVIEWDATE = SYSDATE 
 		WHERE REVIEWIDX = #{reviewIdx}
 	</update>
 	
+	<delete id="deleteReview" parameterType="HosReviewVO">
+		DELETE FROM HOSREVIEW
+		WHERE USERIDX = #{userIdx} AND REVIEWIDX = #{reviewIdx}
+	</delete>
 	
 </mapper>
 

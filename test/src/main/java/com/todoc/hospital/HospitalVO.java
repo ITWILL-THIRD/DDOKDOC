@@ -19,6 +19,9 @@ public class HospitalVO {
    private Time closeTime;
    private Time lunchTime;
    private Time endLunchTime;
+   //hostime time 포맷타입
+   private String formatOpenTime;
+   private String formatCloseTime;
    // +토,일요일 시간 컬럼4개 추가
    private Time satOpenTime;
    private Time satCloseTime;
@@ -217,18 +220,31 @@ public class HospitalVO {
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
 	}
-	   
+	public String getFormatOpenTime() {
+		return formatOpenTime;
+	}
+	public void setFormatOpenTime(String formatOpenTime) {
+		this.formatOpenTime = formatOpenTime;
+	}
+	public String getFormatCloseTime() {
+		return formatCloseTime;
+	}
+	public void setFormatCloseTime(String formatCloseTime) {
+		this.formatCloseTime = formatCloseTime;
+	}
+	
 	@Override
 	public String toString() {
 		return "HospitalVO [hosIdx=" + hosIdx + ", hosId=" + hosId + ", hosPw=" + hosPw + ", hosName=" + hosName
 				+ ", hosPhone=" + hosPhone + ", animal=" + animal + ", score=" + score + ", condition=" + condition
 				+ ", openTime=" + openTime + ", closeTime=" + closeTime + ", lunchTime=" + lunchTime + ", endLunchTime="
-				+ endLunchTime + ", satOpenTime=" + satOpenTime + ", satCloseTime=" + satCloseTime + ", satLunchTime="
-				+ satLunchTime + ", satEndLunchTime=" + satEndLunchTime + ", sunOpenTime=" + sunOpenTime
-				+ ", sunCloseTime=" + sunCloseTime + ", sunLunchTime=" + sunLunchTime + ", sunEndLunchTime="
-				+ sunEndLunchTime + ", addressName=" + addressName + ", roadAddressName=" + roadAddressName
-				+ ", detailAddress=" + detailAddress + ", addx=" + addx + ", addy=" + addy + ", sido=" + sido
-				+ ", sigungu=" + sigungu + ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
-				+ "]";
+				+ endLunchTime + ", formatOpenTime=" + formatOpenTime + ", formatCloseTime=" + formatCloseTime
+				+ ", satOpenTime=" + satOpenTime + ", satCloseTime=" + satCloseTime + ", satLunchTime=" + satLunchTime
+				+ ", satEndLunchTime=" + satEndLunchTime + ", sunOpenTime=" + sunOpenTime + ", sunCloseTime="
+				+ sunCloseTime + ", sunLunchTime=" + sunLunchTime + ", sunEndLunchTime=" + sunEndLunchTime
+				+ ", addressName=" + addressName + ", roadAddressName=" + roadAddressName + ", detailAddress="
+				+ detailAddress + ", addx=" + addx + ", addy=" + addy + ", sido=" + sido + ", sigungu=" + sigungu
+				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + "]";
 	}
+
 }

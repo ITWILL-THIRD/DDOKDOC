@@ -1,16 +1,11 @@
 package com.todoc.view.hospital;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.todoc.hospital.HosReviewVO;
@@ -47,19 +42,19 @@ public class HospitalAjaxController {
 	}
 	
 	//리뷰 동적 수정
-	@RequestMapping(value = "hospital/updateReview.do", method = RequestMethod.POST,
-			produces = "application/json; charset=utf-8")
-	@ResponseBody
-	public Map<String, String> updateReview(@RequestParam("userIdx") int userIdx, @RequestBody HosReviewVO vo) {
-	    System.out.println(":: 병원 리뷰 update");
-	    vo.setUserIdx(userIdx);
-	    System.out.println("vo : " + vo);
-	   
-	    hospitalService.updateReview(vo);
-	    System.out.println("update");
-	    
-	    Map<String, String> response = new HashMap<>();
-	    response.put("redirect", "/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx());
-	    return response;
-	}
+//	@RequestMapping(value = "hospital/updateReview.do", method = RequestMethod.POST,
+//			produces = "application/json; charset=utf-8")
+//	@ResponseBody
+//	public Map<String, String> updateReview(@RequestParam("userIdx") int userIdx, @RequestBody HosReviewVO vo) {
+//	    System.out.println(":: 병원 리뷰 update");
+//	    vo.setUserIdx(userIdx);
+//	    System.out.println("vo : " + vo);
+//	   
+//	    hospitalService.updateReview(vo);
+//	    System.out.println("update");
+//	    
+//	    Map<String, String> response = new HashMap<>();
+//	    response.put("redirect", "/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx());
+//	    return response;
+//	}
 }

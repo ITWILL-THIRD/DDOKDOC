@@ -49,6 +49,16 @@ public class HospitalController {
 		model.addAttribute("hosIdx", hosIdx);
 		
 		HospitalVO hospital = hospitalService.selectOne(hosIdx);
+		
+		// 병원 오픈 시간, 마감 시간 데이터 포맷
+		String formatOpenTime = hospital.getOpenTime().toString().substring(0, 5); // HH:mm 형식으로 변환
+		String formatCloseTime = hospital.getCloseTime().toString().substring(0, 5); // HH:mm 형식으로 변환
+		System.out.println(formatOpenTime);
+		// 변환된 시간 값을 HospitalVO에 설정
+		hospital.setFormatOpenTime(formatOpenTime);; // 예약 객체에 설정된 'hh:mm' 형식의 시간
+		hospital.setFormatCloseTime(formatCloseTime);
+		
+		System.out.println(hospital);
 		model.addAttribute("hospital", hospital);
 
 		List<HosReviewVO> reviewList = hospitalService.getHosReview(hosIdx);
@@ -61,6 +71,7 @@ public class HospitalController {
 
 	}
 	
+	// 리뷰 입력 + 별점 통계 업데이트
 	@RequestMapping("/insertReview.do")
 	public String insertReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model,  HttpSession session) {
 		System.out.println(":: 병원 리뷰 작성");
@@ -72,6 +83,38 @@ public class HospitalController {
 		hospitalService.insertReview(vo);
 		
 		//리뷰 별점 평균 업데이트
+		
+		String add = "redirect:/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
+		
+		return add;
+	}
+	
+	// 리뷰 수정 + 별점 통계 업데이트
+	@RequestMapping("/updateReview.do")
+	public String updateReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model,  HttpSession session) {
+		System.out.println(":: 병원 리뷰 수정");
+		vo.setUserIdx(((UserVO) session.getAttribute("user")).getUserIdx());
+		System.out.println("vo  : " + vo);
+		
+		model.addAttribute("hosIdx", hosIdx);
+		
+		hospitalService.updateReview(vo);
+		
+		String add = "redirect:/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
+		
+		return add;
+	}
+	
+	// 리뷰 삭제
+	@RequestMapping("/deleteReview.do")
+	public String deleteReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model,  HttpSession session) {
+		System.out.println(":: 병원 리뷰 삭제");
+		vo.setUserIdx(((UserVO) session.getAttribute("user")).getUserIdx());
+		System.out.println("vo  : " + vo);
+		
+		model.addAttribute("hosIdx", hosIdx);
+		
+		hospitalService.deleteReview(vo);
 		
 		String add = "redirect:/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
 		

@@ -61,4 +61,5 @@ public class HosReviewVO {
 		return "HosReviewVO [reviewIdx=" + reviewIdx + ", hosIdx=" + hosIdx + ", userIdx=" + userIdx + ", content="
 				+ content + ", score=" + score + ", reviewDate=" + reviewDate + ", nickname=" + nickname + "]";
 	}
+	
 };
