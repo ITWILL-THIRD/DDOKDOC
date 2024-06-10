@@ -116,6 +116,7 @@ public class HoMyPageController {
 	        if (hour < 0 || hour > 23) {
 	            hour = hour % 24;
 	        }
+	        
 	        // 유효한 시간 값으로 반환
 	        return String.format("%02d:%02d:%02d", hour, minute, second);
 		}
