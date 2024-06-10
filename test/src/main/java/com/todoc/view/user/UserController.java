@@ -54,9 +54,10 @@ public class UserController {
 		
 		
 		if (user != null) {
+			session.setAttribute("user", user);
 			model.addAttribute("msg", "로그인 성공");
 			System.out.println(">>로그인 성공");
-			session.setAttribute("user", user);
+			System.out.println("로그인시 userIdx : " + vo.getUserIdx());
 			return "redirect:/index.jsp?msg=success";
 			
 		} else {
@@ -104,6 +105,10 @@ public class UserController {
 	//개인 회원가입 처리
 	@PostMapping("user/userJoin.do")
 	public String userJoinOk(UserVO vo, Model model) throws Exception {
+		if (vo.getUserImg() == null || vo.getUserImg().isEmpty()) {
+	        vo.setUserImg("	https://storage.googleapis.com/todoc-storage/89e6c102-02df-4055-8a9a-afdec82d735f-user.png"); // 기본 프로필 이미지 URL 설정
+	    }
+		
 		int cnt = userService.email(vo);
 		
 		

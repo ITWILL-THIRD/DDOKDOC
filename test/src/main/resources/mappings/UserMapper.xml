@@ -10,12 +10,17 @@
 		WHERE EMAIL = #{email} AND PASSWORD = #{password}
 	</select>
 	
-	<!-- 회원가입 -->
-	<insert id="insertUser" parameterType="userVO">
-		INSERT INTO DDOKUSER
-			(USERIDX, EMAIL, NICKNAME, PASSWORD, NAME, BIRTH, PHONE, ROLE)
-		VALUES (SEQ_USERIDX.NEXTVAL, #{email}, #{nickname}, #{password}, #{name}, #{birth}, #{phone}, 'user')
-	</insert>
+	 <!-- 회원가입 -->
+    <insert id="insertUser" parameterType="userVO">
+        <!-- 방금 삽입된 시퀀스 값 가져오기 -->
+        <selectKey keyProperty="userIdx" resultType="int" order="AFTER">
+            SELECT SEQ_USERIDX.CURRVAL FROM DUAL
+        </selectKey>
+        
+        INSERT INTO DDOKUSER
+            (USERIDX, EMAIL, NICKNAME, PASSWORD, NAME, BIRTH, PHONE, ROLE, USERIMG)
+        VALUES (SEQ_USERIDX.NEXTVAL, #{email}, #{nickname}, #{password}, #{name}, #{birth}, #{phone}, 'user', #{userImg})
+    </insert>
 	
 	<!-- 이메일중복체크 -->
 	
@@ -37,7 +42,7 @@
 <!--     내 정보 수정  -->
 	<update id="updateUser" parameterType="userVO">
 		UPDATE DDOKUSER 
-		SET NICKNAME = #{nickname}, PHONE = #{phone}
+		SET USERIMG = #{userImg}, NICKNAME = #{nickname}, PHONE = #{phone}
 		WHERE USERIDX = #{userIdx}
 	</update>
 <!-- 	비밀번호 수정 -->

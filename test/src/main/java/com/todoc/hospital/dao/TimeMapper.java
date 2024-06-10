@@ -38,7 +38,7 @@ public interface TimeMapper {
 	            "SUNLUNCHTIME = TO_DATE('1970-01-01 ' || #{sunLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
 	            "SUNENDLUNCHTIME = TO_DATE('1970-01-01 ' || #{sunEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS') " +
 	            "WHERE HOSIDX = #{hosIdx}")
-	    void updateHosTime(HospitalVO vo,  @Param("hosIdx")int hosIdx
+	 void updateHosTime(HospitalVO vo,  @Param("hosIdx")int hosIdx
 	    		, @Param("openTimeStr")String openTimeStr, @Param("closeTimeStr")String closeTimeStr
 	    		, @Param("lunchTimeStr")String lunchTimeStr, @Param("endLunchTimeStr")String endLunchTimeStr
 	    		, @Param("satOpenTimeStr")String satOpenTimeStr, @Param("satCloseTimeStr")String satCloseTimeStr

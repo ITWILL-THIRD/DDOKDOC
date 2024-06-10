@@ -1,10 +1,12 @@
 package com.todoc.view.mypage;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.todoc.googlecloudstorage.GCSService;
 import com.todoc.mypet.MyPetService;
 import com.todoc.mypet.MyPetVO;
 import com.todoc.reservation.ReservationService;
@@ -29,6 +33,9 @@ public class MyPageController {
 	private UserService userService;
 	
 	@Autowired
+    @Qualifier("gcsService")
+    private GCSService gcsService;
+	@Autowired
 	private MyPetService myPetService;
 	@Autowired
 	private ReservationService reservationService;
@@ -38,17 +45,27 @@ public class MyPageController {
 		System.out.println(">> 내 정보 수정페이지");
 	    UserVO vo = userService.getUserInfo(userIdx);
 	    session.setAttribute("user", vo); 
+	    
 	    model.addAttribute("user", vo); 
 	    return "mypage/updateUser";
 	}
 	//정보수정
 	@PostMapping("/updateUser.do")
-	public String updateUser(@ModelAttribute("user") UserVO vo, HttpSession session) {
-	    System.out.println("내 정보 수정");
-	    System.out.println("vo : " + vo);
-	    userService.updateUser(vo);
-	    session.setAttribute("user", vo); 
-	    return "redirect:myPage.do";
+	public String updateUser(@RequestParam("file") MultipartFile file, @ModelAttribute("user") UserVO vo, HttpSession session) {
+	    try {
+	    	String userImg = gcsService.uploadFile(file);
+	    	vo.setUserImg(userImg);
+	    	UserVO user = (UserVO) session.getAttribute("user");
+            vo.setUserIdx(user.getUserIdx());
+            System.out.println("내 정보 수정");
+            System.out.println("vo : " + vo);
+            userService.updateUser(vo);
+            session.setAttribute("user", vo); 
+            return "redirect:myPage.do";
+	    } catch (IOException e) {
+            e.printStackTrace();
+            return "mypage/updateUser";
+        }
 	}
 	
 	@RequestMapping("/updatePwd.do")

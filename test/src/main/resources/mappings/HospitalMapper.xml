@@ -35,6 +35,7 @@
 		WHERE HOSIDX = #{hosIdx}
 	</update>
 
+
 	
 	
 	<!-- 	비밀번호 수정 -->

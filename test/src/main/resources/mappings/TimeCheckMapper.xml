@@ -17,8 +17,8 @@
 				)
 	</insert>
 	
-	<!-- 	병원정보수정HOSTIME -->
-	<update id="updateHosTime">
+		<!-- 	병원정보수정HOSTIME -->
+	<update id="updateHosTime" parameterType="HospitalVO">
 		UPDATE HOSTIME
 		SET OPENTIME = #{openTime}, CLOSETIME = #{closeTime},
 			LUNCHTIME = #{lunchTime}, ENDLUNCHTIME = #{endLunchTime},
@@ -28,4 +28,5 @@
 			SUNLUNCHTIME = #{sunLunchTime}, SUNENDLUNCHTIME = #{sunEndLunchTime}
 		WHERE HOSIDX = #{hosIdx}
 	</update>
+	
 </mapper>

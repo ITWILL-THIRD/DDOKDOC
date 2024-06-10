@@ -80,6 +80,7 @@ function sample4_execDaumPostcode() {
 </head>
 <body>
 <h1>병원정보수정</h1>
+${hoUser }
 <form name="hoUserUpdateForm" action="updateHoUser.do" method="post">
 	<table>
 		<tr>

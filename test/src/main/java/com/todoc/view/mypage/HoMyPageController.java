@@ -52,10 +52,14 @@ public class HoMyPageController {
             @RequestParam("sunLunchTimeStr") String sunLunchTimeStr,
             @RequestParam("sunEndLunchTimeStr") String sunEndLunchTimeStr
 			) {
+		
+		
 		System.out.println("병원정보 수정");
 		System.out.println("vo : " + vo);
 		hospitalService.updateHoUser(vo);
 		hospitalService.updateHosAddress(vo);
+//		session.setAttribute("hoUser", vo);
+		
 		
 		//시간 형식에서 ss(초) 문자열 추가
 		System.out.println("openTimeStr : " + openTimeStr);
@@ -87,12 +91,17 @@ public class HoMyPageController {
 		String validSunLunchTime = validateAndCorrectTime(fullSunLunchTimeStr);
 		String validSunEndLunchTime = validateAndCorrectTime(fullSunEndLunchTimeStr);
 		System.out.println("validOpenTime : " + validOpenTime);
+		System.out.println("validCloseTime : " + validCloseTime);
+		System.out.println("validLunchTime : " + validLunchTime);
+		System.out.println("validEndLunchTime : " + validEndLunchTime);
 		
 		timeMapper.updateHosTime(vo, hosIdx, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
 				, validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
 				, validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime);
-		session.setAttribute("hoUser", vo);
+		System.out.println("vo.getTime : " + vo.getCloseTime());
+//		session.setAttribute("hoUser", vo);
 		System.out.println("수정 후 vo : " + vo);
+		
 		return "redirect:hoMyPage.do";
 	}
 	

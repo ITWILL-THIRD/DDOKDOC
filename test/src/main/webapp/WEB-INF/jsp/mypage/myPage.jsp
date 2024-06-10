@@ -27,6 +27,14 @@ function userDelete_ok(frm) {
 	<form action="updateUser.do">
 	<table>
 	<tr>
+		<td>프로필사진 </td>
+		<td>
+		<c:if test="${not empty user.userImg}">
+			<img src="${user.userImg}" alt="${user.userIdx}의 이미지" style="max-width: 150px;">
+		</c:if>
+		</td>
+	</tr>
+	<tr>
 		<td>이메일 </td>
 		<td>${user.email}</td>
 	</tr>

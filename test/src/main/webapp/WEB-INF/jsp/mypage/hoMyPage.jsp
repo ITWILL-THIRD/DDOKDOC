@@ -10,6 +10,7 @@
 </head>
 <body>
 <h1>병원 마이페이지</h1>
+${hoUser }
 <a href="index.do">메인가기</a>
 <hr>
 <h2>병원정보</h2>
