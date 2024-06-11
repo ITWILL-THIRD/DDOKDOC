@@ -1,12 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>병원 마이페이지</title>
 <jsp:include page="../common/navigation.jsp"/>
+<style>
+	.holiday {
+		color: red;
+		font: bold;
+	}
+</style>
 </head>
 <body>
 <h1>병원 마이페이지</h1>
@@ -18,7 +25,7 @@ ${hoUser }
 <form action="updateHoUser.do">
 	<table>
 		<tr>
-			<td>병원아이디</td>
+			<th>병원아이디</th>
 			<td>${hoUser.hosId }</td>
 		</tr>
 		<tr>
@@ -26,65 +33,108 @@ ${hoUser }
 			<td>${hoUser.hosPw }</td>
 		</tr>
 		<tr>
-			<td>병원이름</td>
+			<th>병원이름</th>
 			<td>${hoUser.hosName }</td>
 		</tr>
 		<tr>
-			<td>병원 연락처</td>
+			<th>병원 연락처</th>
 			<td>${hoUser.hosPhone }</td>
 		</tr>
 		<tr>
-			<td>분류</td>
+			<th>분류</th>
 			<td>${hoUser.animal }</td>
 		</tr>
 		<tr>
-			<td>평점</td>
+			<th>평점</th>
 			<td>${hoUser.score }</td>
 		</tr>
 		<tr>
-			<td>주소</td>
+			<th>주소</th>
 			<td>${hoUser.addressName }</td>
 			<td>${hoUser.roadAddressName }</td>
 			<td>${hoUser.detailAddress }</td>
 		</tr>
 		<tr>
-			<td>평일 진료시간</td>
-			<td>${hoUser.openTime } - ${hoUser.closeTime }</td>
+			<th rowspan="2">평일</th>
+			<c:set var="openTime" value="${hoUser.openTime}"/>
+			<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
+			<c:set var="closeTime" value="${hoUser.closeTime}"/>
+			<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
+			<td>진료 ${openTimeSub} - ${closeTimeSub}</td>
 		</tr>
 		<tr>
-			<td>평일 점심시간</td>
-			<td>${hoUser.lunchTime } - ${hoUser.endLunchTime }</td>
+			<c:set var="lunchTime" value="${hoUser.lunchTime}"/>
+			<c:set var="lunchTimeSub" value="${fn:substring(lunchTime, 0, 5)}"/>
+			<c:set var="endLunchTime" value="${hoUser.endLunchTime}"/>
+			<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
+			<td>
+				<c:choose>
+					<c:when test="${hoUser.lunchOff == 'Y'
+						or hoUser.lunchTime == '00:00:00' or hoUser.endLunchTime == '00:00:00'
+						or hoUser.lunchTime == null or hoUser.endLunchTime == null}">
+					</c:when>
+					<c:otherwise>
+						점심 ${lunchTimeSub} - ${endLunchTimeSub}
+					</c:otherwise>
+				</c:choose>
+			</td>
 		</tr>
 		<tr>
-			<td>토요일 진료시간</td>
-			<td>${hoUser.satOpenTime } - ${hoUser.satCloseTime }</td>
+			<th rowspan="2">토요일</th>
+			<c:set var="satOpenTime" value="${hoUser.satOpenTime}"/>
+			<c:set var="satOpenTimeSub" value="${fn:substring(satOpenTime, 0, 5)}"/>
+			<c:set var="satCloseTime" value="${hoUser.satCloseTime}"/>
+			<c:set var="satCloseTimeSub" value="${fn:substring(satCloseTime, 0, 5)}"/>
+			<td>진료 ${satOpenTimeSub} - ${satCloseTimeSub}</td>
 		</tr>
 		<tr>
-			<td>토요일 점심시간</td>
-			<td>${hoUser.satLunchTime } - ${hoUser.satEndLunchTime }</td>
+			<c:set var="satLunchTime" value="${hoUser.satLunchTime}"/>
+			<c:set var="satLunchTimeSub" value="${fn:substring(satLunchTime, 0, 5)}"/>
+			<c:set var="satEndLunchTime" value="${hoUser.satEndLunchTime}"/>
+			<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
+			<td>
+				<c:choose>
+					<c:when test="${hoUser.satLunchOff == 'Y'
+						or hoUser.satLunchTime == '00:00:00' or hoUser.satEndLunchTime == '00:00:00'
+						or hoUser.satLunchTime == null or hoUser.satEndLunchTime == null}">
+					</c:when>
+					<c:otherwise>
+						점심 ${satLunchTimeSub} - ${satEndLunchTimeSub}
+					</c:otherwise>
+				</c:choose>
+			</td>
 		</tr>
 		<tr>
-			<td>일요일 진료시간</td>
+			<th rowspan="2">일요일</th>
+			<c:set var="sunOpenTime" value="${hoUser.sunOpenTime}"/>
+			<c:set var="sunOpenTimeSub" value="${fn:substring(sunOpenTime, 0, 5)}"/>
+			<c:set var="sunCloseTime" value="${hoUser.sunCloseTime}"/>
+			<c:set var="sunCloseTimeSub" value="${fn:substring(sunCloseTime, 0, 5)}"/>
 			<td>
 			  <c:choose>
-                    <c:when test="${hoUser.sunOpenTime == null && hoUser.sunCloseTime == null}">
-                       	 휴무
+                    <c:when test="${hoUser.sunDayOff == 'Y'
+                    	or hoUser.sunOpenTime == null or hoUser.sunCloseTime == null}">
+                      	<span class="holiday">휴무</span>
                     </c:when>
                     <c:otherwise>
-                        ${hoUser.sunOpenTime} - ${hoUser.sunCloseTime}
+						진료 ${sunOpenTimeSub} - ${sunCloseTimeSub}
                     </c:otherwise>
                 </c:choose>
                </td>
 		</tr>
 		<tr>
-			<td>일요일 점심시간</td>
+			<c:set var="sunLunchTime" value="${hoUser.sunLunchTime}"/>
+			<c:set var="sunLunchTimeSub" value="${fn:substring(sunLunchTime, 0, 5)}"/>
+			<c:set var="sunEndLunchTime" value="${hoUser.sunEndLunchTime}"/>
+			<c:set var="sunEndLunchTimeSub" value="${fn:substring(sunEndLunchTime, 0, 5)}"/>
 			<td>
 			  <c:choose>
-                    <c:when test="${hoUser.sunLunchTime == null && hoUser.sunEndLunchTime == null}">
-                       	 휴무
+                    <c:when test="${hoUser.sunDayOff == 'Y'
+                    	or hoUser.sunLunchTime == '00:00:00' or hoUser.sunEndLunchTime == '00:00:00'
+                    	or hoUser.sunLunchTime == null or hoUser.sunEndLunchTime == null}">
                     </c:when>
                     <c:otherwise>
-                        ${hoUser.sunLunchTime} - ${hoUser.sunEndLunchTime}
+                    	점심 ${sunLunchTimeSub} - ${sunEndLunchTimeSub}
                     </c:otherwise>
                 </c:choose>
                </td>
