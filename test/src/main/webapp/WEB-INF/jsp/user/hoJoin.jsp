@@ -242,7 +242,7 @@
 	</tr>
 	<tr>
 		<td>
-			일요일 : 휴무 <input type="checkbox" id="toggleSun" name="sunDayOff" value="Y"><br>
+			일요일 : 휴무 <input type="checkbox" id="toggleSun" name="sunDayOff" value="Y"> 점심시간 없음 <input type="checkbox" name="sunLunchOff" value="Y"><br>
 		</td>
 	</tr>
 	<tr>

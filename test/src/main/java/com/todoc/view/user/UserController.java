@@ -169,6 +169,7 @@ public class UserController {
 			, @RequestParam(value="lunchOff" , required=false)String lunchOff
 			, @RequestParam (value="satLunchOff" , required=false)String satLunchOff
 			, @RequestParam(value="sunDayOff", required=false)String sunDayOff
+			, @RequestParam (value="sunLunchOff" , required=false)String sunLunchOff
 			) {
 		//hoJoin 입력 폼에서 vo 값 넘어오는지 확인
 		System.out.println(":: TimeController.saveTime() 메소드 실행~!!");
@@ -230,6 +231,16 @@ public class UserController {
 		}
 		
 		//hosTime 테이블 입력
+		//closeTime,satCloseTime,sunCloseTime끝나는 시간 입력값 00:00:00인 경우 23:59로 변경
+		if (closeTimeStr.equals("00:00")) {
+			closeTimeStr = "23:59";
+		}
+		if (satCloseTimeStr.equals("00:00")) {
+			satCloseTimeStr = "23:59";
+		}
+		if (sunCloseTimeStr.equals("00:00")) {
+			sunCloseTimeStr = "23:59";
+		}
 		//시간 형식에서 ss(초) 문자열 추가
 		System.out.println("openTimeStr : " + openTimeStr);
 		String fullOpenTimeStr = openTimeStr + ":00";
@@ -265,7 +276,7 @@ public class UserController {
 			int cntHosTime = timeMapper.insertTime(vo, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
 								, validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
 								, validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime
-								, lunchOff, satLunchOff, sunDayOff);
+								, lunchOff, satLunchOff, sunDayOff, sunLunchOff);
 			System.out.println("cntHosTime : " + cntHosTime);
 			if (cntHosTime == 0) {
 				System.out.println(">> 회원가입 실패");

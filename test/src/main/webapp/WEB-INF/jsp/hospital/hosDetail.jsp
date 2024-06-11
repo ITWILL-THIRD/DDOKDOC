@@ -71,7 +71,10 @@
 .star-rating2 label:hover ~ label {
   color:#fc0;
 }
-
+.holiday {
+	color: red;
+	font: bold;
+}
 </style>
 </head>
 <body>
@@ -95,42 +98,79 @@
 		</tr>
 		<tr>
 			<th rowspan="3">진료시간</th>
+			<c:set var="openTime" value="${hospital.openTime}"/>
+			<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
+			<c:set var="closeTime" value="${hospital.closeTime}"/>
+			<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
+			<c:set var="lunchTime" value="${hospital.lunchTime}"/>
+			<c:set var="lunchTimeSub" value="${fn:substring(lunchTime, 0, 5)}"/>
+			<c:set var="endLunchTime" value="${hospital.endLunchTime}"/>
+			<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
 			<td>
-				<c:set var="openTime" value="${hospital.openTime}"/>
-				<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
-				<c:set var="closeTime" value="${hospital.closeTime}"/>
-				<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
-				<c:set var="lunchTime" value="${hospital.lunchTime}"/>
-				<c:set var="lunchTimeSub" value="${fn:substring(lunchTime, 0, 5)}"/>
-				<c:set var="endLunchTime" value="${hospital.endLunchTime}"/>
-				<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
-				평일 : ${openTimeSub} - ${closeTimeSub} | 점심 : ${lunchTimeSub} - ${endLunchTimeSub}
+				평일 ${openTimeSub} - ${closeTimeSub}
+				<c:choose>
+					<!-- 점심x -->
+					<c:when test="${hospital.lunchOff == 'Y'
+						or hospital.lunchTime == '00:00:00' or hospital.endLunchTime == '00:00:00'
+						or hospital.lunchTime == null or hospital.endLunchTime == null}">
+					</c:when>
+					<c:otherwise>
+						| 점심 ${lunchTimeSub} - ${endLunchTimeSub}
+					</c:otherwise>
+				</c:choose>
 			</td>
 		</tr>
 		<tr>
+			<c:set var="satOpenTime" value="${hospital.satOpenTime}"/>
+			<c:set var="satOpenTimeSub" value="${fn:substring(satOpenTime, 0, 5)}"/>
+			<c:set var="satCloseTime" value="${hospital.satCloseTime}"/>
+			<c:set var="satCloseTimeSub" value="${fn:substring(satCloseTime, 0, 5)}"/>
+			<c:set var="satLunchTime" value="${hospital.satLunchTime}"/>
+			<c:set var="satLunchTimeSub" value="${fn:substring(satLunchTime, 0, 5)}"/>
+			<c:set var="satEndLunchTime" value="${hospital.satEndLunchTime}"/>
+			<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
 			<td>
-				<c:set var="satOpenTime" value="${hospital.satOpenTime}"/>
-				<c:set var="satOpenTimeSub" value="${fn:substring(satOpenTime, 0, 5)}"/>
-				<c:set var="satCloseTime" value="${hospital.satCloseTime}"/>
-				<c:set var="satCloseTimeSub" value="${fn:substring(satCloseTime, 0, 5)}"/>
-				<c:set var="satLunchTime" value="${hospital.satLunchTime}"/>
-				<c:set var="satLunchTimeSub" value="${fn:substring(satLunchTime, 0, 5)}"/>
-				<c:set var="satEndLunchTime" value="${hospital.satEndLunchTime}"/>
-				<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
-				토 : ${satOpenTimeSub} - ${satCloseTimeSub} | 점심 : ${satLunchTimeSub} - ${satEndLunchTimeSub}
+				토요일 ${satOpenTimeSub} - ${satCloseTimeSub}
+				<c:choose>
+					<!-- 점심x -->
+					<c:when test="${hospital.satLunchOff == 'Y'
+						or hospital.satLunchTime == '00:00:00' or hospital.satEndLunchTime == '00:00:00'
+						or hospital.satLunchTime == null or hospital.satEndLunchTime == null}">
+					</c:when>
+					<c:otherwise>
+						| 점심 ${satLunchTimeSub} - ${satEndLunchTimeSub}
+					</c:otherwise>
+				</c:choose>
 			</td>
 		</tr>
 		<tr>
+			<c:set var="sunOpenTime" value="${hospital.sunOpenTime}"/>
+			<c:set var="sunOpenTimeSub" value="${fn:substring(sunOpenTime, 0, 5)}"/>
+			<c:set var="sunCloseTime" value="${hospital.sunCloseTime}"/>
+			<c:set var="sunCloseTimeSub" value="${fn:substring(sunCloseTime, 0, 5)}"/>
+			<c:set var="sunLunchTime" value="${hospital.sunLunchTime}"/>
+			<c:set var="sunLunchTimeSub" value="${fn:substring(sunLunchTime, 0, 5)}"/>
+			<c:set var="sunEndLunchTime" value="${hospital.sunEndLunchTime}"/>
+			<c:set var="sunEndLunchTimeSub" value="${fn:substring(sunEndLunchTime, 0, 5)}"/>
 			<td>
-				<c:set var="sunOpenTime" value="${hospital.sunOpenTime}"/>
-				<c:set var="sunOpenTimeSub" value="${fn:substring(sunOpenTime, 0, 5)}"/>
-				<c:set var="sunCloseTime" value="${hospital.sunCloseTime}"/>
-				<c:set var="sunCloseTimeSub" value="${fn:substring(sunCloseTime, 0, 5)}"/>
-				<c:set var="sunLunchTime" value="${hospital.sunLunchTime}"/>
-				<c:set var="sunLunchTimeSub" value="${fn:substring(sunLunchTime, 0, 5)}"/>
-				<c:set var="sunEndLunchTime" value="${hospital.sunEndLunchTime}"/>
-				<c:set var="sunEndLunchTimeSub" value="${fn:substring(sunEndLunchTime, 0, 5)}"/>
-				일 : ${sunOpenTimeSub} - ${sunCloseTimeSub} | 점심 : ${sunLunchTimeSub} - ${sunEndLunchTimeSub}
+				일요일  
+				<c:choose>
+					<!-- 휴무 -->
+                    <c:when test="${hospital.sunDayOff == 'Y'
+                    	or hospital.sunOpenTime == null or hospital.sunCloseTime == null}">
+                      	<span class="holiday">휴무</span>
+                    </c:when>
+					<!-- 휴무x, 점심x -->
+                    <c:when test="${hospital.sunLunchOff == 'Y'
+						or hospital.sunLunchTime == '00:00:00' or hospital.sunEndLunchTime == '00:00:00'
+						or hospital.sunLunchTime == null or hospital.sunEndLunchTime == null}">
+						${sunOpenTimeSub} - ${sunCloseTimeSub}
+					</c:when>
+					<!-- 휴무x, 점심o -->
+					<c:otherwise>
+						${sunOpenTimeSub} - ${sunCloseTimeSub} | 점심 ${sunLunchTimeSub} - ${sunEndLunchTimeSub}
+					</c:otherwise>
+                </c:choose>
 			</td>
 		</tr>
 		<tr>

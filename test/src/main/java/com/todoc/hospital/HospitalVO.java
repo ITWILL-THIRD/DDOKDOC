@@ -35,6 +35,7 @@ public class HospitalVO {
    private String lunchOff;
    private String satLunchOff;
    private String sunDayOff;
+   private String sunLunchOff;
    //hosaddress 테이블
    private String addressName;
    private String roadAddressName;
@@ -207,6 +208,12 @@ public class HospitalVO {
 	public void setSunDayOff(String sunDayOff) {
 		this.sunDayOff = sunDayOff;
 	}
+	public String getSunLunchOff() {
+		return sunLunchOff;
+	}
+	public void setSunLunchOff(String sunLunchOff) {
+		this.sunLunchOff = sunLunchOff;
+	}
 	
 	public String getAddressName() {
 		return addressName;
@@ -272,8 +279,9 @@ public class HospitalVO {
 				+ ", satEndLunchTime=" + satEndLunchTime + ", sunOpenTime=" + sunOpenTime + ", sunCloseTime="
 				+ sunCloseTime + ", sunLunchTime=" + sunLunchTime + ", sunEndLunchTime=" + sunEndLunchTime
 				+ ", lunchOff=" + lunchOff + ", satLunchOff=" + satLunchOff + ", sunDayOff=" + sunDayOff
-				+ ", addressName=" + addressName + ", roadAddressName=" + roadAddressName + ", detailAddress="
-				+ detailAddress + ", addx=" + addx + ", addy=" + addy + ", sido=" + sido + ", sigungu=" + sigungu
-				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + "]";
+				+ ", sunLunchOff=" + sunLunchOff + ", addressName=" + addressName + ", roadAddressName="
+				+ roadAddressName + ", detailAddress=" + detailAddress + ", addx=" + addx + ", addy=" + addy + ", sido="
+				+ sido + ", sigungu=" + sigungu + ", searchCondition=" + searchCondition + ", searchKeyword="
+				+ searchKeyword + "]";
 	}
 }
