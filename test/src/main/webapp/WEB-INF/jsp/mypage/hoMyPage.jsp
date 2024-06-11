@@ -13,6 +13,7 @@
 <a href="index.do">메인가기</a>
 <hr>
 <h2>병원정보</h2>
+\${hoUser} : ${hoUser}
 <form action="updateHoUser.do">
 	<table>
 		<tr>
@@ -42,7 +43,7 @@
 			<td>${hoUser.detailAddress }</td>
 		</tr>
 		<tr>
-			<td>평일 운영시간</td>
+			<td>평일 진료시간</td>
 			<td>${hoUser.openTime } - ${hoUser.closeTime }</td>
 		</tr>
 		<tr>
@@ -50,7 +51,7 @@
 			<td>${hoUser.lunchTime } - ${hoUser.endLunchTime }</td>
 		</tr>
 		<tr>
-			<td>토요일 운영시간</td>
+			<td>토요일 진료시간</td>
 			<td>${hoUser.satOpenTime } - ${hoUser.satCloseTime }</td>
 		</tr>
 		<tr>
@@ -58,7 +59,7 @@
 			<td>${hoUser.satLunchTime } - ${hoUser.satEndLunchTime }</td>
 		</tr>
 		<tr>
-			<td>일요일 운영시간</td>
+			<td>일요일 진료시간</td>
 			<td>
 			  <c:choose>
                     <c:when test="${hoUser.sunOpenTime == null && hoUser.sunCloseTime == null}">
