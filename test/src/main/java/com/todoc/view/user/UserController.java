@@ -106,7 +106,7 @@ public class UserController {
 			session.setAttribute("hoUser", user);
 			System.out.println(">>로그인 성공");
 			
-			return "redirect:/index.jsp?msg=success";
+			return "redirect:/index.jsp?msg=hosuccess";
 			
 		} else {
 			model.addAttribute("msg", "로그인 실패");

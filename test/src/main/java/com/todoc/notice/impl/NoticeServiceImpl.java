@@ -38,5 +38,10 @@ public class NoticeServiceImpl implements NoticeService {
 	public void deleteNotice(NoticeVO vo) {
 		noticeDAO.deleteNotice(vo);
 	}
+	
+	@Override
+	public List<NoticeVO> hosNoticeList(int hosIdx) {
+		return noticeDAO.hosNoticeList(hosIdx);
+	}
 
 }

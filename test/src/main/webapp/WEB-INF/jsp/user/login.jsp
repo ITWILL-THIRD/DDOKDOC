@@ -31,11 +31,11 @@
             const urlParams = new URLSearchParams(window.location.search);
             const msg = urlParams.get('msg');
             if (msg === 'success') {
-                alert('회원가입 완료됐습니다.');
+                alert('회원가입이 완료되었습니다.');
             } else if (msg === 'admin') {
                 alert('관리자로 회원가입 완료됐습니다.');
             } else if (msg === 'failure') {
-                alert('로그인 실패했습니다.');
+                alert('아이디 또는 비밀번호를 확인해주세요.');
             }
         }
 

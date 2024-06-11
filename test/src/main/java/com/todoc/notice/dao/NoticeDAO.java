@@ -10,4 +10,5 @@ public interface NoticeDAO {
 	void insertNotice(NoticeVO vo);
 	void updateNotice(NoticeVO vo);
 	void deleteNotice(NoticeVO vo);
+	List<NoticeVO> hosNoticeList(int hosIdx);
 }

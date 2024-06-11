@@ -18,12 +18,16 @@
 
         window.onload = function() {
             var msg = getQueryParam("msg");
-            if (msg === "success") {
-                alert("로그인 성공");
+            var nickname = "${user.nickname}";
+            var hosname = "${hoUser.hosName}";
+            if (msg === "success" && nickname) {
+                alert(nickname + "님 환영합니다.");
             } else if (msg === "delete") {
             	alert("탈퇴가 완료되었습니다.");
             } else if (msg === 'admin') {
                 alert('관리자로 로그인 됐습니다.');
+            } else if (msg === 'hosuccess' && hosname) {
+            	alert(hosname + "님 환영합니다. ")
             }
         }
 
@@ -135,7 +139,6 @@
 
 <%-- <p>병원아이디: ${sessionScope.user.hosId}</p> --%>
 <%-- <p>병원이름: ${sessionScope.user.hosName}</p> --%>
-
 
 </body>
 </html>
