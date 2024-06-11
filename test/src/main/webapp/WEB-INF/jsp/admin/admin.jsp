@@ -7,6 +7,10 @@
 <title>관리자 메인 페이지 [admin.jsp]</title>
 </head>
 <body>
-
+	
+	<ul>
+    <li><a href="statsPage.do">통계 페이지</a></li>
+	</ul>
+	
 </body>
 </html>
