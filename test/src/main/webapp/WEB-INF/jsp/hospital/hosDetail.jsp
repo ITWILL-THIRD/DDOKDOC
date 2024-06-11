@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,15 +75,15 @@
 </style>
 </head>
 <body>
+\${user} : ${user }
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38a906000cd6c18d4d8489d1eddaec85&libraries=services,clusterer,drawing"></script>
-
 <div id="container">
 
 	<h1>병원 상세 [hosDetail.jsp]</h1>
-	<table>
+	<table border="">
 
 		<tr>
 			<th>병원명</th>
@@ -93,15 +94,51 @@
 			<td>${hospital.roadAddressName}${hospital.detailAddress}</td>
 		</tr>
 		<tr>
+			<th rowspan="3">진료시간</th>
+			<td>
+				<c:set var="openTime" value="${hospital.openTime}"/>
+				<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
+				<c:set var="closeTime" value="${hospital.closeTime}"/>
+				<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
+				<c:set var="lunchTime" value="${hospital.lunchTime}"/>
+				<c:set var="lunchTimeSub" value="${fn:substring(lunchTime, 0, 5)}"/>
+				<c:set var="endLunchTime" value="${hospital.endLunchTime}"/>
+				<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
+				평일 : ${openTimeSub} - ${closeTimeSub} | 점심 : ${lunchTimeSub} - ${endLunchTimeSub}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<c:set var="satOpenTime" value="${hospital.satOpenTime}"/>
+				<c:set var="satOpenTimeSub" value="${fn:substring(satOpenTime, 0, 5)}"/>
+				<c:set var="satCloseTime" value="${hospital.satCloseTime}"/>
+				<c:set var="satCloseTimeSub" value="${fn:substring(satCloseTime, 0, 5)}"/>
+				<c:set var="satLunchTime" value="${hospital.satLunchTime}"/>
+				<c:set var="satLunchTimeSub" value="${fn:substring(satLunchTime, 0, 5)}"/>
+				<c:set var="satEndLunchTime" value="${hospital.satEndLunchTime}"/>
+				<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
+				토 : ${satOpenTimeSub} - ${satCloseTimeSub} | 점심 : ${satLunchTimeSub} - ${satEndLunchTimeSub}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<c:set var="sunOpenTime" value="${hospital.sunOpenTime}"/>
+				<c:set var="sunOpenTimeSub" value="${fn:substring(sunOpenTime, 0, 5)}"/>
+				<c:set var="sunCloseTime" value="${hospital.sunCloseTime}"/>
+				<c:set var="sunCloseTimeSub" value="${fn:substring(sunCloseTime, 0, 5)}"/>
+				<c:set var="sunLunchTime" value="${hospital.sunLunchTime}"/>
+				<c:set var="sunLunchTimeSub" value="${fn:substring(sunLunchTime, 0, 5)}"/>
+				<c:set var="sunEndLunchTime" value="${hospital.sunEndLunchTime}"/>
+				<c:set var="sunEndLunchTimeSub" value="${fn:substring(sunEndLunchTime, 0, 5)}"/>
+				일 : ${sunOpenTimeSub} - ${sunCloseTimeSub} | 점심 : ${sunLunchTimeSub} - ${sunEndLunchTimeSub}
+			</td>
+		</tr>
+		<tr>
 			<th>전화번호</th>
 			<td>${hospital.hosPhone}</td>
 		</tr>
 		<tr>
-			<th>진료시간</th>
-			<td>${hospital.openTime}~${hospital.closeTime}</td>
-		</tr>
-		<tr>
-			<th>진료동물</th>
+			<th>병원분류</th>
 			<td>${hospital.animal}</td>
 		</tr>
 		<tr>
@@ -109,6 +146,12 @@
 			<td>${hospital.score}</td>
 		</tr>
 	</table>
+	<p>
+		<!-- CSS 사진 이동 처리 -->
+		<c:forEach var="img" items="${imgList}">
+			<img src="${img.hosImg}" alt="병원 내부사진" width="300px">
+		</c:forEach> 
+	</p>
 
 	<h4>리뷰 목록</h4>
 	<div id="review">
@@ -232,7 +275,8 @@
 	<div id="map" style="width: 300px; height: 300px; margin-top: 10px;"></div>
 
 	<p class="center">
-		<a href="../reservation/reservation.do?hosIdx=1">예약</a> 
+		<!-- 예약 버튼 함수실행으로 수정 -->
+		<input type="button" value="예약" onclick="userCheck(${user.userIdx})" />
 		<a href="hosMain.do">병원 목록</a>
 	</p>
 
@@ -259,5 +303,16 @@
 	</div>
 </div>
 <jsp:include page="partials/hosDatailJS.jsp"></jsp:include>
+<script>
+	// 로그인 유무 체크
+	function userCheck(userIdx) {
+		if (userIdx == null) {
+			alert("로그인 후 예약이 가능합니다.")
+			location.href="../user/login.do";
+		} else {
+			location.href="../reservation/reservation.do?hosIdx=" + ${hospital.hosIdx};
+		}
+	}
+</script>
 </body>
 </html>

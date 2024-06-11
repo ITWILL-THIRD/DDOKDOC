@@ -1,5 +1,7 @@
 package com.todoc.view.mypage;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.TimeMapper;
+import com.todoc.notice.NoticeService;
+import com.todoc.notice.NoticeVO;
 
 @RequestMapping("/mypage")
 @Controller
@@ -22,6 +26,9 @@ public class HoMyPageController {
 	private HospitalService hospitalService;
 	@Autowired
 	private TimeMapper timeMapper;
+	@Autowired
+	private NoticeService noticeService;
+	
 	//병원 마이페이지로 이동
 	@RequestMapping("/hoMyPage.do")
 	 public String myPage() {
@@ -58,7 +65,6 @@ public class HoMyPageController {
 		System.out.println("vo : " + vo);
 		hospitalService.updateHoUser(vo);
 		hospitalService.updateHosAddress(vo);
-//		session.setAttribute("hoUser", vo);
 		
 		
 		//시간 형식에서 ss(초) 문자열 추가
@@ -101,7 +107,6 @@ public class HoMyPageController {
 		System.out.println("vo.getTime : " + vo.getCloseTime());
 //		session.setAttribute("hoUser", vo);
 		System.out.println("수정 후 vo : " + vo);
-		
 		return "redirect:hoMyPage.do";
 	}
 	
@@ -150,5 +155,18 @@ public class HoMyPageController {
 		
 		return "redirect:updateHoUser.do?hosIdx=" + hosIdx;
 	}
+	
+	//병원 공지 리스트
+	@RequestMapping("/hosNoticeList.do")
+	public String hosNoticeList(Model model, HttpSession session) {
+		//병원 로그인 정보 가져오기
+		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+		//공지사항 리스트 가져오기
+		List<NoticeVO> hosNoticeList = noticeService.hosNoticeList(hoUser.getHosIdx());
+		model.addAttribute("hosNoticeList", hosNoticeList);
+		
+		return "mypage/hosNoticeList";
+	}
+	
 
 }

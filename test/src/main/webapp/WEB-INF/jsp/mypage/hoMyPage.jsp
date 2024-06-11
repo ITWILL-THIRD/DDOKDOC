@@ -10,10 +10,10 @@
 </head>
 <body>
 <h1>병원 마이페이지</h1>
-${hoUser }
 <a href="index.do">메인가기</a>
 <hr>
 <h2>병원정보</h2>
+<%-- \${hoUser} : ${hoUser} --%>
 <form action="updateHoUser.do">
 	<table>
 		<tr>
@@ -47,7 +47,7 @@ ${hoUser }
 			<td>${hoUser.detailAddress }</td>
 		</tr>
 		<tr>
-			<td>평일 운영시간</td>
+			<td>평일 진료시간</td>
 			<td>${hoUser.openTime } - ${hoUser.closeTime }</td>
 		</tr>
 		<tr>
@@ -55,7 +55,7 @@ ${hoUser }
 			<td>${hoUser.lunchTime } - ${hoUser.endLunchTime }</td>
 		</tr>
 		<tr>
-			<td>토요일 운영시간</td>
+			<td>토요일 진료시간</td>
 			<td>${hoUser.satOpenTime } - ${hoUser.satCloseTime }</td>
 		</tr>
 		<tr>
@@ -63,7 +63,7 @@ ${hoUser }
 			<td>${hoUser.satLunchTime } - ${hoUser.satEndLunchTime }</td>
 		</tr>
 		<tr>
-			<td>일요일 운영시간</td>
+			<td>일요일 진료시간</td>
 			<td>
 			  <c:choose>
                     <c:when test="${hoUser.sunOpenTime == null && hoUser.sunCloseTime == null}">
@@ -102,8 +102,9 @@ ${hoUser }
 		</tr>
 	</table>
 </form>
-
-
 <hr>
+
+<p><a href="hosNoticeList.do">공지사항 내역</a></p>
+<p><a href="#">병원예약 현황</a></p>
 </body>
 </html>

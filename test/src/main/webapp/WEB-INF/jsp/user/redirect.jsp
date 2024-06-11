@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,7 +128,7 @@
           if (data.newUser) {
             document.getElementById('additionalInfoForm').style.display = 'block';
           } else {
-            alert('로그인 되었습니다.');
+            alert(nickname + '님 환영합니다.');
             window.location.href = '../index.jsp';
           }
         } else {

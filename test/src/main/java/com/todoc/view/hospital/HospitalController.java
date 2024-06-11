@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.todoc.hospital.HosImgVO;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
@@ -56,6 +57,9 @@ public class HospitalController {
 		
 		List<NoticeVO> noticeList = noticeService.getNoticeList(hosIdx);
 		model.addAttribute("noticeList", noticeList);
+		
+		List<HosImgVO> hosImgList = hospitalService.getHosImgList(hosIdx);
+		model.addAttribute("imgList", hosImgList);
 		
 		return "hospital/hosDetail";
 

@@ -51,9 +51,11 @@ public class NoticeController {
 		noticeService.insertNotice(vo);
 		System.out.println("vo.getHosIdx() : " + vo.getHosIdx());
 		
-		String add = "redirect:../hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
+		//String add = "redirect:../hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
+		String add = "redirect:../mypage/hosNoticeList.do?hosIdx=" + vo.getHosIdx();
 		
 		return add;
+		//return "mypage/hosNoticeList";
 	}
 	//공지 수정폼 전환
 	@PostMapping("/updateProNotice.do")

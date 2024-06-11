@@ -17,10 +17,10 @@
 	}
 
 
-	function getQueryParam(param) {
-        var urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
+// 	function getQueryParam(param) {
+//         var urlParams = new URLSearchParams(window.location.search);
+//         return urlParams.get(param);
+//     }
 
 //     window.onload = function() {
 //         var msg = getQueryParam("msg");
@@ -33,9 +33,9 @@
         const urlParams = new URLSearchParams(window.location.search);
         const msg = urlParams.get('msg');
         if (msg === 'success') {
-            alert('회원가입 성공');
+            alert('회원가입이 완료되었습니다.');
         } else if (msg === 'failure') {
-            alert('로그인 실패');
+            alert('아이디 또는 비밀번호를 확인해주세요.');
         }
     }
 	</script>
@@ -51,7 +51,7 @@
 	</tr>
 	<tr>
 		<td>비밀번호</td>
-		<td><input type="password" name="hosPw" value="${hospitalVO.hosPw }"  onclick="password(this.form)"></td>
+		<td><input type="password" name="hosPw" value="${hospitalVO.hosPw }" onclick="password(this.form)"></td>
 		
 	</tr>
 	<tr>

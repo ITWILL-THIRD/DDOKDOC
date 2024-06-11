@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,7 +83,7 @@
 				<th>번호</th>
 				<th>병원명</th>
 				<th>주소</th>
-				<th>운영시간</th>
+				<th>진료시간</th>
 				<th>전화번호</th>
 				<th>분류</th>
 			</tr>
@@ -95,7 +96,13 @@
 				<td><a href="hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName}</a>
 				</td>
 				<td>${hospital.roadAddressName} ${hospital.detailAddress}</td>
-				<td>${hospital.openTime} ~ ${hospital.closeTime}</td>
+				<td>
+					<c:set var="openTime" value="${hospital.openTime}"/>
+					<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
+					<c:set var="closeTime" value="${hospital.closeTime}"/>
+					<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
+					${openTimeSub} - ${closeTimeSub}
+				</td>
 				<td>${hospital.hosPhone}</td>
 				<td>${hospital.animal}</td>
 			</tr>

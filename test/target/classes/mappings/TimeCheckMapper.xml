@@ -6,7 +6,8 @@
 	<insert id="insertTime">
 		INSERT INTO HOSTIME(HOSIDX, OPENTIME, CLOSETIME, LUNCHTIME, ENDLUNCHTIME
 						, SATOPENTIME, SATCLOSETIME, SATLUNCHTIME, SATENDLUNCHTIME
-						, SUNOPENTIME, SUNCLOSETIME, SUNLUNCHTIME, SUNENDLUNCHTIME)
+						, SUNOPENTIME, SUNCLOSETIME, SUNLUNCHTIME, SUNENDLUNCHTIME
+						, LUNCHOFF, SATLUNCHOFF, SUNDAYOFF)
 		VALUES((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSTIME)
 				, TO_DATE('1970-01-01 ' || #{validOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
 				, TO_DATE('1970-01-01 ' || #{validLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
@@ -14,7 +15,7 @@
 				, TO_DATE('1970-01-01 ' || #{validSatLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validSatEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
 				, TO_DATE('1970-01-01 ' || #{validSunOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validSunCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
 				, TO_DATE('1970-01-01 ' || #{validSunLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validSunEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
-				)
+				, #{lunchOff}, #{satLunchoff}, #{sunDayoff})
 	</insert>
 	
 		<!-- 	병원정보수정HOSTIME -->

@@ -14,12 +14,15 @@ public class HospitalVO {
    private String animal;
    private double score;
    private String condition;
+   private String certificateImg;
+   //hosimg 테이블
+   private int imgIdx;
+   private String hosImg;
    //hostime 테이블
    private Time openTime;
    private Time closeTime;
    private Time lunchTime;
    private Time endLunchTime;
-   // +토,일요일 시간 컬럼4개 추가
    private Time satOpenTime;
    private Time satCloseTime;
    private Time satLunchTime;
@@ -28,6 +31,10 @@ public class HospitalVO {
    private Time sunCloseTime;
    private Time sunLunchTime;
    private Time sunEndLunchTime;
+   //+임시 추가
+   private String lunchOff;
+   private String satLunchOff;
+   private String sunDayOff;
    //hosaddress 테이블
    private String addressName;
    private String roadAddressName;
@@ -90,6 +97,24 @@ public class HospitalVO {
 	}
 	public void setCondition(String condition) {
 		this.condition = condition;
+	}
+	public String getCertificateImg() {
+		return certificateImg;
+	}
+	public void setCertificateImg(String certificateImg) {
+		this.certificateImg = certificateImg;
+	}
+	public int getImgIdx() {
+		return imgIdx;
+	}
+	public void setImgIdx(int imgIdx) {
+		this.imgIdx = imgIdx;
+	}
+	public String getHosImg() {
+		return hosImg;
+	}
+	public void setHosImg(String hosImg) {
+		this.hosImg = hosImg;
 	}
 	public Time getOpenTime() {
 		return openTime;
@@ -163,6 +188,26 @@ public class HospitalVO {
 	public void setSunEndLunchTime(Time sunEndLunchTime) {
 		this.sunEndLunchTime = sunEndLunchTime;
 	}
+	//+임시 추가
+	public String getLunchOff() {
+		return lunchOff;
+	}
+	public void setLunchOff(String lunchOff) {
+		this.lunchOff = lunchOff;
+	}
+	public String getSatLunchOff() {
+		return satLunchOff;
+	}
+	public void setSatLunchOff(String satLunchOff) {
+		this.satLunchOff = satLunchOff;
+	}
+	public String getSunDayOff() {
+		return sunDayOff;
+	}
+	public void setSunDayOff(String sunDayOff) {
+		this.sunDayOff = sunDayOff;
+	}
+	
 	public String getAddressName() {
 		return addressName;
 	}
@@ -217,18 +262,18 @@ public class HospitalVO {
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
 	}
-	   
 	@Override
 	public String toString() {
 		return "HospitalVO [hosIdx=" + hosIdx + ", hosId=" + hosId + ", hosPw=" + hosPw + ", hosName=" + hosName
 				+ ", hosPhone=" + hosPhone + ", animal=" + animal + ", score=" + score + ", condition=" + condition
-				+ ", openTime=" + openTime + ", closeTime=" + closeTime + ", lunchTime=" + lunchTime + ", endLunchTime="
-				+ endLunchTime + ", satOpenTime=" + satOpenTime + ", satCloseTime=" + satCloseTime + ", satLunchTime="
-				+ satLunchTime + ", satEndLunchTime=" + satEndLunchTime + ", sunOpenTime=" + sunOpenTime
-				+ ", sunCloseTime=" + sunCloseTime + ", sunLunchTime=" + sunLunchTime + ", sunEndLunchTime="
-				+ sunEndLunchTime + ", addressName=" + addressName + ", roadAddressName=" + roadAddressName
-				+ ", detailAddress=" + detailAddress + ", addx=" + addx + ", addy=" + addy + ", sido=" + sido
-				+ ", sigungu=" + sigungu + ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
-				+ "]";
+				+ ", certificateImg=" + certificateImg + ", imgIdx=" + imgIdx + ", hosImg=" + hosImg + ", openTime="
+				+ openTime + ", closeTime=" + closeTime + ", lunchTime=" + lunchTime + ", endLunchTime=" + endLunchTime
+				+ ", satOpenTime=" + satOpenTime + ", satCloseTime=" + satCloseTime + ", satLunchTime=" + satLunchTime
+				+ ", satEndLunchTime=" + satEndLunchTime + ", sunOpenTime=" + sunOpenTime + ", sunCloseTime="
+				+ sunCloseTime + ", sunLunchTime=" + sunLunchTime + ", sunEndLunchTime=" + sunEndLunchTime
+				+ ", lunchOff=" + lunchOff + ", satLunchOff=" + satLunchOff + ", sunDayOff=" + sunDayOff
+				+ ", addressName=" + addressName + ", roadAddressName=" + roadAddressName + ", detailAddress="
+				+ detailAddress + ", addx=" + addx + ", addy=" + addy + ", sido=" + sido + ", sigungu=" + sigungu
+				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + "]";
 	}
 }

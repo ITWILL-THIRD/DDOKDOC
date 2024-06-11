@@ -18,10 +18,16 @@
 
         window.onload = function() {
             var msg = getQueryParam("msg");
-            if (msg === "success") {
-                alert("로그인 성공");
+            var nickname = "${user.nickname}";
+            var hosname = "${hoUser.hosName}";
+            if (msg === "success" && nickname) {
+                alert(nickname + "님 환영합니다.");
             } else if (msg === "delete") {
             	alert("탈퇴가 완료되었습니다.");
+            } else if (msg === 'admin') {
+                alert('관리자로 로그인 됐습니다.');
+            } else if (msg === 'hosuccess' && hosname) {
+            	alert(hosname + "님 환영합니다. ")
             }
         }
 
@@ -109,6 +115,11 @@
 			<c:when test="${not empty sessionScope.user}">
 				<a href="logout.do">로그아웃</a>
 				<a href="mypage/myPage.do">마이페이지</a>
+				<c:choose>
+				<c:when test="${sessionScope.user.role == 'admin'}">
+					<a href="admin/admin.do">관리</a>
+				</c:when>
+				</c:choose>
 			</c:when>
 			<c:when test="${not empty sessionScope.hoUser}">
 		        <a href="logout.do">로그아웃</a>
@@ -128,7 +139,6 @@
 
 <%-- <p>병원아이디: ${sessionScope.user.hosId}</p> --%>
 <%-- <p>병원이름: ${sessionScope.user.hosName}</p> --%>
-
 
 </body>
 </html>

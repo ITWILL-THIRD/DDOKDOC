@@ -1,22 +1,29 @@
 package com.todoc.view.user;
 
-import java.util.Random;
+import java.awt.peer.LightweightPeer;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.todoc.googlecloudstorage.GCSService;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.TimeMapper;
@@ -26,10 +33,16 @@ import com.todoc.user.UserVO;
 @Controller
 public class UserController {
 	@Autowired
+	@Qualifier("userService")
 	private UserService userService;
 	@Autowired
+	@Qualifier("hospitalService")
 	private HospitalService hospitalService;
 	@Autowired
+	@Qualifier("gcsService")
+	private GCSService gcsService;
+	@Autowired
+	@Qualifier("timeMapper")
 	private TimeMapper timeMapper;
 	
 	public UserController() {
@@ -57,8 +70,13 @@ public class UserController {
 			session.setAttribute("user", user);
 			model.addAttribute("msg", "로그인 성공");
 			System.out.println(">>로그인 성공");
-			System.out.println("로그인시 userIdx : " + vo.getUserIdx());
-			return "redirect:/index.jsp?msg=success";
+			session.setAttribute("user", user);
+			if (user.getRole().equals("admin")) {
+				return "redirect:/index.jsp?msg=admin";
+			} else {
+				return "redirect:/index.jsp?msg=success";
+			}
+
 			
 		} else {
 			model.addAttribute("msg", "로그인 실패");
@@ -88,7 +106,7 @@ public class UserController {
 			session.setAttribute("hoUser", user);
 			System.out.println(">>로그인 성공");
 			
-			return "redirect:/index.jsp?msg=success";
+			return "redirect:/index.jsp?msg=hosuccess";
 			
 		} else {
 			model.addAttribute("msg", "로그인 실패");
@@ -111,20 +129,31 @@ public class UserController {
 		
 		int cnt = userService.email(vo);
 		
-		
 		if (cnt == 0) {
-			userService.insertUser(vo);
-			System.out.println("vo : " + vo);
-			System.out.println(">>회원가입 완료");
-			model.addAttribute("msg", "회원가입 완료");
-			return "redirect:login.do?msg=success";
-			
+			//관리자 계정 설정(role="admin")
+			if (vo.getEmail().equals("admin@naver.com") 
+					&& vo.getPassword().equals("admin")) {
+				vo.setRole("admin");
+				userService.insertUser(vo);
+				System.out.println(">> 관리자로 회원가입 완료");
+				model.addAttribute("msg", "회원가입 완료");
+				return "redirect:login.do?msg=admin";
+			} else {
+				//관리자 계정 외는 모두 개인유저
+				vo.setRole("user");
+				userService.insertUser(vo);
+				System.out.println("vo : " + vo);
+				System.out.println(">>회원가입 완료");
+				model.addAttribute("msg", "회원가입 완료");
+				return "redirect:login.do?msg=success";
+			}
 		} else {
 			System.out.println("vo : " + vo);
 			System.out.println(">>회원가입 실패");
 			model.addAttribute("msg", "회원가입 실패");
 			return "redirect:userJoin.do";
 		}
+		
 	}
 
 	//기업회원가입 화면전환
@@ -132,73 +161,130 @@ public class UserController {
 	public String hoJoin(UserVO vo) {
 		return "user/hoJoin";
 	}
-
+	//기업회원가입(정보 테이블 3개 입력 처리)
 	@PostMapping("/user/hoJoin.do")
 	public String hoJoinchk(Model model, HospitalVO vo
+			, @RequestParam("hosImgStr") List<MultipartFile> hosImgStr
+			, @RequestParam("certificateImgStr") MultipartFile certificateImgStr
 			, @RequestParam("openTimeStr")String openTimeStr, @RequestParam ("closeTimeStr")String closeTimeStr
 			, @RequestParam("lunchTimeStr")String lunchTimeStr, @RequestParam("endLunchTimeStr")String endLunchTimeStr
 			, @RequestParam("satOpenTimeStr")String satOpenTimeStr, @RequestParam ("satCloseTimeStr")String satCloseTimeStr
 			, @RequestParam ("satLunchTimeStr")String satLunchTimeStr, @RequestParam ("satEndLunchTimeStr")String satEndLunchTimeStr
 			, @RequestParam("sunOpenTimeStr")String sunOpenTimeStr, @RequestParam ("sunCloseTimeStr")String sunCloseTimeStr
 			, @RequestParam ("sunLunchTimeStr")String sunLunchTimeStr, @RequestParam ("sunEndLunchTimeStr")String sunEndLunchTimeStr
+			, @RequestParam(value="lunchOff" , required=false)String lunchOff
+			, @RequestParam (value="satLunchOff" , required=false)String satLunchOff
+			, @RequestParam(value="sunDayOff", required=false)String sunDayOff
 			) {
 		//hoJoin 입력 폼에서 vo 값 넘어오는지 확인
 		System.out.println(":: TimeController.saveTime() 메소드 실행~!!");
-		System.out.println("HospitalVO vo : " + vo);
-		if (vo != null) {
+		//병원 정보 및 파일(사업자등록증) 업로드 처리
+		try {
+			String certificateImg = gcsService.uploadFile(certificateImgStr);
+			vo.setCertificateImg(certificateImg);
 			//hospital 테이블 입력
-			hospitalService.insertHospital(vo);
-			//hosaddress 테이블 입력
-			hospitalService.insertHosAddress(vo);
-			//시간 형식에서 ss(초) 문자열 추가
-			System.out.println("openTimeStr : " + openTimeStr);
-			String fullOpenTimeStr = openTimeStr + ":00";
-			String fullCloseTimeStr = closeTimeStr + ":00";
-			String fullLunchTimeStr = lunchTimeStr + ":00";
-			String fullEndLunchTimeStr = endLunchTimeStr + ":00";
-			String fullSatOpenTimeStr = satOpenTimeStr + ":00";
-			String fullSatCloseTimeStr = satCloseTimeStr + ":00";
-			String fullSatLunchTimeStr = satLunchTimeStr + ":00";
-			String fullsatEndLunchTimeStr = satEndLunchTimeStr + ":00";
-			String fullSunOpenTimeStr = sunOpenTimeStr + ":00";
-			String fullSunCloseTimeStr = sunCloseTimeStr + ":00";
-			String fullSunLunchTimeStr = sunLunchTimeStr + ":00";
-			String fullSunEndLunchTimeStr = sunEndLunchTimeStr + ":00";
-
-			
-			//운영 시간에서 시각 0~23 유효성 검사 및 수정하는 메서드 호출
-			String validOpenTime = validateAndCorrectTime(fullOpenTimeStr);
-			String validCloseTime = validateAndCorrectTime(fullCloseTimeStr);
-			String validLunchTime = validateAndCorrectTime(fullLunchTimeStr);
-			String validEndLunchTime = validateAndCorrectTime(fullEndLunchTimeStr);
-			String validSatOpenTime = validateAndCorrectTime(fullSatOpenTimeStr);
-			String validSatCloseTime = validateAndCorrectTime(fullSatCloseTimeStr);
-			String validSatLunchTime = validateAndCorrectTime(fullSatLunchTimeStr);
-			String validSatEndLunchTime = validateAndCorrectTime(fullsatEndLunchTimeStr);
-			String validSunOpenTime = validateAndCorrectTime(fullSunOpenTimeStr);
-			String validSunCloseTime = validateAndCorrectTime(fullSunCloseTimeStr);
-			String validSunLunchTime = validateAndCorrectTime(fullSunLunchTimeStr);
-			String validSunEndLunchTime = validateAndCorrectTime(fullSunEndLunchTimeStr);
-			System.out.println("validOpenTime : " + validOpenTime);
-			
-			try {
-				//hostime 테이블 입력
-				timeMapper.insertTime(vo, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
-									, validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
-									, validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime);
-				System.out.println("vo : " + vo);
-				System.out.println(">> 회원가입 완료");
-				return "redirect:/user/login.do?msg=success";
-			} catch (Exception e) {
-				System.out.println("vo : " + vo);
-				e.printStackTrace();
-				return"redirect:/user/hoJoin.do?msg=fail";
+			int cntHospital = hospitalService.insertHospital(vo);
+			System.out.println("cntHospital : " + cntHospital);
+			if (cntHospital == 0) {
+				System.out.println(">> 회원가입 실패");
+				return "redirect:hoJoin.do?msg=fail";
 			}
-		} else {
-			System.out.println("vo : " + vo);
-			System.out.println(">> 회원가입 실패");
-			return "redirect:/hoJoin.do?msg=fail";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:hoJoin.do?msg=fileError";
 		}
+		
+		//병원 파일 여러개(상세 사진) 업로드 처리
+		System.out.println("hosImgStr : " + hosImgStr);
+		List<MultipartFile> hosImgList = new ArrayList<MultipartFile>();
+        hosImgList = hosImgStr;
+        
+        // List를 배열로 변환
+        MultipartFile[] hosImgArr = new MultipartFile[hosImgList.size()];
+        hosImgArr = hosImgList.toArray(hosImgArr);
+        // 결과 출력 (여기서는 배열의 길이만 출력)
+        System.out.println("Array length: " + hosImgArr.length);
+        //병원 사진(여러장 처리)
+        for (MultipartFile hosImgFile : hosImgArr) {
+        	try {
+        		System.out.println("MultipartFile hosImg : " + hosImgFile);
+        		String hosImg = gcsService.uploadFile(hosImgFile);
+        		//병원 정보 입력한 hosIdx 조회
+        		int insertHosIdx = hospitalService.getHosIdx(vo);
+        		System.out.println(":: insertHosIdx : " + insertHosIdx);
+        		vo.setHosIdx(insertHosIdx);
+        		//파일 경로 설정
+        		vo.setHosImg(hosImg);
+        		//병원 사진 1장 입력
+        		int cntHosImg = hospitalService.insertHosImg(vo);
+    			if (cntHosImg == 0) {
+    				System.out.println(">> 업로드 파일 없음");
+    				return "redirect:hoJoin.do?msg=noFile";
+    			}
+			} catch (Exception e) {
+				e.printStackTrace();
+	            return "redirect:hoJoin.do?msg=fileError";
+			}
+        }
+		
+		//hosAddress 테이블 입력
+		int cntHosAddress = hospitalService.insertHosAddress(vo);
+		System.out.println("cntHosAddress : " + cntHosAddress);
+		if (cntHosAddress == 0) {
+			System.out.println(">> 회원가입 실패");
+			return "redirect:hoJoin.do?msg=fail";
+		}
+		
+		//hosTime 테이블 입력
+		//시간 형식에서 ss(초) 문자열 추가
+		System.out.println("openTimeStr : " + openTimeStr);
+		String fullOpenTimeStr = openTimeStr + ":00";
+		String fullCloseTimeStr = closeTimeStr + ":00";
+		String fullLunchTimeStr = lunchTimeStr + ":00";
+		String fullEndLunchTimeStr = endLunchTimeStr + ":00";
+		String fullSatOpenTimeStr = satOpenTimeStr + ":00";
+		String fullSatCloseTimeStr = satCloseTimeStr + ":00";
+		String fullSatLunchTimeStr = satLunchTimeStr + ":00";
+		String fullsatEndLunchTimeStr = satEndLunchTimeStr + ":00";
+		String fullSunOpenTimeStr = sunOpenTimeStr + ":00";
+		String fullSunCloseTimeStr = sunCloseTimeStr + ":00";
+		String fullSunLunchTimeStr = sunLunchTimeStr + ":00";
+		String fullSunEndLunchTimeStr = sunEndLunchTimeStr + ":00";
+		
+		//운영 시간에서 시각 0~23 유효성 검사 및 수정하는 메서드 호출
+		String validOpenTime = validateAndCorrectTime(fullOpenTimeStr);
+		String validCloseTime = validateAndCorrectTime(fullCloseTimeStr);
+		String validLunchTime = validateAndCorrectTime(fullLunchTimeStr);
+		String validEndLunchTime = validateAndCorrectTime(fullEndLunchTimeStr);
+		String validSatOpenTime = validateAndCorrectTime(fullSatOpenTimeStr);
+		String validSatCloseTime = validateAndCorrectTime(fullSatCloseTimeStr);
+		String validSatLunchTime = validateAndCorrectTime(fullSatLunchTimeStr);
+		String validSatEndLunchTime = validateAndCorrectTime(fullsatEndLunchTimeStr);
+		String validSunOpenTime = validateAndCorrectTime(fullSunOpenTimeStr);
+		String validSunCloseTime = validateAndCorrectTime(fullSunCloseTimeStr);
+		String validSunLunchTime = validateAndCorrectTime(fullSunLunchTimeStr);
+		String validSunEndLunchTime = validateAndCorrectTime(fullSunEndLunchTimeStr);
+		System.out.println("validOpenTime : " + validOpenTime);
+		
+		try {
+			//hosTime 테이블 입력
+			int cntHosTime = timeMapper.insertTime(vo, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
+								, validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
+								, validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime
+								, lunchOff, satLunchOff, sunDayOff);
+			System.out.println("cntHosTime : " + cntHosTime);
+			if (cntHosTime == 0) {
+				System.out.println(">> 회원가입 실패");
+				return "redirect:hoJoin.do?msg=fail";
+			}
+			System.out.println("vo : " + vo);
+			System.out.println(">> 회원가입 완료");
+			return "redirect:login.do?msg=success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return"redirect:hoJoin.do?msg=fail";
+		}
+		
 	}
 	//유효성 검사 메소드(운영 시각 0~23만 사용 가능)
 	private String validateAndCorrectTime(String timeStr) {
