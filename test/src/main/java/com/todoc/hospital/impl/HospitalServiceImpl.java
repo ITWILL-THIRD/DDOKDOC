@@ -20,8 +20,11 @@ import com.todoc.hospital.dao.TimeMapper;
 public class HospitalServiceImpl implements HospitalService{
 	@Autowired
 	private HospitalDAO hospitalDAO;
+
 	@Autowired
 	private TimeMapper timeMapper;
+
+	
 
 	public HospitalServiceImpl() {
 		System.out.println(">> HospitalServiceImpl() 객체 생성");
@@ -46,7 +49,57 @@ public class HospitalServiceImpl implements HospitalService{
 	public List<HospitalVO> getHosSearch(HospitalVO vo) {
 		return hospitalDAO.getHosSearch(vo);
 	}
+
 	//병원 리뷰 조회
+	@Override
+	public HospitalVO getHos(HospitalVO ho) {
+		return hospitalDAO.getHos(ho);
+	}
+	//병원 정보 입력
+	@Override
+	public void insertHospital(HospitalVO vo) {
+		hospitalDAO.insertHospital(vo);
+	}
+	//병원 주소 입력
+	@Override
+	public void insertHosAddress(HospitalVO vo) {
+		hospitalDAO.insertHosAddress(vo);
+	}
+	//아이디 중복체크
+	@Override
+	public int hosId(HospitalVO ho) throws Exception {
+		int cnt = hospitalDAO.hosId(ho);
+		return cnt;
+	}
+	// 병원 아이디 찾기
+	public HospitalVO hoFindId(HospitalVO vo) {
+		return hospitalDAO.hoFindId(vo);
+	}
+	//병원 비번찾기
+	public int hoFindPwd(HospitalVO vo) {
+		return hospitalDAO.hoFindPwd(vo);
+	}
+	//병원 임시비번 업데이트
+	public void hoUpdateExPwd(HospitalVO vo) {
+		hospitalDAO.hoUpdateExPwd(vo);
+	}
+	//병원 정보 수정(이름, 연락처)
+	public void updateHoUser(HospitalVO vo) {
+		hospitalDAO.updateHoUser(vo);
+	}
+	//병원정보수정(주소)
+	public void updateHosAddress(HospitalVO vo) {
+		hospitalDAO.updateHosAddress(vo);
+	}
+	//병원정보수정(시간)
+	public void updateHosTime(HospitalVO vo) {
+		hospitalDAO.updateHosTime(vo);
+	}
+	//병원 비번 변경
+	public void updateHoPwd(HospitalVO vo) {
+		hospitalDAO.updateHoPwd(vo);
+	}
+	//병원 리뷰 전체 조회
 	@Override
 	public List<HosReviewVO> getHosReview(int hosIdx) {
 		return hospitalDAO.getHosReview(hosIdx);

@@ -20,11 +20,22 @@ public interface HospitalDAO {
 	void insertReview(HosReviewVO vo);
 	void updateReview(HosReviewVO vo);
 	//void deleteReview(HosReviewVO vo);
-	//주은 
+	//------주은 -------------
 	HospitalVO getHos(HospitalVO ho);
 	HospitalVO hoFindId(HospitalVO vo);
 	int hoFindPwd(HospitalVO vo);
 	void hoUpdateExPwd(HospitalVO vo);
+	void updateHoUser(HospitalVO vo);
+	void updateHosAddress(HospitalVO vo);
+	void updateHosTime(HospitalVO vo);
+	void updateHoPwd(HospitalVO vo);
+	//----------------------
+	//민지
+	//병원 정보 입력
+	void insertHospital(HospitalVO vo);
+	//병원 주소 입력
+	void insertHosAddress(HospitalVO vo);
+
 	int hosId(HospitalVO ho) throws Exception;
 	//민지
 	//병원 hosIdx 조회

@@ -24,6 +24,10 @@ public interface HospitalService {
 	HospitalVO hoFindId(HospitalVO vo);
 	int hoFindPwd(HospitalVO vo);
 	void hoUpdateExPwd(HospitalVO vo);
+	void updateHoUser(HospitalVO vo);
+	void updateHosAddress(HospitalVO vo);
+	void updateHosTime(HospitalVO vo);
+	void updateHoPwd(HospitalVO vo);
 	//기업(병원) 회원가입 시,
 	//병원 hosIdx 조회
 	int getHosIdx(HospitalVO vo);

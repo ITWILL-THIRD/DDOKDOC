@@ -11,6 +11,8 @@ public class UserVO {
 	private Date birth;
 	private String phone;
 	private String role;
+	private String userImg;
+	
 	public int getUserIdx() {
 		return userIdx;
 	}
@@ -59,10 +61,19 @@ public class UserVO {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	public String getUserImg() {
+		return userImg;
+	}
+	public void setUserImg(String userImg) {
+		this.userImg = userImg;
+	}
 	@Override
 	public String toString() {
 		return "UserVO [userIdx=" + userIdx + ", email=" + email + ", nickname=" + nickname + ", password=" + password
-				+ ", name=" + name + ", birth=" + birth + ", phone=" + phone + ", role=" + role + "]";
+				+ ", name=" + name + ", birth=" + birth + ", phone=" + phone + ", role=" + role + ", userImg=" + userImg
+				+ "]";
 	}
+	
+	
 };
 

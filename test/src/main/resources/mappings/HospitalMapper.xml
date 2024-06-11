@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -22,6 +23,28 @@
 		SELECT COUNT(*) FROM HOSPITAL
 		WHERE HOSID = #{hosId}
 	</select>
+	
+<!-- 	병원정보수정HOSPITAL -->
+	<update id="updateHoUser" parameterType="HospitalVO">
+		UPDATE HOSPITAL
+		SET HOSNAME = #{hosName}, HOSPHONE = #{hosPhone}
+		WHERE HOSIDX = #{hosIdx}
+	</update>
+	
+<!-- 	병원정보수정HOSADDRESS -->
+	<update id="updateHosAddress" parameterType="HospitalVO">
+		UPDATE HOSADDRESS
+		SET ADDRESSNAME = #{addressName}, ROADADDRESSNAME = #{roadAddressName}, DETAILADDRESS = #{detailAddress}
+		WHERE HOSIDX = #{hosIdx}
+	</update>
+
+	
+	<!-- 	비밀번호 수정 -->
+	<update id="updateHoPwd" parameterType="HospitalVO">
+		UPDATE HOSPITAL 
+		SET HOSPW = #{hosPw}
+		WHERE HOSIDX = #{hosIdx}
+	</update>
 	
 <!-- 	병원 아이디 찾기 -->
 	<select id="hoFindId" resultType="HospitalVO">

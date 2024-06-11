@@ -10,6 +10,7 @@
 </head>
 <body>
 <h1>병원 마이페이지</h1>
+${hoUser }
 <a href="index.do">메인가기</a>
 <hr>
 <h2>병원정보</h2>
@@ -19,6 +20,10 @@
 		<tr>
 			<td>병원아이디</td>
 			<td>${hoUser.hosId }</td>
+		</tr>
+		<tr>
+			<td>병원비번</td>
+			<td>${hoUser.hosPw }</td>
 		</tr>
 		<tr>
 			<td>병원이름</td>
@@ -84,6 +89,7 @@
                 </c:choose>
                </td>
 		</tr>
+	
 		<tr>
 			<td><input type="hidden" name="hosIdx" value="${hoUser.hosIdx }"></td>
 		</tr>

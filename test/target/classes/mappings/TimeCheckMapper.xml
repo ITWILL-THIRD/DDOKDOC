@@ -17,4 +17,17 @@
 				, TO_DATE('1970-01-01 ' || #{validSunLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validSunEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
 				, #{lunchOff}, #{satLunchoff}, #{sunDayoff})
 	</insert>
+	
+		<!-- 	병원정보수정HOSTIME -->
+	<update id="updateHosTime" parameterType="HospitalVO">
+		UPDATE HOSTIME
+		SET OPENTIME = #{openTime}, CLOSETIME = #{closeTime},
+			LUNCHTIME = #{lunchTime}, ENDLUNCHTIME = #{endLunchTime},
+			SATOPENTIME = #{satOpenTime}, SATCLOSETIME = #{satCloseTime},
+			SATLUNCHTIME = #{satLunchTime}, SATENDLUNCHTIME = #{satEndLunchTime},
+			SUNOPENTIME = #{sunOpenTime}, SUNCLOSETIME = #{sunCloseTime}, 
+			SUNLUNCHTIME = #{sunLunchTime}, SUNENDLUNCHTIME = #{sunEndLunchTime}
+		WHERE HOSIDX = #{hosIdx}
+	</update>
+	
 </mapper>
