@@ -18,6 +18,7 @@ import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
+import com.todoc.reservation.ReservationVO;
 import com.todoc.user.UserVO;
 
 //@SessionAttributes : 같은 컨트롤러에서 모델객체 공유해서 사용하려는 경우에 사용
@@ -44,17 +45,34 @@ public class HospitalController {
 	}
 	//1개 병원 상세 조회
 	@RequestMapping("/hosDetail.do")
-	public String hosInfo(@ModelAttribute("hosIdx") int hosIdx, Model model) {
+	public String hosInfo(@ModelAttribute("hosIdx") int hosIdx, Model model, HttpSession session) {
 		System.out.println(":: 병원 정보(예약,리뷰)");
 		
-		model.addAttribute("hosIdx", hosIdx);
+		int userIdx = ((UserVO) session.getAttribute("user")).getUserIdx();
+				
+		ReservationVO reserVo = new ReservationVO();
+		reserVo.setUserIdx(userIdx);
+		reserVo.setHosIdx(hosIdx);
 		
+		model.addAttribute("hosIdx", hosIdx);
+		model.addAttribute("userIdx", userIdx);
+		// 병원 1개 조회
 		HospitalVO hospital = hospitalService.selectOne(hosIdx);
 		model.addAttribute("hospital", hospital);
-
+		
+		// 사용자 예약 내역 조회
+//		int reservCnt = hospitalService.getReserList(reserVo);
+//		model.addAttribute("reservCnt", reservCnt);
+		
+		// 예약 후 진료 완료 상태인 사용자 리스트 조회
+	    List<ReservationVO> finishList = hospitalService.getFinishList(reserVo);
+	    model.addAttribute("finishList", finishList);
+		
+		// 리뷰 전체 조회
 		List<HosReviewVO> reviewList = hospitalService.getHosReview(hosIdx);
 		model.addAttribute("reviewList", reviewList);
 		
+		// 공지사항 전체 조회
 		List<NoticeVO> noticeList = noticeService.getNoticeList(hosIdx);
 		model.addAttribute("noticeList", noticeList);
 		
@@ -62,26 +80,97 @@ public class HospitalController {
 		model.addAttribute("imgList", hosImgList);
 		
 		return "hospital/hosDetail";
-
 	}
 	
+	// 리뷰 입력
 	@RequestMapping("/insertReview.do")
-	public String insertReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model,  HttpSession session) {
-		System.out.println(":: 병원 리뷰 작성");
-		vo.setUserIdx(((UserVO) session.getAttribute("user")).getUserIdx());
-		System.out.println("vo  : " + vo);
-		
-		model.addAttribute("hosIdx", hosIdx);
-		
-		hospitalService.insertReview(vo);
-		
-		//리뷰 별점 평균 업데이트
-		
-		String add = "redirect:/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
-		
-		return add;
-	}
-	
+	public String insertReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model, HttpSession session) {
+	    System.out.println(":: 병원 리뷰 작성");
+	    int userIdx = ((UserVO) session.getAttribute("user")).getUserIdx();
+	    vo.setUserIdx(userIdx);
+	    System.out.println("vo  : " + vo);
+	    
+	    model.addAttribute("hosIdx", hosIdx);
+	    model.addAttribute("userIdx", userIdx);
+	    
+	    // 리뷰 입력
+	    hospitalService.insertReview(vo);    
 
+	    // 별점 평균 업데이트
+	    updateAverageScore(hosIdx);
+	    
+	    // 리뷰 작성 시 사용자 상태 업데이트 	    
+	    hospitalService.updateCondition(vo); 
+	    
+	    String add = "redirect:/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
+	    
+	    return add;
+	}
+
+	// 리뷰 수정 
+	@RequestMapping("/updateReview.do")
+	public String updateReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model, HttpSession session) {
+	    System.out.println(":: 병원 리뷰 수정");
+	    int userIdx = ((UserVO) session.getAttribute("user")).getUserIdx();
+	    vo.setUserIdx(userIdx);
+
+	    model.addAttribute("hosIdx", hosIdx);
+	    model.addAttribute("userIdx", userIdx);
+	    // 리뷰 수정
+	    hospitalService.updateReview(vo);
+
+	    // 별점 평균 업데이트
+	    updateAverageScore(hosIdx);
+
+	    String add = "redirect:/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
+	    return add;
+	}
+
+	// 리뷰 삭제
+	@RequestMapping("/deleteReview.do")
+	public String deleteReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model, HttpSession session) {
+	    System.out.println(":: 병원 리뷰 삭제");
+	    int userIdx = ((UserVO) session.getAttribute("user")).getUserIdx();
+	    vo.setUserIdx(userIdx);
+
+	    model.addAttribute("hosIdx", hosIdx);
+	    model.addAttribute("userIdx", userIdx);
+	    // 리뷰 삭제
+	    hospitalService.deleteReview(vo);
+
+	    // 별점 평균 업데이트
+	    updateAverageScore(hosIdx);
+	    
+	    // 리뷰 삭제 시 사용자 상태 업데이트 
+	    hospitalService.updateCondition(vo); 
+
+	    String add = "redirect:/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
+	    return add;
+	}
+
+	// 별점 평균 업데이트 메소드
+	private void updateAverageScore(int hosIdx) {
+	    // 해당 병원의 모든 리뷰 가져오기
+	    List<HosReviewVO> reviewList = hospitalService.getHosReview(hosIdx);
+
+	    // 별점 합계 계산
+	    double totalScore = 0.0;
+	    for (HosReviewVO reviewVo : reviewList) {
+	        totalScore += reviewVo.getScore();
+	    }
+
+	    // 별점 평균 계산
+	    double avgScore = 0.0;
+	    if (!reviewList.isEmpty()) {
+	        avgScore = totalScore / reviewList.size();
+	    }
+
+	    // 병원의 별점 평균 업데이트
+	    HospitalVO hosVo = new HospitalVO();
+	    hosVo.setHosIdx(hosIdx);
+	    hosVo.setScore(avgScore);
+
+	    hospitalService.updateAvgScore(hosVo);
+	}
 
 }

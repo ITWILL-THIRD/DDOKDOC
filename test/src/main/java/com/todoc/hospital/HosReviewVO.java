@@ -6,12 +6,15 @@ public class HosReviewVO {
 	private int reviewIdx;
 	private int hosIdx;
 	private int userIdx;
+	private int reserIdx;
 	private String content;
 	private int score;
 	private Date reviewDate;
 	
 	//user 테이블
 	private String nickname;
+	//reservation 테이블
+	private Date reserDate;
 	
 	public int getReviewIdx() {
 		return reviewIdx;
@@ -30,6 +33,12 @@ public class HosReviewVO {
 	}
 	public void setUserIdx(int userIdx) {
 		this.userIdx = userIdx;
+	}
+	public int getReserIdx() {
+		return reserIdx;
+	}
+	public void setReserIdx(int reserIdx) {
+		this.reserIdx = reserIdx;
 	}
 	public String getContent() {
 		return content;
@@ -55,10 +64,18 @@ public class HosReviewVO {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+	public Date getReserDate() {
+		return reserDate;
+	}
+	public void setReserDate(Date reserDate) {
+		this.reserDate = reserDate;
+	}
 	
 	@Override
 	public String toString() {
-		return "HosReviewVO [reviewIdx=" + reviewIdx + ", hosIdx=" + hosIdx + ", userIdx=" + userIdx + ", content="
-				+ content + ", score=" + score + ", reviewDate=" + reviewDate + ", nickname=" + nickname + "]";
+		return "HosReviewVO [reviewIdx=" + reviewIdx + ", hosIdx=" + hosIdx + ", userIdx=" + userIdx + ", reserIdx="
+				+ reserIdx + ", content=" + content + ", score=" + score + ", reviewDate=" + reviewDate + ", nickname="
+				+ nickname + ", reserDate=" + reserDate + "]";
 	}
+	
 };

@@ -113,4 +113,3 @@
 	<p><a href="temp.do">병원 등록</a></p>
 </body>
 </html>
-

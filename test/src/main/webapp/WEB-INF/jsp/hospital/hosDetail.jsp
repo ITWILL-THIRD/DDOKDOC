@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,7 +85,9 @@
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38a906000cd6c18d4d8489d1eddaec85&libraries=services,clusterer,drawing"></script>
 <div id="container">
-
+\${finishList } = ${finishList }
+\${reviewList } = ${reviewList }
+\${userIdx} = ${userIdx }
 	<h1>병원 상세 [hosDetail.jsp]</h1>
 	<table border="">
 
@@ -195,7 +198,40 @@
 
 	<h4>리뷰 목록</h4>
 	<div id="review">
-		<!-- 예약자만 리뷰 작성 가능하도록 추가하기 -->
+		<!-- 예약 후 진료 완료 상태인 사용자만 form 작성 가능 -->
+		<c:if test="${not empty finishList}">
+		    <form id="reviewForm"  action="insertReview.do" method="post">
+		    	<p>방문일</p>
+		    	<!-- 진료 완료 상태인 내역 선택 -->
+		        <select id="finishSelect" onchange="updateHiddenField()">
+		        	<option>리뷰를 작성할 방문일을 선택하세요.</option>
+		            <c:forEach var="finish" items="${finishList}">
+		                <option value="${finish.reserIdx}">
+		                    <!-- openTime과 closeTime을 HH:MM 형식으로 변환 -->
+		                    <fmt:formatDate value="${finish.reserTime}" pattern="HH:mm" var="reserTime" />
+		                    ${finish.reserDate} &nbsp; ${reserTime} &nbsp; ${finish.petName}
+		                </option>
+		            </c:forEach>
+		        </select>
+		        <!-- 선택된 내역의 리뷰 작성 -->
+		        <div class="star-rating">
+		            <input type="radio" id="5-stars" name="score" value="5" />
+		            <label for="5-stars" class="star">&#9733;</label>
+		            <input type="radio" id="4-stars" name="score" value="4" />
+		            <label for="4-stars" class="star">&#9733;</label>
+		            <input type="radio" id="3-stars" name="score" value="3" />
+		            <label for="3-stars" class="star">&#9733;</label>
+		            <input type="radio" id="2-stars" name="score" value="2" />
+		            <label for="2-stars" class="star">&#9733;</label>
+		            <input type="radio" id="1-star" name="score" value="1" />
+		            <label for="1-star" class="star">&#9733;</label>
+		        </div>
+		        <input type="text" name="content" placeholder="리뷰를 작성하세요.">
+		        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
+		        <input type="hidden" id="selectedReserIdx" name="reserIdx" value="" />
+		        <input type="submit" value="리뷰 작성">
+		    </form>
+		</c:if>
 
 		<form action="insertReview.do" method="post">
 			<div class="star-rating">
