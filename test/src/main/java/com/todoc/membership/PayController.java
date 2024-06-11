@@ -112,6 +112,8 @@ public class PayController {
      */
     @RequestMapping(value = "/success.do", method = RequestMethod.GET)
     public String paymentRequest(HttpServletRequest request, Model model) throws Exception {
+    	HosMembershipVO vo = new HosMembershipVO();
+		hosmembershipService.insertHosMembership(vo);
         return "membership/success";
     }
 

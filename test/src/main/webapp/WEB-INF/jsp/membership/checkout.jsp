@@ -106,8 +106,8 @@
         paymentWidget.requestPayment({
           orderId: generateRandomString(),
           orderName: "토닥 병원 입점 멤버십",
-          successUrl: "http://localhost:8080/todoc/success.do",
-          failUrl: "http://localhost:8080/todoc/fail.do",
+          successUrl: "http://localhost:8080/todoc/membership/success.do",
+          failUrl: "http://localhost:8080/todoc/membership/fail.do",
           customerEmail: "customer123@gmail.com",
           customerName: "김토스",
           customerMobilePhone: "01012345678",
