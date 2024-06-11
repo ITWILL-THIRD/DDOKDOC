@@ -15,7 +15,7 @@ public interface TimeMapper {
 		+ ", TO_DATE('1970-01-01 ' || #{satLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{satEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
 		+ ", TO_DATE('1970-01-01 ' || #{sunOpenTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{sunCloseTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
 		+ ", TO_DATE('1970-01-01 ' || #{sunLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{sunEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
-		+ ", #{lunchOff}, #{satLunchoff}, #{sunDayoff})")
+		+ ", #{lunchOff}, #{satLunchOff}, #{sunDayOff})")
 	int insertTime(HospitalVO vo
 		, @Param("openTimeStr")String openTimeStr, @Param("closeTimeStr")String closeTimeStr
 		, @Param("lunchTimeStr")String lunchTimeStr, @Param("endLunchTimeStr")String endLunchTimeStr
