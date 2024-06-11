@@ -79,15 +79,13 @@
 </style>
 </head>
 <body>
-\${user} : ${user }
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38a906000cd6c18d4d8489d1eddaec85&libraries=services,clusterer,drawing"></script>
 <div id="container">
-\${finishList } = ${finishList }
-\${reviewList } = ${reviewList }
-\${userIdx} = ${userIdx }
+\${user} : ${user }<br><hr>
+\${hospital} : ${hospital}
 	<h1>병원 상세 [hosDetail.jsp]</h1>
 	<table border="">
 
@@ -110,21 +108,20 @@
 			<c:set var="endLunchTime" value="${hospital.endLunchTime}"/>
 			<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
 			<td>
-				평일 ${openTimeSub} - ${closeTimeSub}
-				<c:choose>
-					<!-- 점심x -->
-					<c:when test="${hospital.lunchOff == 'Y'
-						or hospital.lunchTime == '00:00:00' or hospital.endLunchTime == '00:00:00'
-						or hospital.lunchTime == null or hospital.endLunchTime == null}">
-					</c:when>
-					<c:otherwise>
-						| 점심 ${lunchTimeSub} - ${endLunchTimeSub}
-					</c:otherwise>
-				</c:choose>
-			</td>
-		</tr>
-		<tr>
-			<c:set var="satOpenTime" value="${hospital.satOpenTime}"/>
+			  	 평일 ${openTimeSub} - ${closeTimeSub}
+			   <c:choose>
+			      <c:when test="${hospital.lunchOff == 'Y'
+			          or hospital.lunchTime == '00:00:00' or hospital.endLunchTime == '00:00:00'
+			          or hospital.lunchTime == null or hospital.endLunchTime == null}">
+			      </c:when>
+			      <c:otherwise>
+			         | 점심 ${lunchTimeSub} - ${endLunchTimeSub}
+			      </c:otherwise>
+			   </c:choose>
+		   </td>
+			</tr>
+			<tr>
+			   <c:set var="satOpenTime" value="${hospital.satOpenTime}"/>
 			<c:set var="satOpenTimeSub" value="${fn:substring(satOpenTime, 0, 5)}"/>
 			<c:set var="satCloseTime" value="${hospital.satCloseTime}"/>
 			<c:set var="satCloseTimeSub" value="${fn:substring(satCloseTime, 0, 5)}"/>
@@ -133,49 +130,46 @@
 			<c:set var="satEndLunchTime" value="${hospital.satEndLunchTime}"/>
 			<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
 			<td>
-				토요일 ${satOpenTimeSub} - ${satCloseTimeSub}
-				<c:choose>
-					<!-- 점심x -->
-					<c:when test="${hospital.satLunchOff == 'Y'
-						or hospital.satLunchTime == '00:00:00' or hospital.satEndLunchTime == '00:00:00'
-						or hospital.satLunchTime == null or hospital.satEndLunchTime == null}">
-					</c:when>
-					<c:otherwise>
-						| 점심 ${satLunchTimeSub} - ${satEndLunchTimeSub}
-					</c:otherwise>
-				</c:choose>
-			</td>
+			   토요일 ${satOpenTimeSub} - ${satCloseTimeSub}
+			   <c:choose>
+			      <c:when test="${hospital.satLunchOff == 'Y'
+			          or hospital.satLunchTime == '00:00:00' or hospital.satEndLunchTime == '00:00:00'
+			          or hospital.satLunchTime == null or hospital.satEndLunchTime == null}">
+			      </c:when>
+			      <c:otherwise>
+			         | 점심 ${satLunchTimeSub} - ${satEndLunchTimeSub}
+			      </c:otherwise>
+			   </c:choose>
+			 </td>
 		</tr>
 		<tr>
-			<c:set var="sunOpenTime" value="${hospital.sunOpenTime}"/>
-			<c:set var="sunOpenTimeSub" value="${fn:substring(sunOpenTime, 0, 5)}"/>
-			<c:set var="sunCloseTime" value="${hospital.sunCloseTime}"/>
-			<c:set var="sunCloseTimeSub" value="${fn:substring(sunCloseTime, 0, 5)}"/>
-			<c:set var="sunLunchTime" value="${hospital.sunLunchTime}"/>
-			<c:set var="sunLunchTimeSub" value="${fn:substring(sunLunchTime, 0, 5)}"/>
-			<c:set var="sunEndLunchTime" value="${hospital.sunEndLunchTime}"/>
-			<c:set var="sunEndLunchTimeSub" value="${fn:substring(sunEndLunchTime, 0, 5)}"/>
-			<td>
-				일요일  
-				<c:choose>
-					<!-- 휴무 -->
-                    <c:when test="${hospital.sunDayOff == 'Y'
-                    	or hospital.sunOpenTime == null or hospital.sunCloseTime == null}">
-                      	<span class="holiday">휴무</span>
-                    </c:when>
-					<!-- 휴무x, 점심x -->
-                    <c:when test="${hospital.sunLunchOff == 'Y'
-						or hospital.sunLunchTime == '00:00:00' or hospital.sunEndLunchTime == '00:00:00'
-						or hospital.sunLunchTime == null or hospital.sunEndLunchTime == null}">
-						${sunOpenTimeSub} - ${sunCloseTimeSub}
-					</c:when>
-					<!-- 휴무x, 점심o -->
-					<c:otherwise>
-						${sunOpenTimeSub} - ${sunCloseTimeSub} | 점심 ${sunLunchTimeSub} - ${sunEndLunchTimeSub}
-					</c:otherwise>
-                </c:choose>
-			</td>
+		   <c:set var="sunOpenTime" value="${hospital.sunOpenTime}"/>
+		  <c:set var="sunOpenTimeSub" value="${fn:substring(sunOpenTime, 0, 5)}"/>
+		  <c:set var="sunCloseTime" value="${hospital.sunCloseTime}"/>
+		  <c:set var="sunCloseTimeSub" value="${fn:substring(sunCloseTime, 0, 5)}"/>
+		  <c:set var="sunLunchTime" value="${hospital.sunLunchTime}"/>
+		  <c:set var="sunLunchTimeSub" value="${fn:substring(sunLunchTime, 0, 5)}"/>
+		  <c:set var="sunEndLunchTime" value="${hospital.sunEndLunchTime}"/>
+		  <c:set var="sunEndLunchTimeSub" value="${fn:substring(sunEndLunchTime, 0, 5)}"/>
+		  <td>
+		     일요일  
+		     <c:choose>
+		             <c:when test="${hospital.sunDayOff == 'Y'
+		                 or hospital.sunOpenTime == null or hospital.sunCloseTime == null}">
+		                  <span class="holiday">휴무</span>
+		             </c:when>
+		             <c:when test="${hospital.sunLunchOff == 'Y'
+		            or hospital.sunLunchTime == '00:00:00' or hospital.sunEndLunchTime == '00:00:00'
+		            or hospital.sunLunchTime == null or hospital.sunEndLunchTime == null}">
+		           ${sunOpenTimeSub} - ${sunCloseTimeSub}
+		        </c:when>
+		        <c:otherwise>
+		           ${sunOpenTimeSub} - ${sunCloseTimeSub} | 점심 ${sunLunchTimeSub} - ${sunEndLunchTimeSub}
+		        </c:otherwise>
+		         </c:choose>
+		   </td>
 		</tr>
+
 		<tr>
 			<th>전화번호</th>
 			<td>${hospital.hosPhone}</td>
@@ -233,115 +227,76 @@
 		    </form>
 		</c:if>
 
-		<form action="insertReview.do" method="post">
-			<div class="star-rating">
-				<input type="radio" id="5-stars" name="score" value="5" />
-				<label for="5-stars" class="star">&#9733;</label>
-				<input type="radio" id="4-stars" name="score" value="4" />
-				<label for="4-stars" class="star">&#9733;</label>
-				<input type="radio" id="3-stars" name="score" value="3" />
-				<label for="3-stars" class="star">&#9733;</label>
-				<input type="radio" id="2-stars" name="score" value="2" />
-				<label for="2-stars" class="star">&#9733;</label>
-				<input type="radio" id="1-star" name="score" value="1" />
-				<label for="1-star" class="star">&#9733;</label>
-			</div>
-			<input type="text" name="content" placeholder="리뷰를 작성하세요.">
-			<input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
-			<input type="hidden" name="score" value="">
-			<input type="submit" value="리뷰 작성">
-		</form>
-
 		<table border=1>
 			<tr>
 				<th>닉네임</th>
 				<th>내용</th>
 				<th>평점</th>
+				<th>방문일</th>
 				<th>등록일</th>
 				<th>수정</th>
 				<th>삭제</th>
 			</tr>
-			<tbody id="listDisp">
+			<tbody>
 				<c:forEach var="review" items="${reviewList}">
-			    <tr id="view_${review.reviewIdx}">
-			        <td id="nickname_view_${review.reviewIdx}">${review.nickname}</td>
-			        <td id="content_view_${review.reviewIdx}">${review.content}</td>
-			        <td id="score_view_${review.reviewIdx}">
-			            <c:choose>
-			                <c:when test="${review.score eq 1}">&#9733;</c:when>
-			                <c:when test="${review.score eq 2}">&#9733;&#9733;</c:when>
-			                <c:when test="${review.score eq 3}">&#9733;&#9733;&#9733;</c:when>
-			                <c:when test="${review.score eq 4}">&#9733;&#9733;&#9733;&#9733;</c:when>
-			                <c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
-			            </c:choose>
-			        </td>
-			        <td>${review.reviewDate}</td>
-			        <td><button class="editReview_btn" type="button" data-reviewIdx="${review.reviewIdx}">수정</button></td>
-			        <td><a href="deleteReview.do?reviewIdx=${review.reviewIdx}" class="deleteReview_btn" data-reviewIdx="${review.reviewIdx}">삭제</a></td>
-			    </tr>
-			
-			    <tr id="edit_${review.reviewIdx}" class="hidden">
-			        <td>${review.nickname}</td>
-			        <td><textarea id="content_${review.reviewIdx}" name="updateContent">${review.content}</textarea></td>
-			        <td>
-			            <div class="star-rating2">
-			                <input type="radio" id="5-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="5" ${review.score == 5 ? 'checked' : ''} />
-			                <label for="5-stars_${review.reviewIdx}" class="star">&#9733;</label>
-			                <input type="radio" id="4-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="4" ${review.score == 4 ? 'checked' : ''} />
-			                <label for="4-stars_${review.reviewIdx}" class="star">&#9733;</label>
-			                <input type="radio" id="3-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="3" ${review.score == 3 ? 'checked' : ''} />
-			                <label for="3-stars_${review.reviewIdx}" class="star">&#9733;</label>
-			                <input type="radio" id="2-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="2" ${review.score == 2 ? 'checked' : ''} />
-			                <label for="2-stars_${review.reviewIdx}" class="star">&#9733;</label>
-			                <input type="radio" id="1-star_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="1" ${review.score == 1 ? 'checked' : ''} />
-			                <label for="1-star_${review.reviewIdx}" class="star">&#9733;</label>
-			            </div>
-			        </td>
-			        <td>${review.reviewDate}</td>
-			        <td><button class="saveReview_btn" type="button" data-reviewIdx="${review.reviewIdx}">저장</button></td>
-			        <td><button class="cancelEdit_btn" type="button" data-reviewIdx="${review.reviewIdx}">취소</button></td>
-			    </tr>
-			</c:forEach>
-
-					<%-- <tr id="view_${review.reviewIdx}">
-						<td id="nickname_view_${review.reviewIdx}">${review.nickname}</td>
-						<td id="content_view_${review.reviewIdx}">${review.content}</td>
-						<td id="score_view_${review.reviewIdx}">
-							<c:choose>
-								<c:when test="${review.score eq 1}">★</c:when>
-								<c:when test="${review.score eq 2}">★★</c:when>
-								<c:when test="${review.scoze eq 3}">★★★</c:when>
-								<c:when test="${review.score eq 4}">★★★★</c:when>
-								<c:when test="${review.score eq 5}">★★★★★</c:when>
-							</c:choose>
-						</td>
-						<td>${review.reviewDate}</td>
-						<td><button class="editReview_btn" type="button" data-reviewIdx="${review.reviewIdx}">수정</button></td>
-						<td><a href="deleteReview.do?reviewIdx=${review.reviewIdx}">삭제</a></td>
+				    <tr id="view_${review.reviewIdx}">
+				        <td id="nickname_view_${review.reviewIdx}">${review.nickname}</td>
+				        <td id="content_view_${review.reviewIdx}">${review.content}</td>
+				        <td id="score_view_${review.reviewIdx}">
+				            <c:choose>
+				                <c:when test="${review.score eq 1}">&#9733;</c:when>
+				                <c:when test="${review.score eq 2}">&#9733;&#9733;</c:when>
+				                <c:when test="${review.score eq 3}">&#9733;&#9733;&#9733;</c:when>
+				                <c:when test="${review.score eq 4}">&#9733;&#9733;&#9733;&#9733;</c:when>
+				                <c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
+				            </c:choose>
+				        </td>
+				        <td>${review.reserDate}</td>
+				        <td>${review.reviewDate}</td>
+				        <!-- 사용자 본인만 리뷰 수정,삭제 가능 -->		        
+				        <c:if test="${review.userIdx eq userIdx}">	        
+					        <td><button class="editReview_btn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
+					    	<form id="deleteReviewForm_${review.reviewIdx }" action="deleteReview.do" action="POST">				    
+						        <td>				 
+						        	<input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
+							        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
+						        	<input type="submit" value="삭제" onClick="confirmDelete(${review.reviewIdx})">    
+						        </td> 
+						    </form>
+				        </c:if>
+				    </tr>
+				
+				
+				    <tr id="edit_${review.reviewIdx}" class="hidden">
+					    <form action="updateReview.do" method="POST">
+					        <td>${review.nickname}</td>	        
+					        <td>
+					            <textarea id="content_${review.reviewIdx}" name="content">${review.content}</textarea>
+					        </td>
+					        <td>
+					            <div class="star-rating2">
+					                <input type="radio" id="5-stars_${review.reviewIdx}" name="score" value="5" ${review.score == 5 ? 'checked' : ''} />
+					                <label for="5-stars_${review.reviewIdx}" class="star">&#9733;</label>
+					                <input type="radio" id="4-stars_${review.reviewIdx}" name="score" value="4" ${review.score == 4 ? 'checked' : ''} />
+					                <label for="4-stars_${review.reviewIdx}" class="star">&#9733;</label>
+					                <input type="radio" id="3-stars_${review.reviewIdx}" name="score" value="3" ${review.score == 3 ? 'checked' : ''} />
+					                <label for="3-stars_${review.reviewIdx}" class="star">&#9733;</label>
+					                <input type="radio" id="2-stars_${review.reviewIdx}" name="score" value="2" ${review.score == 2 ? 'checked' : ''} />
+					                <label for="2-stars_${review.reviewIdx}" class="star">&#9733;</label>
+					                <input type="radio" id="1-star_${review.reviewIdx}" name="score" value="1" ${review.score == 1 ? 'checked' : ''} />
+					                <label for="1-star_${review.reviewIdx}" class="star">&#9733;</label>
+					            </div>
+					        </td>
+					        <td>${review.reviewDate}</td>
+					        <td>
+						        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
+						        <input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
+					        	<input type="submit" value="저장">
+					        </td>
+					    </form>
+					    <td><button class="cancelEdit_btn" type="button" onClick="cancelEdit(${review.reviewIdx})">취소</button></td>
 					</tr>
-					
-					<tr id="edit_${review.reviewIdx}" class="hidden">
-						<td>${review.nickname}</td>
-						<td><textarea id="content_${review.reviewIdx}" name="updateContent">${review.content}</textarea></td>
-						<td>
-							<div class="star-rating2">
-								<input type="radio" id="5-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="5" ${review.score == 5 ? 'checked' : ''} />
-								<label for="5-stars_${review.reviewIdx}" class="star">&#9733;</label>
-								<input type="radio" id="4-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="4" ${review.score == 4 ? 'checked' : ''} />
-								<label for="4-stars_${review.reviewIdx}" class="star">&#9733;</label>
-								<input type="radio" id="3-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="3" ${review.score == 3 ? 'checked' : ''} />
-								<label for="3-stars_${review.reviewIdx}" class="star">&#9733;</label>
-								<input type="radio" id="2-stars_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="2" ${review.score == 2 ? 'checked' : ''} />
-								<label for="2-stars_${review.reviewIdx}" class="star">&#9733;</label>
-								<input type="radio" id="1-star_${review.reviewIdx}" name="updateScore_${review.reviewIdx}" value="1" ${review.score == 1 ? 'checked' : ''} />
-								<label for="1-star_${review.reviewIdx}" class="star">&#9733;</label>
-							</div>
-						</td>
-						<td>${review.reviewDate}</td>
-						<td><button class="saveReview_btn" type="button" data-hosIdx="${hospital.hosIdx }" data-reviewIdx="${review.reviewIdx}">저장</button></td>
-						<td><button class="cancelEdit_btn" type="button" data-reviewIdx="${review.reviewIdx}">취소</button></td>
-					</tr> 
-				</c:forEach>--%>
+				</c:forEach>
 			</tbody>
 
 		</table>

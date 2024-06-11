@@ -20,7 +20,7 @@ public interface HospitalDAO {
 	List<HospitalVO> getHosSearch(HospitalVO vo);
 	List<HosReviewVO> getHosReview(int hosIdx);
 	// 사용자 예약 내역 조회
-	int getReserList(ReservationVO vo);
+	//int getReserList(ReservationVO vo);
 	//병원 리뷰 입력,수정,삭제
 	void insertReview(HosReviewVO vo);
 	void updateReview(HosReviewVO vo);

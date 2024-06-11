@@ -16,7 +16,7 @@ public interface HospitalService {
 	//병원 동적 검색
 	List<HospitalVO> getHosSearch(HospitalVO vo);
 	// 사용자 예약 내역 조회
-	int getReserList(ReservationVO vo);
+	//int getReserList(ReservationVO vo);
 	//병원 리뷰 조회
 	List<HosReviewVO> getHosReview(int hosIdx);
 	//병원 리뷰 입력,수정,삭제
