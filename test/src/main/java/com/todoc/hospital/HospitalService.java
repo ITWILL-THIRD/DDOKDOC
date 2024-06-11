@@ -24,7 +24,12 @@ public interface HospitalService {
 	void updateReview(HosReviewVO vo);
 	void deleteReview(HosReviewVO vo);
 	//병원 별점 업데이트(입력,수정,삭제 시)
-	void updateAvgScore(HospitalVO vo);
+	void updateAvgScore(HospitalVO vo);	
+	//병원 리뷰 입력,삭제 시 
+	// 사용자 상태가 진료 완료 처리된 목록 조회
+	List<ReservationVO> getFinishList(ReservationVO vo);
+	// 사용자 상태 업데이트 
+	void updateCondition(HosReviewVO vo);
 	//주은
 	HospitalVO getHos(HospitalVO ho);
 	HospitalVO hoFindId(HospitalVO vo);

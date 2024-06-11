@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
@@ -78,7 +78,9 @@
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38a906000cd6c18d4d8489d1eddaec85&libraries=services,clusterer,drawing"></script>
 <div id="container">
-
+\${finishList } = ${finishList }
+\${reviewList } = ${reviewList }
+\${userIdx} = ${userIdx }
 	<h1>병원 상세 [hosDetail.jsp]</h1>
 	<table>
 
@@ -98,7 +100,6 @@
 			<th>진료시간</th>
 
 			<!-- openTime과 closeTime을 HH:MM 형식으로 변환 -->
-			
 			<fmt:formatDate value="${hospital.openTime}" pattern="HH:mm" var="openTime" />
 			<fmt:formatDate value="${hospital.closeTime}" pattern="HH:mm" var="closeTime" />
 			
@@ -117,25 +118,39 @@
 
 	<h4>리뷰 목록</h4>
 	<div id="review">
-		<!-- 예약자만 리뷰 작성 form 작성 가능 -->
-		<c:if test="${reservCnt != 0 }">		
-			<form action="insertReview.do" method="post">
-				<div class="star-rating">
-					<input type="radio" id="5-stars" name="score" value="5" />
-					<label for="5-stars" class="star">&#9733;</label>
-					<input type="radio" id="4-stars" name="score" value="4" />
-					<label for="4-stars" class="star">&#9733;</label>
-					<input type="radio" id="3-stars" name="score" value="3" />
-					<label for="3-stars" class="star">&#9733;</label>
-					<input type="radio" id="2-stars" name="score" value="2" />
-					<label for="2-stars" class="star">&#9733;</label>
-					<input type="radio" id="1-star" name="score" value="1" />
-					<label for="1-star" class="star">&#9733;</label>
-				</div>
-				<input type="text" name="content" placeholder="리뷰를 작성하세요.">
-				<input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
-				<input type="submit" value="리뷰 작성">
-			</form>
+		<!-- 예약 후 진료 완료 상태인 사용자만 form 작성 가능 -->
+		<c:if test="${not empty finishList}">
+		    <form id="reviewForm"  action="insertReview.do" method="post">
+		    	<p>방문일</p>
+		    	<!-- 진료 완료 상태인 내역 선택 -->
+		        <select id="finishSelect" onchange="updateHiddenField()">
+		        	<option>리뷰를 작성할 방문일을 선택하세요.</option>
+		            <c:forEach var="finish" items="${finishList}">
+		                <option value="${finish.reserIdx}">
+		                    <!-- openTime과 closeTime을 HH:MM 형식으로 변환 -->
+		                    <fmt:formatDate value="${finish.reserTime}" pattern="HH:mm" var="reserTime" />
+		                    ${finish.reserDate} &nbsp; ${reserTime} &nbsp; ${finish.petName}
+		                </option>
+		            </c:forEach>
+		        </select>
+		        <!-- 선택된 내역의 리뷰 작성 -->
+		        <div class="star-rating">
+		            <input type="radio" id="5-stars" name="score" value="5" />
+		            <label for="5-stars" class="star">&#9733;</label>
+		            <input type="radio" id="4-stars" name="score" value="4" />
+		            <label for="4-stars" class="star">&#9733;</label>
+		            <input type="radio" id="3-stars" name="score" value="3" />
+		            <label for="3-stars" class="star">&#9733;</label>
+		            <input type="radio" id="2-stars" name="score" value="2" />
+		            <label for="2-stars" class="star">&#9733;</label>
+		            <input type="radio" id="1-star" name="score" value="1" />
+		            <label for="1-star" class="star">&#9733;</label>
+		        </div>
+		        <input type="text" name="content" placeholder="리뷰를 작성하세요.">
+		        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
+		        <input type="hidden" id="selectedReserIdx" name="reserIdx" value="" />
+		        <input type="submit" value="리뷰 작성">
+		    </form>
 		</c:if>
 
 		<table border=1>
@@ -143,71 +158,71 @@
 				<th>닉네임</th>
 				<th>내용</th>
 				<th>평점</th>
+				<th>방문일</th>
 				<th>등록일</th>
 				<th>수정</th>
 				<th>삭제</th>
 			</tr>
 			<tbody>
 				<c:forEach var="review" items="${reviewList}">
-			    <tr id="view_${review.reviewIdx}">
-			        <td id="nickname_view_${review.reviewIdx}">${review.nickname}</td>
-			        <td id="content_view_${review.reviewIdx}">${review.content}</td>
-			        <td id="score_view_${review.reviewIdx}">
-			            <c:choose>
-			                <c:when test="${review.score eq 1}">&#9733;</c:when>
-			                <c:when test="${review.score eq 2}">&#9733;&#9733;</c:when>
-			                <c:when test="${review.score eq 3}">&#9733;&#9733;&#9733;</c:when>
-			                <c:when test="${review.score eq 4}">&#9733;&#9733;&#9733;&#9733;</c:when>
-			                <c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
-			            </c:choose>
-			        </td>
-			        <td>${review.reviewDate}</td>
-			        <!-- 사용자 본인만 리뷰 수정,삭제 가능 -->
-			        <c:if test="${reservCnt != 0 }">			        
-				        <td><button class="editReview_btn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
-				    	<form id="deleteReviewForm_${review.reviewIdx }" action="deleteReview.do" action="POST">				    
-					        <td>				 
-					        	<input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
-						        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
-					        	<input type="submit" value="삭제" onClick="confirmDelete(${review.reviewIdx})">    
-					        </td> 
-					    </form>
-			        </c:if>
-			    </tr>
-				
-				
-			    <tr id="edit_${review.reviewIdx}" class="hidden">
-				    <form action="updateReview.do" method="POST">
-				        <td>${review.nickname}</td>	        
-				        <td>
-				            <textarea id="content_${review.reviewIdx}" name="content">${review.content}</textarea>
+				    <tr id="view_${review.reviewIdx}">
+				        <td id="nickname_view_${review.reviewIdx}">${review.nickname}</td>
+				        <td id="content_view_${review.reviewIdx}">${review.content}</td>
+				        <td id="score_view_${review.reviewIdx}">
+				            <c:choose>
+				                <c:when test="${review.score eq 1}">&#9733;</c:when>
+				                <c:when test="${review.score eq 2}">&#9733;&#9733;</c:when>
+				                <c:when test="${review.score eq 3}">&#9733;&#9733;&#9733;</c:when>
+				                <c:when test="${review.score eq 4}">&#9733;&#9733;&#9733;&#9733;</c:when>
+				                <c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
+				            </c:choose>
 				        </td>
-				        <td>
-				            <div class="star-rating2">
-				                <input type="radio" id="5-stars_${review.reviewIdx}" name="score" value="5" ${review.score == 5 ? 'checked' : ''} />
-				                <label for="5-stars_${review.reviewIdx}" class="star">&#9733;</label>
-				                <input type="radio" id="4-stars_${review.reviewIdx}" name="score" value="4" ${review.score == 4 ? 'checked' : ''} />
-				                <label for="4-stars_${review.reviewIdx}" class="star">&#9733;</label>
-				                <input type="radio" id="3-stars_${review.reviewIdx}" name="score" value="3" ${review.score == 3 ? 'checked' : ''} />
-				                <label for="3-stars_${review.reviewIdx}" class="star">&#9733;</label>
-				                <input type="radio" id="2-stars_${review.reviewIdx}" name="score" value="2" ${review.score == 2 ? 'checked' : ''} />
-				                <label for="2-stars_${review.reviewIdx}" class="star">&#9733;</label>
-				                <input type="radio" id="1-star_${review.reviewIdx}" name="score" value="1" ${review.score == 1 ? 'checked' : ''} />
-				                <label for="1-star_${review.reviewIdx}" class="star">&#9733;</label>
-				            </div>
-				        </td>
+				        <td>${review.reserDate}</td>
 				        <td>${review.reviewDate}</td>
-				        <td>
-				        	<!-- <input type="hidden" name="hosIdx" value="${hospital.hosIdx}"> -->
-					        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
-					        <input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
-				        	<input type="submit" value="저장">
-				        </td>
-				    </form>
-				    <td><button class="cancelEdit_btn" type="button" onClick="cancelEdit(${review.reviewIdx})">취소</button></td></tr> 
-				    
-				</tr>
-			</c:forEach>
+				        <!-- 사용자 본인만 리뷰 수정,삭제 가능 -->		        
+				        <c:if test="${review.userIdx eq userIdx}">	        
+					        <td><button class="editReview_btn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
+					    	<form id="deleteReviewForm_${review.reviewIdx }" action="deleteReview.do" action="POST">				    
+						        <td>				 
+						        	<input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
+							        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
+						        	<input type="submit" value="삭제" onClick="confirmDelete(${review.reviewIdx})">    
+						        </td> 
+						    </form>
+				        </c:if>
+				    </tr>
+				
+				
+				    <tr id="edit_${review.reviewIdx}" class="hidden">
+					    <form action="updateReview.do" method="POST">
+					        <td>${review.nickname}</td>	        
+					        <td>
+					            <textarea id="content_${review.reviewIdx}" name="content">${review.content}</textarea>
+					        </td>
+					        <td>
+					            <div class="star-rating2">
+					                <input type="radio" id="5-stars_${review.reviewIdx}" name="score" value="5" ${review.score == 5 ? 'checked' : ''} />
+					                <label for="5-stars_${review.reviewIdx}" class="star">&#9733;</label>
+					                <input type="radio" id="4-stars_${review.reviewIdx}" name="score" value="4" ${review.score == 4 ? 'checked' : ''} />
+					                <label for="4-stars_${review.reviewIdx}" class="star">&#9733;</label>
+					                <input type="radio" id="3-stars_${review.reviewIdx}" name="score" value="3" ${review.score == 3 ? 'checked' : ''} />
+					                <label for="3-stars_${review.reviewIdx}" class="star">&#9733;</label>
+					                <input type="radio" id="2-stars_${review.reviewIdx}" name="score" value="2" ${review.score == 2 ? 'checked' : ''} />
+					                <label for="2-stars_${review.reviewIdx}" class="star">&#9733;</label>
+					                <input type="radio" id="1-star_${review.reviewIdx}" name="score" value="1" ${review.score == 1 ? 'checked' : ''} />
+					                <label for="1-star_${review.reviewIdx}" class="star">&#9733;</label>
+					            </div>
+					        </td>
+					        <td>${review.reviewDate}</td>
+					        <td>
+						        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
+						        <input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
+					        	<input type="submit" value="저장">
+					        </td>
+					    </form>
+					    <td><button class="cancelEdit_btn" type="button" onClick="cancelEdit(${review.reviewIdx})">취소</button></td>
+					</tr>
+				</c:forEach>
 			</tbody>
 
 		</table>
@@ -244,5 +259,16 @@
 	</div>
 </div>
 <jsp:include page="partials/hosDatailJS.jsp"></jsp:include>
+<script>
+	// 로그인 유무 체크
+	function userCheck(userIdx) {
+		if (userIdx == null) {
+			alert("로그인 후 예약이 가능합니다.")
+			location.href="../user/login.do";
+		} else {
+			location.href="../reservation/reservation.do?hosIdx=" + ${hospital.hosIdx};
+		}
+	}
+</script>
 </body>
 </html>

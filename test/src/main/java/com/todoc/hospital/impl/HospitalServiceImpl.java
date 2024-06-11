@@ -109,6 +109,15 @@ public class HospitalServiceImpl implements HospitalService{
 	@Override
 	public void updateAvgScore(HospitalVO vo) {
 		hospitalDAO.updateAvgScore(vo);
-		
+	}
+	//병원 리뷰 입력,삭제 시 사용자 상태 업데이트 
+	@Override
+	public void updateCondition(HosReviewVO vo) {
+		hospitalDAO.updateCondition(vo);
+	}
+	// 사용자 상태가 진료 완료처리된 목록 조회
+	@Override
+	public List<ReservationVO> getFinishList(ReservationVO vo) {
+		return hospitalDAO.getFinishList(vo);
 	}
 }

@@ -68,5 +68,22 @@
 		    document.getElementById('view_' + reviewIdx).classList.remove('hidden');
 		    document.getElementById('edit_' + reviewIdx).classList.add('hidden');
 		}
-
+		
+		// 선택된 진료 완료 상태 내역의 reserIdx를 hidden필드에 설정
+	    function updateHiddenField() {
+	        var selectBox = document.getElementById("finishSelect");
+	        var selectedValue = selectBox .options[selectBox.selectedIndex].value;
+	        document.getElementById("selectedReserIdx").value = selectedValue;
+	        console.log("Selected ReserIdx: " + selectedValue); // 확인용 로그
+	    }
+		
+	    /* document.getElementById("reviewForm").addEventListener("submit", function(event) {
+	        var selectedReserIdx = document.getElementById("selectedReserIdx").value;
+	        if (!selectedReserIdx) {
+	            event.preventDefault();
+	            alert("예약을 선택하세요.");
+	        }
+	    }); */
+		
+	 
 </script>
