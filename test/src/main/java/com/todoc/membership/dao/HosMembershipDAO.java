@@ -1,0 +1,7 @@
+package com.todoc.membership.dao;
+
+import com.todoc.membership.HosMembershipVO;
+
+public interface HosMembershipDAO {
+	void insertHosMembership(HosMembershipVO vo);
+}

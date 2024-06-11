@@ -1,4 +1,4 @@
-package com.todoc.pay;
+package com.todoc.membership;
 
 //import jakarta.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,16 @@ import java.util.Base64;
 @RequestMapping("/membership")
 @Controller
 public class PayController {
+	
+	private HosMembershipService hosmembershipService;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	public PayController(HosMembershipService hosmembershipService) {
+		System.out.println("=========> BoardController(hosmembershipService) 객체생성");
+		System.out.println(":: HosMembershipService hosmembershipService : " + hosmembershipService);
+		this.hosmembershipService = hosmembershipService;
+	}
 
     @RequestMapping(value = "/confirm.do")
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
@@ -78,6 +88,14 @@ public class PayController {
         InputStream responseStream = isSuccess ? connection.getInputStream() : connection.getErrorStream();
 
         // TODO: 결제 성공 및 실패 비즈니스 로직을 구현하세요.
+        if (isSuccess) {
+            HosMembershipVO vo = new HosMembershipVO();
+            vo.setPaymentKey(paymentKey);
+            vo.setOrderId(orderId);
+            vo.setAmount(Integer.parseInt(amount));
+            hosmembershipService.insertHosMembership(vo);
+        }
+        
         Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8);
         JSONObject jsonObject = (JSONObject) parser.parse(reader);
         responseStream.close();
@@ -94,7 +112,6 @@ public class PayController {
      */
     @RequestMapping(value = "/success.do", method = RequestMethod.GET)
     public String paymentRequest(HttpServletRequest request, Model model) throws Exception {
-    	
         return "membership/success";
     }
 

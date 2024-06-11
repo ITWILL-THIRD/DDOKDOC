@@ -44,12 +44,12 @@
         </div>
         <!-- 이용약관 UI -->
         <div id="agreement"></div>
-        <!-- 쿠폰 체크박스 -->
+        <!-- 쿠폰 체크박스
         <div class="checkable typography--p" style="padding-left: 25px">
           <label for="coupon-box" class="checkable__label typography--regular"
             ><input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true" /><span class="checkable__label-text">5,000원 쿠폰 적용</span></label
           >
-        </div>
+        </div> -->
         <!-- 결제하기 버튼 -->
         <button class="button" id="payment-button" style="margin-top: 30px" disabled>결제하기</button>
       </div>
@@ -58,7 +58,7 @@
       const button = document.getElementById("payment-button");
       const coupon = document.getElementById("coupon-box");
       const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
-      var amount = 50000;
+      var amount = 100000;
       // ------  결제위젯 초기화 ------
       // TODO: clientKey는 개발자센터의 결제위젯 연동 키 > 클라이언트 키로 바꾸세요.
       // TODO: 구매자의 고유 아이디를 불러와서 customerKey로 설정하세요. 이메일・전화번호와 같이 유추가 가능한 값은 안전하지 않습니다.
@@ -90,13 +90,13 @@
 
       // ------  결제 금액 업데이트 ------
       //@docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
-      coupon.addEventListener("change", function () {
-        if (coupon.checked) {
-          paymentMethodWidget.updateAmount(amount - 5000);
-        } else {
-          paymentMethodWidget.updateAmount(amount);
-        }
-      });
+//      coupon.addEventListener("change", function () {
+//        if (coupon.checked) {
+//          paymentMethodWidget.updateAmount(amount - 5000);
+//        } else {
+//          paymentMethodWidget.updateAmount(amount);
+//        }
+//      });
 
       // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
       // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
