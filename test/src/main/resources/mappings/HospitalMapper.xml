@@ -212,6 +212,7 @@
 		SELECT HOLIDATE
 		FROM HOSHOLIDAY
 		WHERE HOSIDX = #{hosIdx}
+	</select>
 
 	<!-- 병원 리뷰 삭제 -->
 	<delete id="deleteReview" parameterType="HosReviewVO">
