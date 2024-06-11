@@ -15,7 +15,7 @@
     <div class="box_section" style="width: 600px">
       <img width="100px" src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png" />
       <h2>결제를 완료했어요</h2>
-
+	<div>\${hoUser} : ${hoUser}</div>
       <div class="p-grid typography--p" style="margin-top: 50px">
         <div class="p-grid-col text--left"><b>결제금액</b></div>
         <div class="p-grid-col text--right" id="amount"></div>

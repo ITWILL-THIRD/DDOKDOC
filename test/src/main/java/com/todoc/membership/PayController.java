@@ -2,6 +2,8 @@ package com.todoc.membership;
 
 //import jakarta.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -15,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+
 
 @RequestMapping("/membership")
 @Controller
@@ -111,14 +115,13 @@ public class PayController {
      * @throws Exception
      */
     @RequestMapping(value = "/success.do", method = RequestMethod.GET)
-    public String paymentRequest(HttpServletRequest request, Model model) throws Exception {
-    	HosMembershipVO vo = new HosMembershipVO();
+    public String paymentRequest(HttpServletRequest request, HttpSession session, Model model, HosMembershipVO vo) throws Exception {
 		hosmembershipService.insertHosMembership(vo);
         return "membership/success";
     }
 
     @RequestMapping(value = "/checkout.do", method = RequestMethod.GET)
-    public String index(HttpServletRequest request, Model model) throws Exception {
+    public String index(HttpServletRequest request, HttpSession session, Model model) throws Exception {
         return "membership/checkout";
     }
 
@@ -130,7 +133,7 @@ public class PayController {
      * @throws Exception
      */
     @RequestMapping(value = "/fail.do", method = RequestMethod.GET)
-    public String failPayment(HttpServletRequest request, Model model) throws Exception {
+    public String failPayment(HttpServletRequest request, HttpSession session, Model model) throws Exception {
         String failCode = request.getParameter("code");
         String failMessage = request.getParameter("message");
 

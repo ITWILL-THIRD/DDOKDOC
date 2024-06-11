@@ -23,7 +23,7 @@
       <div class="box_section" style="padding: 40px 30px 50px 30px; margin-top: 30px; margin-bottom: 50px">
       <!-- 멘트 -->
       	<div class="mtitle">토닥토닥 멤버십</div>
-
+	<div>\${hoUser} : ${hoUser}</div>
       	<div class="mdiv">
 		    <div>
 		        <img src="https://i.ibb.co/z6DGxRs/70.png" alt="병원입점" border="0">
