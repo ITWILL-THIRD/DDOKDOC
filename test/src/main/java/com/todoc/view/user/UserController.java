@@ -1,9 +1,6 @@
 package com.todoc.view.user;
 
-import java.awt.peer.LightweightPeer;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -177,9 +173,10 @@ public class UserController {
 		try {
 			String certificateImg = gcsService.uploadFile(certificateImgStr);
 			vo.setCertificateImg(certificateImg);
-			//hospital 테이블 입력
+			//hospital 테이블 입력(메인 테이블HOSPITAL INSERT)
 			int cntHospital = hospitalService.insertHospital(vo);
 			System.out.println("cntHospital : " + cntHospital);
+			System.out.println("HOSPITAL vo : " + vo);
 			if (cntHospital == 0) {
 				System.out.println(">> 회원가입 실패");
 				return "redirect:hoJoin.do?msg=fail";
@@ -188,6 +185,60 @@ public class UserController {
 			e.printStackTrace();
 			return "redirect:hoJoin.do?msg=fileError";
 		}
+		//병원 주소 - 시도, 시군구 분리하여 INSERT
+		System.out.println("vo.getRoadAddressName() : " + vo.getRoadAddressName());
+		String sido;
+		String sigungu;
+		if(vo.getRoadAddressName().contains("제주특별자치도")) {
+			sido = vo.getRoadAddressName().substring(0, 7);
+			String sidoJeju = sido.substring(0, 2);
+			vo.setSido(sidoJeju);
+			System.out.println("sido 제주도 : " + sido);
+			if(vo.getRoadAddressName().indexOf("시") != -1) {
+				int idxSi = vo.getRoadAddressName().indexOf("시");
+				sigungu = vo.getRoadAddressName().substring(8, idxSi + 1);
+				System.out.println("sigungu : " + sigungu);
+				vo.setSigungu(sigungu);
+			}
+//			} else if (vo.getRoadAddressName().indexOf("군") != -1) {
+//				int idxGun = vo.getRoadAddressName().indexOf("군");
+//				sigungu = vo.getRoadAddressName().substring(8, idxGun + 1);
+//				System.out.println("sigungu : " + sigungu);
+//				vo.setSigungu(sigungu);
+//			} else if (vo.getRoadAddressName().indexOf("구") != -1) {
+//				int idxGu = vo.getRoadAddressName().indexOf("구");
+//				sigungu = vo.getRoadAddressName().substring(8, idxGu + 1);
+//				System.out.println("sigungu : " + sigungu);
+//				vo.setSigungu(sigungu);
+//			}
+		} else {
+			sido = vo.getRoadAddressName().substring(0, 2);
+			vo.setSido(sido);
+			System.out.println("sido 제주도 제외 모든 : " + sido);
+			if(vo.getRoadAddressName().indexOf("시") != -1) {
+				int idxSi = vo.getRoadAddressName().indexOf("시");
+				sigungu = vo.getRoadAddressName().substring(3, idxSi + 1);
+				System.out.println("sigungu : " + sigungu);
+				vo.setSigungu(sigungu);
+			} else if (vo.getRoadAddressName().indexOf("군") != -1) {
+				int idxGun = vo.getRoadAddressName().indexOf("군");
+				sigungu = vo.getRoadAddressName().substring(3, idxGun + 1);
+				System.out.println("sigungu : " + sigungu);
+				vo.setSigungu(sigungu);
+			} else if (vo.getRoadAddressName().indexOf("구") != -1) {
+				int idxGu = vo.getRoadAddressName().indexOf("구");
+				sigungu = vo.getRoadAddressName().substring(3, idxGu + 1);
+				System.out.println("sigungu : " + sigungu);
+				vo.setSigungu(sigungu);
+			}
+		}
+		System.out.println("주소 분리추출 vo : " + vo);
+		
+		//병원 HOSPITAL 입력한 hosIdx 추출(조회)
+		int insertHosIdx = hospitalService.getHosIdx(vo);
+		System.out.println(":: insertHosIdx : " + insertHosIdx);
+		vo.setHosIdx(insertHosIdx);
+		System.out.println("insertHosIdx vo : " + vo);
 		
 		//병원 파일 여러개(상세 사진) 업로드 처리
 		System.out.println("hosImgStr : " + hosImgStr);
@@ -204,12 +255,9 @@ public class UserController {
         	try {
         		System.out.println("MultipartFile hosImg : " + hosImgFile);
         		String hosImg = gcsService.uploadFile(hosImgFile);
-        		//병원 정보 입력한 hosIdx 조회
-        		int insertHosIdx = hospitalService.getHosIdx(vo);
-        		System.out.println(":: insertHosIdx : " + insertHosIdx);
-        		vo.setHosIdx(insertHosIdx);
         		//파일 경로 설정
         		vo.setHosImg(hosImg);
+        		System.out.println("HOSIMG vo : " + vo);
         		//병원 사진 1장 입력
         		int cntHosImg = hospitalService.insertHosImg(vo);
     			if (cntHosImg == 0) {
@@ -225,6 +273,7 @@ public class UserController {
 		//hosAddress 테이블 입력
 		int cntHosAddress = hospitalService.insertHosAddress(vo);
 		System.out.println("cntHosAddress : " + cntHosAddress);
+		System.out.println("HOSADDRESS vo : " + vo);
 		if (cntHosAddress == 0) {
 			System.out.println(">> 회원가입 실패");
 			return "redirect:hoJoin.do?msg=fail";
@@ -272,24 +321,25 @@ public class UserController {
 		System.out.println("validOpenTime : " + validOpenTime);
 		
 		try {
+			System.out.println("timeMapper 실행 전, vo : " + vo);
 			//hosTime 테이블 입력
 			int cntHosTime = timeMapper.insertTime(vo, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
 								, validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
 								, validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime
 								, lunchOff, satLunchOff, sunDayOff, sunLunchOff);
+			System.out.println("timeMapper 실행 후, vo : " + vo);
 			System.out.println("cntHosTime : " + cntHosTime);
 			if (cntHosTime == 0) {
 				System.out.println(">> 회원가입 실패");
 				return "redirect:hoJoin.do?msg=fail";
 			}
-			System.out.println("vo : " + vo);
+			System.out.println("HOSTIME vo : " + vo);
 			System.out.println(">> 회원가입 완료");
 			return "redirect:login.do?msg=success";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return"redirect:hoJoin.do?msg=fail";
 		}
-		
 	}
 	//유효성 검사 메소드(운영 시각 0~23만 사용 가능)
 	private String validateAndCorrectTime(String timeStr) {

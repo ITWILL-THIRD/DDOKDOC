@@ -78,23 +78,23 @@
 </style>
 </head>
 <body>
-\${user} : ${user }
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38a906000cd6c18d4d8489d1eddaec85&libraries=services,clusterer,drawing"></script>
 <div id="container">
+\${user} : ${user }<hr>
+\${hospital} : ${hospital}
 
 	<h1>병원 상세 [hosDetail.jsp]</h1>
 	<table border="">
-
 		<tr>
 			<th>병원명</th>
-			<td>${hospital.hosName}</td>
+			<td colspan="2">${hospital.hosName}</td>
 		</tr>
 		<tr>
 			<th>주소</th>
-			<td>${hospital.roadAddressName}${hospital.detailAddress}</td>
+			<td colspan="2">${hospital.roadAddressName} ${hospital.detailAddress}</td>
 		</tr>
 		<tr>
 			<th rowspan="3">진료시간</th>
@@ -108,14 +108,15 @@
 			<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
 			<td>
 				평일 ${openTimeSub} - ${closeTimeSub}
+			</td>
+			<td>
 				<c:choose>
-					<!-- 점심x -->
 					<c:when test="${hospital.lunchOff == 'Y'
-						or hospital.lunchTime == '00:00:00' or hospital.endLunchTime == '00:00:00'
-						or hospital.lunchTime == null or hospital.endLunchTime == null}">
+ 						or hospital.lunchTime == '00:00:00' or hospital.endLunchTime == '00:00:00'
+ 						or hospital.lunchTime == null or hospital.endLunchTime == null}">
 					</c:when>
 					<c:otherwise>
-						| 점심 ${lunchTimeSub} - ${endLunchTimeSub}
+						점심 ${lunchTimeSub} - ${endLunchTimeSub}
 					</c:otherwise>
 				</c:choose>
 			</td>
@@ -131,14 +132,15 @@
 			<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
 			<td>
 				토요일 ${satOpenTimeSub} - ${satCloseTimeSub}
+			</td>
+			<td>
 				<c:choose>
-					<!-- 점심x -->
 					<c:when test="${hospital.satLunchOff == 'Y'
-						or hospital.satLunchTime == '00:00:00' or hospital.satEndLunchTime == '00:00:00'
-						or hospital.satLunchTime == null or hospital.satEndLunchTime == null}">
+ 						or hospital.satLunchTime == '00:00:00' or hospital.satEndLunchTime == '00:00:00'
+ 						or hospital.satLunchTime == null or hospital.satEndLunchTime == null}">
 					</c:when>
 					<c:otherwise>
-						| 점심 ${satLunchTimeSub} - ${satEndLunchTimeSub}
+						점심 ${satLunchTimeSub} - ${satEndLunchTimeSub}
 					</c:otherwise>
 				</c:choose>
 			</td>
@@ -153,37 +155,40 @@
 			<c:set var="sunEndLunchTime" value="${hospital.sunEndLunchTime}"/>
 			<c:set var="sunEndLunchTimeSub" value="${fn:substring(sunEndLunchTime, 0, 5)}"/>
 			<td>
-				일요일  
+				일요일
 				<c:choose>
-					<!-- 휴무 -->
                     <c:when test="${hospital.sunDayOff == 'Y'
-                    	or hospital.sunOpenTime == null or hospital.sunCloseTime == null}">
+                     	or hospital.sunOpenTime == null or hospital.sunCloseTime == null}">
                       	<span class="holiday">휴무</span>
                     </c:when>
-					<!-- 휴무x, 점심x -->
-                    <c:when test="${hospital.sunLunchOff == 'Y'
-						or hospital.sunLunchTime == '00:00:00' or hospital.sunEndLunchTime == '00:00:00'
-						or hospital.sunLunchTime == null or hospital.sunEndLunchTime == null}">
-						${sunOpenTimeSub} - ${sunCloseTimeSub}
-					</c:when>
-					<!-- 휴무x, 점심o -->
 					<c:otherwise>
-						${sunOpenTimeSub} - ${sunCloseTimeSub} | 점심 ${sunLunchTimeSub} - ${sunEndLunchTimeSub}
+						 ${sunOpenTimeSub} - ${sunCloseTimeSub}
+					</c:otherwise>
+				</c:choose>
+			</td>
+			<td>
+				<c:choose>
+                    <c:when test="${hospital.sunLunchOff == 'Y'
+ 						or hospital.sunLunchTime == '00:00:00' or hospital.sunEndLunchTime == '00:00:00'
+ 						or hospital.sunLunchTime == null or hospital.sunEndLunchTime == null}">
+					</c:when>
+					<c:otherwise>
+						점심 ${sunLunchTimeSub} - ${sunEndLunchTimeSub}
 					</c:otherwise>
                 </c:choose>
 			</td>
 		</tr>
 		<tr>
 			<th>전화번호</th>
-			<td>${hospital.hosPhone}</td>
+			<td colspan="2">${hospital.hosPhone}</td>
 		</tr>
 		<tr>
 			<th>병원분류</th>
-			<td>${hospital.animal}</td>
+			<td colspan="2">${hospital.animal}</td>
 		</tr>
 		<tr>
 			<th>평점</th>
-			<td>${hospital.score}</td>
+			<td colspan="2">${hospital.score}</td>
 		</tr>
 	</table>
 	<p>

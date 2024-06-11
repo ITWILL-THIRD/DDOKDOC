@@ -61,19 +61,21 @@
 			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE
 			, ANIMAL, SCORE, CONDITION, CERTIFICATEIMG)
 		VALUES ((SELECT NVL(MAX(HOSIDX), 0) + 1 FROM HOSPITAL), #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}
+<!-- 		VALUES (SEQ_HOSIDX.NEXTVAL, #{hosId}, #{hosPw}, #{hosName}, #{hosPhone} -->
 			, #{animal}, 0, '승인 전', #{certificateImg})
 	</insert>
 <!-- 병원 사진(파일 여러장) 입력 -->
 	<insert id="insertHosImg" parameterType="HospitalVO">
 		INSERT INTO HOSIMG(IMGIDX, HOSIDX, HOSIMG)
 		VALUES ((SELECT NVL(MAX(IMGIDX), 0) + 1 FROM HOSIMG), #{hosIdx}, #{hosImg})
+<!-- 		VALUES (SEQ_IMGIDX.NEXTVAL, #{hosIdx}, #{hosImg}) -->
 	</insert>
 <!-- 병원 주소 입력 -->
 	<insert id="insertHosAddress" parameterType="HospitalVO">
 		INSERT INTO HOSADDRESS
 			(HOSIDX, ADDRESSNAME, ROADADDRESSNAME, DETAILADDRESS, ADDX
 			, ADDY, SIDO, SIGUNGU)
-		VALUES ((SELECT NVL(MAX(HOSIDX), 0) + 1 FROM HOSADDRESS), #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
+		VALUES (#{hosIdx}, #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
 			, #{addy}, #{sido}, #{sigungu})
 	</insert>
 	
@@ -157,13 +159,13 @@
  	            <when test='searchCondition == "night"'>
  	            	<![CDATA[
 	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI:SS') > '18:00:00'
-	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI:SS') <= '23:59:59'
+	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI:SS') <= '23:59:00'
 	                AND TO_CHAR(T.OPENTIME, 'HH24:MI:SS') != '00:00:00'
 	             	]]>
 	            </when>
 	            <when test='searchCondition == "24h"'>
 	                AND TO_CHAR(T.OPENTIME, 'HH24:MI:SS') = '00:00:00'
-	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI:SS') = '23:59:59'
+	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI:SS') = '23:59:00'
 	            </when>
 	        </choose>
 	    </where>

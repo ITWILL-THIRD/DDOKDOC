@@ -74,21 +74,27 @@
 			console.log(document.forms[0]);
 			let firstForm = document.forms[0];
 			console.log(firstForm.elements);
-			//테스트 할때만 주석처리 하고, 본 프로젝트는 해제 처리!
-// 			for (let htmlObj of firstForm.elements) {
-// 				if (htmlObj.value.trim() == "") {
-// 					console.log(htmlObj);
-// 					if (htmlObj.getAttribute("title") == "병원 사진") continue;
-// 					if(htmlObj.title == "사업자 등록증") {
-// 						alert(htmlObj.title + " 업로드 하세요");
-// 						htmlObj.focus();
-// 					} else {
-// 						alert(htmlObj.title + " 입력하세요");
-// 						htmlObj.focus();
-// 					}
-// 					return;
-// 				}
-// 			}
+			
+			for (let htmlObj of firstForm.elements) {
+				if (htmlObj.value.trim() == "") {
+					console.log(htmlObj);
+					if (htmlObj.getAttribute("title") == "상세주소") continue;
+					if (htmlObj.getAttribute("title") == "참고항목") continue;
+					if (htmlObj.getAttribute("title") == "병원 사진") continue;
+					if (htmlObj.getAttribute("name") == "lunchOff") continue;
+					if (htmlObj.getAttribute("name") == "satLunchOff") continue;
+					if (htmlObj.getAttribute("name") == "sunDayOff") continue;
+					if (htmlObj.getAttribute("name") == "sunLunchOff") continue;
+					if(htmlObj.title == "사업자 등록증") {
+						alert(htmlObj.title + " 업로드 하세요");
+						htmlObj.focus();
+					} else {
+						alert(htmlObj.title + " 입력하세요");
+						htmlObj.focus();
+					}
+					return;
+				}
+			}
 			
 			if(!isCheckDup) {
 				alert("아이디 중복체크를 먼저 해주세요.");
@@ -170,12 +176,6 @@
         }).open();
     }
 </script>
-<style>
-	/* 임시 */
-	div #sun {
-		border: 1px solid red;
-	}
-</style>
 </head>
 <body>
 <h1>병원회원가입</h1>
@@ -215,94 +215,125 @@
 	</tr>
 	<tr>
 <!-- 		점심시간 없음/주말 휴무 처리 -->
-		<th rowspan="6">운영시간</th>
+		<th rowspan="8">운영시간</th>
 		<td>
-			평일 : 점심시간 없음 <input type="checkbox" name="lunchOff" value="Y"><br>
+			평일 : <input type="checkbox" id="toggleWeekdayLunch" name="lunchOff" value="Y">점심 없음<br>
+		</td>
 	</tr>
 	<tr>
 		<td>
-			진료시간 <input type="time" title="주중 시작시간" id="openTimeStr" name="openTimeStr" value="00:00"> 
-				~ <input type="time" title="주중 마감시간" name="closeTimeStr" value="00:00"><br>
+			진료시간 <input type="time" title="주중 시작시간" name="openTimeStr" value="00:00"> 
+				~ <input type="time" title="주중 마감시간" name="closeTimeStr" value="00:00">
+		</td>
+	</tr>
+	<tr>
+		<td id="tdWeekday">
 			점심시간 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="00:00"> 
-				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="00:00"><br>
+				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="00:00">
 		</td>
 	</tr>
 	<tr>
 		<td>
-			토요일 : 점심시간 없음 <input type="checkbox" id="toggleLunch" name="satLunchOff" value="Y"><br>
+			토요일 : <input type="checkbox" id="toggleSatLunch" name="satLunchOff" value="Y">점심 없음 <br>
 		</td>
 	</tr>
 	<tr>
-		<td id="satLunch">
+		<td id="tdsatLunch">
 			진료시간 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="00:00"> 
-				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="00:00"><br>
-			점심시간 <input type="time" class="satTime" title="토요일 점심 시작시간" name="satLunchTimeStr" value="00:00"> 
-				~ <input type="time" class="satTime" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="00:00"><br>
+				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="00:00">
 		</td>
 	</tr>
 	<tr>
 		<td>
-			일요일 : 휴무 <input type="checkbox" id="toggleSun" name="sunDayOff" value="Y"> 점심시간 없음 <input type="checkbox" name="sunLunchOff" value="Y"><br>
+			점심시간 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="00:00"> 
+				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="00:00">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			일요일 : <input type="checkbox" id="toggleSunOff" name="sunDayOff" value="Y">휴무 
+				<input type="checkbox" id="toggleSunLunch" name="sunLunchOff" value="Y">점심 없음 <br>
 		</td>
 	</tr>
 	<tr>
 		<td id="sun">
 			진료시간 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="00:00"> 
 				~ <input type="time" title="일요일 마감시간" name="sunCloseTimeStr" value="00:00"><br>
+			<span id="spanSunLunch">
 			점심시간 <input type="time" class="lunch" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="00:00"> 
 				~ <input type="time" class="lunch" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="00:00"><br>
+			</span>
 <script>
-	//점심시간 없음 처리
-	document.getElementById('toggleLunch').addEventListener('click', function(){
-		var satLunch = document.getElementById('satLunch');
-		var inputs = satLunch.getElementsByTagName('input');
-		var classSatTime = inputs.getElementByClassName('satTime');
-		for (var i = 0; i < classSatTime.length; i++) {
-			classSatTime[i].style.display = 'none';
-		}
+ 	//평일 점심시간 없음 처리
+ 	//$('#toggleWeekdayLunch')버튼 클릭 시, true은 input 요소 none(안보이는 상태)
+ 	//false는 input 요소 block(보이는 상태)
+ 	var WeekdayToggled = true;
+ 	$('#toggleWeekdayLunch').on('click', function(){
+ 		if (WeekdayToggled) {
+ 			$('#tdWeekday').css({
+ 	            'display': 'none'
+ 			});
+ 		} else {
+             $('#tdWeekday').css({
+             	'display': 'inline-block'
+             });
+ 		}
+ 		WeekdayToggled = !WeekdayToggled;
+ 	});
+	
+ 	//토요일 점심시간 없음 처리
+ 	//$('#toggleSatLunch')버튼 클릭 시, true은 input 요소 none(안보이는 상태)
+ 	//false는 input 요소 block(보이는 상태)
+ 	var SatToggled = true;
+ 	$('#toggleSatLunch').on('click', function(){
+ 		if (SatToggled) {
+ 			$('#tdsatLunch').css({
+ 	            'display': 'none'
+ 			});
+ 		} else {
+             $('#tdsatLunch').css({
+             	'display': 'inline-block'
+             });
+ 		}
+ 		SatToggled = !SatToggled;
+ 	});
+ 	
+ 	//일요일 점심시간 없음 처리
+ 	//$('#toggleSunLunch')버튼 클릭 시, true은 input 요소 none(안보이는 상태)
+ 	//false는 input 요소 block(보이는 상태)
+ 	var SunToggled = true;
+ 	$('#toggleSunLunch').on('click', function(){
+ 		if (SunToggled) {
+ 			$('#spanSunLunch').css({
+ 	            'display': 'none'
+ 			});
+ 		} else {
+             $('#spanSunLunch').css({
+             	'display': 'inline-block'
+             });
+ 		}
+ 		SunToggled = !SunToggled;
+ 	});
+	
+ 	//일요일 휴무 처리
+ 	document.getElementById('toggleSunOff').addEventListener('click', function(){
+ 		var tdSun = document.getElementById('sun');
+ 		var inputs = tdSun.getElementsByTagName('input');
 		
-		// inputs는 HTMLCollection 객체이므로 배열로 변환
-// 		var ArrayLunch = Array.prototype.slice.call(inputs);
-// 		alert("ArrayLunch : " + ArrayLunch);
-// 	    // 클래스가 'lunch'인 요소들을 필터링합니다.
-// 	    var inputsLunch = ArrayLunch.filter(function(input) {
-// 	        return inputs.classList.contains('lunch');
-// 	    });
-// 		alert("inputsLunch : " + inputsLunch);
-	    
-// 		if (classSatTime.style.display === 'none') {
-// 			classSatTime.style.display = 'block';
-// 			//하위 input class="lunch" 요소 표시
-// 			alert(inputsLunch);
-// 			for (var i = 0; i < inputsLunch.length; i++) {
-// 				inputsLunch[i].style.display = 'block';
-// 			}
-// 		} else {
-// 			inputsLunch.style.display = 'none';
-// 			for (var i = 0; i < inputsLunch.length; i++) {
-// 				inputsLunch[i].style.display = 'none';
-// 			}
-// 		}
-	});
-	//일요일 휴무 처리
-	document.getElementById('toggleSun').addEventListener('click', function(){
-		var tdSun = document.getElementById('sun');
-		var inputs = tdSun.getElementsByTagName('input');
-		
-		if (tdSun.style.display === 'none') {
-			tdSun.style.display = 'block';
-			//하위 input 요소 표시
-			for (var i = 0; i < inputs.length; i++) {
-				inputs[i].style.display = 'block';
-			}
-		} else {
-			//하위 input 요소 숨김
-			tdSun.style.display = 'none';
-			for (var i = 0; i < inputs.length; i++) {
-				inputs[i].style.display = 'none';
-			}
-		}
-	});
+ 		if (tdSun.style.display === 'none') {
+ 			tdSun.style.display = 'block';
+ 			//하위 input 요소 표시
+ 			for (var i = 0; i < inputs.length; i++) {
+ 				inputs[i].style = '';
+ 			}
+ 		} else {
+ 			//하위 input 요소 숨김
+ 			tdSun.style.display = 'none';
+ 			for (var i = 0; i < inputs.length; i++) {
+ 				inputs[i].style.display = 'none';
+ 			}
+ 		}
+ 	});
 </script>
 		</td>
 	</tr>
