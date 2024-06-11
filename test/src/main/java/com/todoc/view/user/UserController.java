@@ -282,7 +282,7 @@ public class UserController {
 			int cntHosTime = timeMapper.insertTime(vo, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
 								, validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
 								, validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime
-								, lunchOff, satLunchOff, sunDayOff, sunLunchOff);
+								, lunchOff, satLunchOff, sunDayOff);
 			System.out.println("cntHosTime : " + cntHosTime);
 			if (cntHosTime == 0) {
 				System.out.println(">> 회원가입 실패");
