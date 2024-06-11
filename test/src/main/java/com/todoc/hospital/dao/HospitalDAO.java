@@ -30,11 +30,6 @@ public interface HospitalDAO {
 	void updateHosTime(HospitalVO vo);
 	void updateHoPwd(HospitalVO vo);
 	//----------------------
-	//민지
-	//병원 정보 입력
-	void insertHospital(HospitalVO vo);
-	//병원 주소 입력
-	void insertHosAddress(HospitalVO vo);
 
 	int hosId(HospitalVO ho) throws Exception;
 	//민지

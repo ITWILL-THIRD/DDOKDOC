@@ -77,9 +77,6 @@ public class UserController {
 				return "redirect:/index.jsp?msg=success";
 			}
 
-			System.out.println("로그인시 userIdx : " + vo.getUserIdx());
-			return "redirect:/index.jsp?msg=success";
-
 			
 		} else {
 			model.addAttribute("msg", "로그인 실패");

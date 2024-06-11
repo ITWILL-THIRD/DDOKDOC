@@ -25,7 +25,7 @@ public interface TimeMapper {
 		, @Param("sunLunchTimeStr")String sunLunchTimeStr, @Param("sunEndLunchTimeStr")String sunEndLunchTimeStr
 		, @Param("lunchOff")String lunchOff, @Param("satLunchOff")String satLunchOff, @Param("sunDayOff")String sunDayOff
 		);
-	);
+
 	
 	 @Update("UPDATE HOSTIME " +
 	            "SET OPENTIME = TO_DATE('1970-01-01 ' || #{openTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
