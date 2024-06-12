@@ -32,17 +32,33 @@
 	        	$("#listDisp").empty();
  
 			    let dispHtml = "";
-			    
+			    function formatTime(time) {
+			        // "HH:MM:SS"에서 "HH:MM" time 포맷 변환 함수
+			        if (typeof time === 'string' && time.length === 8) {
+			            var hours = time.substring(0, 2);
+			            var minutes = time.substring(3, 5);
+			            return hours + ':' + minutes;
+			        } else {
+			            return time; // 예상치 못한 형식인 경우 그대로 반환
+			        }
+			    }
+
 			    for (let hospital of data) {
+			        let openTimeFormatted = formatTime(hospital.openTime);
+			        let closeTimeFormatted = formatTime(hospital.closeTime);
+
 			        dispHtml += "<tr>";
 			        dispHtml += "<td>" + hospital.hosIdx + "</td>";
-			        dispHtml += "<td><a href='hospital/hosDetail.do?hosIdx=" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
+			        dispHtml += "<td><a href='hosDetail.do?hosIdx=${hospital.hosIdx}" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
 			        dispHtml += "<td>" + hospital.roadAddressName + "</td>";
+			        dispHtml += "<td>" + openTimeFormatted + " ~ " + closeTimeFormatted + "</td>";
 			        dispHtml += "<td>" + hospital.hosPhone + "</td>";
-			        dispHtml += "<td>" + hospital.openTime + " ~ " + hospital.closeTime + "</td>";
 			        dispHtml += "<td>" + hospital.animal + "</td>";
 			        dispHtml += "</tr>";
 			    }
+
+			    console.log('Final HTML:', dispHtml);
+
 			    
 			    $("#listDisp").html(dispHtml);
 	        },

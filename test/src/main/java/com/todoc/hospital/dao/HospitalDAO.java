@@ -3,6 +3,7 @@ package com.todoc.hospital.dao;
 import java.sql.Date;
 import java.util.List;
 
+import com.todoc.hospital.HolidayInsertParams;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.reservation.ReservationVO;
@@ -32,6 +33,12 @@ public interface HospitalDAO {
 	List<ReservationVO> getFinishList(ReservationVO vo);
 	// 사용자 상태 업데이트 
 	void updateCondition(HosReviewVO vo);
+	//(개인)마이페이지 - 작성한 리뷰 목록
+	List<HosReviewVO> getReviewList(int userIdx);
+	//(개인)마이페이지 - 작성할 리뷰 목록
+	List<HosReviewVO> getReviewToWrite(int userIdx);
+	//(병원)마이페이지 - 작성된 리뷰 목록
+	List<HosReviewVO> getHosReviewList(int hosIdx);
 	//------주은 -------------
 	HospitalVO getHos(HospitalVO ho);
 	HospitalVO hoFindId(HospitalVO vo);
@@ -60,5 +67,8 @@ public interface HospitalDAO {
 	//병원 휴무일 리스트
 	List<Date> hosHoliday(HospitalVO vo); 
 
+	//병원 휴무 입력
+	void insertHolidays(HolidayInsertParams param);
+	
 }
 

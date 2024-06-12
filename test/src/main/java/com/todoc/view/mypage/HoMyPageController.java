@@ -1,27 +1,46 @@
 package com.todoc.view.mypage;
 
+import javax.servlet.http.HttpSession;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import org.apache.ibatis.ognl.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.todoc.hospital.HolidayInsertParams;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.TimeMapper;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
 import com.todoc.user.UserVO;
+
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
 
 @RequestMapping("/mypage")
 @Controller
@@ -32,12 +51,13 @@ public class HoMyPageController {
 	private TimeMapper timeMapper;
 	@Autowired
 	private NoticeService noticeService;
-	
-	//병원 마이페이지로 이동
+
+	// 병원 마이페이지로 이동
 	@RequestMapping("/hoMyPage.do")
-	 public String myPage() {
+	public String myPage() {
 		return "mypage/hoMyPage";
 	}
+
 	// 병원정보수정페이지로 이동
 	@GetMapping("/updateHoUser.do")
 	public String updateHoUserView(@RequestParam("hosIdx") int hosIdx, Model model, HttpSession session) {
@@ -182,44 +202,42 @@ public class HoMyPageController {
 	        int minute = Integer.parseInt(timeParts[1]);
 	        int second = Integer.parseInt(timeParts[2]);
 
-	        // 시간 값이 0에서 23 사이인지 확인
-	        if (hour < 0 || hour > 23) {
-	            hour = hour % 24;
-	        }
-	        
-	        // 유효한 시간 값으로 반환
-	        return String.format("%02d:%02d:%02d", hour, minute, second);
+		// 시간 값이 0에서 23 사이인지 확인
+		if (hour < 0 || hour > 23) {
+			hour = hour % 24;
 		}
 
-	
-	
-	
-	//병원비번 수정 페이지로 이동
+		// 유효한 시간 값으로 반환
+		return String.format("%02d:%02d:%02d", hour, minute, second);
+	}
+
+	// 병원비번 수정 페이지로 이동
 	@RequestMapping("/updateHoPwd.do")
 	public String updateHoPwdView() {
 		return "mypage/updateHoPwd";
 	}
-	
-	//병원비번수정
+
+	// 병원비번수정
 	@PostMapping("/updateHoPwd.do")
 	public String updateHoPwd(@RequestParam("hosIdx") int hosIdx,
-			@RequestParam("currentPassword") String currentPassword,
-			@RequestParam("hosPw") String newPassword,
+			@RequestParam("currentPassword") String currentPassword, @RequestParam("hosPw") String newPassword,
 			HttpSession session, Model model) {
 		HospitalVO hoUser = hospitalService.selectOne(hosIdx);
-		
+
 		if (hoUser == null || !hoUser.getHosPw().equals(currentPassword)) {
 			model.addAttribute("error", "현재 비밀번호가 일치하지 않습니다.");
 			return "mypage/updateHoPwd";
 		}
-		
+
 		hoUser.setHosPw(newPassword);
 		hospitalService.updateHoPwd(hoUser);
 		System.out.println("updateHoPwd : " + hoUser);
 		session.setAttribute("hoUser", hoUser);
-		
+
 		return "redirect:updateHoUser.do?hosIdx=" + hosIdx;
 	}
+
+
 	//병원탈퇴
 	@PostMapping("/deleteHos.do")
 	public String deleteHos(@RequestParam("hosIdx") int hosIdx, HttpSession session) {
@@ -233,14 +251,62 @@ public class HoMyPageController {
 	//병원 공지 리스트
 	@RequestMapping("/hosNoticeList.do")
 	public String hosNoticeList(Model model, HttpSession session) {
-		//병원 로그인 정보 가져오기
+		// 병원 로그인 정보 가져오기
 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
-		//공지사항 리스트 가져오기
+		// 공지사항 리스트 가져오기
 		List<NoticeVO> hosNoticeList = noticeService.hosNoticeList(hoUser.getHosIdx());
 		model.addAttribute("hosNoticeList", hosNoticeList);
-		
+
 		return "mypage/hosNoticeList";
 	}
-	
+
+	// 병원 휴무일 등록 페이지
+	@RequestMapping("/insertHosHoliday.do")
+	private String insertHosHolidayPage(Model model, HttpSession session) {
+		// 기존 휴무일 넘기기
+		// 휴무일 리스트
+		HospitalVO vo = (HospitalVO) session.getAttribute("hoUser");
+
+		List<Date> hosHolidayList = hospitalService.hosHoliday(vo);
+		System.out.println("hosHolidayList : " + hosHolidayList);
+
+		model.addAttribute("hosHolidayList", hosHolidayList);
+
+		return "hospital/insertHosHoliday";
+	}
+
+	// 병원 휴무 DB 저장
+	@PostMapping("/insertHosHoliday.do")
+	private String insertHosHoliday(@RequestParam("holidays") String holidaysJson, String hosIdx) {
+
+		ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            // JSON 문자열을 List<String>으로 변환
+            List<String> holidays = objectMapper.readValue(holidaysJson, new TypeReference<List<String>>() {});
+
+            // List<String>을 List<java.sql.Date>으로 변환
+            List<Date> holidayDates = holidays.stream()
+                                               .map(LocalDate::parse)
+                                               .map(java.sql.Date::valueOf)
+                                               .collect(Collectors.toList());
+
+            // hospitalService를 통해 휴무일 날짜 DB에 저장
+            for (Date holiDate : holidayDates) {
+            	
+            	HolidayInsertParams param = new HolidayInsertParams();
+            	param.setHosIdx(Integer.parseInt(hosIdx));
+            	param.setHoliDate(holiDate);
+            	
+                hospitalService.insertHolidays(param);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "오류 발생";
+        }
+
+        return "redirect:/mypage/insertHosHoliday.do";
+	}
 
 }

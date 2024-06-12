@@ -30,6 +30,12 @@ public interface HospitalService {
 	List<ReservationVO> getFinishList(ReservationVO vo);
 	// 사용자 상태 업데이트 
 	void updateCondition(HosReviewVO vo);
+	//(개인)마이페이지 - 작성한 리뷰 목록
+	List<HosReviewVO> getReviewList(int userIdx);
+	//(개인)마이페이지 - 작성할 리뷰 목록
+	List<HosReviewVO> getReviewToWrite(int userIdx);
+	//(병원)마이페이지 - 작성된 리뷰 목록
+	List<HosReviewVO> getHosReviewList(int hosIdx);
 	//주은
 	int hosId(HospitalVO ho) throws Exception;
 	HospitalVO getHos(HospitalVO ho);
@@ -54,4 +60,6 @@ public interface HospitalService {
 	int insertHosAddress(HospitalVO vo);
 	//병원 휴무일 리스트
 	List<Date> hosHoliday(HospitalVO vo);
+	//병원 휴무 입력
+	void insertHolidays(HolidayInsertParams param);
 }

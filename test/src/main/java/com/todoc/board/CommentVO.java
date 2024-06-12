@@ -8,6 +8,7 @@ public class CommentVO {
 	private int commentidx;
 	private int postidx;
 	private int useridx;
+	private int hosidx;
 	private String content;
 	private Date commentdate;
 	private String nickname;
@@ -30,6 +31,12 @@ public class CommentVO {
 	}
 	public void setUseridx(int useridx) {
 		this.useridx = useridx;
+	}
+	public int getHosidx() {
+		return hosidx;
+	}
+	public void setHosidx(int hosidx) {
+		this.hosidx = hosidx;
 	}
 	public String getContent() {
 		return content;
@@ -59,7 +66,7 @@ public class CommentVO {
 	public String getFormattedCommentDate() {
 		return formattedCommentDate;
 	}
-	public void setFormattedCommentDate(String formattedDate) {
+	public void setFormattedCommentDate(String formattedCommentDate) {
 		this.formattedCommentDate = formattedCommentDate;
 	}
 	
