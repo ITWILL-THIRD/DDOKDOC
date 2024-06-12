@@ -8,14 +8,13 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>토스페이먼츠 샘플 프로젝트</title>
+    <title>병원 입점 멤버십</title>
     <jsp:include page="../../css/payCss.jsp"/>
   </head>
   <body>
     <div class="box_section" style="width: 600px">
       <img width="100px" src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png" />
       <h2>결제를 완료했어요</h2>
-	<div>\${hoUser} : ${hoUser}</div>
       <div class="p-grid typography--p" style="margin-top: 50px">
         <div class="p-grid-col text--left"><b>결제금액</b></div>
         <div class="p-grid-col text--right" id="amount"></div>
@@ -29,8 +28,8 @@
         <div class="p-grid-col text--right" id="paymentKey" style="white-space: initial; width: 250px"></div>
       </div>
       <div class="p-grid" style="margin-top: 30px">
-        <button class="button p-grid-col5" onclick="location.href='https://docs.tosspayments.com/guides/payment/integration';">연동 문서</button>
-        <button class="button p-grid-col5" onclick="location.href='https://discord.gg/A4fRFXQhRu';" style="background-color: #e8f3ff; color: #1b64da">실시간 문의</button>
+        <button class="button p-grid-col5" onclick="location.href='http://localhost:8080/todoc/index.jsp';">메인으로</button>
+        <button class="button p-grid-col5" onclick="location.href='http://localhost:8080/todoc/mypage/hoMyPage.do';" style="background-color: #e8f3ff; color: #1b64da">마이페이지</button>
       </div>
     </div>
 

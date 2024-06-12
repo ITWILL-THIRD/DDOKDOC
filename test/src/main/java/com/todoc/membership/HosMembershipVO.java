@@ -5,17 +5,17 @@ import java.util.Date;
 import org.json.simple.JSONObject;
 
 public class HosMembershipVO {
-	private String hosIdx;
+	private int hosIdx;
 	private String orderId;
 	private int amount;
 	private String paymentKey;
 	private Date startDate;
 	private Date endDate;
 	
-	public String getHosIdx() {
+	public int getHosIdx() {
 		return hosIdx;
 	}
-	public void setHosIdx(String hosIdx) {
+	public void setHosIdx(int hosIdx) {
 		this.hosIdx = hosIdx;
 	}
 	public String getOrderId() {
