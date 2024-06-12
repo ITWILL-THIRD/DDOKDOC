@@ -4,35 +4,39 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoc.stats.dao.StatsDAO">
 
-    <!-- 날짜별 조회 -->
-    <select id="getStatsByDate" parameterType="map" resultType="HosStatsVO">
+    <!-- 병원 날짜별 조회 -->
+    <select id="getHosStatsByDate" parameterType="map" resultType="HosStatsVO">
         <![CDATA[
-        SELECT HOSPITAL.HOSIDX, HOSPITAL.HOSNAME, HOSREG.REGSTART, HOSREG.REGEND
-        FROM HOSREG 
-        JOIN HOSPITAL ON HOSREG.HOSIDX = HOSPITAL.HOSIDX
-        WHERE HOSREG.REGSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
-          AND HOSREG.REGEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        SELECT HOSMEMBERSHIP.HOSIDX, HOSPITAL.HOSNAME, HOSMEMBERSHIP.HOSSTART, HOSMEMBERSHIP.HOSEND, HOSMEMBERSHIP.AMOUNT
+        FROM HOSMEMBERSHIP
+        JOIN HOSPITAL ON HOSMEMBERSHIP.HOSIDX = HOSPITAL.HOSIDX
+        WHERE HOSMEMBERSHIP.HOSSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND HOSMEMBERSHIP.HOSEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
         ]]>
     </select>
+    
+    <!-- 유저 날짜별 조회 -->
+    <select id="getUserStatsByDate" parameterType="map" resultType="com.todoc.stats.UserStatsVO">
+        <![CDATA[
+        SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.NICKNAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND, USERMEMBERSHIP.AMOUNT
+        FROM USERMEMBERSHIP
+        JOIN DDOKUSER ON USERMEMBERSHIP.USERIDX = DDOKUSER.USERIDX
+        WHERE USERMEMBERSHIP.MEMSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND USERMEMBERSHIP.MEMEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        ]]>
+    </select>   
 	
     <!-- 병원 월별 수익 조회 -->
     <select id="getHosMonthlyRevenue" parameterType="map" resultType="HashMap">
         <![CDATA[
         SELECT
-            TO_CHAR(REGSTART, 'YYYY-MM') AS MONTH,
-            SUM(CASE 
-                    WHEN TO_CHAR(REGSTART, 'YYYY-MM') = TO_CHAR(REGSTART, 'YYYY-MM') THEN 100000
-                    ELSE 0 
-                END) AS TOTAL_PAY
-        FROM (
-            SELECT HOSREG.HOSIDX, HOSREG.REGSTART
-            FROM HOSREG
-            JOIN HOSPITAL ON HOSREG.HOSIDX = HOSPITAL.HOSIDX
-            WHERE HOSREG.REGSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
-              AND HOSREG.REGEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
-        ) 
-        GROUP BY TO_CHAR(REGSTART, 'YYYY-MM')
-        ORDER BY TO_CHAR(REGSTART, 'YYYY-MM')
+            TO_CHAR(HOSSTART, 'YYYY-MM') AS MONTH,
+            SUM(AMOUNT) AS TOTAL_PAY
+        FROM HOSMEMBERSHIP
+        WHERE HOSSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND HOSEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        GROUP BY TO_CHAR(HOSSTART, 'YYYY-MM')
+        ORDER BY TO_CHAR(HOSSTART, 'YYYY-MM')
         ]]>
     </select>
     
@@ -41,29 +45,18 @@
         <![CDATA[
         SELECT
             TO_CHAR(MEMSTART, 'YYYY-MM') AS MONTH,
-            SUM(CASE 
-                    WHEN TO_CHAR(MEMSTART, 'YYYY-MM') = TO_CHAR(MEMSTART, 'YYYY-MM') THEN 1000
-                    ELSE 0 
-                END) AS TOTAL_PAY
-        FROM (
-            SELECT USERMEMBER.USERIDX, USERMEMBER.MEMSTART
-            FROM USERMEMBER
-            JOIN DDOKUSER ON USERMEMBER.USERIDX = DDOKUSER.USERIDX
-            WHERE USERMEMBER.MEMSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
-              AND USERMEMBER.MEMEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
-        ) 
+            SUM(AMOUNT) AS TOTAL_PAY
+        FROM USERMEMBERSHIP
+        WHERE MEMSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND MEMEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
         GROUP BY TO_CHAR(MEMSTART, 'YYYY-MM')
         ORDER BY TO_CHAR(MEMSTART, 'YYYY-MM')
         ]]>
     </select>
 	
-    <!-- 계정별 조회 -->
-    <select id="getStatsById" parameterType="String" resultType="HosStatsVO">
-        SELECT HOSPITAL.HOSIDX, HOSPITAL.HOSNAME, HOSREG.REGSTART, HOSREG.REGEND
-        FROM HOSREG 
-        JOIN HOSPITAL ON HOSREG.HOSIDX = HOSPITAL.HOSIDX
-        WHERE HOSPITAL.HOSIDX = #{hosId}
-    </select>
+	<!-- 병원 계정별(ID) 결제내역 -->
+	
+	<!-- 유저 계정별(EMAIL) 결제내역 -->
     
     <!-- 유저 가입자 수-->
     

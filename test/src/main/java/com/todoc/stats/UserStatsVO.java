@@ -3,23 +3,36 @@ package com.todoc.stats;
 import java.util.Date;
 
 public class UserStatsVO {
-	// USERMEMBER 테이블
-	private int memberIdx;
-	private int userIdx;
-	private Date memStart;
-	private Date memEnd;
-	
-	public int getMemberIdx() {
-		return memberIdx;
-	}
-	public void setMemberIdx(int memberIdx) {
-		this.memberIdx = memberIdx;
-	}
+    private int userIdx;
+    private String orderId;
+    private String paymentKey;
+    private int amount;
+    private Date memStart;
+    private Date memEnd;
+    
 	public int getUserIdx() {
 		return userIdx;
 	}
 	public void setUserIdx(int userIdx) {
 		this.userIdx = userIdx;
+	}
+	public String getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+	public String getPaymentKey() {
+		return paymentKey;
+	}
+	public void setPaymentKey(String paymentKey) {
+		this.paymentKey = paymentKey;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 	public Date getMemStart() {
 		return memStart;
@@ -36,8 +49,7 @@ public class UserStatsVO {
 	
 	@Override
 	public String toString() {
-		return "UserStatsVO [memberIdx=" + memberIdx + ", userIdx=" + userIdx + ", memStart=" + memStart + ", memEnd="
-				+ memEnd + "]";
+		return "UserStatsVO [userIdx=" + userIdx + ", orderId=" + orderId + ", paymentKey=" + paymentKey + ", amount="
+				+ amount + ", memStart=" + memStart + ", memEnd=" + memEnd + "]";
 	}
-	
 }

@@ -3,41 +3,52 @@ package com.todoc.stats;
 import java.util.Date;
 
 public class HosStatsVO {
-	// HOSREG 테이블
-	private int hosregIdx;
-	private int hosIdx;
-	private Date regStart;
-	private Date regEnd;
-	
-	public int getHosregIdx() {
-		return hosregIdx;
-	}
-	public void setHosregIdx(int hosregIdx) {
-		this.hosregIdx = hosregIdx;
-	}
+    private int hosIdx;
+    private String orderId;
+    private String paymentKey;
+    private int amount;
+    private Date hosStart;
+    private Date hosEnd;
+    
 	public int getHosIdx() {
 		return hosIdx;
 	}
 	public void setHosIdx(int hosIdx) {
 		this.hosIdx = hosIdx;
 	}
-	public Date getRegStart() {
-		return regStart;
+	public String getOrderId() {
+		return orderId;
 	}
-	public void setRegStart(Date regStart) {
-		this.regStart = regStart;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
-	public Date getRegEnd() {
-		return regEnd;
+	public String getPaymentKey() {
+		return paymentKey;
 	}
-	public void setRegEnd(Date regEnd) {
-		this.regEnd = regEnd;
+	public void setPaymentKey(String paymentKey) {
+		this.paymentKey = paymentKey;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	public Date getHosStart() {
+		return hosStart;
+	}
+	public void setHosStart(Date hosStart) {
+		this.hosStart = hosStart;
+	}
+	public Date getHosEnd() {
+		return hosEnd;
+	}
+	public void setHosEnd(Date hosEnd) {
+		this.hosEnd = hosEnd;
 	}
 	
-	@Override
-	public String toString() {
-		return "HosStatsVO [hosregIdx=" + hosregIdx + ", hosIdx=" + hosIdx + ", regStart=" + regStart + ", regEnd="
-				+ regEnd + "]";
-	}
-	
+    @Override
+    public String toString() {
+        return "HosStatsVO [hosIdx=" + hosIdx + ", orderId=" + orderId + ", paymentKey=" + paymentKey + ", amount=" + amount + ", hosStart=" + hosStart + ", hosEnd=" + hosEnd + "]";
+    }
 }

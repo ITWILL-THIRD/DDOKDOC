@@ -24,24 +24,24 @@ public class StatsController {
 		return "admin/stats";
 	}
 	
-	@RequestMapping(value = "/monthlyRevenue.do", method = RequestMethod.GET)
-	public String getMonthlyRevenue(@RequestParam("startDate") String startDate,
-									@RequestParam("endDate") String endDate,
-									@RequestParam("type") String type,
-									Model model) {
-		List<Map<String, String>> revenue;
+    @RequestMapping(value = "/monthlyRevenue.do", method = RequestMethod.GET)
+    public String getMonthlyRevenue(@RequestParam("startDate") String startDate,
+                                    @RequestParam("endDate") String endDate,
+                                    @RequestParam("type") String type,
+                                    Model model) {
+        List<Map<String, String>> revenue;
         Map<String, String> params = new HashMap<>();
         params.put("startDate", startDate);
         params.put("endDate", endDate);
         
-		if ("user".equals(type)) {
-			revenue = statsService.getUserMonthlyRevenue(params);
-		} else {
-			revenue = statsService.getHosMonthlyRevenue(params);
-		}
-		model.addAttribute("revenue", revenue);
-		 return "admin/monthlyRevenue";
-	}
+        if ("user".equals(type)) {
+            revenue = statsService.getUserMonthlyRevenue(params);
+        } else {
+            revenue = statsService.getHosMonthlyRevenue(params);
+        }
+        model.addAttribute("revenue", revenue);
+         return "admin/monthlyRevenue";
+    }
 	
 	
 	
