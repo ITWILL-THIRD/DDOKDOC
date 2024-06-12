@@ -1,4 +1,4 @@
-package com.todoc.view.stats;
+package com.todoc.view.admin.stats;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.todoc.stats.StatsService;
+import com.todoc.admin.stats.StatsService;
 
 @Controller
 @RequestMapping("/admin")
@@ -40,9 +40,27 @@ public class StatsController {
             revenue = statsService.getHosMonthlyRevenue(params);
         }
         model.addAttribute("revenue", revenue);
-         return "admin/monthlyRevenue";
+        return "admin/monthlyRevenue";
     }
 	
+    @RequestMapping(value = "/paymentsByAccount.do", method = RequestMethod.GET)
+    public String getPaymentsByAccount(@RequestParam("account") String account,
+    								   @RequestParam("type") String type,
+    								   Model model) {
+    	List<?> payments;
+    	Map<String, String> params = new HashMap<>();
+    	params.put("account", account);
+    	
+    	if ("user".equals(type)) {
+    		payments = statsService.getUserPaymentsByAccount(params);
+    	} else {
+    		payments = statsService.getHosPaymentsByAccount(params);
+    	}
+    	model.addAttribute("payments", payments);
+    	model.addAttribute("type", type);
+    	return "admin/paymentsByAccount";
+    }
+    
 	
 	
 }

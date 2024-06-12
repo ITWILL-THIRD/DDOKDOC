@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.todoc.stats.dao.StatsDAO">
+<mapper namespace="com.todoc.admin.stats.dao.StatsDAO">
 
     <!-- 병원 날짜별 조회 -->
     <select id="getHosStatsByDate" parameterType="map" resultType="HosStatsVO">
@@ -16,7 +16,7 @@
     </select>
     
     <!-- 유저 날짜별 조회 -->
-    <select id="getUserStatsByDate" parameterType="map" resultType="com.todoc.stats.UserStatsVO">
+    <select id="getUserStatsByDate" parameterType="map" resultType="UserStatsVO">
         <![CDATA[
         SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.NICKNAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND, USERMEMBERSHIP.AMOUNT
         FROM USERMEMBERSHIP
@@ -55,8 +55,24 @@
     </select>
 	
 	<!-- 병원 계정별(ID) 결제내역 -->
+	<select id="getHosPaymentsByAccount" parameterType="map" resultType="HosStatsVO">
+		SELECT HOSMEMBERSHIP.HOSIDX, HOSPITAL.HOSID, HOSPITAL.HOSNAME, HOSMEMBERSHIP.HOSSTART, HOSMEMBERSHIP.HOSEND
+		     , HOSMEMBERSHIP.AMOUNT, SUM(HOSMEMBERSHIP.AMOUNT) OVER (PARTITION BY HOSPITAL.HOSID) AS TOTALAMOUNT
+		FROM HOSMEMBERSHIP
+		JOIN HOSPITAL ON HOSMEMBERSHIP.HOSIDX = HOSPITAL.HOSIDX
+		WHERE HOSPITAL.HOSID = #{account}
+		ORDER BY HOSMEMBERSHIP.HOSSTART DESC
+	</select>
 	
 	<!-- 유저 계정별(EMAIL) 결제내역 -->
+    <select id="getUserPaymentsByAccount" parameterType="map" resultType="UserStatsVO">
+		SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.EMAIL, DDOKUSER.NAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND
+		     , USERMEMBERSHIP.AMOUNT, SUM(USERMEMBERSHIP.AMOUNT) OVER (PARTITION BY DDOKUSER.EMAIL) AS TOTALAMOUNT
+		FROM USERMEMBERSHIP
+		JOIN DDOKUSER ON USERMEMBERSHIP.USERIDX = DDOKUSER.USERIDX
+		WHERE DDOKUSER.EMAIL LIKE '%' || #{account} || '%'
+		ORDER BY USERMEMBERSHIP.MEMSTART DESC
+    </select>
     
     <!-- 유저 가입자 수-->
     

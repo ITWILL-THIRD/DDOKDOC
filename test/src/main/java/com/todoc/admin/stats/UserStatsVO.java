@@ -1,4 +1,4 @@
-package com.todoc.stats;
+package com.todoc.admin.stats;
 
 import java.util.Date;
 
@@ -9,6 +9,9 @@ public class UserStatsVO {
     private int amount;
     private Date memStart;
     private Date memEnd;
+    private String email;
+    private String name;
+    private int totalAmount;
     
 	public int getUserIdx() {
 		return userIdx;
@@ -46,10 +49,29 @@ public class UserStatsVO {
 	public void setMemEnd(Date memEnd) {
 		this.memEnd = memEnd;
 	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(int totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 	
 	@Override
 	public String toString() {
 		return "UserStatsVO [userIdx=" + userIdx + ", orderId=" + orderId + ", paymentKey=" + paymentKey + ", amount="
-				+ amount + ", memStart=" + memStart + ", memEnd=" + memEnd + "]";
+				+ amount + ", memStart=" + memStart + ", memEnd=" + memEnd + ", email=" + email + ", name=" + name
+				+ ", totalAmount=" + totalAmount + "]";
 	}
 }

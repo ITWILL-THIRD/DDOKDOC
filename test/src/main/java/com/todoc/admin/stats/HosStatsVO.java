@@ -1,4 +1,4 @@
-package com.todoc.stats;
+package com.todoc.admin.stats;
 
 import java.util.Date;
 
@@ -9,6 +9,9 @@ public class HosStatsVO {
     private int amount;
     private Date hosStart;
     private Date hosEnd;
+    private String hosId;
+    private String hosName;
+    private int totalAmount;
     
 	public int getHosIdx() {
 		return hosIdx;
@@ -46,9 +49,29 @@ public class HosStatsVO {
 	public void setHosEnd(Date hosEnd) {
 		this.hosEnd = hosEnd;
 	}
+    public String getHosId() {
+		return hosId;
+	}
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+	public String getHosName() {
+		return hosName;
+	}
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+	public int getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(int totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 	
-    @Override
-    public String toString() {
-        return "HosStatsVO [hosIdx=" + hosIdx + ", orderId=" + orderId + ", paymentKey=" + paymentKey + ", amount=" + amount + ", hosStart=" + hosStart + ", hosEnd=" + hosEnd + "]";
-    }
+	@Override
+	public String toString() {
+		return "HosStatsVO [hosIdx=" + hosIdx + ", orderId=" + orderId + ", paymentKey=" + paymentKey + ", amount="
+				+ amount + ", hosStart=" + hosStart + ", hosEnd=" + hosEnd + ", hosId=" + hosId + ", hosName=" + hosName
+				+ ", totalAmount=" + totalAmount + "]";
+	}
 }
