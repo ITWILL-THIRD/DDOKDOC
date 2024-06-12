@@ -33,6 +33,10 @@ public interface HospitalDAO {
 	List<ReservationVO> getFinishList(ReservationVO vo);
 	// 사용자 상태 업데이트 
 	void updateCondition(HosReviewVO vo);
+	//마이페이지 - 작성한 리뷰 목록
+	List<HosReviewVO> getReviewList(int userIdx);
+	//마이페이지 - 작성할 리뷰 목록
+	List<HosReviewVO> getReviewToWrite(int userIdx);
 	//------주은 -------------
 	HospitalVO getHos(HospitalVO ho);
 	HospitalVO hoFindId(HospitalVO vo);

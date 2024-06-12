@@ -79,13 +79,5 @@
 	        document.getElementById("selectedReserIdx").value = selectedValue;
 	        console.log("Selected ReserIdx: " + selectedValue); // 확인용 로그
 	    }
-		
-	    /* document.getElementById("reviewForm").addEventListener("submit", function(event) {
-	        var selectedReserIdx = document.getElementById("selectedReserIdx").value;
-	        if (!selectedReserIdx) {
-	            event.preventDefault();
-	            alert("예약을 선택하세요.");
-	        }
-	    }); */
 
 </script>
