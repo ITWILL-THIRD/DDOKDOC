@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.todoc.board.BoardService;
 import com.todoc.board.BoardVO;
 import com.todoc.board.CommentVO;
+import com.todoc.googlecloudstorage.GCSService;
 
 
 // @SessionAttributes : 같은 컨트롤러에서 모델객체 공유해서 사용하려는 경우에 사용
@@ -32,6 +34,10 @@ import com.todoc.board.CommentVO;
 public class BoardController {
 	//@Autowired
 	private BoardService boardService;
+	
+	 @Autowired
+	 @Qualifier("gcsService")
+	 private GCSService gcsService;
 	
 	public BoardController() {
 		System.out.println("=========> BoardController() 객체생성");
@@ -68,7 +74,7 @@ public class BoardController {
         
         // 날짜 변환
         SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
+        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String formattedDate = targetFormat.format(board.getPostdate());
         board.setFormattedDate(formattedDate);
@@ -96,8 +102,8 @@ public class BoardController {
         
 		List<BoardVO> boardList = boardService.getBoardList(vo);
 		
-		SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-	    SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
+		SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MM dd HH:mm:ss z yyyy");
+	    SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    
 	    for (BoardVO board : boardList) {
 	        String formattedDate = targetFormat.format(board.getPostdate());
@@ -110,7 +116,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/getInsertBoard.do")
-	public String getInsertBoard() {
+	public String getInsertBoard() { 
 		System.out.println(">> 새 글 작성");
 
 		return "board/insertBoard";
@@ -118,38 +124,23 @@ public class BoardController {
 	
 	@RequestMapping("/insertBoard.do")
 	//public String insertBoard(BoardVO vo, MultipartFile uploadFile) {
-	public String insertBoard(BoardVO vo) throws IllegalStateException, IOException {
+	public String insertBoard(BoardVO vo, @RequestParam("file") MultipartFile file, Model model) throws IllegalStateException, IOException {
 		System.out.println(">> 게시글 입력");
 		System.out.println("vo : " + vo);
 		
-//		MultipartFile uploadFile = vo.getUploadFile();
-//		System.out.println("> vo.uploadFile : " + uploadFile);
-		
-		/*파일업로드 관련 작업 처리
-		MultipartFile 인터페이스 주요메소드
-		String getOriginalFilename() : 업로드할 원본파일명 찾기
-		void transferTo(File dest) : 업로드 할 파일을 업로드(복사) 처리
-		boolean isEmpty() : 업로드 할 파일 존재 여부 확인(없으면 true 리턴)
-		***************************/
-//		if (uploadFile == null) {
-//			System.out.println("::: uploadFile 파라미터가 전달되지 않았을 때~");
-//		} else if (uploadFile.isEmpty()) {
-//			System.out.println("::: 전달받은 파일데이터가 없는 경우");
-//		} else {
-//			System.out.println("::: 전달받은 파일데이터가 있는 경우");
-//			System.out.println("uploadFile.isEmpty() : " + uploadFile.isEmpty());
-//			String filename = uploadFile.getOriginalFilename(); //원본파일명
-//			System.out.println("::: 원본파일명 : " + filename);
-//			String savedFilename = UUID.randomUUID().toString(); //물리적 저장 파일명
-//			System.out.println("::: 저장할파일명 : " + savedFilename);
-//			
-//			String destPathFile = "c:/MyStudy/temp/" + savedFilename;
-//			uploadFile.transferTo(new File(destPathFile));
-//		}
-		
-		boardService.insertBoard(vo);
-		return "redirect:getBoardList.do";
+		 try {
+	            String Img = gcsService.uploadFile(file); // 파일 업로드
+	            vo.setImg(Img);            
+	            boardService.insertBoard(vo);
+	    		return "redirect:getBoardList.do";
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
+	            return "redirect:insertBoard.do";
+	        }
 	}
+	
+	
 	
 	@RequestMapping("/getUpdateBoard.do")
 	public String getUpdateBoard() {
@@ -160,31 +151,30 @@ public class BoardController {
 	
 	//@ModelAttribute("board") : @SessionAttributes 설정으로 존재하는 "board" 데이터 사용
 	@RequestMapping("/updateBoard.do")
-	public String updateBoard(@ModelAttribute("board") BoardVO vo) {
+	public String updateBoard(@ModelAttribute("board") BoardVO vo, @RequestParam("file") MultipartFile file, Model model) {
 		System.out.println(">> 게시글 수정");
 		System.out.println("vo : " + vo);
 		
-		String category = vo.getCategory();
-		if (category != null) {
-	        if (category.equals("free")) {
-	            vo.setCategory("자유");
-	        } else if (category.equals("med")) {
-	            vo.setCategory("의료");
-	        } else if (category.equals("feed")) {
-	            vo.setCategory("사료/간식");
-	        } else if (category.equals("goods")) {
-	            vo.setCategory("용품");
-	        }
-	    }
-		
-		boardService.updateBoard(vo);
-		return "redirect:getBoardList.do";
+		try {
+			if (!file.isEmpty()) { // 파일이 있으면 업로드 처리
+				String Img = gcsService.uploadFile(file);
+				vo.setImg(Img);
+			}
+			System.out.println("updating : " + vo); // 값 설정 확인
+			boardService.updateBoard(vo);
+			return "redirect:getBoardList.do";
+		} catch (IOException e) {
+			e.printStackTrace();
+	        model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
+	        return "redirect:updateBoard.do";
+		}
 	}
 	
 	@RequestMapping("/deleteBoard.do")
-	public String deleteBoard(BoardVO vo, SessionStatus sessionStatus) {
+	public String deleteBoard(BoardVO vo, SessionStatus sessionStatus, Model model) {
 		System.out.println(">> 게시글 삭제");
 		boardService.deleteBoard(vo);
+		gcsService.deleteFile(vo.getImg()); // GCS에서 파일 삭제
 		
 		sessionStatus.setComplete(); //@SessionAttributes 저장객체 삭제 처리
 		

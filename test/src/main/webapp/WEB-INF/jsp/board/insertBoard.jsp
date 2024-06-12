@@ -7,14 +7,30 @@
 <title>글등록</title>
 <jsp:include page="../../css/postCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
+<script>
+function validateForm() {
+    var title = document.forms["insertForm"]["title"].value;
+    var content = document.forms["insertForm"]["content"].value;
+    
+    if (title == null || title.trim() == "") {
+        alert("제목을 입력해주세요");
+        return false;
+    }
+    if (content == null || content.trim() == "") {
+        alert("내용을 입력해주세요");
+        return false;
+    }
+    return true;
+}
+</script>
 </head>
 <body>
 
 <div id="container">
 	<h1>글등록 [insertBoard.jsp]</h1>
 	
-	<form action="insertBoard.do" method="post">
-	<table>
+	<form name="insertForm" action="insertBoard.do" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
+	<table class="insertBoard">
 		<tr>
 			<th>카테고리</th>
 			<td>
@@ -29,25 +45,26 @@
 		<tr>
 			<th>제목</th>
 			<td>
-				<input type="text" name="title">
+				<input type="text" name="title" style="width: 95%"  class="border-none">
 			</td>
 		</tr>
 		<tr>
 			<th>작성자</th>
 			<td>
-				<input type="text" name="useridx">
+				<input type="hidden" name="useridx" value="${user.userIdx}">
+				${user.nickname}
 			</td>
 		</tr>
 		<tr>
 			<th>내용</th>
 			<td>
-				<textarea name="content" rows="10" cols="40"></textarea>
+				<textarea name="content" rows="13" cols="60" class="border-none" style="width: 100%"></textarea>
 			</td>
 		</tr>
 		<tr>
 			<th>사진 첨부</th>
 			<td>
-				<input type="file" name="uploadFile">
+				<input type="file" name="file">
 			</td>
 		</tr>
 		<tr>

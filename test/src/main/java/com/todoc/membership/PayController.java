@@ -103,7 +103,6 @@ public class PayController {
             vo.setPaymentKey(paymentKey);
             vo.setOrderId(orderId);
             vo.setAmount(Integer.parseInt(amount));
-            System.out.println("vovovo: " + vo);
             hosmembershipService.insertHosMembership(vo);
         }
 
@@ -125,20 +124,27 @@ public class PayController {
     public String paymentRequest(HttpServletRequest request, HttpSession session, Model model, HosMembershipVO vo) throws Exception {
 		HospitalVO hvo= (HospitalVO) session.getAttribute("hoUser");
 		model.addAttribute("hoUser", hvo);
-		
     	vo.setHosIdx(hvo.getHosIdx());
-    	
-    	hosmembershipService.insertHosMembership(vo); 
-
+       	hosmembershipService.insertHosMembership(vo); 
+       	
+    	HospitalVO ho = new HospitalVO();
+        ho.setHosIdx(hvo.getHosIdx());
+        ho.setCondition("결제완료");
+    	hosmembershipService.updateHosCondition(ho); 
         return "membership/success";
     }
 
     @RequestMapping(value = "/checkout.do", method = RequestMethod.GET)
     public String index(HttpServletRequest request, HttpSession session, Model model) throws Exception {
     	HospitalVO hvo = (HospitalVO) session.getAttribute("hoUser");
-        boolean isApproved = hvo != null && "승인완".equals(hvo.getCondition());
+    	
+        boolean isApproved = hvo != null && "승인완료".equals(hvo.getCondition());
         model.addAttribute("isApproved", isApproved);
-        System.out.println("hvo.getCondition(): " + hvo.getCondition());
+        boolean notApproved = hvo != null && "승인 전".equals(hvo.getCondition());
+        model.addAttribute("notApproved", notApproved);
+        boolean isMember = hvo != null && "결제완료".equals(hvo.getCondition());
+        model.addAttribute("isMember", isMember);
+        
         return "membership/checkout";
     }
 
@@ -146,7 +152,7 @@ public class PayController {
      * 인증실패처리
      * @param request
      * @param model
-     * @return
+     * @return 
      * @throws Exception
      */
     @RequestMapping(value = "/fail.do", method = RequestMethod.GET)
