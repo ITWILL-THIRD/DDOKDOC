@@ -15,6 +15,7 @@ public class HosReviewVO {
 	private String nickname;
 	//reservation 테이블
 	private Date reserDate;
+	private String hosName; 
 	
 	public int getReviewIdx() {
 		return reviewIdx;
@@ -70,12 +71,18 @@ public class HosReviewVO {
 	public void setReserDate(Date reserDate) {
 		this.reserDate = reserDate;
 	}
+	public String getHosName() {
+		return hosName;
+	}
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
 	
 	@Override
 	public String toString() {
 		return "HosReviewVO [reviewIdx=" + reviewIdx + ", hosIdx=" + hosIdx + ", userIdx=" + userIdx + ", reserIdx="
 				+ reserIdx + ", content=" + content + ", score=" + score + ", reviewDate=" + reviewDate + ", nickname="
-				+ nickname + ", reserDate=" + reserDate + "]";
+				+ nickname + ", reserDate=" + reserDate + ", hosName=" + hosName + "]";
 	}
 	
 };
