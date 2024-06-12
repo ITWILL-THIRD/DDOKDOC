@@ -44,7 +44,7 @@ public class UserController {
    public UserController() {
       System.out.println("=======> UserController()객체생성");
    }
-
+   //개인로그인======
    @PostMapping("/user/login.do")
    public String login(UserVO vo, Model model, HttpSession session ) {
       System.out.println(">> 로그인 처리");
@@ -127,7 +127,7 @@ public class UserController {
       
       if (cnt == 0) {
          //관리자 계정 설정(role="admin")
-         if (vo.getEmail().equals("admin@naver.com") 
+         if (vo.getEmail().equals("admin@todoc.com") 
                && vo.getPassword().equals("admin")) {
             vo.setRole("admin");
             userService.insertUser(vo);
@@ -135,7 +135,7 @@ public class UserController {
             model.addAttribute("msg", "회원가입 완료");
             return "redirect:login.do?msg=admin";
          } else {
-            //관리자 계정 외는 모두 개인유저
+            //관리자 계정 외는 모든 개인유저
             vo.setRole("user");
             userService.insertUser(vo);
             System.out.println("vo : " + vo);
