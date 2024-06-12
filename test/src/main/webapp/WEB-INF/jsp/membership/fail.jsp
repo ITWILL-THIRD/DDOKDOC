@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>토스페이먼츠 샘플 프로젝트</title>
+    <title>병원 입점 멤버십</title>
     <jsp:include page="../../css/payCss.jsp"/>
   </head>
 
@@ -26,8 +26,8 @@
         <div class="p-grid-col text--right" id="code"></div>
       </div>
       <div class="p-grid">
-        <button class="button p-grid-col5" onclick="location.href='https://docs.tosspayments.com/guides/payment/integration';">연동 문서</button>
-        <button class="button p-grid-col5" onclick="location.href='https://discord.gg/A4fRFXQhRu';" style="background-color: #e8f3ff; color: #1b64da">실시간 문의</button>
+        <button class="button p-grid-col5" onclick="location.href='http://localhost:8080/todoc/index.jsp';">메인으로</button>
+        <button class="button p-grid-col5" onclick="location.href='http://localhost:8080/todoc/membership/checkout.do';" style="background-color: #e8f3ff; color: #1b64da">다시시도</button>
       </div>
     </div>
 

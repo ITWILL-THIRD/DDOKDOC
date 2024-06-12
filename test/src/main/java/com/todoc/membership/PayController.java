@@ -2,6 +2,8 @@ package com.todoc.membership;
 
 //import jakarta.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -15,12 +17,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.todoc.hospital.HospitalVO;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+
 
 @RequestMapping("/membership")
 @Controller
@@ -37,12 +44,13 @@ public class PayController {
 	}
 
     @RequestMapping(value = "/confirm.do")
-    public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
+    public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody, HttpSession session) throws Exception {
 
         JSONParser parser = new JSONParser();
         String orderId;
         String amount;
         String paymentKey;
+        
         try {
             // 클라이언트에서 받은 JSON 요청 바디입니다.
             JSONObject requestData = (JSONObject) parser.parse(jsonBody);
@@ -86,16 +94,19 @@ public class PayController {
         boolean isSuccess = code == 200;
 
         InputStream responseStream = isSuccess ? connection.getInputStream() : connection.getErrorStream();
-
+        
+        
         // TODO: 결제 성공 및 실패 비즈니스 로직을 구현하세요.
         if (isSuccess) {
             HosMembershipVO vo = new HosMembershipVO();
+
             vo.setPaymentKey(paymentKey);
             vo.setOrderId(orderId);
             vo.setAmount(Integer.parseInt(amount));
+            System.out.println("vovovo: " + vo);
             hosmembershipService.insertHosMembership(vo);
         }
-        
+
         Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8);
         JSONObject jsonObject = (JSONObject) parser.parse(reader);
         responseStream.close();
@@ -111,12 +122,23 @@ public class PayController {
      * @throws Exception
      */
     @RequestMapping(value = "/success.do", method = RequestMethod.GET)
-    public String paymentRequest(HttpServletRequest request, Model model) throws Exception {
+    public String paymentRequest(HttpServletRequest request, HttpSession session, Model model, HosMembershipVO vo) throws Exception {
+		HospitalVO hvo= (HospitalVO) session.getAttribute("hoUser");
+		model.addAttribute("hoUser", hvo);
+		
+    	vo.setHosIdx(hvo.getHosIdx());
+    	
+    	hosmembershipService.insertHosMembership(vo); 
+
         return "membership/success";
     }
 
     @RequestMapping(value = "/checkout.do", method = RequestMethod.GET)
-    public String index(HttpServletRequest request, Model model) throws Exception {
+    public String index(HttpServletRequest request, HttpSession session, Model model) throws Exception {
+    	HospitalVO hvo = (HospitalVO) session.getAttribute("hoUser");
+        boolean isApproved = hvo != null && "승인완".equals(hvo.getCondition());
+        model.addAttribute("isApproved", isApproved);
+        System.out.println("hvo.getCondition(): " + hvo.getCondition());
         return "membership/checkout";
     }
 
@@ -128,7 +150,7 @@ public class PayController {
      * @throws Exception
      */
     @RequestMapping(value = "/fail.do", method = RequestMethod.GET)
-    public String failPayment(HttpServletRequest request, Model model) throws Exception {
+    public String failPayment(HttpServletRequest request, HttpSession session, Model model) throws Exception {
         String failCode = request.getParameter("code");
         String failMessage = request.getParameter("message");
 
@@ -137,5 +159,6 @@ public class PayController {
 
         return "membership/fail";
     }
+    
     
 }
