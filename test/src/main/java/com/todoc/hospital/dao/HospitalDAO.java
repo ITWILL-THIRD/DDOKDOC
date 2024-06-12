@@ -41,6 +41,7 @@ public interface HospitalDAO {
 	void updateHosAddress(HospitalVO vo);
 	void updateHosTime(HospitalVO vo);
 	void updateHoPwd(HospitalVO vo);
+	void deleteHos(int hosIdx);
 	//----------------------
 
 	int hosId(HospitalVO ho) throws Exception;

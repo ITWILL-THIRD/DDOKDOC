@@ -18,6 +18,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.todoc.board.BoardService;
+import com.todoc.board.BoardVO;
 import com.todoc.googlecloudstorage.GCSService;
 import com.todoc.mypet.MyPetService;
 import com.todoc.mypet.MyPetVO;
@@ -39,6 +41,8 @@ public class MyPageController {
 	private MyPetService myPetService;
 	@Autowired
 	private ReservationService reservationService;
+	@Autowired
+	private BoardService boardService;
 	
 	@GetMapping("/updateUser.do")
 	public String updateUserView(@RequestParam("userIdx") int userIdx, Model model, HttpSession session) {
@@ -180,6 +184,20 @@ public class MyPageController {
     	model.addAttribute("myCancleReserList", myCancleReserList);
     	
     	return "mypage/myCancleReserList";
+    }
+    
+    //내 작성 게시물 리스트
+    @RequestMapping("/myPostList.do")
+    public String myPostList(Model model, HttpSession session) {
+    	// 로그인 정보 가져오기
+    	UserVO user = (UserVO) session.getAttribute("user");
+    	
+    	//게시물 리스트 가져오기
+    	List<BoardVO> myPostList = boardService.myPostList(user.getUserIdx());
+    	
+    	model.addAttribute("myPostList", myPostList);
+    	
+    	return "mypage/myPostList";
     }
 
 }
