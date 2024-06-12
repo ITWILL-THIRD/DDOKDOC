@@ -83,19 +83,21 @@
 			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE
 			, ANIMAL, SCORE, CONDITION, CERTIFICATEIMG)
 		VALUES ((SELECT NVL(MAX(HOSIDX), 0) + 1 FROM HOSPITAL), #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}
+<!-- 		VALUES (SEQ_HOSIDX.NEXTVAL, #{hosId}, #{hosPw}, #{hosName}, #{hosPhone} -->
 			, #{animal}, 0, '승인 전', #{certificateImg})
 	</insert>
 <!-- 병원 사진(파일 여러장) 입력 -->
 	<insert id="insertHosImg" parameterType="HospitalVO">
 		INSERT INTO HOSIMG(IMGIDX, HOSIDX, HOSIMG)
 		VALUES ((SELECT NVL(MAX(IMGIDX), 0) + 1 FROM HOSIMG), #{hosIdx}, #{hosImg})
+<!-- 		VALUES (SEQ_IMGIDX.NEXTVAL, #{hosIdx}, #{hosImg}) -->
 	</insert>
 <!-- 병원 주소 입력 -->
 	<insert id="insertHosAddress" parameterType="HospitalVO">
 		INSERT INTO HOSADDRESS
 			(HOSIDX, ADDRESSNAME, ROADADDRESSNAME, DETAILADDRESS, ADDX
 			, ADDY, SIDO, SIGUNGU)
-		VALUES ((SELECT NVL(MAX(HOSIDX), 0) + 1 FROM HOSADDRESS), #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
+		VALUES (#{hosIdx}, #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
 			, #{addy}, #{sido}, #{sigungu})
 	</insert>
 	
@@ -145,53 +147,53 @@
 	</select>
 	
   	<!-- 동적처리(병원 정보 조회) -->
-	<select id="getHosSearch" resultType="HospitalVO">
-	    SELECT *
-	    FROM HOSPITAL H
-	    JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
-	    JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
-	    <where>
-	        <choose>
-	        	<when test='searchCondition == "all"'>
-	        		1=1
-	        	</when>
-	            <when test='searchCondition == "search" and searchKeyword != "" '>
-	                AND (
-				        H.HOSNAME LIKE '%' || #{searchKeyword} || '%'
-				        OR A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
-				        OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
-				        OR ANIMAL LIKE '%' || #{searchKeyword} || '%'
-				    )
-	            </when>
-	            <when test='searchCondition == "address"'>
-	        		AND A.SIDO LIKE '%' || #{sido} || '%'
+    <select id="getHosSearch" resultType="HospitalVO">
+        SELECT *
+        FROM HOSPITAL H
+        JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+        JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+        <where>
+            <choose>
+                <when test='searchCondition == "all"'>
+					1=1
+                </when>
+                <when test='searchCondition == "search" and searchKeyword != "" '>
+                    AND (
+                    H.HOSNAME LIKE '%' || #{searchKeyword} || '%'
+                    OR A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+                    OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+                    OR ANIMAL LIKE '%' || #{searchKeyword} || '%'
+                )
+                </when>
+                <when test='searchCondition == "address"'>
+					AND A.SIDO LIKE '%' || #{sido} || '%'
 					AND A.SIGUNGU LIKE '%' || #{sigungu} || '%'
-	        	</when>
-	            <when test='searchCondition == "addressName" and searchKeyword != "" '>
-	                AND (A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
-	                OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%')
-	            </when>
-	            <when test='searchCondition == "common"'>
-	                AND ANIMAL = '일반'
-	            </when>
-	            <when test='searchCondition == "special"'>
-	                AND ANIMAL = '특수'
-				</when>
- 	            <when test='searchCondition == "night"'>
- 	            	<![CDATA[
-	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI') > '18:00'
-	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI') <= '23:59'
-	                AND TO_CHAR(T.OPENTIME, 'HH24:MI') != '00:00'
-	             	]]>
-	            </when>
-	            <when test='searchCondition == "24h"'>
-	                AND TO_CHAR(T.OPENTIME, 'HH24:MI') = '00:00'
-	                AND TO_CHAR(T.CLOSETIME, 'HH24:MI') = '23:59'
-	            </when>
-	        </choose>
-	    </where>
-	    ORDER BY H.HOSIDX DESC
-	</select>
+                </when>
+                <when test='searchCondition == "addressName" and searchKeyword != "" '>
+					AND (A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+                    OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%')
+                </when>
+                <when test='searchCondition == "common"'>
+					AND ANIMAL = '일반'
+                </when>
+                <when test='searchCondition == "special"'>
+                    AND ANIMAL = '특수'
+                </when>
+                <when test='searchCondition == "night"'>
+                    <![CDATA[
+                    AND TO_CHAR(T.CLOSETIME, 'HH24:MI') > '18:00'
+                    AND TO_CHAR(T.CLOSETIME, 'HH24:MI') <= '23:59'
+                    AND TO_CHAR(T.OPENTIME, 'HH24:MI') != '00:00'
+                    ]]>
+                </when>
+                <when test='searchCondition == "24h"'>
+                    AND TO_CHAR(T.OPENTIME, 'HH24:MI') = '00:00'
+                    AND TO_CHAR(T.CLOSETIME, 'HH24:MI') = '23:59'
+                </when>
+            </choose>
+        </where>
+		ORDER BY H.HOSIDX DESC
+    </select>
 	
 	<!-- 병원 리뷰 입력 -->
  	<insert id="insertReview" parameterType="HosReviewVO">

@@ -22,10 +22,10 @@
 <h2>병원정보</h2>
 <%-- \${hoUser} : ${hoUser} --%>
 <form action="updateHoUser.do">
-	<table>
+	<table border="">
 		<tr>
 			<th>병원아이디</th>
-			<td>${hoUser.hosId }</td>
+			<td colspan="2">${hoUser.hosId }</td>
 		</tr>
 		<tr>
 			<td>병원비번</td>
@@ -33,40 +33,39 @@
 		</tr>
 		<tr>
 			<th>병원이름</th>
-			<td>${hoUser.hosName }</td>
+			<td colspan="2">${hoUser.hosName }</td>
 		</tr>
 		<tr>
 			<th>병원 연락처</th>
-			<td>${hoUser.hosPhone }</td>
+			<td colspan="2">${hoUser.hosPhone }</td>
 		</tr>
 		<tr>
 			<th>분류</th>
-			<td>${hoUser.animal }</td>
+			<td colspan="2">${hoUser.animal }</td>
 		</tr>
 		<tr>
 			<th>평점</th>
-			<td>${hoUser.score }</td>
+			<td colspan="2">${hoUser.score }</td>
 		</tr>
 		<tr>
 			<th>주소</th>
-			<td>${hoUser.addressName }</td>
 			<td>${hoUser.roadAddressName }</td>
 			<td>${hoUser.detailAddress }</td>
 		</tr>
 		<tr>
-			<th rowspan="2">평일</th>
+			<th rowspan="6">진료시간</th>
 			<c:set var="openTime" value="${hoUser.openTime}"/>
 			<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
 			<c:set var="closeTime" value="${hoUser.closeTime}"/>
 			<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
-			<td>진료 ${openTimeSub} - ${closeTimeSub}</td>
+			<td colspan="2">평일 ${openTimeSub} - ${closeTimeSub}</td>
 		</tr>
 		<tr>
 			<c:set var="lunchTime" value="${hoUser.lunchTime}"/>
 			<c:set var="lunchTimeSub" value="${fn:substring(lunchTime, 0, 5)}"/>
 			<c:set var="endLunchTime" value="${hoUser.endLunchTime}"/>
 			<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
-			<td>
+			<td colspan="2">
 				<c:choose>
 					<c:when test="${hoUser.lunchOff == 'Y'
 						or hoUser.lunchTime == '00:00:00' or hoUser.endLunchTime == '00:00:00'
@@ -79,19 +78,18 @@
 			</td>
 		</tr>
 		<tr>
-			<th rowspan="2">토요일</th>
 			<c:set var="satOpenTime" value="${hoUser.satOpenTime}"/>
 			<c:set var="satOpenTimeSub" value="${fn:substring(satOpenTime, 0, 5)}"/>
 			<c:set var="satCloseTime" value="${hoUser.satCloseTime}"/>
 			<c:set var="satCloseTimeSub" value="${fn:substring(satCloseTime, 0, 5)}"/>
-			<td>진료 ${satOpenTimeSub} - ${satCloseTimeSub}</td>
+			<td colspan="2">토요일 ${satOpenTimeSub} - ${satCloseTimeSub}</td>
 		</tr>
 		<tr>
 			<c:set var="satLunchTime" value="${hoUser.satLunchTime}"/>
 			<c:set var="satLunchTimeSub" value="${fn:substring(satLunchTime, 0, 5)}"/>
 			<c:set var="satEndLunchTime" value="${hoUser.satEndLunchTime}"/>
 			<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
-			<td>
+			<td colspan="2">
 				<c:choose>
 					<c:when test="${hoUser.satLunchOff == 'Y'
 						or hoUser.satLunchTime == '00:00:00' or hoUser.satEndLunchTime == '00:00:00'
@@ -104,19 +102,18 @@
 			</td>
 		</tr>
 		<tr>
-			<th rowspan="2">일요일</th>
 			<c:set var="sunOpenTime" value="${hoUser.sunOpenTime}"/>
 			<c:set var="sunOpenTimeSub" value="${fn:substring(sunOpenTime, 0, 5)}"/>
 			<c:set var="sunCloseTime" value="${hoUser.sunCloseTime}"/>
 			<c:set var="sunCloseTimeSub" value="${fn:substring(sunCloseTime, 0, 5)}"/>
-			<td>
+			<td>일요일
 			  <c:choose>
                     <c:when test="${hoUser.sunDayOff == 'Y'
                     	or hoUser.sunOpenTime == null or hoUser.sunCloseTime == null}">
                       	<span class="holiday">휴무</span>
                     </c:when>
                     <c:otherwise>
-						진료 ${sunOpenTimeSub} - ${sunCloseTimeSub}
+						${sunOpenTimeSub} - ${sunCloseTimeSub}
                     </c:otherwise>
                 </c:choose>
                </td>
@@ -140,15 +137,11 @@
 		</tr>
 	
 		<tr>
-			<td><input type="hidden" name="hosIdx" value="${hoUser.hosIdx }"></td>
-		</tr>
-		<tr>
-		<td>
-			<input type="submit" value="병원정보수정">
-		</td>
-		<td>
-			<input type="button" value="탈퇴하기">
-		</td>
+			<td colspan="3">
+				<input type="hidden" name="hosIdx" value="${hoUser.hosIdx }">
+				<input type="submit" value="병원정보수정">
+				<input type="button" value="탈퇴하기">
+			</td>
 		</tr>
 	</table>
 </form>
