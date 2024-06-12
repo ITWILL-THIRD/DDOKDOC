@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.todoc.hospital.HosImgVO;
+import com.todoc.hospital.HolidayInsertParams;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
@@ -135,6 +136,12 @@ public class HospitalServiceImpl implements HospitalService{
 		return hospitalDAO.hosHoliday(vo);
 	}
 
+	@Override
+	public void insertHolidays(HolidayInsertParams param) {
+		hospitalDAO.insertHolidays(param);
+	}
+
+
 	//병원 hosIdx 조회
 	@Override
 	public int getHosIdx(HospitalVO vo) {
@@ -152,7 +159,7 @@ public class HospitalServiceImpl implements HospitalService{
 			String openTimeStr, String closeTimeStr, String lunchTimeStr, String endLunchTimeStr,
 			String satOpenTimeStr, String satCloseTimeStr, String satLunchTimeStr, String satEndLunchTimeStr,
 			String sunOpenTimeStr, String sunCloseTimeStr, String sunLunchTimeStr, String sunEndLunchTimeStr,
-			String lunchOff, String satLunchOff, String sunDayOff
+			String lunchOff, String satLunchOff, String sunDayOff, String sunLunchOff
 			) {
 		try {
 			//병원 정보
@@ -165,7 +172,7 @@ public class HospitalServiceImpl implements HospitalService{
 			timeMapper.insertTime(vo, openTimeStr, closeTimeStr, lunchTimeStr, endLunchTimeStr
 					, satOpenTimeStr, satCloseTimeStr, satLunchTimeStr, satEndLunchTimeStr
 					, sunOpenTimeStr, sunCloseTimeStr, sunLunchTimeStr, sunEndLunchTimeStr
-					, lunchOff, satLunchOff, sunDayOff);
+					, lunchOff, satLunchOff, sunDayOff, sunLunchOff);
 		} catch (Exception e) {
 			// 에러 처리 로직
             throw new RuntimeException("데이터 삽입 중 에러 발생", e);

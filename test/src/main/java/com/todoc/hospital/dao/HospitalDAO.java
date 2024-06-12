@@ -3,6 +3,7 @@ package com.todoc.hospital.dao;
 import java.sql.Date;
 import java.util.List;
 
+import com.todoc.hospital.HolidayInsertParams;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.reservation.ReservationVO;
@@ -59,5 +60,8 @@ public interface HospitalDAO {
 	//병원 휴무일 리스트
 	List<Date> hosHoliday(HospitalVO vo); 
 
+	//병원 휴무 입력
+	void insertHolidays(HolidayInsertParams param);
+	
 }
 

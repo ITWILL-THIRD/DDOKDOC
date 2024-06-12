@@ -1,6 +1,7 @@
 package com.todoc.hospital;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.todoc.reservation.ReservationVO;
@@ -53,4 +54,6 @@ public interface HospitalService {
 	int insertHosAddress(HospitalVO vo);
 	//병원 휴무일 리스트
 	List<Date> hosHoliday(HospitalVO vo);
+	//병원 휴무 입력
+	void insertHolidays(HolidayInsertParams param);
 }

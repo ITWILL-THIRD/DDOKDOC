@@ -258,5 +258,12 @@
 		AND R.HOSIDX = #{hosIdx} 
 		AND R.CONDITION='FINISH'
 	</select>
+	
+	<!-- 병원 휴무 입력 -->
+	<insert id="insertHolidays" parameterType="HolidayInsertParams">
+		INSERT INTO HOSHOLIDAY (HOSIDX, HOLIDATE)
+        VALUES (#{hosIdx}, #{holiDate})
+	</insert>
+	
 </mapper>
 
