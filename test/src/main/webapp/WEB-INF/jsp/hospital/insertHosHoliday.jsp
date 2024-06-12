@@ -31,7 +31,6 @@
 	];
  	alert(closedDates);
     // 마지막 쉼표 제거
-    closedDates.pop();
 
 	var calendar = new FullCalendar.Calendar(calendarEl, {
       	googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
@@ -141,44 +140,12 @@
     });
 
     calendar.render();
-    
   });
-    function updateClosedDates(newClosedDates) {
-        closedDates = newClosedDates;
-        calendar.refetchEvents(); // 이벤트 소스에서 이벤트를 다시 가져옴
-        calendar.render(); // 달력을 다시 렌더링
-    }
 
   
-  
-  /* function submitForm() {
-    document.getElementById("holidayForm").submit();
-  } */
   function submitForm() {
-	  var formData = {
-	          holidays: document.getElementById('holidays').value,
-	          hosIdx: document.getElementById('hosIdx').value
-	      };
-
-	      $.ajax({
-	          type: "POST",
-	          url: "insertHosHoliday.do",
-	          contentType: "application/json",
-	          data: JSON.stringify(formData),
-	          success: function(response) {
-	              if (response.success) {
-	                  alert("휴무일이 성공적으로 저장되었습니다.");
-	                  updateClosedDates(response.holidays); // 최신 휴무일 목록으로 업데이트
-	              } else {
-	                  alert("휴무일 저장에 실패하였습니다. 다시 시도해주세요.");
-	              }
-	          },
-	          error: function() {
-	              alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-	          }
-	      });
+    document.getElementById("holidayForm").submit();
   }
-  
   
 </script>
 <title>병원 휴무일 등록 페이지</title>

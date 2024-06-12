@@ -48,6 +48,10 @@ public class ReservationController {
 	public String startReser(HospitalVO vo, Model model, HttpSession session) {
 		System.out.println(">> 예약페이지");
 
+		if (session.getAttribute("user") == null) {
+			System.out.println("예약은 개인 회원만 가능합니다.");
+			return "../hospital/hosMain.do";
+		}
 		//로그인 user정보 가져오기
 		UserVO user = (UserVO) session.getAttribute("user");
 		int userIdx = user.getUserIdx();
