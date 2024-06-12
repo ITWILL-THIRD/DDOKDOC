@@ -90,6 +90,10 @@ public class HospitalServiceImpl implements HospitalService{
 	public void updateHoPwd(HospitalVO vo) {
 		hospitalDAO.updateHoPwd(vo);
 	}
+	//병원탈퇴
+	public void deleteHos(int hosIdx) {
+		hospitalDAO.deleteHos(hosIdx);
+	}
 	//병원 리뷰 전체 조회
 	@Override
 	public List<HosReviewVO> getHosReview(int hosIdx) {

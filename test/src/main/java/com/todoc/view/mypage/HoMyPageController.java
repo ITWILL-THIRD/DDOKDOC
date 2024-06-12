@@ -11,7 +11,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.servlet.http.HttpSession;
+import org.apache.ibatis.ognl.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +36,7 @@ import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.TimeMapper;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
+import com.todoc.user.UserVO;
 
 import java.util.stream.Collectors;
 
@@ -56,81 +61,146 @@ public class HoMyPageController {
 	// 병원정보수정페이지로 이동
 	@GetMapping("/updateHoUser.do")
 	public String updateHoUserView(@RequestParam("hosIdx") int hosIdx, Model model, HttpSession session) {
-		System.out.println(">> 병원정보 수정페이지");
-		HospitalVO vo = hospitalService.selectOne(hosIdx);
-		session.setAttribute("hoUser", vo);
-		model.addAttribute("hoUser", vo);
-		return "mypage/updateHoUser";
+	    System.out.println(">> 병원정보 수정페이지");
+	    HospitalVO vo = hospitalService.selectOne(hosIdx);
+	    session.setAttribute("hoUser", vo);
+	    model.addAttribute("hoUser", vo);
+	    return "mypage/updateHoUser";
 	}
 
 	// 병원정보 수정
 	@PostMapping("/updateHoUser.do")
-	public String updateHoUser(@ModelAttribute("hoUser") HospitalVO vo, HttpSession session,
-			@RequestParam("hosIdx") int hosIdx, @RequestParam("openTimeStr") String openTimeStr,
-			@RequestParam("closeTimeStr") String closeTimeStr, @RequestParam("lunchTimeStr") String lunchTimeStr,
-			@RequestParam("endLunchTimeStr") String endLunchTimeStr,
-			@RequestParam("satOpenTimeStr") String satOpenTimeStr,
-			@RequestParam("satCloseTimeStr") String satCloseTimeStr,
-			@RequestParam("satLunchTimeStr") String satLunchTimeStr,
-			@RequestParam("satEndLunchTimeStr") String satEndLunchTimeStr,
-			@RequestParam("sunOpenTimeStr") String sunOpenTimeStr,
-			@RequestParam("sunCloseTimeStr") String sunCloseTimeStr,
-			@RequestParam("sunLunchTimeStr") String sunLunchTimeStr,
-			@RequestParam("sunEndLunchTimeStr") String sunEndLunchTimeStr) {
+	public String updateHoUser(@ModelAttribute("hoUser") HospitalVO vo, HttpSession session, @RequestParam("hosIdx") int hosIdx,
+	                           @RequestParam(value = "openTimeStr", required = false) String openTimeStr,
+	                           @RequestParam(value = "closeTimeStr", required = false) String closeTimeStr,
+	                           @RequestParam(value = "lunchTimeStr", required = false) String lunchTimeStr,
+	                           @RequestParam(value = "endLunchTimeStr", required = false) String endLunchTimeStr,
+	                           @RequestParam(value = "satOpenTimeStr", required = false) String satOpenTimeStr,
+	                           @RequestParam(value = "satCloseTimeStr", required = false) String satCloseTimeStr,
+	                           @RequestParam(value = "satLunchTimeStr", required = false) String satLunchTimeStr,
+	                           @RequestParam(value = "satEndLunchTimeStr", required = false) String satEndLunchTimeStr,
+	                           @RequestParam(value = "sunOpenTimeStr", required = false) String sunOpenTimeStr,
+	                           @RequestParam(value = "sunCloseTimeStr", required = false) String sunCloseTimeStr,
+	                           @RequestParam(value = "sunLunchTimeStr", required = false) String sunLunchTimeStr,
+	                           @RequestParam(value = "sunEndLunchTimeStr", required = false) String sunEndLunchTimeStr,
+	                           @RequestParam(value = "lunchOff", required = false) String lunchOff,
+	                           @RequestParam(value = "satLunchOff", required = false) String satLunchOff,
+	                           @RequestParam(value = "sunDayOff", required = false) String sunDayOff,
+	                           @RequestParam(value = "sunLunchOff", required = false) String sunLunchOff) throws java.text.ParseException, ParseException {
+	    HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+	    vo.setHosIdx(hoUser.getHosIdx());
 
-		System.out.println("병원정보 수정");
-		System.out.println("vo : " + vo);
-		hospitalService.updateHoUser(vo);
-		hospitalService.updateHosAddress(vo);
+	  
+	 // null 체크 및 기본값 설정
+	    if (closeTimeStr == null || closeTimeStr.equals("00:00")) {
+	        closeTimeStr = "23:59";
+	    }
+	    if (satCloseTimeStr == null || satCloseTimeStr.equals("00:00")) {
+	        satCloseTimeStr = "23:59";
+	    }
+	    if (sunCloseTimeStr.equals("00:00")) {
+	        sunCloseTimeStr = "23:59";
+	    }
 
-		// 시간 형식에서 ss(초) 문자열 추가
-		System.out.println("openTimeStr : " + openTimeStr);
-		String fullOpenTimeStr = openTimeStr + ":00";
-		String fullCloseTimeStr = closeTimeStr + ":00";
-		String fullLunchTimeStr = lunchTimeStr + ":00";
-		String fullEndLunchTimeStr = endLunchTimeStr + ":00";
-		String fullSatOpenTimeStr = satOpenTimeStr + ":00";
-		String fullSatCloseTimeStr = satCloseTimeStr + ":00";
-		String fullSatLunchTimeStr = satLunchTimeStr + ":00";
-		String fullsatEndLunchTimeStr = satEndLunchTimeStr + ":00";
-		String fullSunOpenTimeStr = sunOpenTimeStr + ":00";
-		String fullSunCloseTimeStr = sunCloseTimeStr + ":00";
-		String fullSunLunchTimeStr = sunLunchTimeStr + ":00";
-		String fullSunEndLunchTimeStr = sunEndLunchTimeStr + ":00";
+	    openTimeStr = openTimeStr == null ? "00:00" : openTimeStr;
+	    lunchTimeStr = lunchTimeStr == null ? "00:00" : lunchTimeStr;
+	    endLunchTimeStr = endLunchTimeStr == null ? "00:00" : endLunchTimeStr;
+	    satOpenTimeStr = satOpenTimeStr == null ? "00:00" : satOpenTimeStr;
+	    satLunchTimeStr = satLunchTimeStr == null ? "00:00" : satLunchTimeStr;
+	    satEndLunchTimeStr = satEndLunchTimeStr == null ? "00:00" : satEndLunchTimeStr;
+	    sunOpenTimeStr = sunOpenTimeStr == null ? "00:00" : sunOpenTimeStr;
+	    sunLunchTimeStr = sunLunchTimeStr == null ? "00:00" : sunLunchTimeStr;
+	    sunEndLunchTimeStr = sunEndLunchTimeStr == null ? "00:00" : sunEndLunchTimeStr;
 
-		// 운영 시간에서 시각 0~23 유효성 검사 및 수정하는 메서드 호출
-		String validOpenTime = validateAndCorrectTime(fullOpenTimeStr);
-		String validCloseTime = validateAndCorrectTime(fullCloseTimeStr);
-		String validLunchTime = validateAndCorrectTime(fullLunchTimeStr);
-		String validEndLunchTime = validateAndCorrectTime(fullEndLunchTimeStr);
-		String validSatOpenTime = validateAndCorrectTime(fullSatOpenTimeStr);
-		String validSatCloseTime = validateAndCorrectTime(fullSatCloseTimeStr);
-		String validSatLunchTime = validateAndCorrectTime(fullSatLunchTimeStr);
-		String validSatEndLunchTime = validateAndCorrectTime(fullsatEndLunchTimeStr);
-		String validSunOpenTime = validateAndCorrectTime(fullSunOpenTimeStr);
-		String validSunCloseTime = validateAndCorrectTime(fullSunCloseTimeStr);
-		String validSunLunchTime = validateAndCorrectTime(fullSunLunchTimeStr);
-		String validSunEndLunchTime = validateAndCorrectTime(fullSunEndLunchTimeStr);
-		System.out.println("validOpenTime : " + validOpenTime);
-		System.out.println("validCloseTime : " + validCloseTime);
-		System.out.println("validLunchTime : " + validLunchTime);
-		System.out.println("validEndLunchTime : " + validEndLunchTime);
+	  
+	  		
+	    // 시간 형식에서 ss(초) 문자열 추가
+	    String fullOpenTimeStr = openTimeStr + ":00";
+	    String fullCloseTimeStr = closeTimeStr + ":00";
+	    String fullLunchTimeStr = lunchTimeStr + ":00";
+	    String fullEndLunchTimeStr = endLunchTimeStr + ":00";
+	    String fullSatOpenTimeStr = satOpenTimeStr + ":00";
+	    String fullSatCloseTimeStr = satCloseTimeStr + ":00";
+	    String fullSatLunchTimeStr = satLunchTimeStr + ":00";
+	    String fullSatEndLunchTimeStr = satEndLunchTimeStr + ":00";
+	    String fullSunOpenTimeStr = sunOpenTimeStr + ":00";
+	    String fullSunCloseTimeStr =  sunCloseTimeStr + ":00";
+	    String fullSunLunchTimeStr =  sunLunchTimeStr + ":00";
+	    String fullSunEndLunchTimeStr = sunEndLunchTimeStr + ":00";
 
-		timeMapper.updateHosTime(vo, hosIdx, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime,
-				validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime, validSunOpenTime,
-				validSunCloseTime, validSunLunchTime, validSunEndLunchTime);
-		System.out.println("vo.getTime : " + vo.getCloseTime());
-//		session.setAttribute("hoUser", vo);
-		System.out.println("수정 후 vo : " + vo);
-		return "redirect:hoMyPage.do";
+	    // 운영 시간에서 시각 0~23 유효성 검사 및 수정하는 메서드 호출
+	    String validOpenTime = validateAndCorrectTime(fullOpenTimeStr);
+	    String validCloseTime = validateAndCorrectTime(fullCloseTimeStr);
+	    String validLunchTime = validateAndCorrectTime(fullLunchTimeStr);
+	    String validEndLunchTime = validateAndCorrectTime(fullEndLunchTimeStr);
+	    String validSatOpenTime = validateAndCorrectTime(fullSatOpenTimeStr);
+	    String validSatCloseTime = validateAndCorrectTime(fullSatCloseTimeStr);
+	    String validSatLunchTime = validateAndCorrectTime(fullSatLunchTimeStr);
+	    String validSatEndLunchTime = validateAndCorrectTime(fullSatEndLunchTimeStr);
+	    String validSunOpenTime = validateAndCorrectTime(fullSunOpenTimeStr);
+	    String validSunCloseTime = validateAndCorrectTime(fullSunCloseTimeStr);
+	    String validSunLunchTime = validateAndCorrectTime(fullSunLunchTimeStr);
+	    String validSunEndLunchTime = validateAndCorrectTime(fullSunEndLunchTimeStr);
+
+	    // 디버깅용 로그 추가
+	    System.out.println("validOpenTime : " + validOpenTime);
+	    System.out.println("validCloseTime : " + validCloseTime);
+	    System.out.println("validLunchTime : " + validLunchTime);
+	    System.out.println("validEndLunchTime : " + validEndLunchTime);
+	    System.out.println("일요일마감 validSunCloseTime : " + validSunCloseTime);
+
+	    // 문자열을 Time 객체로 변환
+	    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+	    Time openTime = validOpenTime == null ? null : new Time(sdf.parse(validOpenTime).getTime());
+	    Time closeTime = validCloseTime == null ? null : new Time(sdf.parse(validCloseTime).getTime());
+	    Time lunchTime = validLunchTime == null ? null : new Time(sdf.parse(validLunchTime).getTime());
+	    Time endLunchTime = validEndLunchTime == null ? null : new Time(sdf.parse(validEndLunchTime).getTime());
+	    Time satOpenTime = validSatOpenTime == null ? null : new Time(sdf.parse(validSatOpenTime).getTime());
+	    Time satCloseTime = validSatCloseTime == null ? null : new Time(sdf.parse(validSatCloseTime).getTime());
+	    Time satLunchTime = validSatLunchTime == null ? null : new Time(sdf.parse(validSatLunchTime).getTime());
+	    Time satEndLunchTime = validSatEndLunchTime == null ? null : new Time(sdf.parse(validSatEndLunchTime).getTime());
+	    Time sunOpenTime = validSunOpenTime == null ? null : new Time(sdf.parse(validSunOpenTime).getTime());
+	    Time sunCloseTime = validSunCloseTime == null ? null : new Time(sdf.parse(validSunCloseTime).getTime());
+	    Time sunLunchTime = validSunLunchTime == null ? null : new Time(sdf.parse(validSunLunchTime).getTime());
+	    Time sunEndLunchTime = validSunEndLunchTime == null ? null : new Time(sdf.parse(validSunEndLunchTime).getTime());
+
+	    // Time 객체를 vo에 설정
+	    vo.setOpenTime(openTime);
+	    vo.setCloseTime(closeTime);
+	    vo.setLunchTime(lunchTime);
+	    vo.setEndLunchTime(endLunchTime);
+	    vo.setSatOpenTime(satOpenTime);
+	    vo.setSatCloseTime(satCloseTime);
+	    vo.setSatLunchTime(satLunchTime);
+	    vo.setSatEndLunchTime(satEndLunchTime);
+	    vo.setSunOpenTime(sunOpenTime);
+	    vo.setSunCloseTime(sunCloseTime);
+	    vo.setSunLunchTime(sunLunchTime);
+	    vo.setSunEndLunchTime(sunEndLunchTime);
+	    System.out.println("병원정보 수정");
+	    System.out.println("vo : " + vo);
+	    hospitalService.updateHoUser(vo);
+	    hospitalService.updateHosAddress(vo);
+	    
+	    timeMapper.updateHosTime(vo, hosIdx, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime,
+	                             validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime,
+	                             validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime,
+	                             lunchOff, satLunchOff, sunDayOff, sunLunchOff);
+
+	    
+	    System.out.println("vo.getTime : " + vo.getCloseTime());
+	    System.out.println("수정 후 vo : " + vo);
+	    session.setAttribute("hoUser", vo);
+	    return "redirect:hoMyPage.do";
 	}
 
-	// 유효성 검사 메소드(운영 시각 0~23만 사용 가능)
-	private String validateAndCorrectTime(String timeStr) {
-		String[] timeParts = timeStr.split(":");
-		int hour = Integer.parseInt(timeParts[0]);
-		int minute = Integer.parseInt(timeParts[1]);
-		int second = Integer.parseInt(timeParts[2]);
+
+	//유효성 검사 메소드(운영 시각 0~23만 사용 가능)
+		private String validateAndCorrectTime(String timeStr) {
+			String[] timeParts = timeStr.split(":");
+	        int hour = Integer.parseInt(timeParts[0]);
+	        int minute = Integer.parseInt(timeParts[1]);
+	        int second = Integer.parseInt(timeParts[2]);
 
 		// 시간 값이 0에서 23 사이인지 확인
 		if (hour < 0 || hour > 23) {
@@ -167,7 +237,18 @@ public class HoMyPageController {
 		return "redirect:updateHoUser.do?hosIdx=" + hosIdx;
 	}
 
-	// 병원 공지 리스트
+
+	//병원탈퇴
+	@PostMapping("/deleteHos.do")
+	public String deleteHos(@RequestParam("hosIdx") int hosIdx, HttpSession session) {
+		hospitalService.deleteHos(hosIdx);
+		session.invalidate();
+		System.out.println(">> 병원탈퇴완료");
+		return "redirect:/index.jsp?msg=deleteHos";
+	}
+	
+	
+	//병원 공지 리스트
 	@RequestMapping("/hosNoticeList.do")
 	public String hosNoticeList(Model model, HttpSession session) {
 		// 병원 로그인 정보 가져오기
