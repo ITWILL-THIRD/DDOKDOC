@@ -29,7 +29,7 @@
 		</tr>
 		<tr>
 			<td>병원비번</td>
-			<td>${hoUser.hosPw }</td>
+			<td colspan="2">${hoUser.hosPw }</td>
 		</tr>
 		<tr>
 			<th>병원이름</th>
