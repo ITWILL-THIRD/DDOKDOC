@@ -20,6 +20,79 @@ function hoUserUpdate_ok(frm) {
 }
 
 
+	//평일 점심시간 없음 처리
+	//$('#toggleWeekdayLunch')버튼 클릭 시, true은 input 요소 none(안보이는 상태)
+	//false는 input 요소 block(보이는 상태)
+	var WeekdayToggled = true;
+	$('#toggleWeekdayLunch').on('click', function(){
+		if (WeekdayToggled) {
+			$('#tdWeekday').css({
+	            'display': 'none'
+			});
+		} else {
+         $('#tdWeekday').css({
+         	'display': 'inline-block'
+         });
+		}
+		WeekdayToggled = !WeekdayToggled;
+	});
+
+	//토요일 점심시간 없음 처리
+	//$('#toggleSatLunch')버튼 클릭 시, true은 input 요소 none(안보이는 상태)
+	//false는 input 요소 block(보이는 상태)
+	var SatToggled = true;
+	$('#toggleSatLunch').on('click', function(){
+		if (SatToggled) {
+			$('#tdsatLunch').css({
+	            'display': 'none'
+			});
+		} else {
+         $('#tdsatLunch').css({
+         	'display': 'inline-block'
+         });
+		}
+		SatToggled = !SatToggled;
+	});
+	
+	//일요일 점심시간 없음 처리
+	//$('#toggleSunLunch')버튼 클릭 시, true은 input 요소 none(안보이는 상태)
+	//false는 input 요소 block(보이는 상태)
+	var SunToggled = true;
+	$('#toggleSunLunch').on('click', function(){
+		if (SunToggled) {
+			$('#spanSunLunch').css({
+	            'display': 'none'
+			});
+		} else {
+         $('#spanSunLunch').css({
+         	'display': 'inline-block'
+         });
+		}
+		SunToggled = !SunToggled;
+	});
+
+	//일요일 휴무 처리
+	document.getElementById('toggleSunOff').addEventListener('click', function(){
+		var tdSun = document.getElementById('sun');
+		var inputs = tdSun.getElementsByTagName('input');
+	
+		if (tdSun.style.display === 'none') {
+			tdSun.style.display = 'block';
+			//하위 input 요소 표시
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].style = '';
+			}
+		} else {
+			//하위 input 요소 숨김
+			tdSun.style.display = 'none';
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].style.display = 'none';
+			}
+		}
+	});
+
+
+
 //카카오 지도 API 사용
 //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
 function sample4_execDaumPostcode() {
@@ -134,30 +207,90 @@ ${hoUser }
 			<span id="guide" style="color:#999;display:none"></span>
 		</td>
 		</tr>
+<!-- 		<tr> -->
+<!-- 		<th rowspan="3">운영시간</th> -->
+<!-- 		<td>주중<br> -->
+<%-- 			운영시간 <input type="time" title="주중 시작시간" id="openTimeStr" name="openTimeStr" value="${hoUser.openTime }">  --%>
+<%-- 				~ <input type="time" title="주중 마감시간" name="closeTimeStr" value="${hoUser.closeTime }"><br> --%>
+<%-- 			점심시간 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="${hoUser.lunchTime }">  --%>
+<%-- 				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="${hoUser.endLunchTime }"><br> --%>
+<!-- 		</td> -->
+<!-- 	</tr> -->
+<!-- 	<tr> -->
+<!-- 		<td>토요일<br> -->
+<%-- 			운영시간 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="${hoUser.satOpenTime }">  --%>
+<%-- 				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="${hoUser.satCloseTime }"><br> --%>
+<%-- 			점심시간 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="${hoUser.satLunchTime }">  --%>
+<%-- 				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="${hoUser.satEndLunchTime }"><br> --%>
+<!-- 		</td> -->
+<!-- 	</tr> -->
+<!-- 	<tr> -->
+<!-- 		<td>일요일<br> -->
+<%-- 			운영시간 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="${hoUser.sunOpenTime}">  --%>
+<%-- 				~ <input type="time" title="일요일 마감시간" name="sunCloseTimeStr" value="${hoUser.sunOpenTime}"><br> --%>
+<%-- 			점심시간 <input type="time" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="${hoUser.sunLunchTime}">  --%>
+<%-- 				~ <input type="time" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="${hoUser.sunEndLunchTime}"><br> --%>
+<!-- 		</td> -->
+<!-- 	</tr> -->
+<!-- 	<tr> -->
+<%-- 		<td><input type="hidden" name="hosIdx" value="${hoUser.hosIdx }"></td> --%>
+<!-- 	</tr> -->
+<!-- 	<tr> -->
+<!-- 		<td> -->
+<!-- 			<input type="submit" value="병원정보수정" onclick="hoUserUpdate_ok(this.form)"> -->
+<!-- 		</td> -->
+<!-- 	</tr> -->
+<!-- 		점심시간 없음/주말 휴무 처리 -->
 		<tr>
-		<th rowspan="3">운영시간</th>
-		<td>주중<br>
-			운영시간 <input type="time" title="주중 시작시간" id="openTimeStr" name="openTimeStr" value="${hoUser.openTime }"> 
-				~ <input type="time" title="주중 마감시간" name="closeTimeStr" value="${hoUser.closeTime }"><br>
+		<th rowspan="8">운영시간</th>
+		<td>
+			평일 : <input type="checkbox" id="toggleWeekdayLunch" name="lunchOff" value="Y">점심 없음<br>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			진료시간 <input type="time" title="주중 시작시간" name="openTimeStr" value="${hoUser.openTime }"> 
+				~ <input type="time" title="주중 마감시간" name="closeTimeStr" value="${hoUser.closeTime }">
+		</td>
+	</tr>
+	<tr>
+		<td id="tdWeekday">
 			점심시간 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="${hoUser.lunchTime }"> 
-				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="${hoUser.endLunchTime }"><br>
+				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="${hoUser.endLunchTime }">
 		</td>
 	</tr>
 	<tr>
-		<td>토요일<br>
-			운영시간 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="${hoUser.satOpenTime }"> 
-				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="${hoUser.satCloseTime }"><br>
+		<td>
+			토요일 : <input type="checkbox" id="toggleSatLunch" name="satLunchOff" value="Y">점심 없음 <br>
+		</td>
+	</tr>
+	<tr>
+		<td id="tdsatLunch">
+			진료시간 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="${hoUser.satOpenTime }"> 
+				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="${hoUser.satCloseTime }">
+		</td>
+	</tr>
+	<tr>
+		<td>
 			점심시간 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="${hoUser.satLunchTime }"> 
-				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="${hoUser.satEndLunchTime }"><br>
+				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="${hoUser.satEndLunchTime }">
 		</td>
 	</tr>
 	<tr>
-		<td>일요일<br>
-			운영시간 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="${hoUser.sunOpenTime}"> 
-				~ <input type="time" title="일요일 마감시간" name="sunCloseTimeStr" value="${hoUser.sunCloseTime}"><br>
-			점심시간 <input type="time" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="${hoUser.sunLunchTime}"> 
-				~ <input type="time" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="${hoUser.sunEndLunchTime}"><br>
+		<td>
+			일요일 : <input type="checkbox" id="toggleSunOff" name="sunDayOff" value="Y">휴무 
+				<input type="checkbox" id="toggleSunLunch" name="sunLunchOff" value="Y">점심 없음 <br>
 		</td>
+	</tr>
+	<tr>
+		<td id="sun">
+			진료시간 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="${hoUser.sunOpenTime}"> 
+				~ <input type="time" title="일요일 마감시간" name="sunCloseTimeStr" value="${hoUser.sunOpenTime}"><br>
+			<span id="spanSunLunch">
+			점심시간 <input type="time" class="lunch" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="${hoUser.sunLunchTime}"> 
+				~ <input type="time" class="lunch" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="${hoUser.sunEndLunchTime}"><br>
+			</span>
+	</td>
 	</tr>
 	<tr>
 		<td><input type="hidden" name="hosIdx" value="${hoUser.hosIdx }"></td>
