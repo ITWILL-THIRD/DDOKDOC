@@ -72,8 +72,10 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	
-	<p><a href="getInsertBoard.do">새글등록</a></p>
+	<c:if test="${not empty sessionScope.user}">
+			<p><a href="getInsertBoard.do">새글등록</a></p>
+	</c:if>  
+
 </div>
 
 </body>

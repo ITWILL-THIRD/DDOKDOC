@@ -13,6 +13,7 @@
 	<%-- 글내용 --%>
 	
 	table { border-collapse: collapse; }
+	
 	table, th, td {
 		border: 1px solid #B9B9B9;
 		margin: 0 auto;
@@ -26,6 +27,8 @@
 	.getBoard {
 		width: 600px;
 	}
+	
+	.insertBoard {width: 600px;	}
 	
 	#category {
 		padding: 10px;

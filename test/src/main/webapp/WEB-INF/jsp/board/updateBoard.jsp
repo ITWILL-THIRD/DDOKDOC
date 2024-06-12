@@ -14,8 +14,8 @@
 <div id="container">
 	<h1>글수정 [updateBoard.jsp]</h1>
 	
-	<form action="updateBoard.do" method="get">
-	<table>
+	<form action="updateBoard.do" method="post" enctype="multipart/form-data">
+	<table class="insertBoard">
 		<tr>
 			<th>카테고리</th>
 			<td>
@@ -31,7 +31,7 @@
 		<tr>
 			<th>제목</th>
 			<td>
-				<input type="text" name="title" value="${board.title }">
+				<input type="text" name="title" value="${board.title }" style="width: 100%" class="border-none">
 			</td>
 		</tr>
 		<tr>
@@ -43,7 +43,17 @@
 		<tr>
 			<th>내용</th>
 			<td>
-				<textarea name="content" rows="10" cols="40">${board.content }</textarea>
+				<textarea name="content" rows="10" cols="40" style="width: 100%" class="border-none">${board.content }
+				</textarea>
+				<c:if test="${not empty board.img}">
+	                   <img src="${board.img}" alt="${board.img}의 이미지">
+	            </c:if>
+			</td>
+		</tr>
+		<tr>
+			<th>사진 첨부</th>
+			<td>
+				<input type="file" name="file">
 			</td>
 		</tr>
 		<tr>
