@@ -26,21 +26,15 @@ function hosDelete_ok(frm) {
 </head>
 <body>
 <h1>병원 마이페이지</h1>
-<a href="index.do">메인가기</a>
-<%-- ${hoUser } --%>
 <hr>
 <h2>병원정보</h2>
-<%-- \${hoUser} : ${hoUser} --%>
+\${hoUser} : ${hoUser}
 <form action="updateHoUser.do">
 	<table border="">
 		<tr>
 			<th>병원아이디</th>
 			<td colspan="2">${hoUser.hosId }</td>
 		</tr>
-<!-- 		<tr> -->
-<!-- 			<td>병원비번</td> -->
-<%-- 			<td>${hoUser.hosPw }</td> --%>
-<!-- 		</tr> -->
 
 		<tr>
 			<th>병원이름</th>
