@@ -195,9 +195,9 @@
 	
 	<!-- 병원 리뷰 입력 -->
  	<insert id="insertReview" parameterType="HosReviewVO">
-		INSERT INTO HOSREVIEW(REVIEWIDX, HOSIDX, USERIDX, RESERIDX, CONTENT, SCORE, REVIEWDATE) 
+		INSERT INTO HOSREVIEW(REVIEWIDX, HOSIDX, USERIDX, CONTENT, SCORE, REVIEWDATE, RESERIDX) 
 		VALUES((SELECT NVL(MAX(REVIEWIDX), 0) + 1 FROM HOSREVIEW), 
-				#{hosIdx}, #{userIdx}, #{reserIdx}, #{content}, #{score}, SYSDATE)
+				#{hosIdx}, #{userIdx}, #{content}, #{score}, SYSDATE, #{reserIdx})
 	</insert>
 	
 	<!-- 병원 리뷰 수정 -->

@@ -260,6 +260,7 @@
 						        <td>				 
 						        	<input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
 							        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
+       						        <input type="hidden" name="reserIdx" value="${review.reserIdx}">			        	
 						        	<input type="submit" value="삭제" onClick="confirmDelete(${review.reviewIdx})">    
 						        </td> 
 						    </form>
