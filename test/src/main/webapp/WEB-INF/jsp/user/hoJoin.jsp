@@ -215,20 +215,20 @@
 	</tr>
 	<tr>
 <!-- 		점심시간 없음/주말 휴무 처리 -->
-		<th rowspan="8">운영시간</th>
+		<th rowspan="8">진료시간</th>
 		<td>
 			평일 : <input type="checkbox" id="toggleWeekdayLunch" name="lunchOff" value="Y">점심 없음<br>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			진료시간 <input type="time" title="주중 시작시간" name="openTimeStr" value="00:00"> 
+			진료 <input type="time" title="주중 시작시간" name="openTimeStr" value="00:00"> 
 				~ <input type="time" title="주중 마감시간" name="closeTimeStr" value="00:00">
 		</td>
 	</tr>
 	<tr>
 		<td id="tdWeekday">
-			점심시간 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="00:00"> 
+			점심 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="00:00"> 
 				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="00:00">
 		</td>
 	</tr>
@@ -238,14 +238,14 @@
 		</td>
 	</tr>
 	<tr>
-		<td id="tdsatLunch">
-			진료시간 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="00:00"> 
+		<td>
+			진료 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="00:00"> 
 				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="00:00">
 		</td>
 	</tr>
 	<tr>
-		<td>
-			점심시간 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="00:00"> 
+		<td id="tdsatLunch">
+			점심 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="00:00"> 
 				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="00:00">
 		</td>
 	</tr>
@@ -257,10 +257,10 @@
 	</tr>
 	<tr>
 		<td id="sun">
-			진료시간 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="00:00"> 
+			진료 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="00:00"> 
 				~ <input type="time" title="일요일 마감시간" name="sunCloseTimeStr" value="00:00"><br>
 			<span id="spanSunLunch">
-			점심시간 <input type="time" class="lunch" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="00:00"> 
+			점심 <input type="time" class="lunch" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="00:00"> 
 				~ <input type="time" class="lunch" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="00:00"><br>
 			</span>
 <script>

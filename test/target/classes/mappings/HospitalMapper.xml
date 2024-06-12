@@ -45,6 +45,11 @@
 		WHERE HOSIDX = #{hosIdx}
 	</update>
 	
+<!-- 	병원탈퇴 -->
+	<delete id="deleteHos" parameterType="HospitalVO">
+		DELETE FROM HOSPITAL WHERE HOSIDX = #{hosIdx}
+	</delete>
+	
 <!-- 	병원 아이디 찾기 -->
 	<select id="hoFindId" resultType="HospitalVO">
 		SELECT * FROM HOSPITAL

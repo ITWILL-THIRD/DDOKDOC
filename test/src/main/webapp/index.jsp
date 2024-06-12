@@ -28,6 +28,8 @@
                 alert('관리자로 로그인 됐습니다.');
             } else if (msg === 'hosuccess' && hosname) {
             	alert(hosname + "님 환영합니다. ")
+            } else if (msg === "deleteHos") {
+            	alert("병원탈퇴가 완료되었습니다.")
             }
         }
 
