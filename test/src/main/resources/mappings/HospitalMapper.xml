@@ -7,9 +7,13 @@
 <!-- 주은 -->
 	<!-- 	병원 로그인 -->
 	<select id="getHos" resultType="HospitalVO">
-		SELECT * 
-		FROM HOSPITAL
-		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw}
+<!-- 		SELECT *  -->
+<!-- 		FROM HOSPITAL -->
+<!-- 		WHERE HOSID = #{hosId} AND HOSPW = #{hosPw} -->
+	SELECT * 
+	FROM HOSPITAL A, HOSADDRESS B, HOSTIME C
+	WHERE A.HOSIDX = B.HOSIDX AND A.HOSIDX = C.HOSIDX
+	AND A.HOSID = #{hosId} AND HOSPW = #{hosPw}
 	</select>
 	
 	
@@ -42,9 +46,11 @@
 	<insert id="insertHospital" parameterType="HospitalVO">
 		INSERT INTO HOSPITAL
 			(HOSIDX, HOSID, HOSPW, HOSNAME, HOSPHONE
-			, ANIMAL, SCORE, CONDITION)
+<!-- 			, ANIMAL, SCORE, CONDITION) -->
+			, ANIMAL, SCORE, CONDITION, HOSIMG, CERTIFICATEIMG)
 		VALUES ((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSPITAL), #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}
-			, #{animal}, 0, #{condition})
+<!-- 			, #{animal}, 0, #{condition}) -->
+			, #{animal}, 0, #{condition}, #{hosImg}, #{certificateImg})
 	</insert>
 	<insert id="insertHosAddress" parameterType="HospitalVO">
 		INSERT INTO HOSADDRESS
@@ -176,6 +182,12 @@
 		FROM HOSHOLIDAY
 		WHERE HOSIDX = #{hosIdx}
 	</select>
+	
+	<!-- 병원 휴무 입력 -->
+	<insert id="insertHolidays" parameterType="HolidayInsertParams">
+		INSERT INTO HOSHOLIDAY (HOSIDX, HOLIDATE)
+        VALUES (#{hosIdx}, #{holiDate})
+	</insert>
 	
 </mapper>
 

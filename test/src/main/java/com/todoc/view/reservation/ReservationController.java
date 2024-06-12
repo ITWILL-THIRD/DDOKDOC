@@ -61,25 +61,13 @@ public class ReservationController {
 		ReservationVO reser = new ReservationVO();
 		reser.setHosIdx(vo.getHosIdx());
 		System.out.println("reser : " + reser);
-		String reserDate = "2024-05-31";
-		try {
-            // DateTimeFormatter를 사용하여 문자열을 LocalDate로 변환
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate date = LocalDate.parse(reserDate, formatter);
-
-            // 변환된 날짜 출력
-            System.out.println("Converted date: " + date);
-        } catch (DateTimeParseException e) {
-            System.out.println("Invalid date format: " + reserDate);
-        }
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println(formatter);
 		
 		List<ReservationVO> reservationList = reservationService.getReservationList(reser);
 		System.out.println("reservationList : " + reservationList);
 		
 		System.out.println("vo : " + vo);
 		
+		//휴무일 리스트
 		List<Date> hosHoliday = hospitalService.hosHoliday(vo);
 		System.out.println("hosHoliday : " + hosHoliday);
 		

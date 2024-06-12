@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.todoc.hospital.HolidayInsertParams;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
@@ -54,13 +55,15 @@ public class HospitalServiceImpl implements HospitalService{
 	}
 	//병원 정보 입력
 	@Override
-	public void insertHospital(HospitalVO vo) {
-		hospitalDAO.insertHospital(vo);
+	public int insertHospital(HospitalVO vo) {
+		int cnt = hospitalDAO.insertHospital(vo);
+		return cnt;
 	}
 	//병원 주소 입력
 	@Override
-	public void insertHosAddress(HospitalVO vo) {
-		hospitalDAO.insertHosAddress(vo);
+	public int insertHosAddress(HospitalVO vo) {
+		int cnt = hospitalDAO.insertHosAddress(vo);
+		return cnt;
 	}
 	//아이디 중복체크
 	@Override
@@ -100,5 +103,11 @@ public class HospitalServiceImpl implements HospitalService{
 	public List<Date> hosHoliday(HospitalVO vo) {
 		return hospitalDAO.hosHoliday(vo);
 	}
+
+	@Override
+	public void insertHolidays(HolidayInsertParams param) {
+		hospitalDAO.insertHolidays(param);
+	}
+
 
 }

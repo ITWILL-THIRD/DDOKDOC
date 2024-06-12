@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 상세 보기(정보,지도,예약,리뷰)</title>
+
+<jsp:include page="../../css/commonCss.jsp"/>
+
 <jsp:include page="../common/navigation.jsp"/>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>

@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -10,6 +9,7 @@
 <meta charset="UTF-8">
 <title>시작페이지 [main.jsp]</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
 <script>
         function getQueryParam(param) {
             var urlParams = new URLSearchParams(window.location.search);
@@ -22,8 +22,11 @@
                 alert("로그인 성공");
             } else if (msg === "delete") {
             	alert("탈퇴가 완료되었습니다.");
+            } else if (msg === 'admin') {
+                alert('관리자로 로그인 됐습니다.');
             }
         }
+
 </script>
 <style>
 @font-face {
@@ -89,6 +92,7 @@
 	  color: #B6E5FF;
 	}
 </style>
+
 </head>
 <body>
 <div class="top">
@@ -107,6 +111,11 @@
 			<c:when test="${not empty sessionScope.user}">
 				<a href="logout.do">로그아웃</a>
 				<a href="mypage/myPage.do">마이페이지</a>
+				<c:choose>
+				<c:when test="${sessionScope.user.role == 'admin'}">
+					<a href="admin/admin.do">관리</a>
+				</c:when>
+				</c:choose>
 			</c:when>
 			<c:when test="${not empty sessionScope.hoUser}">
 		        <a href="logout.do">로그아웃</a>
@@ -118,6 +127,7 @@
 		</c:choose>	
     </div>
 </div>
+
 
 	<h1>TODOC</h1>
 <%-- <p>이메일: ${sessionScope.user.email}</p> --%>

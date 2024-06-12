@@ -31,9 +31,11 @@
             const urlParams = new URLSearchParams(window.location.search);
             const msg = urlParams.get('msg');
             if (msg === 'success') {
-                alert('회원가입 성공');
+                alert('회원가입 완료됐습니다.');
+            } else if (msg === 'admin') {
+                alert('관리자로 회원가입 완료됐습니다.');
             } else if (msg === 'failure') {
-                alert('로그인 실패');
+                alert('로그인 실패했습니다.');
             }
         }
 
