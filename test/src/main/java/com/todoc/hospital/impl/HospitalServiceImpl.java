@@ -105,11 +105,6 @@ public class HospitalServiceImpl implements HospitalService{
 	public void updateReview(HosReviewVO vo) {
 		hospitalDAO.updateReview(vo);
 	}
-	//병원 리뷰 삭제
-	@Override
-	public void deleteReview(HosReviewVO vo) {
-		hospitalDAO.deleteReview(vo);
-	}
 	//사용자 예약 내역 조회
 //	@Override
 //	public int getReserList(ReservationVO vo) {
@@ -130,7 +125,12 @@ public class HospitalServiceImpl implements HospitalService{
 	public List<ReservationVO> getFinishList(ReservationVO vo) {
 		return hospitalDAO.getFinishList(vo);
 	}
-
+	//병원 리뷰 삭제
+	@Override
+	public void deleteReview(HosReviewVO vo) {
+		hospitalDAO.deleteReview(vo);
+	}
+	
 	@Override
 	public List<Date> hosHoliday(HospitalVO vo) {
 		return hospitalDAO.hosHoliday(vo);
