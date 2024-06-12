@@ -20,8 +20,7 @@ function userDelete_ok(frm) {
 </head>
 <body>
 <h1>마이페이지</h1>
-<a href="index.do">메인가기</a>
-
+\${user} : ${user}
 <hr>
 	<h2>내 정보</h2>
 	<form action="updateUser.do">
@@ -74,37 +73,39 @@ function userDelete_ok(frm) {
 	
 	
 	<hr>
-	<h2>마이펫 정보</h2>
-		<c:choose>
-			<c:when test="${empty pets}">
-				<p>등록된 펫 정보가 없습니다</p>
-			</c:when>
-			<c:otherwise>
-				<c:forEach var="pet" items="${pets}">
-					<c:if test="${not empty pet.petImg}">
-						<img src="${pet.petImg}" alt="${pet.petName}의 이미지" style="max-width: 150px;">
-					</c:if>
-					<p>동물분류: ${pet.animal}</p>
-					<p>펫이름: ${pet.petName}</p>
-					<p>펫나이: ${pet.petAge}살</p>
-					
-					<form action="updateMyPetView.do" method="get">
-						<input type="hidden" name="petIdx" value="${pet.petIdx}">
-						<button type="submit">수정</button>
-					</form>
-					
-					<form action="deleteMyPet.do" method="post" onsubmit="return confirm('펫을 삭제하시겠습니까?')">
-						<input type="hidden" name="petIdx" value="${pet.petIdx}">
-						<button type="submit">삭제</button>
-					</form>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>			
-	<p><a href="insertMyPetView.do">마이펫 등록</a></p>
-
-	<p><a href="myReserList.do">내 진료 예약내역 보기</a>
-	<p><a href="myOldReserList.do">내 진료 지난 예약내역 보기</a>
-	<p><a href="myCancleReserList.do">취소한 예약내역 보기</a>
+	<c:if test="${user.role == 'user'}">
+		<h2>마이펫 정보</h2>
+			<c:choose>
+				<c:when test="${empty pets}">
+					<p>등록된 펫 정보가 없습니다</p>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="pet" items="${pets}">
+						<c:if test="${not empty pet.petImg}">
+							<img src="${pet.petImg}" alt="${pet.petName}의 이미지" style="max-width: 150px;">
+						</c:if>
+						<p>동물분류: ${pet.animal}</p>
+						<p>펫이름: ${pet.petName}</p>
+						<p>펫나이: ${pet.petAge}살</p>
+						
+						<form action="updateMyPetView.do" method="get">
+							<input type="hidden" name="petIdx" value="${pet.petIdx}">
+							<button type="submit">수정</button>
+						</form>
+						
+						<form action="deleteMyPet.do" method="post" onsubmit="return confirm('펫을 삭제하시겠습니까?')">
+							<input type="hidden" name="petIdx" value="${pet.petIdx}">
+							<button type="submit">삭제</button>
+						</form>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>			
+		<p><a href="insertMyPetView.do">마이펫 등록</a></p>
+	
+		<p><a href="myReserList.do">내 진료 예약내역 보기</a>
+		<p><a href="myOldReserList.do">내 진료 지난 예약내역 보기</a>
+		<p><a href="myCancleReserList.do">취소한 예약내역 보기</a>
+	</c:if>
 
 </body>
 </html>

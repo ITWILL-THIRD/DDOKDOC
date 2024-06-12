@@ -44,7 +44,7 @@ public class UserController {
    public UserController() {
       System.out.println("=======> UserController()객체생성");
    }
-   //개인로그인======
+   //개인로그인=======
    @PostMapping("/user/login.do")
    public String login(UserVO vo, Model model, HttpSession session ) {
       System.out.println(">> 로그인 처리");

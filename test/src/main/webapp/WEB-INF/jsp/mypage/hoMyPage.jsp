@@ -17,10 +17,9 @@
 </head>
 <body>
 <h1>병원 마이페이지</h1>
-<a href="index.do">메인가기</a>
 <hr>
 <h2>병원정보</h2>
-<%-- \${hoUser} : ${hoUser} --%>
+\${hoUser} : ${hoUser}
 <form action="updateHoUser.do">
 	<table border="">
 		<tr>

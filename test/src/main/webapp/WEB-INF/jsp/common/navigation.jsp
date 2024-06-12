@@ -80,9 +80,9 @@
 		display: none;
  	  	position: fixed;
  	  	right: 10px;
- 	  	top: 69px;
+ 	  	top: 66px; /* 69px */
 		background-color: #f9f9f9;
-   		min-width: 120px; /* 가로 */
+   		min-width: 130px; /* 가로 */
    		width: 0px; /* 세로 */
   		z-index: 1;  
 	}
@@ -112,7 +112,7 @@
 		        <a href="../membership/checkout.do">멤버십</a>
 		        <c:choose>
 					<c:when test="${empty sessionScope}">
-				        <a href="user/login.do">로그인 /회원가입</a>
+				        <a href="../user/login.do">로그인 /회원가입</a>
 				    </c:when>
 					<c:when test="${not empty sessionScope.hoUser}">
 				        <a href="../logout.do">로그아웃</a>
@@ -130,14 +130,14 @@
 		        <a href="../board/getBoardList.do">정보나눔</a>
 		        <a href="../membership/checkout.do">멤버십</a>
 		        <a href="../logout.do">로그아웃</a>
-				<a href="../mypage/myPage.do">마이페이지</a>
+				<a href="../mypage/myPage.do">관리자 마이페이지</a>
 		        
 				<div class="adminDropdown">
 					<a>관리</a>
 					<div class="dropdownList">
-						<a href="../admin/approvalPage.do">병원승인</a>
+						<a href="../admin/getApprovalList.do">병원 승인</a>
 						<a href="../admin/statsPage.do">통계</a>
-					    <a href="../admin/#">예약내역</a>
+					    <a href="../admin/#">예약 내역</a>
 					    <a href="../admin/#">회원</a>
 					</div>
 				</div>
