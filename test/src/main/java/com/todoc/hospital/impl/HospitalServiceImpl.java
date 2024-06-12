@@ -130,17 +130,21 @@ public class HospitalServiceImpl implements HospitalService{
 	public void deleteReview(HosReviewVO vo) {
 		hospitalDAO.deleteReview(vo);
 	}
-	//마이페이지 - 작성한 리뷰 목록
+	//(개인)마이페이지 - 작성한 리뷰 목록
 	@Override
 	public List<HosReviewVO> getReviewList(int userIdx) {
 		return hospitalDAO.getReviewList(userIdx);
 	}
-	//마이페이지 - 작성할 리뷰 목록
+	//(개인)마이페이지 - 작성할 리뷰 목록
 	@Override
 	public List<HosReviewVO> getReviewToWrite(int userIdx) {
 		return hospitalDAO.getReviewToWrite(userIdx);
 	}
-	
+	//(병원)마이페이지 - 작성된 리뷰 목록
+	@Override
+	public List<HosReviewVO> getHosReviewList(int hosIdx) {
+		return hospitalDAO.getHosReviewList(hosIdx);
+	}
 	
 	@Override
 	public List<Date> hosHoliday(HospitalVO vo) {
@@ -208,4 +212,5 @@ public class HospitalServiceImpl implements HospitalService{
 		int cnt = hospitalDAO.insertHosAddress(vo);
 		return cnt;
 	}
+
 }

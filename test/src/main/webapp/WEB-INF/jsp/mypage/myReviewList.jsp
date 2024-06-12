@@ -75,8 +75,9 @@
 <body>
 <%-- \${myReserList } : ${myReserList }<br><br>
 \${myOldReserList } : ${myOldReserList }<br><br>
-\${myCancleReserList } : ${myCancleReserList }<br><br> --%>
+\${myCancleReserList } : ${myCancleReserList }<br><br>
 \${reviewToWrite } : ${reviewToWrite }
+\${myReviewList } = ${myReviewList } --%>
 	<h2>리뷰 목록</h2>
 	<h3>작성 대기중인 목록</h3>
 	<div id="review">
@@ -86,6 +87,7 @@
 		    <table>
 		        <thead>
 		            <tr>
+		            	<th>병원명</th>
 		                <th>방문일</th>
 		                <th>방문시간</th>
 		                <th>동물이름</th>
@@ -95,6 +97,7 @@
 		        <tbody>
 		            <c:forEach var="finish" items="${reviewToWrite}">
 					    <tr>
+					    	<td>${finish.hosName }</td>
 					        <td>${finish.reserDate}</td>
 					        <td>
 					            <fmt:formatDate value="${finish.reserTime}" pattern="HH:mm" var="reserTime" />
@@ -135,13 +138,13 @@
 		</c:if>
 	</div>
 	<h3>작성한 목록</h3>
-	\${myReviewList } = ${myReviewList }
 	<div id="review">
 	<table border=1>
 			<tr>
+				<th>병원명</th>
+				<th>방문일</th>
 				<th>내용</th>
 				<th>평점</th>
-				<th>방문일</th>
 				<th>등록일</th>
 				<th>수정</th>
 				<th>삭제</th>
@@ -149,6 +152,8 @@
 			<tbody>
 				<c:forEach var="review" items="${myReviewList}">
 				    <tr id="view_${review.reviewIdx}">
+				    	<td>${review.hosName }</td>
+				        <td>${review.reserDate}</td>
 				        <td id="content_view_${review.reviewIdx}">${review.content}</td>
 				        <td id="score_view_${review.reviewIdx}">
 				            <c:choose>
@@ -159,7 +164,6 @@
 				                <c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
 				            </c:choose>
 				        </td>
-				        <td>${review.reserDate}</td>
 				        <td>${review.reviewDate}</td>
 				        <!-- 사용자 본인만 리뷰 수정,삭제 가능 -->		        
 				        <c:if test="${review.userIdx eq userIdx}">	        
@@ -236,7 +240,7 @@
 	    document.getElementById("selectedReserIdx").value = selectedValue;
 	    console.log("Selected ReserIdx: " + selectedValue); // 확인용 로그
 	}
-
+	
     function showReviewForm(reserIdx, hosIdx) {
         document.getElementById('selectedReserIdx').value = reserIdx;
         document.getElementById('selectedHosIdx').value = hosIdx;
