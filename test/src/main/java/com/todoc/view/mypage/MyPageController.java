@@ -46,7 +46,7 @@ public class MyPageController {
 	private ReservationService reservationService;
 	@Autowired
 	private BoardService boardService;
-	
+
 	@GetMapping("/updateUser.do")
 	public String updateUserView(@RequestParam("userIdx") int userIdx, Model model, HttpSession session) {
 		System.out.println(">> 내 정보 수정페이지");
@@ -188,7 +188,7 @@ public class MyPageController {
     	
     	return "mypage/myCancleReserList";
     }
-
+    
     //내 작성 게시물 리스트
     @RequestMapping("/myPostList.do")
     public String myPostList(Model model, HttpSession session) {
@@ -202,8 +202,8 @@ public class MyPageController {
     	
     	return "mypage/myPostList";
     }
-	
-     // (개인)리뷰 목록 조회
+    
+    // (개인)리뷰 목록 조회
  	@RequestMapping("/myReviewList.do")
  	public String myReviewList(Model model, HttpSession session) {
 		System.out.println("::마이페이지-리뷰리스트");
@@ -348,4 +348,5 @@ public class MyPageController {
 
  		return "mypage/hosReviewList";
   	}
+ 	
 }
