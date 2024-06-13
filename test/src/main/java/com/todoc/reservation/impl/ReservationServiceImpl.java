@@ -70,6 +70,8 @@ public class ReservationServiceImpl implements ReservationService{
 		return reservationDAO.myCancleReserList(userIdx);
 	}
 
-	
-
+	@Override
+	public List<ReservationVO> getHosReserList(int hosIdx) {
+		return reservationDAO.getHosReserList(hosIdx);
+	}
 }

@@ -16,4 +16,6 @@ public interface ReservationDAO {
 	List<ReservationVO> myReserList(int useridx);
 	List<ReservationVO> myOldReserList(int userIdx);
 	List<ReservationVO> myCancleReserList(int userIdx);
+	//병원 예약 현황
+	List<ReservationVO> getHosReserList(int hosIdx);
 }

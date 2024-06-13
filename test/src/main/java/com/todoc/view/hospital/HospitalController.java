@@ -167,13 +167,6 @@ public class HospitalController {
 	    // 리뷰 삭제 시 사용자 상태 업데이트 
 	    hospitalService.updateCondition(vo); 
 	    
-//	    // 예약 후 진료 완료 상태인 사용자 리스트 조회
-//	    ReservationVO reserVo = new ReservationVO();
-//		reserVo.setUserIdx(userIdx);
-//		reserVo.setHosIdx(hosIdx);
-//	    List<ReservationVO> finishList = hospitalService.getFinishList(reserVo);
-//	    model.addAttribute("finishList", finishList);
-
 	    String add = "redirect:/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
 	    return add;
 	}

@@ -227,15 +227,6 @@
 		WHERE REVIEWIDX = #{reviewIdx}
 	</delete>
 	
-	<!-- 사용자 예약 내역 조회 -->
-<!-- 	<select id="getReserList" parameterType="ReservationVO" resultType="int">
-		SELECT COUNT(*) 
-		FROM RESERVATION 
-		WHERE USERIDX = #{userIdx} 
-		AND HOSIDX = #{hosIdx}
-		AND CONDITION = 'FINISH'
-	</select> -->
-	
 	<!-- 병원 별점 업데이트(입력,수정,삭제 시) -->
 	<update id="updateAvgScore" parameterType="HospitalVO">
 		UPDATE HOSPITAL 
@@ -264,7 +255,7 @@
 		AND R.CONDITION='FINISH'
 	</select>
 	
-	<!-- 마이페이지 - 작성할 리뷰 목록 -->
+	<!-- (개인)마이페이지 - 작성할 리뷰 목록 -->
 	<select id="getReviewToWrite" parameterType="int" resultType="ReservationVO">
 		SELECT R.*, P.PETNAME, H.HOSNAME 
 		FROM RESERVATION R, MYPET P, HOSPITAL H
@@ -274,7 +265,7 @@
 		AND R.CONDITION='FINISH'
 	</select>
 	
-	<!-- 마이페이지 - 작성한 리뷰 목록 -->
+	<!-- (개인)마이페이지 - 작성한 리뷰 목록 -->
 	<select id="getReviewList" parameterType="int" resultType="HosReviewVO">
 		SELECT H.HOSNAME, HR.*, R.RESERDATE
 		FROM HOSPITAL H, HOSREVIEW HR, DDOKUSER U, RESERVATION R
@@ -285,7 +276,7 @@
 		ORDER BY H.HOSIDX DESC
 	</select>
 	
-	<!-- 마이페이지 - 작성된 리뷰 목록 -->
+	<!-- (병원)마이페이지 - 작성된 리뷰 목록 -->
 	<select id="getHosReviewList" parameterType="int" resultType="HosReviewVO">
 		SELECT H.*, U.NICKNAME AS NICKNAME, R.RESERDATE
 		FROM HOSREVIEW H, DDOKUSER U, RESERVATION R

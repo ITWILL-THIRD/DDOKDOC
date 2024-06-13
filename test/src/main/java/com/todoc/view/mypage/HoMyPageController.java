@@ -31,11 +31,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todoc.hospital.HolidayInsertParams;
+import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.TimeMapper;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
+import com.todoc.reservation.ReservationService;
+import com.todoc.reservation.ReservationVO;
 import com.todoc.user.UserVO;
 
 import java.util.stream.Collectors;
@@ -51,6 +54,8 @@ public class HoMyPageController {
 	private TimeMapper timeMapper;
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private ReservationService reservationService;
 
 	// 병원 마이페이지로 이동
 	@RequestMapping("/hoMyPage.do")
@@ -308,5 +313,55 @@ public class HoMyPageController {
 
         return "redirect:/mypage/insertHosHoliday.do";
 	}
+	// 병원 리뷰 목록 조회
+  	@RequestMapping("/hosReviewList.do")
+  	public String hosReviewList(Model model, HttpSession session) {
+ 		System.out.println("::마이페이지-리뷰리스트");
+ 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+ 		int hosIdx = 0;
+ 		if (hoUser != null) {
+ 		    hosIdx = hoUser.getHosIdx();
+ 		}
+ 		
+ 		model.addAttribute("hosIdx", hosIdx);
+ 		
+	    // 병원 1개 조회
+	    HospitalVO hospital = hospitalService.selectOne(hosIdx);
+	    model.addAttribute("hospital", hospital);
 
+ 		//작성된 리뷰 목록
+ 		List<HosReviewVO> hosReviewList = hospitalService.getHosReviewList(hosIdx);
+ 		model.addAttribute("hosReviewList", hosReviewList);
+
+ 		return "mypage/hosReviewList";
+  	}
+  	
+  	// 병원 예약 현황
+  	@RequestMapping("/hosReserList.do")
+  	public String hosReserList(Model model, HttpSession session) {
+ 		System.out.println("::병원예약현황");
+ 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+ 		int hosIdx = 0;
+ 		if (hoUser != null) {
+ 		    hosIdx = hoUser.getHosIdx();
+ 		}
+ 		
+ 		HospitalVO vo = new HospitalVO();
+		vo.setHosIdx(hosIdx);
+ 		
+ 		model.addAttribute("hosIdx", hosIdx);
+ 		
+ 		//병원 예약 목록 
+ 		List<ReservationVO> hosResrList = reservationService.getHosReserList(hosIdx);
+ 		model.addAttribute("hosResrList", hosResrList);
+ 		System.out.println(hosResrList);
+ 		
+ 		//휴무일 리스트
+		List<Date> hosHoliday = hospitalService.hosHoliday(vo);
+		System.out.println("hosHoliday : " + hosHoliday);
+
+		model.addAttribute("hosHoliday", hosHoliday);
+
+ 		return "mypage/hosReserList";
+  	}
 }
