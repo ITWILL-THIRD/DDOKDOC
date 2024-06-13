@@ -197,6 +197,7 @@ public class MyPageController {
 		
 		model.addAttribute("userIdx", userIdx);
 		
+		
 		//작성할 리뷰 목록
 		List<HosReviewVO> reviewToWrite = hospitalService.getReviewToWrite(userIdx);
 		model.addAttribute("reviewToWrite",reviewToWrite);
@@ -204,10 +205,7 @@ public class MyPageController {
 		//작성한 리뷰 목록
 		List<HosReviewVO> myReviewList = hospitalService.getReviewList(userIdx);
 		model.addAttribute("myReviewList", myReviewList);
-		// 리뷰 전체 조회
-		//List<HosReviewVO> reviewList = hospitalService.getHosReview(hosIdx);
-	   // model.addAttribute("reviewList", reviewList);
-		
+
 		
 		return "mypage/myReviewList";
  	}
