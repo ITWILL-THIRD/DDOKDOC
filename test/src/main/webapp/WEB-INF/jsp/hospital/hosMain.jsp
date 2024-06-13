@@ -53,7 +53,7 @@
 
 			        dispHtml += "<tr>";
 			        dispHtml += "<td>" + hospital.hosIdx + "</td>";
-			        dispHtml += "<td><a href='hosDetail.do?hosIdx=${hospital.hosIdx}" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
+			        dispHtml += "<td><a href='hosDetail.do?hosIdx=" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
 			        dispHtml += "<td>" + hospital.roadAddressName + " " + detailAddressOri + "</td>";
 			        dispHtml += "<td>" + openTimeFormatted + " - " + closeTimeFormatted + "</td>";
 			        dispHtml += "<td>" + hospital.hosPhone + "</td>";
@@ -78,10 +78,7 @@
 <%-- \${hosList} : ${hosList } --%>
 	<div id="container">
 		
-		<h1>병원 예약</h1>
-		<hr>
-		<br>
-		<h3>병원 검색</h3>
+		<h1>병원 검색</h1>
 		<form id="getHosSearch" onsubmit="fetchData('search'); return false;">
 			<p>통합검색</p>
 			<input type="text" name="searchKeyword" placeholder="Search">
@@ -98,7 +95,6 @@
 			<button class="tab" onclick="fetchData('night')">야간진료</button>
 			<button class="tab" onclick="fetchData('24h')">24시</button>
 		</div>
-	</div>
 	<table>
 		<thead>
 			<tr>
@@ -139,10 +135,11 @@
 			
 			<c:if test="${not hasCompletedPayment}">
 				<tr>
-					<th colspan="5">예약 가능한 병원이 없습니다.</th>
+					<th colspan="6">예약 가능한 병원이 없습니다.</th>
 				</tr>
 			</c:if>
 		</tbody>
 	</table>
+	</div>
 </body>
 </html>

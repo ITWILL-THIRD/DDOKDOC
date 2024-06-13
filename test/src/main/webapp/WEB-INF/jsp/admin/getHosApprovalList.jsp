@@ -31,7 +31,17 @@
 	<h1>병원 승인 관리 [getApprovalList.jsp]</h1>   
 	
 	<!-- 검색 -->
-	
+	<form id="getSignupDatePage" onsubmit="fetchData('search'); return false;">
+		<input type="text" name="searchKeyword" placeholder="Search">
+		<input type="submit" value="가입날짜 검색">
+		<input type="date">
+	</form>
+	<div>
+		<button class="tab" onclick="fetchData('all')">전체</button>
+		<button class="tab" onclick="fetchData('before')">승인전</button>
+		<button class="tab" onclick="fetchData('after')">승인완료</button>
+		<button class="tab" onclick="fetchData('payment')">결제완료</button>
+	</div>
 	
 	<!-- 데이터 표시 -->
 	<form method="post">
