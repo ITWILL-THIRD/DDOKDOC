@@ -7,9 +7,9 @@
  	<!-- ======== 댓글 데이터 처리 ======= -->
 	<!-- 게시글에 달린 댓글 데이터 조회 -->
 	<select id="getCommentList" parameterType="CommentVO" resultType="CommentVO">
-		SELECT C.*, D.NICKNAME, H.HOSIDX
+		SELECT C.*, D.NICKNAME, H.HOSNAME
 		FROM COMMENTS C
-		JOIN DDOKUSER D ON C.USERIDX = D.USERIDX
+		LEFT JOIN DDOKUSER D ON C.USERIDX = D.USERIDX
 		LEFT JOIN HOSPITAL H ON C.HOSIDX = H.HOSIDX
 		WHERE C.POSTIDX = #{postidx}
 		ORDER BY C.COMMENTIDX DESC

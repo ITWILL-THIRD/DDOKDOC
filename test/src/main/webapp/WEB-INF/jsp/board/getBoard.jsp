@@ -76,14 +76,26 @@
 			<%--<input type="hidden" name="cPage" value="${cPage }"> --%>
 		</form>
 	</c:if>	
+	<c:if test="${not empty sessionScope.hoUser }">
+		<form action="insertComment.do" method="get" class="width">
+			<input type="hidden" name="hosidx" class="idInput" value="${hoUser.hosIdx}">
+			<textarea name="content" rows="4" cols="60" class="commentInput"></textarea>
+			<input type="submit" value="등록" class="btn">
+			<input type="hidden" name="postidx" value="${board.postidx }">
+			<%--<input type="hidden" name="cPage" value="${cPage }"> --%>
+		</form>
+	</c:if>	
 	</div>
 	<hr>
 	<div class="scroll">
 		<c:forEach var="comment" items="${comments}">
 			<div class="comments">
 				<form action="deleteComment.do" method="get">
-					<p>작성자 : ${comment.nickname} | 작성일시 : ${comment.formattedCommentDate }
+					<p>작성자 : ${comment.nickname}${comment.hosname} | 작성일시 : ${comment.formattedCommentDate }
 					<c:if test="${user.userIdx == comment.useridx}">
+						<input type="submit" value="삭제"  class="btn deleteBtn"></p>
+					</c:if> 
+					<c:if test="${hoUser.hosIdx == comment.hosidx}">
 						<input type="submit" value="삭제"  class="btn deleteBtn"></p>
 					</c:if> 
 					<p>${comment.content}</p>
