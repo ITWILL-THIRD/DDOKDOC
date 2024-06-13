@@ -127,7 +127,7 @@ public class UserController {
       
       if (cnt == 0) {
          //관리자 계정 설정(role="admin")
-         if (vo.getEmail().equals("admin@naver.com") 
+         if (vo.getEmail().equals("admin@todoc.com") 
                && vo.getPassword().equals("admin")) {
             vo.setRole("admin");
             userService.insertUser(vo);
