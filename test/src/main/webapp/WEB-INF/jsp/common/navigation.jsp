@@ -69,7 +69,8 @@
 	.topnav a:hover {
 	  color: #B6E5FF;
 	}
-		.adminDropdown {
+	
+	.adminDropdown {
 		float:right;
 		position: relative;
 		display: inline-block;
@@ -88,10 +89,10 @@
 	.adminDropdown:hover .dropdownList {
 		display: block;
 	}
-/* 	.dropdownList:active {
-		font: bold; 
-		text-decoration: underline; 
- 	} */
+/* 	.dropdownList:active { */
+/* 		font: bold; */
+/* 		text-decoration: underline; */
+/* 	} */
 </style>
 </head>
 <body>

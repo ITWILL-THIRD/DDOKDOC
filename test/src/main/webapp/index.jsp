@@ -124,7 +124,7 @@
 /* 	} */
 </style>
 
-</head> 
+</head>
 <body>
 <div class="top">
 <%--    <a>&nbsp <%=vo.getName()%>님</a>--%>
