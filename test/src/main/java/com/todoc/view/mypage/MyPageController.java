@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.todoc.board.BoardService;
 import com.todoc.board.BoardVO;
 import com.todoc.googlecloudstorage.GCSService;
+import com.todoc.hospital.HosReviewVO;
+import com.todoc.hospital.HospitalService;
+import com.todoc.hospital.HospitalVO;
 import com.todoc.mypet.MyPetService;
 import com.todoc.mypet.MyPetVO;
 import com.todoc.reservation.ReservationService;
@@ -33,7 +34,9 @@ import com.todoc.user.UserVO;
 public class MyPageController {
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	@Qualifier("hospitalService")
+	private HospitalService hospitalService;
 	@Autowired
     @Qualifier("gcsService")
     private GCSService gcsService;
@@ -185,7 +188,7 @@ public class MyPageController {
     	
     	return "mypage/myCancleReserList";
     }
-    
+
     //내 작성 게시물 리스트
     @RequestMapping("/myPostList.do")
     public String myPostList(Model model, HttpSession session) {
@@ -199,5 +202,150 @@ public class MyPageController {
     	
     	return "mypage/myPostList";
     }
+	
+     // (개인)리뷰 목록 조회
+ 	@RequestMapping("/myReviewList.do")
+ 	public String myReviewList(Model model, HttpSession session) {
+		System.out.println("::마이페이지-리뷰리스트");
+		UserVO user = (UserVO) session.getAttribute("user");
+		int userIdx = 0;
+		if (user != null) {
+		    userIdx = user.getUserIdx();
+		}
+		
+		model.addAttribute("userIdx", userIdx);
+		
+		
+		//작성할 리뷰 목록
+		List<HosReviewVO> reviewToWrite = hospitalService.getReviewToWrite(userIdx);
+		model.addAttribute("reviewToWrite",reviewToWrite);
+		
+		//작성한 리뷰 목록
+		List<HosReviewVO> myReviewList = hospitalService.getReviewList(userIdx);
+		model.addAttribute("myReviewList", myReviewList);
 
+		
+		return "mypage/myReviewList";
+ 	}
+ 	
+ 	// (개인)리뷰 입력
+ 	@RequestMapping("/myReviewInsert.do")
+ 	public String myInsertReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model, HttpSession session) {
+ 	    System.out.println(":: 마이페이지-리뷰작성");
+ 	    UserVO user = (UserVO) session.getAttribute("user");
+ 	    int userIdx = 0;
+ 	    if (user != null) {
+ 	        userIdx = user.getUserIdx();
+ 	        vo.setUserIdx(userIdx);
+ 	    }
+ 	    System.out.println("vo  : " + vo);
+ 	    
+ 	    model.addAttribute("hosIdx", hosIdx);
+ 	    model.addAttribute("userIdx", userIdx);
+ 	    
+ 	    // 리뷰 입력
+ 	    hospitalService.insertReview(vo);    
+
+ 	    // 별점 평균 업데이트
+ 	    updateAverageScore(hosIdx);
+ 	    
+ 	    // 리뷰 작성 시 사용자 상태 업데이트 	    
+ 	    hospitalService.updateCondition(vo); 
+
+ 	    return "redirect:/mypage/myReviewList.do" ;
+ 	}
+
+ 	// (개인)리뷰 수정 
+ 	@RequestMapping("/myReviewUpdate.do")
+ 	public String updateReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model, HttpSession session) {
+ 	    System.out.println(":: 마이페이지 - 리뷰 수정");
+ 	    int userIdx = ((UserVO) session.getAttribute("user")).getUserIdx();
+ 	    vo.setUserIdx(userIdx);
+
+ 	    model.addAttribute("hosIdx", hosIdx);
+ 	    model.addAttribute("userIdx", userIdx);
+ 	    
+ 	    // 리뷰 수정
+ 	    hospitalService.updateReview(vo);
+
+ 	    // 별점 평균 업데이트
+ 	    updateAverageScore(hosIdx);
+
+
+ 	    return "redirect:/mypage/myReviewList.do";
+ 	}
+
+ 	// (개인)리뷰 삭제
+ 	@RequestMapping("/myReviewDelete.do")
+ 	public String deleteReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model, HttpSession session) {
+ 	    System.out.println(":: 마이페이지 - 리뷰 삭제");
+ 	    UserVO user = (UserVO) session.getAttribute("user");
+ 	    int userIdx = 0;
+ 	    if (user != null) {
+ 	        userIdx = user.getUserIdx();
+ 	        vo.setUserIdx(userIdx);
+ 	    }
+
+ 	    model.addAttribute("hosIdx", hosIdx);
+ 	    model.addAttribute("userIdx", userIdx);
+ 	    
+ 	    // 리뷰 삭제
+ 	    hospitalService.deleteReview(vo);
+ 	    
+ 	    // 별점 평균 업데이트
+ 	    updateAverageScore(hosIdx);
+ 	    System.out.println("vo : " + vo);
+
+ 	    // 리뷰 삭제 시 사용자 상태 업데이트 
+ 	    hospitalService.updateCondition(vo); 
+ 	    
+ 	    return "redirect:/mypage/myReviewList.do";
+ 	}
+ 	// 별점 평균 업데이트 메소드
+ 	private void updateAverageScore(int hosIdx) {
+ 	    // 해당 병원의 모든 리뷰 가져오기
+ 	    List<HosReviewVO> reviewList = hospitalService.getHosReview(hosIdx);
+
+ 	    // 별점 합계 계산
+ 	    double totalScore = 0.0;
+ 	    for (HosReviewVO reviewVo : reviewList) {
+ 	        totalScore += reviewVo.getScore();
+ 	    }
+
+ 	    // 별점 평균 계산
+ 	    double avgScore = 0.0;
+ 	    if (!reviewList.isEmpty()) {
+ 	        avgScore = totalScore / reviewList.size();
+ 	    }
+
+ 	    // 병원의 별점 평균 업데이트
+ 	    HospitalVO hosVo = new HospitalVO();
+ 	    hosVo.setHosIdx(hosIdx);
+ 	    hosVo.setScore(avgScore);
+
+ 	    hospitalService.updateAvgScore(hosVo);
+ 	}
+ 	
+ 	// (병원)리뷰 목록 조회
+  	@RequestMapping("/hosReviewList.do")
+  	public String hosReviewList(Model model, HttpSession session) {
+ 		System.out.println("::마이페이지-리뷰리스트");
+ 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+ 		int hosIdx = 0;
+ 		if (hoUser != null) {
+ 		    hosIdx = hoUser.getHosIdx();
+ 		}
+ 		
+ 		model.addAttribute("hosIdx", hosIdx);
+ 		
+	    // 병원 1개 조회
+	    HospitalVO hospital = hospitalService.selectOne(hosIdx);
+	    model.addAttribute("hospital", hospital);
+
+ 		//작성된 리뷰 목록
+ 		List<HosReviewVO> hosReviewList = hospitalService.getHosReviewList(hosIdx);
+ 		model.addAttribute("hosReviewList", hosReviewList);
+
+ 		return "mypage/hosReviewList";
+  	}
 }
