@@ -309,4 +309,24 @@ public class HoMyPageController {
         return "redirect:/mypage/insertHosHoliday.do";
 	}
 
+	// 병원 휴무 취소
+	/*
+	 * @PostMapping("/deleteHosHoliday.do") private String deleteHosHoliday(String
+	 * delHoliday, String hosIdx) {
+	 * 
+	 * System.out.println("delHoliday : " + delHoliday);
+	 * System.out.println("hosIdx : " + hosIdx);
+	 * 
+	 * return "redirect:/mypage/insertHosHoliday.do"; }
+	 */
+	
+	@PostMapping("/deleteHosHoliday.do")
+	private String deleteHosHoliday(HolidayInsertParams param) {
+		
+		System.out.println("param : " + param);
+		
+		hospitalService.deleteHosHoliday(param);
+		
+		return "redirect:/mypage/insertHosHoliday.do";
+	}
 }

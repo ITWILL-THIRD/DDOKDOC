@@ -62,4 +62,6 @@ public interface HospitalService {
 	List<Date> hosHoliday(HospitalVO vo);
 	//병원 휴무 입력
 	void insertHolidays(HolidayInsertParams param);
+	//병원 휴무 삭제
+	void deleteHosHoliday(HolidayInsertParams param);
 }

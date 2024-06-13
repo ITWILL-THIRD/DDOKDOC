@@ -71,5 +71,8 @@ public interface HospitalDAO {
 	//병원 휴무 입력
 	void insertHolidays(HolidayInsertParams param);
 	
+	//병원 휴무 삭제
+	void deleteHosHoliday(HolidayInsertParams param);
+	
 }
 

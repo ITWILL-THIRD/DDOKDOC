@@ -148,14 +148,21 @@ public class HospitalServiceImpl implements HospitalService{
 		return hospitalDAO.getHosReviewList(hosIdx);
 	}
 	
+	//병원 휴무 리스트
 	@Override
 	public List<Date> hosHoliday(HospitalVO vo) {
 		return hospitalDAO.hosHoliday(vo);
 	}
 
+	//병원 휴무 입력
 	@Override
 	public void insertHolidays(HolidayInsertParams param) {
 		hospitalDAO.insertHolidays(param);
+	}
+	//병원 휴무 삭제
+	@Override
+	public void deleteHosHoliday(HolidayInsertParams param) {
+		hospitalDAO.deleteHosHoliday(param);
 	}
 
 

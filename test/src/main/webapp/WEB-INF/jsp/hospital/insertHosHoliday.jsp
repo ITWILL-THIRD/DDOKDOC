@@ -78,30 +78,14 @@
 	        }
 	        // 휴무일 클릭 비활성화
 	        if (closedDates.includes(info.dateStr)) {
-	          alert(info.dateStr + "은 휴무입니다:)");
-	          return;
-	        }
-	        // 클릭한 날짜가 선택된 날짜인지 확인
-	        /* if (selectedDate === info.dateStr) {
-	          // 선택된 날짜 다시 클릭 시 해제
-	          info.dayEl.style.backgroundColor = ''; // 원래 색상으로 복원
-	          selectedDate = null; // 선택 해제
-	          document.getElementById('reserDate').value = ''; // 숨겨진 필드 비움
-	        } else {
-	          // 다른 날짜를 클릭했을 때
-	          if (selectedDate) {
-	            // 이미 선택된 날짜가 있으면 원래 색상으로 복원
-	            var prevDayEl = document.querySelector('[data-date="' + selectedDate + '"]');
-	            if (prevDayEl) {
-	              prevDayEl.style.backgroundColor = '';
-	            }
+	          if (confirm(info.dateStr + "휴무지정 취소하시겠습니까?")) {
+	        	  //휴무 취소 함수 실행시키기
+	        	  alert("휴무 취소하기");
+	        	  deleteHoliday(info.dateStr);
+	          } else {
+		          return;
 	          }
-	          // 클릭한 날짜를 새로운 선택 날짜로 설정
-	          info.dayEl.style.backgroundColor = 'lightblue'; // 선택된 색상 설정
-	          selectedDate = info.dateStr; // 선택된 날짜 업데이트
-	          selectedDay = info.date.getDay(); //선택된 날짜의 요일
-	          document.getElementById('reserDate').value = info.dateStr; // 숨겨진 필드 업데이트
-	        } */
+	        }
 	        var dateIndex = selectedDates.indexOf(info.dateStr);
 	        if (dateIndex > -1) {
 	          // 이미 선택된 날짜일 경우 선택 해제
@@ -145,6 +129,11 @@
   
   function submitForm() {
     document.getElementById("holidayForm").submit();
+  }
+  
+  function deleteHoliday(dateStr) {
+	  document.getElementById('holiDateStr').value = dateStr;
+	  document.getElementById('DelHolidayForm').submit();
   }
   
 </script>
@@ -191,6 +180,10 @@
 		<input type="hidden" id="holidays" name="holidays" value="[]">
 		<input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
 		<button type="button" onclick="submitForm()">제출</button>
+	</form>
+	<form id="DelHolidayForm" action="deleteHosHoliday.do" method="post">
+		<input type="hidden" id="holiDateStr" name="holiDateStr" >
+		<input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
 	</form>
 </body>
 </html>
