@@ -124,7 +124,7 @@
 /* 	} */
 </style>
 
-</head>
+</head> 
 <body>
 <div class="top">
 <%-- 	<a>&nbsp <%=vo.getName()%>님</a>--%>
@@ -145,18 +145,19 @@
 				    </c:when>
 					<c:when test="${not empty sessionScope.hoUser}">
 				        <a href="logout.do">로그아웃</a>
+                <a href="membership/checkout.do">멤버십</a>
 				        <a id="adminDropdown" href="mypage/hoMyPage.do">병원 마이페이지</a>
 				    </c:when>
 					<c:when test="${not empty sessionScope.user}">
 				        <a href="logout.do">로그아웃</a>
-						<a href="mypage/myPage.do">마이페이지</a>
+                <a href="membership/usercheckout.do">멤버십</a>
+						    <a href="mypage/myPage.do">마이페이지</a>
 				    </c:when>
 		        </c:choose>
 	    	</c:when>
 			<c:otherwise>
 		        <a href="hospital/hosMain.do">병원예약</a>
 		        <a href="board/getBoardList.do">정보나눔</a>
-		        <a href="membership/checkout.do">멤버십</a>
 		        <a href="logout.do">로그아웃</a>
 				<a href="mypage/myPage.do">관리자 마이페이지</a>
 		        
@@ -173,7 +174,6 @@
 		</c:choose>	
     </div>
 </div>
-
 
 	<h1>TODOC</h1>
 

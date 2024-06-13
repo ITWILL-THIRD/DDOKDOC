@@ -37,6 +37,17 @@
     margin: 0; 
     text-align: center;
 }
+
+.umdiv {
+	padding: 20px 60px;
+    align-items: center;
+}
+
+.umdiv img {
+    width: 280px;
+    height: auto; 
+}
+
 </style>
 </head>
 <body>

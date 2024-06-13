@@ -1,4 +1,4 @@
-package com.todoc.membership;
+package com.todoc.view.membership;
 
 //import jakarta.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.todoc.hospital.HospitalVO;
+import com.todoc.membership.HosMembershipService;
+import com.todoc.membership.HosMembershipVO;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -38,7 +40,7 @@ public class PayController {
 	
 	@Autowired
 	public PayController(HosMembershipService hosmembershipService) {
-		System.out.println("=========> BoardController(hosmembershipService) 객체생성");
+		System.out.println("=========> PayController(hosmembershipService) 객체생성");
 		System.out.println(":: HosMembershipService hosmembershipService : " + hosmembershipService);
 		this.hosmembershipService = hosmembershipService;
 	}
