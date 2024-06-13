@@ -8,8 +8,8 @@
 <meta charset="UTF-8">
 <title>토닥토닥 메인</title>
 
+<jsp:include page="../../css/hosMainCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
-
 <jsp:include page="../common/navigation.jsp"/>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script>
@@ -46,12 +46,16 @@
 			    for (let hospital of data) {
 			        let openTimeFormatted = formatTime(hospital.openTime);
 			        let closeTimeFormatted = formatTime(hospital.closeTime);
+			        let detailAddressOri = hospital.detailAddress;
+			        if (detailAddressOri == null) {
+			        	detailAddressOri = "";
+			        } 
 
 			        dispHtml += "<tr>";
 			        dispHtml += "<td>" + hospital.hosIdx + "</td>";
 			        dispHtml += "<td><a href='hosDetail.do?hosIdx=${hospital.hosIdx}" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
-			        dispHtml += "<td>" + hospital.roadAddressName + "</td>";
-			        dispHtml += "<td>" + openTimeFormatted + " ~ " + closeTimeFormatted + "</td>";
+			        dispHtml += "<td>" + hospital.roadAddressName + " " + detailAddressOri + "</td>";
+			        dispHtml += "<td>" + openTimeFormatted + " - " + closeTimeFormatted + "</td>";
 			        dispHtml += "<td>" + hospital.hosPhone + "</td>";
 			        dispHtml += "<td>" + hospital.animal + "</td>";
 			        dispHtml += "</tr>";
@@ -71,7 +75,9 @@
 </script>
 </head>
 <body>
+<%-- \${hosList} : ${hosList } --%>
 	<div id="container">
+		
 		<h1>병원 예약</h1>
 		<hr>
 		<br>
@@ -96,36 +102,47 @@
 	<table>
 		<thead>
 			<tr>
-				<th>번호</th>
-				<th>병원명</th>
-				<th>주소</th>
-				<th>진료시간</th>
-				<th>전화번호</th>
-				<th>분류</th>
+				<th width="30">번호</th>
+				<th width="150">병원명</th>
+				<th width="300">주소</th>
+				<th width="150">진료시간</th>
+				<th width="150">전화번호</th>
+				<th width="30">분류</th>
 			</tr>
 		</thead>
+		
+		<c:set var="hasCompletedPayment" value="false" scope="page" />
 		<tbody id="listDisp">
 			<c:forEach var="hospital" items="${hosList }">
-
-			<tr>
-				<td>${hospital.hosIdx}</td>
-				<td><a href="hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName}</a>
-				</td>
-				<td>${hospital.roadAddressName} ${hospital.detailAddress}</td>
-				<td>
-					<c:set var="openTime" value="${hospital.openTime}"/>
-					<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
-					<c:set var="closeTime" value="${hospital.closeTime}"/>
-					<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
-					${openTimeSub} - ${closeTimeSub}
-				</td>
-				<td>${hospital.hosPhone}</td>
-				<td>${hospital.animal}</td>
-			</tr>
-		</c:forEach>
+				<c:choose>
+					<c:when test="${hospital.condition == '결제완료'}">
+						<c:set var="hasCompletedPayment" value="true" scope="page"/>
+						<tr>
+							<td>${hospital.hosIdx}</td>
+							<td>
+								<a href="hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName}</a>
+							</td>
+							<td>${hospital.roadAddressName} ${hospital.detailAddress}</td>
+							<td>
+								<c:set var="openTime" value="${hospital.openTime}"/>
+								<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
+								<c:set var="closeTime" value="${hospital.closeTime}"/>
+								<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
+								${openTimeSub} - ${closeTimeSub}
+							</td>
+							<td>${hospital.hosPhone}</td>
+							<td>${hospital.animal}</td>
+						</tr>
+					</c:when>
+				</c:choose>
+			</c:forEach>
+			
+			<c:if test="${not hasCompletedPayment}">
+				<tr>
+					<th colspan="5">예약 가능한 병원이 없습니다.</th>
+				</tr>
+			</c:if>
 		</tbody>
 	</table>
-	<hr>
-	<p><a href="temp.do">병원 등록</a></p>
 </body>
 </html>

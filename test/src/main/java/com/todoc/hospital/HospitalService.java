@@ -7,8 +7,8 @@ import com.todoc.reservation.ReservationVO;
 
 
 public interface HospitalService {
-
-	void updateHospital(HospitalVO vo);
+	//병원 승인처리(승인완료)
+	int updateHospital(HospitalVO vo);
 	//병원 전체 조회
 	List<HospitalVO> selectList();
 	//병원 1개 조회
