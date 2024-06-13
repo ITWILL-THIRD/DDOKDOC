@@ -74,6 +74,7 @@ function userDelete_ok(frm) {
 	
 	
 	<hr>
+	<c:if test="${user.role == 'user'}">
 	<h2>마이펫 정보</h2>
 		<c:choose>
 			<c:when test="${empty pets}">
@@ -99,12 +100,16 @@ function userDelete_ok(frm) {
 					</form>
 				</c:forEach>
 			</c:otherwise>
-		</c:choose>			
+		</c:choose>
+	
 	<p><a href="insertMyPetView.do">마이펫 등록</a></p>
 
 	<p><a href="myReserList.do">내 진료 예약내역 보기</a>
 	<p><a href="myOldReserList.do">내 진료 지난 예약내역 보기</a>
 	<p><a href="myCancleReserList.do">취소한 예약내역 보기</a>
+	<p><a href="myReviewList.do">리뷰 목록 조회</a></p>
+	<p><a href="myPostList.do">나의 작성 게시물</a>
+	</c:if>
 
 </body>
 </html>

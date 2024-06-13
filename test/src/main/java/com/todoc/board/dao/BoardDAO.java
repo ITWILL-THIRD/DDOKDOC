@@ -21,6 +21,8 @@ public interface BoardDAO {
 	CommentVO getComment(CommentVO vo);
 	List<CommentVO> getCommentList(CommentVO co);
 	List<CommentVO> getCommentList(int postidx);
+	
+	List<BoardVO> myPostList(int userIdx);
 }
 
 

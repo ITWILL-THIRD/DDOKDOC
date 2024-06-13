@@ -69,6 +69,29 @@
 	.topnav a:hover {
 	  color: #B6E5FF;
 	}
+		.adminDropdown {
+		float:right;
+		position: relative;
+		display: inline-block;
+		cursor: pointer
+	}
+	.dropdownList {
+		display: none;
+ 	  	position: fixed;
+ 	  	right: 10px;
+ 	  	top: 66px; /* 69px */
+		background-color: #f9f9f9;
+   		min-width: 130px; /* 가로 */
+   		width: 0px; /* 세로 */
+  		z-index: 1;  
+	}
+	.adminDropdown:hover .dropdownList {
+		display: block;
+	}
+/* 	.dropdownList:active {
+		font: bold; 
+		text-decoration: underline; 
+ 	} */
 </style>
 </head>
 <body>
@@ -79,33 +102,69 @@
     <div class="logo">
         <img src="" alt="로고">
     </div>
+    
     <div class="topnav">
-        <a href="../hospital/hosMain.do">병원예약</a>
-        <a href="../board/getBoardList.do">정보나눔</a>
+
         <c:choose>
-			<c:when test="${not empty sessionScope.user}">
-				<a href="../membership/usercheckout.do">멤버십</a>
-			</c:when>
-			<c:when test="${not empty sessionScope.hoUser}">
+	    	<c:when test="${sessionScope.user.role != 'admin'}">
+		        <a href="../hospital/hosMain.do">병원예약</a>
+		        <a href="../board/getBoardList.do">정보나눔</a>
 		        <a href="../membership/checkout.do">멤버십</a>
-		    </c:when>
-		</c:choose>	
-        
-        <c:choose>
-			<c:when test="${not empty sessionScope.user}">
-				<a href="../logout.do">로그아웃</a>
-				<a href="../mypage/myPage.do">마이페이지</a>
-			</c:when>
-			<c:when test="${not empty sessionScope.hoUser}">
-		        <a href="../logout.do">로그아웃</a>
-		        <a href="../mypage/hoMyPage.do">병원 마이페이지</a>
-		    </c:when>
+		        <c:choose>
+					<c:when test="${empty sessionScope}">
+				        <a href="../user/login.do">로그인 /회원가입</a>
+				    </c:when>
+					<c:when test="${not empty sessionScope.hoUser}">
+				        <a href="../logout.do">로그아웃</a>
+                <a href="../membership/checkout.do">멤버십</a>
+				        <a href="../mypage/hoMyPage.do">병원 마이페이지</a>
+				    </c:when>
+					<c:when test="${not empty sessionScope.user}">
+				        <a href="../logout.do">로그아웃</a>
+                <a href="../membership/usercheckout.do">멤버십</a>
+						    <a href="../mypage/myPage.do">마이페이지</a>
+				    </c:when>
+		        </c:choose>
+	    	</c:when>
+	    	
 			<c:otherwise>
-		        <a href="../user/login.do">로그인 /회원가입</a>
-		    </c:otherwise>
+		        <a href="../hospital/hosMain.do">병원예약</a>
+		        <a href="../board/getBoardList.do">정보나눔</a>
+		        <a href="../logout.do">로그아웃</a>
+				<a href="../mypage/myPage.do">관리자 마이페이지</a>
+		        
+				<div class="adminDropdown">
+					<a>관리</a>
+					<div class="dropdownList">
+						<a href="../admin/getApprovalList.do">병원 승인</a>
+						<a href="../admin/statsPage.do">통계</a>
+					    <a href="../admin/#">예약 내역</a>
+					    <a href="../admin/#">회원</a>
+					</div>
+				</div>
+			</c:otherwise>
 		</c:choose>	
     </div>
 </div>
+<!--     <div class="topnav"> -->
+<!--         <a href="../hospital/hosMain.do">병원예약</a> -->
+<!--         <a href="../board/getBoardList.do">정보나눔</a> -->
+<!--         <a href="../membership/checkout.do">멤버십</a> -->
+        
+<%--         <c:choose> --%>
+<%-- 			<c:when test="${not empty sessionScope.user}"> --%>
+<!-- 				<a href="../logout.do">로그아웃</a> -->
+<!-- 				<a href="../mypage/myPage.do">마이페이지</a> -->
+<%-- 			</c:when> --%>
+<%-- 			<c:when test="${not empty sessionScope.hoUser}"> --%>
+<!-- 		        <a href="../logout.do">로그아웃</a> -->
+<!-- 		        <a href="../mypage/hoMyPage.do">병원 마이페이지</a> -->
+<%-- 		    </c:when> --%>
+<%-- 			<c:otherwise> --%>
+<!-- 		        <a href="../user/login.do">로그인 /회원가입</a> -->
+<%-- 		    </c:otherwise> --%>
+<%-- 		</c:choose>	 --%>
+<!--     </div> -->
 
 </body>
 </html>

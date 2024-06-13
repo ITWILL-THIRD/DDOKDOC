@@ -15,4 +15,6 @@ public interface BoardService {
 	CommentVO getComment(CommentVO vo);
 	List<CommentVO> getCommentList(CommentVO vo);
 	List<CommentVO> getCommentList(int postidx);
+	
+	List<BoardVO> myPostList(int userIdx);
 }
