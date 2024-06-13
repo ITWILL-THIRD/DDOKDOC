@@ -265,5 +265,13 @@
         VALUES (#{hosIdx}, #{holiDate})
 	</insert>
 	
+	<!-- 병원 휴무 삭제 -->
+	<delete id="deleteHosHoliday" parameterType="HolidayInsertParams">
+		DELETE 
+		FROM HOSHOLIDAY
+		WHERE HOSIDX = #{hosIdx}
+		AND HOLIDATE = #{holiDateStr}
+	</delete>
+	
 </mapper>
 
