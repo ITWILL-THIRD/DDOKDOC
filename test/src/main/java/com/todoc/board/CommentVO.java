@@ -12,6 +12,7 @@ public class CommentVO {
 	private String content;
 	private Date commentdate;
 	private String nickname;
+	private String hosname;
 	private String formattedCommentDate;
 	
 	public int getCommentidx() {
@@ -57,6 +58,12 @@ public class CommentVO {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public String getHosname() {
+		return hosname;
+	}
+	public void setHosname(String hosname) {
+		this.hosname = hosname;
 	}
 	@Override
 	public String toString() {

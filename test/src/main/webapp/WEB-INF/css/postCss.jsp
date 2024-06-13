@@ -80,6 +80,8 @@
 		display: inline-block;
 	}
 	
+	.hosname {color:#2C307D;}
+	
 	<%-- 댓글 작성자 로그인처리 후 삭제 --%>
 	
 	.idInput {
