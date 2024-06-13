@@ -23,16 +23,14 @@ public class HospitalServiceImpl implements HospitalService{
 
 	@Autowired
 	private TimeMapper timeMapper;
-
 	
-
 	public HospitalServiceImpl() {
 		System.out.println(">> HospitalServiceImpl() 객체 생성");
 	}
 
 	@Override
-	public void updateHospital(HospitalVO vo) {
-		// TODO Auto-generated method stub
+	public int updateHospital(HospitalVO vo) {
+		return hospitalDAO.updateHospital(vo);
 	}
 	//병원 전체 조회
 	@Override

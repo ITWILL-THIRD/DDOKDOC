@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>approvalListCSS</title>
+<title>postListCSS</title>
 <style>
 
 	#container { width: 700px; margin: auto; }
@@ -13,10 +13,8 @@
 	<%-- 목록 --%>
 	table { border-collapse: collapse; }
 	table, th, td {
-		position: static;
-		
 		border: 1px solid #B9B9B9;
-		margin: auto;
+		margin: 0 auto;
 		padding: 5px;
 		text-align: center;
 	}

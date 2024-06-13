@@ -103,66 +103,84 @@
         <img src="" alt="로고">
     </div>
     
-    <div class="topnav">
-        <c:choose>
-	    	<c:when test="${sessionScope.user.role != 'admin'}">
-		        <a href="../hospital/hosMain.do">병원예약</a>
-		        <a href="../board/getBoardList.do">정보나눔</a>
-		        <a href="../membership/checkout.do">멤버십</a>
-		        <c:choose>
-					<c:when test="${empty sessionScope}">
-				        <a href="../user/login.do">로그인 /회원가입</a>
-				    </c:when>
-					<c:when test="${not empty sessionScope.hoUser}">
-				        <a href="../logout.do">로그아웃</a>
-				        <a href="../mypage/hoMyPage.do">병원 마이페이지</a>
-				    </c:when>
-					<c:when test="${not empty sessionScope.user}">
-				        <a href="../logout.do">로그아웃</a>
-						<a href="../mypage/myPage.do">마이페이지</a>
-				    </c:when>
-		        </c:choose>
-	    	</c:when>
-	    	
-			<c:otherwise>
-		        <a href="../hospital/hosMain.do">병원예약</a>
-		        <a href="../board/getBoardList.do">정보나눔</a>
-		        <a href="../membership/checkout.do">멤버십</a>
-		        <a href="../logout.do">로그아웃</a>
-				<a href="../mypage/myPage.do">관리자 마이페이지</a>
-		        
-				<div class="adminDropdown">
-					<a>관리</a>
-					<div class="dropdownList">
-						<a href="../admin/getApprovalList.do">병원 승인</a>
-						<a href="../admin/statsPage.do">통계</a>
-					    <a href="../admin/#">예약 내역</a>
-					    <a href="../admin/#">회원</a>
-					</div>
-				</div>
-			</c:otherwise>
-		</c:choose>	
-    </div>
-</div>
-<!--     <div class="topnav"> -->
-<!--         <a href="../hospital/hosMain.do">병원예약</a> -->
-<!--         <a href="../board/getBoardList.do">정보나눔</a> -->
-<!--         <a href="../membership/checkout.do">멤버십</a> -->
+     <div class="topnav">
+    	<a href="../hospital/hosMain.do">병원예약</a>
+        <a href="../board/getBoardList.do">정보나눔</a>
+        <a href="../membership/checkout.do">멤버십</a>
         
+    	<c:if test="${empty sessionScope}">
+    		<a href="../user/login.do">로그인 /회원가입</a>
+    	</c:if>
+    	
+    	<c:if test="${not empty sessionScope.hoUser}">
+    		<a href="../logout.do">로그아웃</a>
+	        <a href="../mypage/hoMyPage.do">병원 마이페이지</a>
+    	</c:if>
+    	
+    	<c:if test="${not empty sessionScope.user}">
+    		<a href="../logout.do">로그아웃</a>
+    		
+    		<c:choose>
+		    	<c:when test="${sessionScope.user.role == 'admin'}">
+		    		<a href="../mypage/myPage.do">관리자 마이페이지</a>
+					<div class="adminDropdown">
+						<a>관리</a>
+						<div class="dropdownList">
+							<a href="../admin/getHosApprovalList.do">병원 승인</a>
+						    <a href="../admin/">개인 회원</a>
+						    <a href="../admin/">예약 내역</a>
+							<a href="../admin/statsPage.do">통계</a>
+						</div>
+					</div>
+		    	</c:when>
+		    	<c:otherwise>
+					<a href="../mypage/myPage.do">마이페이지</a>
+		    	</c:otherwise>
+    		</c:choose>
+    	</c:if>
+    	
+    </div>
+<!--     <div class="topnav"> -->
 <%--         <c:choose> --%>
-<%-- 			<c:when test="${not empty sessionScope.user}"> --%>
-<!-- 				<a href="../logout.do">로그아웃</a> -->
-<!-- 				<a href="../mypage/myPage.do">마이페이지</a> -->
-<%-- 			</c:when> --%>
-<%-- 			<c:when test="${not empty sessionScope.hoUser}"> --%>
-<!-- 		        <a href="../logout.do">로그아웃</a> -->
-<!-- 		        <a href="../mypage/hoMyPage.do">병원 마이페이지</a> -->
-<%-- 		    </c:when> --%>
+<%-- 	    	<c:when test="${sessionScope.user.role != 'admin'}"> --%>
+<!-- 		        <a href="../hospital/hosMain.do">병원예약</a> -->
+<!-- 		        <a href="../board/getBoardList.do">정보나눔</a> -->
+<!-- 		        <a href="../membership/checkout.do">멤버십</a> -->
+<%-- 		        <c:choose> --%>
+<%-- 					<c:when test="${empty sessionScope}"> --%>
+<!-- 				        <a href="../user/login.do">로그인 /회원가입</a> -->
+<%-- 				    </c:when> --%>
+<%-- 					<c:when test="${not empty sessionScope.hoUser}"> --%>
+<!-- 				        <a href="../logout.do">로그아웃</a> -->
+<!-- 				        <a href="../mypage/hoMyPage.do">병원 마이페이지</a> -->
+<%-- 				    </c:when> --%>
+<%-- 					<c:when test="${not empty sessionScope.user}"> --%>
+<!-- 				        <a href="../logout.do">로그아웃</a> -->
+<!-- 						<a href="../mypage/myPage.do">마이페이지</a> -->
+<%-- 				    </c:when> --%>
+<%-- 		        </c:choose> --%>
+<%-- 	    	</c:when> --%>
+	    	
 <%-- 			<c:otherwise> --%>
-<!-- 		        <a href="../user/login.do">로그인 /회원가입</a> -->
-<%-- 		    </c:otherwise> --%>
+<!-- 		        <a href="../hospital/hosMain.do">병원예약</a> -->
+<!-- 		        <a href="../board/getBoardList.do">정보나눔</a> -->
+<!-- 		        <a href="../membership/checkout.do">멤버십</a> -->
+<!-- 		        <a href="../logout.do">로그아웃</a> -->
+<!-- 				<a href="../mypage/myPage.do">관리자 마이페이지</a> -->
+		        
+<!-- 				<div class="adminDropdown"> -->
+<!-- 					<a>관리</a> -->
+<!-- 					<div class="dropdownList"> -->
+<!-- 						<a href="../admin/getApprovalList.do">병원 승인</a> -->
+<!-- 						<a href="../admin/statsPage.do">통계</a> -->
+<!-- 					    <a href="../admin/#">예약 내역</a> -->
+<!-- 					    <a href="../admin/#">회원</a> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<%-- 			</c:otherwise> --%>
 <%-- 		</c:choose>	 --%>
 <!--     </div> -->
+</div>
 
 </body>
 </html>

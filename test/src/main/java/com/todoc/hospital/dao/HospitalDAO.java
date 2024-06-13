@@ -10,9 +10,10 @@ import com.todoc.reservation.ReservationVO;
 import com.todoc.hospital.HosImgVO;
 
 public interface HospitalDAO {
-
-	void updateHospital(HospitalVO vo);
+	
 	//민지
+	//병원 승인처리(승인완료)
+	int updateHospital(HospitalVO vo);
 	//병원 전체 목록 조회
 	List<HospitalVO> selectList();
 	
