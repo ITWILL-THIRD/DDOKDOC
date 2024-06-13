@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.todoc.admin.stats.dao.StatsDAO">
+
+    <!-- 병원 날짜별 조회 -->
+    <select id="getHosStatsByDate" parameterType="map" resultType="HosStatsVO">
+        <![CDATA[
+        SELECT HOSMEMBERSHIP.HOSIDX, HOSPITAL.HOSNAME, HOSMEMBERSHIP.HOSSTART, HOSMEMBERSHIP.HOSEND, HOSMEMBERSHIP.AMOUNT
+        FROM HOSMEMBERSHIP
+        JOIN HOSPITAL ON HOSMEMBERSHIP.HOSIDX = HOSPITAL.HOSIDX
+        WHERE HOSMEMBERSHIP.HOSSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND HOSMEMBERSHIP.HOSEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        ]]>
+    </select>
+    
+    <!-- 유저 날짜별 조회 -->
+    <select id="getUserStatsByDate" parameterType="map" resultType="UserStatsVO">
+        <![CDATA[
+        SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.NICKNAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND, USERMEMBERSHIP.AMOUNT
+        FROM USERMEMBERSHIP
+        JOIN DDOKUSER ON USERMEMBERSHIP.USERIDX = DDOKUSER.USERIDX
+        WHERE USERMEMBERSHIP.MEMSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND USERMEMBERSHIP.MEMEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        ]]>
+    </select>   
+	
+    <!-- 병원 월별 수익 조회 -->
+    <select id="getHosMonthlyRevenue" parameterType="map" resultType="HashMap">
+        <![CDATA[
+        SELECT
+            TO_CHAR(HOSSTART, 'YYYY-MM') AS MONTH,
+            SUM(AMOUNT) AS TOTAL_PAY
+        FROM HOSMEMBERSHIP
+        WHERE HOSSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND HOSEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        GROUP BY TO_CHAR(HOSSTART, 'YYYY-MM')
+        ORDER BY TO_CHAR(HOSSTART, 'YYYY-MM')
+        ]]>
+    </select>
+    
+    <!-- 유저 월별 수익 조회 -->
+    <select id="getUserMonthlyRevenue" parameterType="map" resultType="HashMap">
+        <![CDATA[
+        SELECT
+            TO_CHAR(MEMSTART, 'YYYY-MM') AS MONTH,
+            SUM(AMOUNT) AS TOTAL_PAY
+        FROM USERMEMBERSHIP
+        WHERE MEMSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND MEMEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        GROUP BY TO_CHAR(MEMSTART, 'YYYY-MM')
+        ORDER BY TO_CHAR(MEMSTART, 'YYYY-MM')
+        ]]>
+    </select>
+	
+	<!-- 병원 계정별(ID) 결제내역 -->
+	<select id="getHosPaymentsByAccount" parameterType="map" resultType="HosStatsVO">
+		SELECT HOSMEMBERSHIP.HOSIDX, HOSPITAL.HOSID, HOSPITAL.HOSNAME, HOSMEMBERSHIP.HOSSTART, HOSMEMBERSHIP.HOSEND
+		     , HOSMEMBERSHIP.AMOUNT, SUM(HOSMEMBERSHIP.AMOUNT) OVER (PARTITION BY HOSPITAL.HOSID) AS TOTALAMOUNT
+		FROM HOSMEMBERSHIP
+		JOIN HOSPITAL ON HOSMEMBERSHIP.HOSIDX = HOSPITAL.HOSIDX
+		WHERE HOSPITAL.HOSID = #{account}
+		ORDER BY HOSMEMBERSHIP.HOSSTART DESC
+	</select>
+	
+	<!-- 유저 계정별(EMAIL) 결제내역 -->
+    <select id="getUserPaymentsByAccount" parameterType="map" resultType="UserStatsVO">
+		SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.EMAIL, DDOKUSER.NAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND
+		     , USERMEMBERSHIP.AMOUNT, SUM(USERMEMBERSHIP.AMOUNT) OVER (PARTITION BY DDOKUSER.EMAIL) AS TOTALAMOUNT
+		FROM USERMEMBERSHIP
+		JOIN DDOKUSER ON USERMEMBERSHIP.USERIDX = DDOKUSER.USERIDX
+		WHERE DDOKUSER.EMAIL LIKE '%' || #{account} || '%'
+		ORDER BY USERMEMBERSHIP.MEMSTART DESC
+    </select>
+    
+    <!-- 유저 가입자 수-->
+    
+    <!-- 병원 가입자 수 -->
+	
+</mapper>

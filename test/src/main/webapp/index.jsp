@@ -127,12 +127,13 @@
 </head> 
 <body>
 <div class="top">
-<%-- 	<a>&nbsp <%=vo.getName()%>님</a>--%>
+<%--    <a>&nbsp <%=vo.getName()%>님</a>--%>
 </div>
 <div class="nav">
     <div class="logo">
         <img src="" alt="로고">
     </div>
+    
     <div class="topnav">
         <c:choose>
 	    	<c:when test="${sessionScope.user.role != 'admin'}">
@@ -176,7 +177,6 @@
 </div>
 
 	<h1>TODOC</h1>
-
 
 </body>
 </html>
