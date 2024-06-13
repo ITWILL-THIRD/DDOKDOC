@@ -138,7 +138,7 @@
 						<a href="../admin/getApprovalList.do">병원 승인</a>
 						<a href="../admin/statsPage.do">통계</a>
 					    <a href="../admin/#">예약 내역</a>
-					    <a href="../admin/#">회원</a>
+					    <a href="../admin/getUserList.do">회원</a>
 					</div>
 				</div>
 			</c:otherwise>

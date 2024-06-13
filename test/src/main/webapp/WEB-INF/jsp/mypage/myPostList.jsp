@@ -10,33 +10,8 @@
 <jsp:include page="../../css/commonCss.jsp"/>
 </head>
 <body>
-<h1>내 작성 게시물</h1>
-${myPostList }
-
-<!-- 검색 -->
-	<form action="getBoardList.do" method="get">
-	<table class="border-none">
-		<tr>
-			<td>
-				<select name="searchCondition">
-				<c:forEach var="option" items="${conditionMap }">
-					<option value="${option.value}">${option.key }</option>
-				</c:forEach>
-				<input type="text" name="searchKeyword" class="searchInput">
-				<input type="submit" value="검색" class="searchBtn">
-			</td>
-		</tr>
-	</table>
-	<div id="category" class="center">
-		<a href="getBoardList.do">전체</a> |
-		<a href="getBoardList.do?category=free">자유</a> |
-		<a href="getBoardList.do?category=med">의료</a> |
-		<a href="getBoardList.do?category=feed">사료/간식</a> |
-		<a href="getBoardList.do?category=goods">용품</a>
-	</div>
-	</form>
-	
-	<!-- 데이터 표시영역 -->
+<h1>나의 작성 게시물</h1>
+<%-- ${myPostList } --%>
 	<table>
 		<thead>
 			<tr>
@@ -62,7 +37,7 @@ ${myPostList }
                     </c:choose>
                 </td>    
 				<td>
-					<a href="getBoard.do?postidx=${board.postidx }">${board.title }</a>
+					<a href="../board/getBoard.do?postidx=${board.postidx }">${board.title }</a>
 				</td>
 				<td>${board.nickname }</td>
 				<td>${board.formattedDate }</td>
@@ -71,9 +46,6 @@ ${myPostList }
 		</c:forEach>
 		</tbody>
 	</table>
-	<c:if test="${not empty sessionScope.user}">
-			<p><a href="getInsertBoard.do">새글등록</a></p>
-	</c:if>  
 
 
 </body>

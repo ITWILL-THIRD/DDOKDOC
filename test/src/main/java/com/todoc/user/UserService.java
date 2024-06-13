@@ -1,5 +1,7 @@
 package com.todoc.user;
 
+import java.util.List;
+
 public interface UserService {
 	UserVO getUser(UserVO vo);
 	void insertUser(UserVO vo);
@@ -13,6 +15,7 @@ public interface UserService {
 	UserVO findEmail(UserVO vo);
 	int findPwd(UserVO vo);
 	void updateExPwd(UserVO vo);
+	List<UserVO> getUserList(UserVO vo);
 	
 	
 	

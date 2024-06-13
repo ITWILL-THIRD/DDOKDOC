@@ -1,5 +1,7 @@
 package com.todoc.user.dao;
 
+import java.util.List;
+
 import com.todoc.user.UserVO;
 
 public interface UserDAO {
@@ -15,4 +17,5 @@ public interface UserDAO {
 	 UserVO findEmail(UserVO vo);
 	 int findPwd(UserVO vo);
 	 void updateExPwd(UserVO vo);
+	 List<UserVO> getUserList(UserVO vo);
 }

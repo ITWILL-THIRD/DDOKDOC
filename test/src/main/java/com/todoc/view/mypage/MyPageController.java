@@ -1,6 +1,7 @@
 package com.todoc.view.mypage;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -191,12 +192,20 @@ public class MyPageController {
 
     //내 작성 게시물 리스트
     @RequestMapping("/myPostList.do")
-    public String myPostList(Model model, HttpSession session) {
+    public String myPostList(BoardVO vo, @RequestParam(value = "category", required = false) String category, Model model, HttpSession session) {
     	// 로그인 정보 가져오기
     	UserVO user = (UserVO) session.getAttribute("user");
     	
     	//게시물 리스트 가져오기
     	List<BoardVO> myPostList = boardService.myPostList(user.getUserIdx());
+    	
+    	 // 날짜 변환
+        SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (BoardVO board : myPostList) {
+	        String formattedDate = targetFormat.format(board.getPostdate());
+	        board.setFormattedDate(formattedDate);
+	    }
     	
     	model.addAttribute("myPostList", myPostList);
     	
