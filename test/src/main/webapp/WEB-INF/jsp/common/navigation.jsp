@@ -82,7 +82,14 @@
     <div class="topnav">
         <a href="../hospital/hosMain.do">병원예약</a>
         <a href="../board/getBoardList.do">정보나눔</a>
-        <a href="../membership/checkout.do">멤버십</a>
+        <c:choose>
+			<c:when test="${not empty sessionScope.user}">
+				<a href="../membership/usercheckout.do">멤버십</a>
+			</c:when>
+			<c:when test="${not empty sessionScope.hoUser}">
+		        <a href="../membership/checkout.do">멤버십</a>
+		    </c:when>
+		</c:choose>	
         
         <c:choose>
 			<c:when test="${not empty sessionScope.user}">
