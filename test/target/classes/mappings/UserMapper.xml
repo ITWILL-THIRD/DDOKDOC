@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoc.user.dao.UserDAO">
+
 <!-- 	개인 로그인 -->
 	<select id="getUser" resultType="userVO">
 		SELECT * 
@@ -85,6 +86,24 @@
 		WHERE NAME = #{name} AND EMAIL = #{email}
 	</update>
 	
+
+	
+	<!-- 관리자 유저 검색 -->
+	<select id="getUserList" parameterType="userVO" resultType="userVO">
+		SELECT * FROM DDOKUSER
+		WHERE 1=1
+		 
+	        <if test='searchType == "EMAIL" and searchKeyword != "" '>
+	            AND EMAIL LIKE '%'|| #{searchKeyword} || '%'
+	        </if>
+	        <if test='searchType == "NICKNAME" and searchKeyword != "" '>
+	            AND NICKNAME LIKE '%'|| #{searchKeyword}|| '%'
+	        </if>
+	        <if test='searchType == "NAME" and searchKeyword != "" '>
+	            AND NAME LIKE '%'|| #{searchKeyword}|| '%'
+	        </if>
+        
+	</select>
 
 	
 	

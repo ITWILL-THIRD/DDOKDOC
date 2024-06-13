@@ -7,18 +7,20 @@
  	<!-- ======== 댓글 데이터 처리 ======= -->
 	<!-- 게시글에 달린 댓글 데이터 조회 -->
 	<select id="getCommentList" parameterType="CommentVO" resultType="CommentVO">
-		SELECT C.*, D.NICKNAME
+		SELECT C.*, D.NICKNAME, H.HOSNAME
 		FROM COMMENTS C
-		JOIN DDOKUSER D ON C.USERIDX = D.USERIDX
+		LEFT JOIN DDOKUSER D ON C.USERIDX = D.USERIDX
+		LEFT JOIN HOSPITAL H ON C.HOSIDX = H.HOSIDX
 		WHERE C.POSTIDX = #{postidx}
 		ORDER BY C.COMMENTIDX DESC
+
 	</select>
 	
 	<!-- 댓글입력 -->
 	<insert id="insertComment" parameterType="CommentVO">
 		INSERT INTO COMMENTS
-		       (COMMENTIDX, USERIDX, CONTENT, COMMENTDATE, POSTIDX)
-		VALUES (SEQ_COMMENTIDX.NEXTVAL, #{useridx}, #{content}, SYSDATE, #{postidx})	
+		       (COMMENTIDX, USERIDX, HOSIDX, CONTENT, COMMENTDATE, POSTIDX)
+		VALUES (SEQ_COMMENTIDX.NEXTVAL, #{useridx}, #{hosidx}, #{content}, SYSDATE, #{postidx})	
 	</insert>
 	
 	<!-- 댓글 삭제(댓글번호 사용) -->

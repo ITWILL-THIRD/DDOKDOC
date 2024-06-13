@@ -2,6 +2,8 @@ package com.todoc.user;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class UserVO {
 	private int userIdx;
 	private String email;
@@ -12,6 +14,12 @@ public class UserVO {
 	private String phone;
 	private String role;
 	private String userImg;
+	
+	//검색조건 처리용
+	@JsonIgnore // JSON 데이터 변경 제외
+	private String searchType;
+	@JsonIgnore
+	private String searchKeyword;
 	
 	public int getUserIdx() {
 		return userIdx;
@@ -73,6 +81,23 @@ public class UserVO {
 				+ ", name=" + name + ", birth=" + birth + ", phone=" + phone + ", role=" + role + ", userImg=" + userImg
 				+ "]";
 	}
+	
+	//검색조건 처리용 ------
+	public String getSearchType() {
+		return searchType;
+	}
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
+	}
+	
+	
+	
 	
 	
 };

@@ -15,5 +15,11 @@
 		    ADD_MONTHS(SYSDATE, 12)
 		)
 	</insert>
+	<update id="updateHosCondition" parameterType="HospitalVO">
+		UPDATE HOSPITAL
+		SET CONDITION = #{condition}
+		WHERE HOSIDX = #{hosIdx}
+	</update>
+	
 	
 </mapper>

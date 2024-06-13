@@ -28,6 +28,8 @@
                 alert('관리자로 로그인 됐습니다.');
             } else if (msg === 'hosuccess' && hosname) {
             	alert(hosname + "님 환영합니다. ")
+            } else if (msg === "deleteHos") {
+            	alert("병원탈퇴가 완료되었습니다.")
             }
         }
 
@@ -95,50 +97,83 @@
 	.topnav a:hover {
 	  color: #B6E5FF;
 	}
+	
+	.adminDropdown {
+		float:right;
+		position: relative;
+		display: inline-block;
+		cursor: pointer
+	}
+	.dropdownList {
+		display: none;
+ 	  	position: fixed;
+ 	  	right: 10px;
+ 	  	top: 66px; /* 69px */
+		background-color: #f9f9f9;
+   		min-width: 130px; /* 가로 */
+   		width: 0px; /* 세로 */
+  		z-index: 1;  
+	}
+	.adminDropdown:hover .dropdownList {
+		
+		display: block;
+	}
+/* 	.dropdownList:active { */
+/* 		font: bold; */
+/* 		text-decoration: underline; */
+/* 	} */
 </style>
 
 </head>
 <body>
 <div class="top">
-<%-- 	<a>&nbsp <%=vo.getName()%>님</a>--%>
+<%--    <a>&nbsp <%=vo.getName()%>님</a>--%>
 </div>
 <div class="nav">
     <div class="logo">
         <img src="" alt="로고">
     </div>
+    
     <div class="topnav">
-        <a href="hospital/hosMain.do">병원예약</a>
+    	<a href="hospital/hosMain.do">병원예약</a>
         <a href="board/getBoardList.do">정보나눔</a>
         <a href="membership/checkout.do">멤버십</a>
         
-        <c:choose>
-			<c:when test="${not empty sessionScope.user}">
-				<a href="logout.do">로그아웃</a>
-				<a href="mypage/myPage.do">마이페이지</a>
-				<c:choose>
-				<c:when test="${sessionScope.user.role == 'admin'}">
-					<a href="admin/admin.do">관리</a>
-				</c:when>
-				</c:choose>
-			</c:when>
-			<c:when test="${not empty sessionScope.hoUser}">
-		        <a href="logout.do">로그아웃</a>
-		        <a href="mypage/hoMyPage.do">병원 마이페이지</a>
-		    </c:when>
-			<c:otherwise>
-		        <a href="user/login.do">로그인 /회원가입</a>
-		    </c:otherwise>
-		</c:choose>	
+    	<c:if test="${empty sessionScope}">
+    		<a href="user/login.do">로그인 /회원가입</a>
+    	</c:if>
+    	
+    	<c:if test="${not empty sessionScope.hoUser}">
+    		<a href="logout.do">로그아웃</a>
+	        <a href="mypage/hoMyPage.do">병원 마이페이지</a>
+    	</c:if>
+    	
+    	<c:if test="${not empty sessionScope.user}">
+    		<a href="logout.do">로그아웃</a>
+    		
+    		<c:choose>
+		    	<c:when test="${sessionScope.user.role == 'admin'}">
+		    		<a href="mypage/myPage.do">관리자 마이페이지</a>
+					<div class="adminDropdown">
+						<a>관리</a>
+						<div class="dropdownList">
+							<a href="admin/getHosApprovalList.do">병원 승인</a>
+						    <a href="admin/getUserList.do">개인 회원</a>
+						    <a href="admin/">예약 내역</a>
+							<a href="admin/statsPage.do">통계</a>
+						</div>
+					</div>
+		    	</c:when>
+		    	<c:otherwise>
+					<a href="mypage/myPage.do">마이페이지</a>
+		    	</c:otherwise>
+    		</c:choose>
+    	</c:if>
+    	
     </div>
 </div>
 
-
 	<h1>TODOC</h1>
-<%-- <p>이메일: ${sessionScope.user.email}</p> --%>
-<%-- <p>닉네임: ${sessionScope.user.nickname}</p> --%>
-
-<%-- <p>병원아이디: ${sessionScope.user.hosId}</p> --%>
-<%-- <p>병원이름: ${sessionScope.user.hosName}</p> --%>
 
 </body>
 </html>

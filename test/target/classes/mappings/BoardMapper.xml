@@ -98,6 +98,15 @@
 	</select>
   -->	
   
+<!--   유저가 작성한 게시물 리스트 -->
+	<select id="myPostList" parameterType="int" resultType="BoardVO">
+		SELECT *
+		FROM POST P, DDOKUSER D
+		WHERE P.USERIDX = D.USERIDX
+		AND P.USERIDX = #{userIdx}
+		ORDER BY POSTIDX DESC
+	</select>
+  
  
   
 </mapper>

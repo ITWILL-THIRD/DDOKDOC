@@ -1,5 +1,7 @@
 package com.todoc.user.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ public class UserServiceImpl implements UserService{
 	public UserServiceImpl(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
+	
 	@Override
 	public UserVO getUser(UserVO vo) {
 		return userDAO.getUser(vo);
@@ -61,6 +64,10 @@ public class UserServiceImpl implements UserService{
 	 public void updateExPwd(UserVO vo) {
 		 userDAO.updateExPwd(vo);
 		 
+	 }
+	 //관리자 전체회원조회
+	 public List<UserVO> getUserList(UserVO vo) {
+		 return userDAO.getUserList(vo);
 	 }
 
 }

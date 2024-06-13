@@ -8,9 +8,11 @@ public class CommentVO {
 	private int commentidx;
 	private int postidx;
 	private int useridx;
+	private int hosidx;
 	private String content;
 	private Date commentdate;
 	private String nickname;
+	private String hosname;
 	private String formattedCommentDate;
 	
 	public int getCommentidx() {
@@ -30,6 +32,12 @@ public class CommentVO {
 	}
 	public void setUseridx(int useridx) {
 		this.useridx = useridx;
+	}
+	public int getHosidx() {
+		return hosidx;
+	}
+	public void setHosidx(int hosidx) {
+		this.hosidx = hosidx;
 	}
 	public String getContent() {
 		return content;
@@ -51,6 +59,12 @@ public class CommentVO {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+	public String getHosname() {
+		return hosname;
+	}
+	public void setHosname(String hosname) {
+		this.hosname = hosname;
+	}
 	@Override
 	public String toString() {
 		return "CommentVO [commentidx=" + commentidx + ", postidx=" + postidx + ", useridx=" + useridx + ", content="
@@ -59,7 +73,7 @@ public class CommentVO {
 	public String getFormattedCommentDate() {
 		return formattedCommentDate;
 	}
-	public void setFormattedCommentDate(String formattedDate) {
+	public void setFormattedCommentDate(String formattedCommentDate) {
 		this.formattedCommentDate = formattedCommentDate;
 	}
 	

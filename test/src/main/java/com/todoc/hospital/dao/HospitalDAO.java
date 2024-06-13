@@ -10,9 +10,10 @@ import com.todoc.reservation.ReservationVO;
 import com.todoc.hospital.HosImgVO;
 
 public interface HospitalDAO {
-
-	void updateHospital(HospitalVO vo);
+	
 	//민지
+	//병원 승인처리(승인완료)
+	int updateHospital(HospitalVO vo);
 	//병원 전체 목록 조회
 	List<HospitalVO> selectList();
 	
@@ -33,6 +34,12 @@ public interface HospitalDAO {
 	List<ReservationVO> getFinishList(ReservationVO vo);
 	// 사용자 상태 업데이트 
 	void updateCondition(HosReviewVO vo);
+	//(개인)마이페이지 - 작성한 리뷰 목록
+	List<HosReviewVO> getReviewList(int userIdx);
+	//(개인)마이페이지 - 작성할 리뷰 목록
+	List<HosReviewVO> getReviewToWrite(int userIdx);
+	//(병원)마이페이지 - 작성된 리뷰 목록
+	List<HosReviewVO> getHosReviewList(int hosIdx);
 	//------주은 -------------
 	HospitalVO getHos(HospitalVO ho);
 	HospitalVO hoFindId(HospitalVO vo);
@@ -42,6 +49,7 @@ public interface HospitalDAO {
 	void updateHosAddress(HospitalVO vo);
 	void updateHosTime(HospitalVO vo);
 	void updateHoPwd(HospitalVO vo);
+	void deleteHos(int hosIdx);
 	//----------------------
 
 	int hosId(HospitalVO ho) throws Exception;

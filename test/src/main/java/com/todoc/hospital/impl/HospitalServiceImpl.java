@@ -23,16 +23,14 @@ public class HospitalServiceImpl implements HospitalService{
 
 	@Autowired
 	private TimeMapper timeMapper;
-
 	
-
 	public HospitalServiceImpl() {
 		System.out.println(">> HospitalServiceImpl() 객체 생성");
 	}
 
 	@Override
-	public void updateHospital(HospitalVO vo) {
-		// TODO Auto-generated method stub
+	public int updateHospital(HospitalVO vo) {
+		return hospitalDAO.updateHospital(vo);
 	}
 	//병원 전체 조회
 	@Override
@@ -90,6 +88,10 @@ public class HospitalServiceImpl implements HospitalService{
 	public void updateHoPwd(HospitalVO vo) {
 		hospitalDAO.updateHoPwd(vo);
 	}
+	//병원탈퇴
+	public void deleteHos(int hosIdx) {
+		hospitalDAO.deleteHos(hosIdx);
+	}
 	//병원 리뷰 전체 조회
 	@Override
 	public List<HosReviewVO> getHosReview(int hosIdx) {
@@ -129,6 +131,21 @@ public class HospitalServiceImpl implements HospitalService{
 	@Override
 	public void deleteReview(HosReviewVO vo) {
 		hospitalDAO.deleteReview(vo);
+	}
+	//(개인)마이페이지 - 작성한 리뷰 목록
+	@Override
+	public List<HosReviewVO> getReviewList(int userIdx) {
+		return hospitalDAO.getReviewList(userIdx);
+	}
+	//(개인)마이페이지 - 작성할 리뷰 목록
+	@Override
+	public List<HosReviewVO> getReviewToWrite(int userIdx) {
+		return hospitalDAO.getReviewToWrite(userIdx);
+	}
+	//(병원)마이페이지 - 작성된 리뷰 목록
+	@Override
+	public List<HosReviewVO> getHosReviewList(int hosIdx) {
+		return hospitalDAO.getHosReviewList(hosIdx);
 	}
 	
 	@Override
@@ -197,4 +214,5 @@ public class HospitalServiceImpl implements HospitalService{
 		int cnt = hospitalDAO.insertHosAddress(vo);
 		return cnt;
 	}
+
 }

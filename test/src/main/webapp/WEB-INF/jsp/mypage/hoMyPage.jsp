@@ -8,6 +8,15 @@
 <meta charset="UTF-8">
 <title>병원 마이페이지</title>
 <jsp:include page="../common/navigation.jsp"/>
+<script>
+function hosDelete_ok(frm) {
+	if (confirm("정말로 탈퇴하시겠습니까?")) {
+        frm.action = "deleteHos.do"; // 탈퇴 요청을 보낼 URL을 지정합니다.
+        frm.method = "POST";
+        frm.submit(); // 폼을 제출합니다.
+    }
+}
+</script>
 <style>
 	.holiday {
 		color: red;
@@ -17,20 +26,16 @@
 </head>
 <body>
 <h1>병원 마이페이지</h1>
-<a href="index.do">메인가기</a>
 <hr>
 <h2>병원정보</h2>
-<%-- \${hoUser} : ${hoUser} --%>
+\${hoUser} : ${hoUser}
 <form action="updateHoUser.do">
 	<table border="">
 		<tr>
 			<th>병원아이디</th>
 			<td colspan="2">${hoUser.hosId }</td>
 		</tr>
-		<tr>
-			<td>병원비번</td>
-			<td colspan="2">${hoUser.hosPw }</td>
-		</tr>
+
 		<tr>
 			<th>병원이름</th>
 			<td colspan="2">${hoUser.hosName }</td>
@@ -106,7 +111,7 @@
 			<c:set var="sunOpenTimeSub" value="${fn:substring(sunOpenTime, 0, 5)}"/>
 			<c:set var="sunCloseTime" value="${hoUser.sunCloseTime}"/>
 			<c:set var="sunCloseTimeSub" value="${fn:substring(sunCloseTime, 0, 5)}"/>
-			<td>일요일
+			<td colspan="2">일요일
 			  <c:choose>
                     <c:when test="${hoUser.sunDayOff == 'Y'
                     	or hoUser.sunOpenTime == null or hoUser.sunCloseTime == null}">
@@ -123,7 +128,7 @@
 			<c:set var="sunLunchTimeSub" value="${fn:substring(sunLunchTime, 0, 5)}"/>
 			<c:set var="sunEndLunchTime" value="${hoUser.sunEndLunchTime}"/>
 			<c:set var="sunEndLunchTimeSub" value="${fn:substring(sunEndLunchTime, 0, 5)}"/>
-			<td>
+			<td colspan="2">
 			  <c:choose>
                     <c:when test="${hoUser.sunDayOff == 'Y'
                     	or hoUser.sunLunchTime == '00:00:00' or hoUser.sunEndLunchTime == '00:00:00'
@@ -140,7 +145,7 @@
 			<td colspan="3">
 				<input type="hidden" name="hosIdx" value="${hoUser.hosIdx }">
 				<input type="submit" value="병원정보수정">
-				<input type="button" value="탈퇴하기">
+				<input type="button" value="탈퇴하기" onclick="hosDelete_ok(this.form)">
 			</td>
 		</tr>
 	</table>
@@ -149,6 +154,7 @@
 
 <p><a href="hosNoticeList.do">공지사항 내역</a></p>
 <p><a href="#">병원예약 현황</a></p>
+<p><a href="hosReviewList.do">리뷰 목록 조회</a></p>
 	<!-- 병원 휴무일 등록 페이지 -->
 	<a href="insertHosHoliday.do">휴무일 등록하기</a>
 </body>

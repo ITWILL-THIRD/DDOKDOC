@@ -86,6 +86,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getCommentList(co);
 	}
 	
+	@Override
+	public List<BoardVO> myPostList(int userIdx) {
+		return boardDAO.myPostList(userIdx);
+	}
+	
 }
 
 

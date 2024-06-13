@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 메인 페이지 [admin.jsp]</title>
+<title>승인 완료 처리 [approvalBtn.jsp]</title>
 </head>
 <body>
 
