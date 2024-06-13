@@ -45,6 +45,11 @@
 		WHERE HOSIDX = #{hosIdx}
 	</update>
 	
+<!-- 	병원탈퇴 -->
+	<delete id="deleteHos" parameterType="HospitalVO">
+		DELETE FROM HOSPITAL WHERE HOSIDX = #{hosIdx}
+	</delete>
+	
 <!-- 	병원 아이디 찾기 -->
 	<select id="hoFindId" resultType="HospitalVO">
 		SELECT * FROM HOSPITAL
@@ -197,9 +202,9 @@
 	
 	<!-- 병원 리뷰 입력 -->
  	<insert id="insertReview" parameterType="HosReviewVO">
-		INSERT INTO HOSREVIEW(REVIEWIDX, HOSIDX, USERIDX, RESERIDX, CONTENT, SCORE, REVIEWDATE) 
+		INSERT INTO HOSREVIEW(REVIEWIDX, HOSIDX, USERIDX, CONTENT, SCORE, REVIEWDATE, RESERIDX) 
 		VALUES((SELECT NVL(MAX(REVIEWIDX), 0) + 1 FROM HOSREVIEW), 
-				#{hosIdx}, #{userIdx}, #{reserIdx}, #{content}, #{score}, SYSDATE)
+				#{hosIdx}, #{userIdx}, #{content}, #{score}, SYSDATE, #{reserIdx})
 	</insert>
 	
 	<!-- 병원 리뷰 수정 -->
@@ -223,13 +228,13 @@
 	</delete>
 	
 	<!-- 사용자 예약 내역 조회 -->
-	<select id="getReserList" parameterType="ReservationVO" resultType="int">
+<!-- 	<select id="getReserList" parameterType="ReservationVO" resultType="int">
 		SELECT COUNT(*) 
 		FROM RESERVATION 
 		WHERE USERIDX = #{userIdx} 
 		AND HOSIDX = #{hosIdx}
 		AND CONDITION = 'FINISH'
-	</select>
+	</select> -->
 	
 	<!-- 병원 별점 업데이트(입력,수정,삭제 시) -->
 	<update id="updateAvgScore" parameterType="HospitalVO">
@@ -257,6 +262,37 @@
 		AND R.USERIDX = #{userIdx} 
 		AND R.HOSIDX = #{hosIdx} 
 		AND R.CONDITION='FINISH'
+	</select>
+	
+	<!-- 마이페이지 - 작성할 리뷰 목록 -->
+	<select id="getReviewToWrite" parameterType="int" resultType="ReservationVO">
+		SELECT R.*, P.PETNAME, H.HOSNAME 
+		FROM RESERVATION R, MYPET P, HOSPITAL H
+		WHERE P.PETIDX = R.PETIDX 
+		AND R.HOSIDX = H.HOSIDX
+        AND R.USERIDX = #{userIdx}
+		AND R.CONDITION='FINISH'
+	</select>
+	
+	<!-- 마이페이지 - 작성한 리뷰 목록 -->
+	<select id="getReviewList" parameterType="int" resultType="HosReviewVO">
+		SELECT H.HOSNAME, HR.*, R.RESERDATE
+		FROM HOSPITAL H, HOSREVIEW HR, DDOKUSER U, RESERVATION R
+		WHERE H.HOSIDX = HR.HOSIDX 
+        AND HR.USERIDX = U.USERIDX
+        AND HR.RESERIDX = R.RESERIDX
+        AND HR.USERIDX = #{userIdx}
+		ORDER BY H.HOSIDX DESC
+	</select>
+	
+	<!-- 마이페이지 - 작성된 리뷰 목록 -->
+	<select id="getHosReviewList" parameterType="int" resultType="HosReviewVO">
+		SELECT H.*, U.NICKNAME AS NICKNAME, R.RESERDATE
+		FROM HOSREVIEW H, DDOKUSER U, RESERVATION R
+		WHERE H.USERIDX = U.USERIDX
+        AND H.RESERIDX = R.RESERIDX
+		AND H.HOSIDX = #{hosIdx}
+		ORDER BY H.HOSIDX DESC
 	</select>
 	
 	<!-- 병원 휴무 입력 -->

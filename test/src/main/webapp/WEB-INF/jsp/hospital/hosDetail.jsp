@@ -269,6 +269,7 @@
 						        <td>				 
 						        	<input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
 							        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
+       						        <input type="hidden" name="reserIdx" value="${review.reserIdx}">			        	
 						        	<input type="submit" value="삭제" onClick="confirmDelete(${review.reviewIdx})">    
 						        </td> 
 						    </form>
@@ -316,7 +317,8 @@
 
 	<p class="center">
 		<!-- 예약 버튼 함수실행으로 수정 -->
-		<input type="button" value="예약" onclick="userCheck(${user.userIdx})" />
+		<input type="button" value="예약" onclick="userCheck('${user}')"/>
+		<button ></button>
 		<a href="hosMain.do">병원 목록</a>
 	</p>
 
@@ -344,9 +346,9 @@
 </div>
 <jsp:include page="partials/hosDatailJS.jsp"></jsp:include>
 <script>
-	// 로그인 유무 체크
-	function userCheck(userIdx) {
-		if (userIdx == null) {
+//로그인 유무 체크
+	function userCheck(user) {
+		if (user == null) {
 			alert("로그인 후 예약이 가능합니다.")
 			location.href="../user/login.do";
 		} else {

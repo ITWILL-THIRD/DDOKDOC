@@ -90,6 +90,10 @@ public class HospitalServiceImpl implements HospitalService{
 	public void updateHoPwd(HospitalVO vo) {
 		hospitalDAO.updateHoPwd(vo);
 	}
+	//병원탈퇴
+	public void deleteHos(int hosIdx) {
+		hospitalDAO.deleteHos(hosIdx);
+	}
 	//병원 리뷰 전체 조회
 	@Override
 	public List<HosReviewVO> getHosReview(int hosIdx) {
@@ -104,11 +108,6 @@ public class HospitalServiceImpl implements HospitalService{
 	@Override
 	public void updateReview(HosReviewVO vo) {
 		hospitalDAO.updateReview(vo);
-	}
-	//병원 리뷰 삭제
-	@Override
-	public void deleteReview(HosReviewVO vo) {
-		hospitalDAO.deleteReview(vo);
 	}
 	//사용자 예약 내역 조회
 //	@Override
@@ -130,7 +129,27 @@ public class HospitalServiceImpl implements HospitalService{
 	public List<ReservationVO> getFinishList(ReservationVO vo) {
 		return hospitalDAO.getFinishList(vo);
 	}
-
+	//병원 리뷰 삭제
+	@Override
+	public void deleteReview(HosReviewVO vo) {
+		hospitalDAO.deleteReview(vo);
+	}
+	//(개인)마이페이지 - 작성한 리뷰 목록
+	@Override
+	public List<HosReviewVO> getReviewList(int userIdx) {
+		return hospitalDAO.getReviewList(userIdx);
+	}
+	//(개인)마이페이지 - 작성할 리뷰 목록
+	@Override
+	public List<HosReviewVO> getReviewToWrite(int userIdx) {
+		return hospitalDAO.getReviewToWrite(userIdx);
+	}
+	//(병원)마이페이지 - 작성된 리뷰 목록
+	@Override
+	public List<HosReviewVO> getHosReviewList(int hosIdx) {
+		return hospitalDAO.getHosReviewList(hosIdx);
+	}
+	
 	@Override
 	public List<Date> hosHoliday(HospitalVO vo) {
 		return hospitalDAO.hosHoliday(vo);
@@ -197,4 +216,5 @@ public class HospitalServiceImpl implements HospitalService{
 		int cnt = hospitalDAO.insertHosAddress(vo);
 		return cnt;
 	}
+
 }
