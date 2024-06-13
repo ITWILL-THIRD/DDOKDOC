@@ -16,6 +16,10 @@
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@4.4.0/main.min.js"></script>
 <script>
+	//병원 일요일 휴무 체크
+	if (${hospital.sunDayOff == 'Y'}) {
+		alert(${hospital.sunDayOff == 'Y'});
+	}
 
 	//마이펫 등록 여부 체크
 	if (${myPetList.size()} == 0) {
@@ -27,6 +31,14 @@
     var calendarEl = document.getElementById('calendar');
     var selectedDate = null; 
     var selectedDay = null;
+    
+    <c:if test="${hospital.sunDayOff == 'Y'}">
+	    alert("일요일 휴무입니다.");
+	    $(document).ready(function() {
+	        // 일요일을 클릭했을 때 경고창 출력 및 클릭 이벤트 비활성화
+	        $('td.fc-sun').css('pointer-events', 'none').css('color', 'gray').css('background-color', 'lightgray');
+	    });
+	</c:if>
     
  	// 예시 휴무일 데이터
     // 휴무일 목록을 받아옴
@@ -316,6 +328,7 @@
 \${user } : ${user }<br>
 \${myPetList } : ${myPetList }<br>
 \${session.getAttribute } : ${userIdx }<br> --%>
+\${hospital } : ${hospital }<br>
 \${hosHoliday } : ${hosHoliday }<br>
 
   <div id="reserBody">
