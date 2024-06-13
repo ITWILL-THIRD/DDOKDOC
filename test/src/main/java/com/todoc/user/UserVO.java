@@ -15,6 +15,11 @@ public class UserVO {
 	private String role;
 	private String userImg;
 	
+	//회원 리뷰,게시물,댓글 건수 조회
+	private int reviewCount;
+    private int postCount;
+    private int commentCount;
+	
 	//검색조건 처리용
 	@JsonIgnore // JSON 데이터 변경 제외
 	private String searchType;
@@ -94,6 +99,25 @@ public class UserVO {
 	}
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
+	}
+	//건수조회
+	public int getReviewCount() {
+		return reviewCount;
+	}
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+	public int getPostCount() {
+		return postCount;
+	}
+	public void setPostCount(int postCount) {
+		this.postCount = postCount;
+	}
+	public int getCommentCount() {
+		return commentCount;
+	}
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
 	}
 	
 	
