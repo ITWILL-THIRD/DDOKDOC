@@ -154,6 +154,7 @@ function hosDelete_ok(frm) {
 
 <p><a href="hosNoticeList.do">공지사항 내역</a></p>
 <p><a href="#">병원예약 현황</a></p>
+<p><a href="hosReviewList.do">리뷰 목록 조회</a></p>
 	<!-- 병원 휴무일 등록 페이지 -->
 	<a href="insertHosHoliday.do">휴무일 등록하기</a>
 </body>

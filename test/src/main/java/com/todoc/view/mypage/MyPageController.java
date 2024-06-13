@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.todoc.board.BoardService;
 import com.todoc.board.BoardVO;
 import com.todoc.googlecloudstorage.GCSService;
+import com.todoc.hospital.HosReviewVO;
+import com.todoc.hospital.HospitalService;
+import com.todoc.hospital.HospitalVO;
 import com.todoc.mypet.MyPetService;
 import com.todoc.mypet.MyPetVO;
 import com.todoc.reservation.ReservationService;
@@ -43,6 +44,8 @@ public class MyPageController {
 	private ReservationService reservationService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private HospitalService hospitalService;
 	
 	@GetMapping("/updateUser.do")
 	public String updateUserView(@RequestParam("userIdx") int userIdx, Model model, HttpSession session) {
@@ -185,7 +188,7 @@ public class MyPageController {
     	
     	return "mypage/myCancleReserList";
     }
-
+    
     //내 작성 게시물 리스트
     @RequestMapping("/myPostList.do")
     public String myPostList(Model model, HttpSession session) {
@@ -199,8 +202,8 @@ public class MyPageController {
     	
     	return "mypage/myPostList";
     }
-	
-     // (개인)리뷰 목록 조회
+    
+    // (개인)리뷰 목록 조회
  	@RequestMapping("/myReviewList.do")
  	public String myReviewList(Model model, HttpSession session) {
 		System.out.println("::마이페이지-리뷰리스트");
@@ -345,4 +348,5 @@ public class MyPageController {
 
  		return "mypage/hosReviewList";
   	}
+ 	
 }
