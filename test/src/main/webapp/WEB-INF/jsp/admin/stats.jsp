@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>멤버십 통계</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../common/navigation.jsp"/>
 <style>
     #searchDate {
         display: flex;
