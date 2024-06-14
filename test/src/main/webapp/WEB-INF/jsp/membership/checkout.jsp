@@ -18,6 +18,7 @@
   </head>
 
   <body>
+  \${hoUser } : ${hoUser }
     <!-- 주문서 영역 -->
     <div class="wrapper">
       <div class="box_section" style="padding: 40px 30px 50px 30px; margin-top: 30px; margin-bottom: 50px">
