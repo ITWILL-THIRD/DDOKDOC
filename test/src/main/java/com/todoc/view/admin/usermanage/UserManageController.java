@@ -154,42 +154,12 @@ public class UserManageController {
     	System.out.println("userReserList : " + userReserList);
     	
     	model.addAttribute("userReserList", userReserList);
-//    	
-//    	//지난 예약 리스트
-//    	List<ReservationVO> userOldReserList = reservationService.myOldReserList(userIdx);
-//    	//변환된 시간 추가
-//    	for (int i = 0; i < userOldReserList.size(); i++) {
-//    		String formattedTime = userOldReserList.get(i).getReserTime().toString().substring(0, 5);
-//    		userOldReserList.get(i).setFormattedTime(formattedTime);
-//    	}
-//    	model.addAttribute("userOldReserList", userOldReserList);
-//    	
-//    	//취소 예약리스트
-//    	List<ReservationVO> userCancleReserList = reservationService.myCancleReserList(userIdx);
-//    	//변환된 시간 추가
-//    	for (int i = 0; i < userCancleReserList.size(); i++) {
-//    		String formattedTime = userCancleReserList.get(i).getReserTime().toString().substring(0, 5);
-//    		userCancleReserList.get(i).setFormattedTime(formattedTime);
-//    	}
-//    	model.addAttribute("userCancleReserList", userCancleReserList);
+
     	
     	return "admin/userReservPage";
 	}
 	
-//	@RequestMapping("/userReservDetail.do")
-//	public String userReservDetail(@RequestParam("reserIdx") int reserIdx, Model model) {
-//		//회원 예약 상세 가져오기
-//		ReservationVO userReserv = reservationService.getReservation(reserIdx);
-//		// 변환된 시간 추가
-//		if (userReserv != null && userReserv.getReserTime() != null) {
-//		    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-//		    String formattedTime = formatter.format(userReserv.getReserTime());
-//		    userReserv.setFormattedTime(formattedTime);
-//		}
-//		
-//		model.addAttribute("reserv", userReserv);
-//		return "admin/userReservDetail";
-//	}
+
 	
 
 	
