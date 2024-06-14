@@ -34,5 +34,15 @@
 	<delete id="deleteComment" parameterType="CommentVO">
 		DELETE FROM COMMENTS WHERE COMMENTIDX = #{commentidx}
 	</delete>
+	
+	<!--   유저가 작성한 댓글 리스트 -->
+	<select id="myCommentList" parameterType="int" resultType="CommentVO">
+		SELECT *
+	    FROM COMMENTS C
+	    JOIN DDOKUSER D ON C.USERIDX = D.USERIDX
+	    JOIN POST P ON C.POSTIDX = P.POSTIDX
+	    WHERE C.USERIDX = #{useridx}
+	    ORDER BY C.COMMENTIDX DESC
+	</select>
   
 </mapper>

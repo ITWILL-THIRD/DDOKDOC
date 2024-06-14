@@ -96,6 +96,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.myPostList(userIdx);
 	}
 	
+	@Override
+	public List<CommentVO> myCommentList(int userIdx) {
+		return boardDAO.myCommentList(userIdx);
+	}
+	
 }
 
 

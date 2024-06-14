@@ -91,7 +91,8 @@
 	<!-- 관리자 유저 검색 -->
 	<select id="getUserList" parameterType="userVO" resultType="userVO">
 		SELECT * FROM DDOKUSER
-		WHERE 1=1
+		WHERE  role != 'admin'
+		AND 1=1
 		 
 	        <if test='searchType == "EMAIL" and searchKeyword != "" '>
 	            AND EMAIL LIKE '%'|| #{searchKeyword} || '%'
@@ -105,7 +106,24 @@
         
 	</select>
 
-	
+<!-- 	회원리뷰건수 -->
+	<select id="getReviewCount" resultType="int">
+		SELECT COUNT(*)
+		FROM HOSREVIEW
+		WHERE USERIDX = #{userIdx}
+	</select>
+<!-- 회원게시물건수 -->
+	<select id="getPostCount" resultType="int">
+		SELECT COUNT(*)
+		FROM POST 
+		WHERE USERIDX = #{userIdx}
+	</select>
+<!-- 회원 댓글건수 -->
+	<select id="getCommentCount" resultType="int">
+		SELECT COUNT(*)
+		FROM COMMENTS
+		WHERE USERIDX = #{userIdx}
+	</select>
 	
 </mapper>
 

@@ -65,9 +65,16 @@ public class UserServiceImpl implements UserService{
 		 userDAO.updateExPwd(vo);
 		 
 	 }
-	 //관리자 전체회원조회
+	 //관리자 전체회원조회(건수포함)
 	 public List<UserVO> getUserList(UserVO vo) {
-		 return userDAO.getUserList(vo);
+		 List<UserVO> userList = userDAO.getUserList(vo);
+	        for (UserVO user : userList) {
+	            int userIdx = user.getUserIdx();
+	            user.setReviewCount(userDAO.getReviewCount(userIdx));
+	            user.setPostCount(userDAO.getPostCount(userIdx));
+	            user.setCommentCount(userDAO.getCommentCount(userIdx));
+	        }
+	        return userList;
 	 }
 
 }

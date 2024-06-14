@@ -221,5 +221,10 @@ public class HospitalServiceImpl implements HospitalService{
 		int cnt = hospitalDAO.insertHosAddress(vo);
 		return cnt;
 	}
+	//관리자 리뷰리스트 - 주은
+	@Override
+	public List<HosReviewVO> myReviewList(int userIdx) {
+		return hospitalDAO.myReviewList(userIdx);
+	}
 
 }

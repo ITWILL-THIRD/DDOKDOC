@@ -100,4 +100,16 @@
 			MEMO = #{memo}
 		WHERE RESERIDX = #{reserIdx}
     </update>
+    
+<!--     회원 모든 예약 조회 - 주은 -->
+	<select id="userReserList" parameterType="int" resultType="ReservationVO">
+	SELECT * 
+	FROM RESERVATION R, HOSPITAL H, MYPET P
+	WHERE R.USERIDX = #{userIdx}
+	AND R.USERIDX = P.USERIDX
+	AND R.HOSIDX = H.HOSIDX
+	AND R.PETIDX = P.PETIDX
+	</select>
+    
+
 </mapper>
