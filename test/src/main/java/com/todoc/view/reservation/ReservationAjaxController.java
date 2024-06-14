@@ -34,7 +34,7 @@ public class ReservationAjaxController {
 
     @RequestMapping(value = "/getAvailableTimes.do", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Map<String, List<String>> getAjaxTimeList(@RequestBody ReservationVO vo) {
+    public Map<String, List<String>> getAjaxTimeList(@RequestBody ReservationVO vo, String dayStr) {
         System.out.println("getAjaxTimeList() 실행");
 
         System.out.println("ajax ReservationVO : " + vo);
@@ -48,10 +48,22 @@ public class ReservationAjaxController {
         List<ReservationVO> reserList = reservationService.getDateReservationList(vo);
         System.out.println("해당날짜 예약내역" + reserList);
         
-        Time openTime = hospital.getOpenTime();
-        Time closeTime = hospital.getCloseTime();
-        Time lunchTime = hospital.getLunchTime();
-        Time endLunchTime = hospital.getEndLunchTime();
+        Time openTime = null;
+        Time closeTime = null;
+        Time lunchTime = null;
+        Time endLunchTime = null;
+        
+        if (vo.getDayStr().equals("6")) {
+        	openTime = hospital.getSatOpenTime();
+            closeTime = hospital.getSatCloseTime();
+            lunchTime = hospital.getSatLunchTime();
+            endLunchTime = hospital.getSatEndLunchTime();
+        } else {
+        	openTime = hospital.getOpenTime();
+        	closeTime = hospital.getCloseTime();
+        	lunchTime = hospital.getLunchTime();
+        	endLunchTime = hospital.getEndLunchTime();
+        }
 
         List<String> availableTimes = new ArrayList<>();
         List<String> reservedTimes = new ArrayList<String>();

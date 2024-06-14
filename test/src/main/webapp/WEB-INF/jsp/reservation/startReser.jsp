@@ -32,13 +32,7 @@
     var selectedDate = null; 
     var selectedDay = null;
     
-    <c:if test="${hospital.sunDayOff == 'Y'}">
-	    alert("일요일 휴무입니다.");
-	    $(document).ready(function() {
-	        // 일요일을 클릭했을 때 경고창 출력 및 클릭 이벤트 비활성화
-	        $('td.fc-sun').css('pointer-events', 'none').css('color', 'gray').css('background-color', 'lightgray');
-	    });
-	</c:if>
+    var hospitalSundayOff = ${hospital.sunDayOff == 'Y'};
     
  	// 예시 휴무일 데이터
     // 휴무일 목록을 받아옴
@@ -100,6 +94,11 @@
           alert(info.dateStr + "은 휴무입니다:)");
           return;
         }
+     	// 일요일 클릭 비활성화
+        if (hospitalSundayOff && clickedDate.getDay() === 0) {
+          alert("일요일은 휴무입니다.");
+          return;
+        }
         // 클릭한 날짜가 선택된 날짜인지 확인
         if (selectedDate === info.dateStr) {
           // 선택된 날짜 다시 클릭 시 해제
@@ -139,7 +138,7 @@
           var dateStr = dayEl.getAttribute('data-date');
           var date = new Date(dateStr);
           
-          if (date < today || closedDates.includes(dateStr)) {
+          if (date < today || closedDates.includes(dateStr) || (hospitalSundayOff && date.getDay() === 0)) {
               dayEl.style.backgroundColor = 'gray';
           }
         });
@@ -155,6 +154,7 @@
   
   function getJsonTimeData(selectedDate, selectedDay) {
     alert("예약 가능한 시간");
+    alert("selectedDay : " + selectedDay)
     var selectedTime = null; 
 
     // 병원 ID 및 선택된 날짜를 포함하여 데이터 전송

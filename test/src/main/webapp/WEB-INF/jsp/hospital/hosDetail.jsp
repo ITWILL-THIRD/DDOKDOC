@@ -317,12 +317,7 @@
 
 	<p class="center">
 		<!-- 예약 버튼 함수실행으로 수정 -->
-<<<<<<< HEAD
 		<input type="button" value="예약" onclick="userCheck('${user}')"/>
-		<button ></button>
-=======
-		<input type="button" value="예약" onclick="userCheck('${user}')" />
->>>>>>> refs/heads/reservation_je
 		<a href="hosMain.do">병원 목록</a>
 	</p>
 
@@ -350,11 +345,8 @@
 </div>
 <jsp:include page="partials/hosDatailJS.jsp"></jsp:include>
 <script>
-<<<<<<< HEAD
 //로그인 유무 체크
-=======
 	// 로그인 유무 체크
->>>>>>> refs/heads/reservation_je
 	function userCheck(user) {
 		if (user == null) {
 			alert("로그인 후 예약이 가능합니다.")
