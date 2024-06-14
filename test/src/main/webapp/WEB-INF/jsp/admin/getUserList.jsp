@@ -51,13 +51,15 @@
             <th width="7%">회원 번호</th>
             <th width="7%">프로필</th>
             <th width="10%">이메일</th>
-            <th width="7%">닉네임</th>
             <th width="7%">이름</th>
-            <th width="5%">리뷰</th>
-	        <th width="5%">게시물</th>
-	        <th width="5%">댓글</th>
-            <th width="15%">생년월일</th>
             <th width="15%">전화번호</th>
+	        <th width="7%">예약완료</th>
+	        <th width="7%">진료완료</th>
+	        <th width="5%">노쇼</th>
+	        <th width="7%">예약현황</th>
+            <th width="5%">리뷰</th>
+	        <th width="6%">게시물</th>
+	        <th width="5%">댓글</th>
         </tr>
  <c:choose>
         <c:when test="${empty getUserList}">
@@ -70,14 +72,16 @@
                 <tr>
                     <td>${user.userIdx}</td>
                     <td><img src="${user.userImg}" height="50px"></td>
-                    <td>${user.email}</td>
-                    <td>${user.nickname}</td>
+                    <td><a href="userMypage.do?userIdx=${user.userIdx}">${user.email}</a></td>
                     <td>${user.name}</td>
-                    <td><a href="#">${user.reviewCount}</a></td>
-                    <td><a href="#">${user.postCount}</a></td>
-                    <td><a href="#">${user.commentCount}</a></td>
-                    <td>${user.birth}</td>
                     <td>${user.phone}</td>
+                    <td>예약완료</td>
+			        <td>진료완료</td>
+			        <td>노쇼</td>
+			        <td><a href="userReservPage.do?userIdx=${user.userIdx}">예약현황</a></td>
+                    <td><a href="userReviewList.do?userIdx=${user.userIdx}">${user.reviewCount}</a></td>
+                    <td><a href="userPostList.do?userIdx=${user.userIdx}">${user.postCount}</a></td>
+                    <td><a href="userCommentList.do?userIdx=${user.userIdx}">${user.commentCount}</a></td>
                 </tr>
             </c:forEach>
         </c:otherwise>

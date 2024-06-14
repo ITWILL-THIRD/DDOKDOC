@@ -50,6 +50,8 @@ public interface HospitalDAO {
 	void updateHosTime(HospitalVO vo);
 	void updateHoPwd(HospitalVO vo);
 	void deleteHos(int hosIdx);
+	//관리자 리뷰리스트
+	List<HosReviewVO> myReviewList(int userIdx);
 	//----------------------
 
 	int hosId(HospitalVO ho) throws Exception;

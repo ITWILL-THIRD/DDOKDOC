@@ -69,6 +69,18 @@ public class ReservationServiceImpl implements ReservationService{
 	public List<ReservationVO> myCancleReserList(int userIdx) {
 		return reservationDAO.myCancleReserList(userIdx);
 	}
+	
+	//주은 ==================
+	@Override
+	public ReservationVO getReservation(int reserIdx) {
+		return reservationDAO.getReservation(reserIdx);
+	}
+	
+	@Override
+	public List<ReservationVO> userReserList(int userIdx) {
+		return reservationDAO.userReserList(userIdx);
+	}
+	//=====================
 
 	
 

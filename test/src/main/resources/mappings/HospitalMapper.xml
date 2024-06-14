@@ -313,5 +313,16 @@
         VALUES (#{hosIdx}, #{holiDate})
 	</insert>
 	
+<!-- 	내가 작성한 리뷰-주은 -->
+	<select id="myReviewList" parameterType="int" resultType="HosReviewVO">
+		SELECT H.HOSNAME, HR.*, R.RESERDATE, U.NICKNAME AS NICKNAME
+		FROM HOSPITAL H, HOSREVIEW HR, DDOKUSER U, RESERVATION R
+		WHERE H.HOSIDX = HR.HOSIDX 
+        AND HR.USERIDX = U.USERIDX
+        AND HR.RESERIDX = R.RESERIDX
+        AND HR.USERIDX = #{userIdx}
+		ORDER BY H.HOSIDX DESC
+	</select>
+	
 </mapper>
 
