@@ -37,10 +37,10 @@
     <insert id="insertReservation" parameterType="ReservationVO">
     	INSERT INTO RESERVATION (RESERIDX, HOSIDX, USERIDX, 
     								PETIDX, RESERDATE, RESERTIME, 
-    								MEMO, GUARDIAN, GUARDIANPHONE)          
+    								MEMO, CONDITION, GUARDIAN, GUARDIANPHONE)          
 		VALUES (SEQ_RESERIDX.NEXTVAL, #{hosIdx}, #{userIdx}, 
 					#{petIdx}, #{reserDate}, #{reserTime}, 
-					#{memo}, #{guardian}, #{guardianPhone})   
+					#{memo}, 'RESERVATION', #{guardian}, #{guardianPhone})   
 		<selectKey keyProperty="reserIdx" resultType="int" order="AFTER">
 		     SELECT SEQ_RESERIDX.CURRVAL FROM DUAL
 		</selectKey>			
@@ -56,7 +56,7 @@
 				AND R.RESERDATE >= SYSDATE-1
 				AND R.HOSIDX = H.HOSIDX
 				AND R.PETIDX = P.PETIDX
-				AND R.CONDITION IS NULL
+				AND R.CONDITION = 'RESERVATION'
 				ORDER BY RESERDATE ) T 
 	]]>			
     </select>
