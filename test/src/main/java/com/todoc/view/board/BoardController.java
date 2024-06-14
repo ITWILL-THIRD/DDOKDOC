@@ -103,7 +103,7 @@ public class BoardController {
 		List<BoardVO> boardList = boardService.getBoardList(vo);
 		
 		SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MM dd HH:mm:ss z yyyy");
-	    SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    
 	    for (BoardVO board : boardList) {
 	        String formattedDate = targetFormat.format(board.getPostdate());
@@ -129,8 +129,10 @@ public class BoardController {
 		System.out.println("vo : " + vo);
 		
 		 try {
-	            String Img = gcsService.uploadFile(file); // 파일 업로드
-	            vo.setImg(Img);            
+			 if (!file.isEmpty()) {
+		            String img = gcsService.uploadFile(file); // 파일 업로드
+		            vo.setImg(img);
+		        }         
 	            boardService.insertBoard(vo);
 	    		return "redirect:getBoardList.do";
 	        } catch (IOException e) {
@@ -139,8 +141,6 @@ public class BoardController {
 	            return "redirect:insertBoard.do";
 	        }
 	}
-	
-	
 	
 	@RequestMapping("/getUpdateBoard.do")
 	public String getUpdateBoard() {
@@ -156,10 +156,17 @@ public class BoardController {
 		System.out.println("vo : " + vo);
 		
 		try {
-			if (!file.isEmpty()) { // 파일이 있으면 업로드 처리
-				String Img = gcsService.uploadFile(file);
-				vo.setImg(Img);
-			}
+
+			if (!file.isEmpty() && vo.getImg() != null) {
+	            gcsService.deleteFile(vo.getImg());
+	        }
+
+	        // 새 파일이 있는 경우 업로드 처리
+	        if (!file.isEmpty()) {
+	            String newImg = gcsService.uploadFile(file);
+	            vo.setImg(newImg);
+	        }
+			
 			System.out.println("updating : " + vo); // 값 설정 확인
 			boardService.updateBoard(vo);
 			return "redirect:getBoardList.do";
@@ -174,7 +181,9 @@ public class BoardController {
 	public String deleteBoard(BoardVO vo, SessionStatus sessionStatus, Model model) {
 		System.out.println(">> 게시글 삭제");
 		boardService.deleteBoard(vo);
-		gcsService.deleteFile(vo.getImg()); // GCS에서 파일 삭제
+		 if (vo.getImg() != null) {
+	            gcsService.deleteFile(vo.getImg()); // GCS에서 파일 삭제
+	        }
 		
 		sessionStatus.setComplete(); //@SessionAttributes 저장객체 삭제 처리
 		
@@ -190,20 +199,41 @@ public class BoardController {
 		return "redirect:getBoard.do?postidx=" + postidx;
 	}
 	
-	@RequestMapping("/deleteComment.do")
-	public String deleteComment(@RequestParam("postidx") int postidx, CommentVO vo, SessionStatus sessionStatus) {
-		System.out.println(">> 댓글 삭제");
-		boardService.deleteComment(vo);
-		
-		sessionStatus.setComplete(); //@SessionAttributes 저장객체 삭제 처리
-		
-		return "redirect:getBoard.do?postidx=" + postidx;
+	@RequestMapping(value = "/updateComment.do")
+	public String updateComment(@RequestParam("commentidx") int commentIdx, @RequestParam("content") String content) {
+
+	    try {
+	        CommentVO comment = new CommentVO();
+	        comment.setCommentidx(commentIdx);
+	        comment.setContent(content);
+	        boardService.updateComment(comment);
+	        return "success";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "error";
+	    }
+	}
+	
+//	@RequestMapping("/deleteComment.do")
+//	public String deleteComment(@RequestParam("postidx") int postidx, CommentVO vo, SessionStatus sessionStatus) {
+//		System.out.println(">> 댓글 삭제");
+//		boardService.deleteComment(vo);
+//		
+//		sessionStatus.setComplete(); //@SessionAttributes 저장객체 삭제 처리
+//		
+//		return "redirect:getBoard.do?postidx=" + postidx;
+//	}
+	
+	@RequestMapping(value = "/deleteComment.do")
+	public String deleteComment(@RequestParam("commentidx") int commentIdx, SessionStatus sessionStatus) {
+	    try {
+	        boardService.deleteComment(commentIdx);
+	        sessionStatus.setComplete(); //@SessionAttributes 저장객체 삭제 처리
+	        return "success";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "error";
+	    }
 	}
 
 }
-
-
-
-
-
-

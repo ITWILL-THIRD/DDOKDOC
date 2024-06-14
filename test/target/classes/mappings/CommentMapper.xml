@@ -16,12 +16,19 @@
 
 	</select>
 	
-	<!-- 댓글입력 -->
+	<!-- 댓글 입력 -->
 	<insert id="insertComment" parameterType="CommentVO">
 		INSERT INTO COMMENTS
 		       (COMMENTIDX, USERIDX, HOSIDX, CONTENT, COMMENTDATE, POSTIDX)
 		VALUES (SEQ_COMMENTIDX.NEXTVAL, #{useridx}, #{hosidx}, #{content}, SYSDATE, #{postidx})	
 	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateComment" parameterType="CommentVO">
+		UPDATE COMMENTS
+		SET CONTENT = #{content} 
+		WHERE COMMENTIDX = #{commentidx}
+	</update>
 	
 	<!-- 댓글 삭제(댓글번호 사용) -->
 	<delete id="deleteComment" parameterType="CommentVO">
