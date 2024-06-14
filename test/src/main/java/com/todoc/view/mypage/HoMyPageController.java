@@ -1,30 +1,21 @@
 package com.todoc.view.mypage;
 
-import javax.servlet.http.HttpSession;
-
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.ognl.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,11 +30,6 @@ import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
 import com.todoc.reservation.ReservationService;
 import com.todoc.reservation.ReservationVO;
-import com.todoc.user.UserVO;
-
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpSession;
 
 @RequestMapping("/mypage")
 @Controller
@@ -351,7 +337,12 @@ public class HoMyPageController {
  		
  		model.addAttribute("hosIdx", hosIdx);
  		
- 		//병원 예약 목록 
+		//병원 1개 조회
+		HospitalVO hospital = hospitalService.selectOne(hosIdx);
+		System.out.println("hospital : " + hospital);
+		model.addAttribute("hospital", hospital);
+ 		
+ 		//병원 전체 예약 목록 
  		List<ReservationVO> hosResrList = reservationService.getHosReserList(hosIdx);
  		model.addAttribute("hosResrList", hosResrList);
  		System.out.println(hosResrList);

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +21,7 @@ import com.todoc.hospital.HospitalVO;
 import com.todoc.reservation.ReservationService;
 import com.todoc.reservation.ReservationVO;
 
-@RequestMapping("reservation")
+@RequestMapping("mypage")
 @RestController
 public class HosMypageAjaxController {
     @Autowired
@@ -29,21 +31,26 @@ public class HosMypageAjaxController {
     private ReservationService reservationService;
 
     public HosMypageAjaxController() {
-        System.out.println("ReservationAjaxController 객체 생성");
+        System.out.println("HosMypageAjaxController 객체 생성");
     }
 
-    @RequestMapping(value = "/ggetAvailableTimes.do", method = RequestMethod.POST,
+    @RequestMapping(value = "/getReseredTimes.do", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Map<String, List<String>> getAjaxTimeList(@RequestBody ReservationVO vo) {
+    public Map<String, Object> getAjaxTimeList(@RequestBody ReservationVO vo, HttpSession session) {
         System.out.println("getAjaxTimeList() 실행");
 
-        System.out.println("ajax ReservationVO : " + vo);
-        System.out.println("ajax ReservationVO date : " + vo.getReserDate());
-        int hosIdx = vo.getHosIdx();
+        System.out.println("reserajax ReservationVO : " + vo);
+        System.out.println("reserajax ReservationVO date : " + vo.getReserDate());
+        HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+ 		int hosIdx = 0;
+ 		if (hoUser != null) {
+ 		    hosIdx = hoUser.getHosIdx();
+ 		}
         System.out.println("병원" + hosIdx + "운영시간");
         
         HospitalVO hospital = hospitalService.selectOne(hosIdx);
-
+        vo.setHosIdx(hosIdx);
+        
         //해당 날짜에 대한 예약 내역
         List<ReservationVO> reserList = reservationService.getDateReservationList(vo);
         System.out.println("해당날짜 예약내역" + reserList);
@@ -74,12 +81,44 @@ public class HosMypageAjaxController {
         
        
         // 결과를 맵에 저장하여 반환
-        Map<String, List<String>> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("availableTimes", availableTimes);
         response.put("reservedTimes", reservedTimes);
+        response.put("reserList", reserList);
         
         return response;
     }
+//    @RequestMapping(value = "/getReseredTimes.do", method = RequestMethod.POST,
+//            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    public Map<String, List<String>> getAjaxReservedTimeList(@RequestBody ReservationVO vo, HttpSession session) {
+//        System.out.println("getAjaxReservedTimeList() 실행");
+//
+//        System.out.println("reserajax ReservationVO : " + vo);
+//        System.out.println("reserajax ReservationVO date : " + vo.getReserDate());
+//        HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+//        int hosIdx = 0;
+//        if (hoUser != null) {
+//            hosIdx = hoUser.getHosIdx();
+//        }
+//        System.out.println("병원" + hosIdx + "운영시간");
+//
+//        // 해당 날짜에 대한 예약 내역 조회
+//        vo.setHosIdx(hosIdx);
+//        List<ReservationVO> reserList = reservationService.getDateReservationList(vo);
+//        System.out.println("해당날짜 예약내역" + reserList);
+//
+//        // 예약된 시간 목록 추출
+//        List<String> reservedTimes = new ArrayList<>();
+//        for (ReservationVO reser : reserList) {
+//            reservedTimes.add(new SimpleDateFormat("HH:mm").format(reser.getReserTime()));
+//        }
+//
+//        // 결과를 맵에 저장하여 반환
+//        Map<String, List<String>> response = new HashMap<>();
+//        response.put("reservedTimes", reservedTimes);
+//
+//        return response;
+//    }
 
     // 분 단위로 시간을 더하는 메서드
     private Time addMinutes(Time time, int minutes) {
