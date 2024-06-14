@@ -30,7 +30,6 @@
 	    </c:forEach>
 	];
  	alert(closedDates);
-    // 마지막 쉼표 제거
 
 	var calendar = new FullCalendar.Calendar(calendarEl, {
       	googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
@@ -116,7 +115,7 @@
 	          	var date = new Date(dateStr);
 	          
 	          	if (date < today || closedDates.includes(dateStr)) {
-	              	dayEl.style.backgroundColor = 'gray';
+	              	dayEl.style.backgroundColor = '#f0f1f1';
 	          	}
         	});
       	} 

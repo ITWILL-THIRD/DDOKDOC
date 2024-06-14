@@ -34,7 +34,6 @@
     
     var hospitalSundayOff = ${hospital.sunDayOff == 'Y'};
     
- 	// 예시 휴무일 데이터
     // 휴무일 목록을 받아옴
     var closedDates = [
 	    <c:forEach var="date" items="${hosHoliday}">
@@ -42,8 +41,6 @@
 	    </c:forEach>
 	];
  	alert(closedDates);
-    // 마지막 쉼표 제거
-    closedDates.pop();
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
@@ -139,7 +136,7 @@
           var date = new Date(dateStr);
           
           if (date < today || closedDates.includes(dateStr) || (hospitalSundayOff && date.getDay() === 0)) {
-              dayEl.style.backgroundColor = 'gray';
+              dayEl.style.backgroundColor = '#f0f1f1';
           }
         });
       } 

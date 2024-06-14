@@ -28,6 +28,9 @@ public class ReservationAjaxController {
     @Autowired
     private ReservationService reservationService;
 
+    Time currentTime = null;
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+    
     public ReservationAjaxController() {
         System.out.println("ReservationAjaxController 객체 생성");
     }
@@ -53,31 +56,55 @@ public class ReservationAjaxController {
         Time lunchTime = null;
         Time endLunchTime = null;
         
+        List<String> availableTimes = new ArrayList<>();
+        List<String> reservedTimes = new ArrayList<String>();
+        
+        //토요일
         if (vo.getDayStr().equals("6")) {
         	openTime = hospital.getSatOpenTime();
             closeTime = hospital.getSatCloseTime();
             lunchTime = hospital.getSatLunchTime();
             endLunchTime = hospital.getSatEndLunchTime();
+            
+            if (hospital.getSatLunchOff().equals("Y")) {
+            	System.out.println("토요일 점심시간 없음");
+            	availableTimes = noLunchtimeList(openTime, closeTime);
+            } else {
+            	System.out.println("토요일 점심시간 반영");
+            	availableTimes = timeList(openTime, closeTime, lunchTime, endLunchTime);
+            }
+        //일요일
+        }else if(vo.getDayStr().equals("0")) {
+        	openTime = hospital.getSunOpenTime();
+        	closeTime = hospital.getSunCloseTime();
+        	lunchTime = hospital.getSunLunchTime();
+        	endLunchTime = hospital.getSunEndLunchTime();
+        	
+        	if (hospital.getSunLunchOff().equals("Y")) {
+            	System.out.println("일요일 점심시간 없음");
+            	availableTimes = noLunchtimeList(openTime, closeTime);
+            } else {
+            	System.out.println("일요일 점심시간 반영");
+            	availableTimes = timeList(openTime, closeTime, lunchTime, endLunchTime);
+            }
+        //평일
         } else {
         	openTime = hospital.getOpenTime();
         	closeTime = hospital.getCloseTime();
         	lunchTime = hospital.getLunchTime();
         	endLunchTime = hospital.getEndLunchTime();
-        }
-
-        List<String> availableTimes = new ArrayList<>();
-        List<String> reservedTimes = new ArrayList<String>();
-
-        // 시간 계산 및 예약 가능한 시간 추가 로직
-        Time currentTime = openTime;
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        while (currentTime.before(closeTime)) {
-            if (currentTime.compareTo(lunchTime) < 0 || currentTime.compareTo(endLunchTime) >= 0) {
-                availableTimes.add(sdf.format(currentTime));
+        	
+        	if (hospital.getLunchOff().equals("Y")) {
+            	System.out.println("평일 점심시간 없음");
+            	availableTimes = noLunchtimeList(openTime, closeTime);
+            } else {
+            	System.out.println("평일 점심시간 반영");
+            	availableTimes = timeList(openTime, closeTime, lunchTime, endLunchTime);
             }
-            // 30분 간격 추가
-            currentTime = addMinutes(currentTime, 30);
         }
+        
+        
+        System.out.println(availableTimes);
 
         // 예약된 시간 목록 추가
         for (ReservationVO reser : reserList) {
@@ -93,6 +120,38 @@ public class ReservationAjaxController {
         return response;
     }
 
+    //시간처리 메소드
+    private List<String> timeList(Time openTime, Time closeTime, Time lunchTime, Time endLunchTime) {
+    	List<String> availableTimes = new ArrayList<>();
+
+        // 시간 계산 및 예약 가능한 시간 추가 로직
+        currentTime = openTime;
+        while (currentTime.before(closeTime)) {
+            if (currentTime.compareTo(lunchTime) < 0 || currentTime.compareTo(endLunchTime) >= 0) {
+                availableTimes.add(sdf.format(currentTime));
+            }
+            // 30분 간격 추가
+            currentTime = addMinutes(currentTime, 30);
+        }
+
+       return availableTimes;
+    }
+    
+    //점심시간 없을 때 시간처리 메소드
+    private List<String> noLunchtimeList(Time openTime, Time closeTime) {
+    	List<String> availableTimes = new ArrayList<>();
+
+        // 시간 계산 및 예약 가능한 시간 추가 로직
+        currentTime = openTime;
+        while (currentTime.before(closeTime)) {
+        	availableTimes.add(sdf.format(currentTime));
+            // 30분 간격 추가
+            currentTime = addMinutes(currentTime, 30);
+        }
+
+       return availableTimes;
+    }
+    
     // 분 단위로 시간을 더하는 메서드
     private Time addMinutes(Time time, int minutes) {
         long currentTimeMillis = time.getTime();
