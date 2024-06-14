@@ -46,7 +46,7 @@
 				<textarea name="content" rows="10" cols="40" style="width: 100%" class="border-none">${board.content }
 				</textarea>
 				<c:if test="${not empty board.img}">
-	                   <img src="${board.img}" alt="${board.img}의 이미지">
+	                   <img src="${board.img}" alt="${board.img}의 이미지" style="max-width:500px;">
 	            </c:if>
 			</td>
 		</tr>

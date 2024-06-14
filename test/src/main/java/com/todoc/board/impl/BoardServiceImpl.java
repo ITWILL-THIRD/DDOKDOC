@@ -64,10 +64,15 @@ public class BoardServiceImpl implements BoardService {
 		boardDAO.insertComment(vo);
 		
 	}
+	
+	@Override
+	public void updateComment(CommentVO vo) {
+		boardDAO.updateComment(vo);
+	}
 
 	@Override
-	public void deleteComment(CommentVO vo) {
-		boardDAO.deleteComment(vo);
+	public void deleteComment(int commentIdx) {
+		boardDAO.deleteComment(commentIdx);
 		
 	}
 
