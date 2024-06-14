@@ -27,11 +27,7 @@ public class HospitalServiceImpl implements HospitalService{
 	public HospitalServiceImpl() {
 		System.out.println(">> HospitalServiceImpl() 객체 생성");
 	}
-
-	@Override
-	public int updateHospital(HospitalVO vo) {
-		return hospitalDAO.updateHospital(vo);
-	}
+	
 	//병원 전체 조회
 	@Override
 	public List<HospitalVO> selectList() {
@@ -214,5 +210,4 @@ public class HospitalServiceImpl implements HospitalService{
 		int cnt = hospitalDAO.insertHosAddress(vo);
 		return cnt;
 	}
-
 }

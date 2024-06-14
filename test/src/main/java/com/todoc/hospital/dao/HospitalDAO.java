@@ -11,13 +11,12 @@ import com.todoc.hospital.HosImgVO;
 
 public interface HospitalDAO {
 	
-	//민지
-	//병원 승인처리(승인완료)
-	int updateHospital(HospitalVO vo);
+	//---------민지------------------------------
 	//병원 전체 목록 조회
 	List<HospitalVO> selectList();
-	
+	//병원 1개 조회
 	HospitalVO selectOne(int hosIdx);
+	//-----------------------------------------
 	//지수
 	List<HospitalVO> getHosSearch(HospitalVO vo);
 	List<HosReviewVO> getHosReview(int hosIdx);
@@ -50,10 +49,8 @@ public interface HospitalDAO {
 	void updateHosTime(HospitalVO vo);
 	void updateHoPwd(HospitalVO vo);
 	void deleteHos(int hosIdx);
-	//----------------------
-
 	int hosId(HospitalVO ho) throws Exception;
-	//민지
+	//---------민지------------------------------
 	//병원 hosIdx 조회
 	int getHosIdx(HospitalVO vo);
 	//병원 사진vo 조회
@@ -64,10 +61,9 @@ public interface HospitalDAO {
 	int insertHosImg(HospitalVO vo);
 	//병원 주소 입력
 	int insertHosAddress(HospitalVO vo);
-
+	//--------자은------------------------------
 	//병원 휴무일 리스트
 	List<Date> hosHoliday(HospitalVO vo); 
-
 	//병원 휴무 입력
 	void insertHolidays(HolidayInsertParams param);
 	
