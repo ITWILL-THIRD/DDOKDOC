@@ -318,7 +318,6 @@
 	<p class="center">
 		<!-- 예약 버튼 함수실행으로 수정 -->
 		<input type="button" value="예약" onclick="userCheck('${user}')"/>
-		<a href="hosMain.do">병원 목록</a>
 	</p>
 
 	<h4>공지사항</h4>

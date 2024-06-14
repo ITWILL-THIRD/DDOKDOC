@@ -26,15 +26,29 @@
 </script>
 </head>
 <body>
-<%-- \${hosList} : ${hosList}<br> --%>
 <div id="container">
 	<h1>병원 승인 관리 [getApprovalList.jsp]</h1>   
-	
+\${beginDate} : ${beginDate}<br>  
+\${endDate} : ${endDate}<br>  
+\${condition} : ${condition}<br><hr> 	
 	<!-- 검색 -->
-	
+	<form action="getHosApprovalList.do?cPage=${pagingVO.nowPage}" method="post">
+	<table class="border-none">
+		<tr><td>
+			<input type="date" name="beginDate">~
+			<input type="date" name="endDate">
+			<input type="submit" value="검색" class="searchBtn">
+		</td></tr>
+	</table>
+	<div id="condition" class="center" >
+		<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage}&condition=all">전체</a>
+		<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage}&condition=before">승인전</a>
+		<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage}&condition=after">승인완료</a>
+		<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage}&condition=payment">결제완료</a>
+	</div>
+	</form>
 	
 	<!-- 데이터 표시 -->
-	<form method="post">
 	<table>
 		<thead>
 			<tr>
@@ -77,14 +91,141 @@
 		<tfoot>
 			<tr>
 				<td colspan="9">
-					<a>이전</a><a>현재 번호</a><a>다음</a>
+					<ol>
+					<%--[이전]에 대한 사용여부 처리 --%>
+					<c:if test="${pagingVO.nowPage == 1}">
+						<li class="disable">이전</li>
+					</c:if>
+					<c:if test="${pagingVO.nowPage != 1}">
+						<c:if test="${not empty condition}">
+						<c:choose>
+							<c:when test="${condition == 'before'}">
+								<li>
+									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}&condition=before">이전</a>
+								</li>
+							</c:when>
+							<c:when test="${condition == 'after'}">
+								<li>
+									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}&condition=after">이전</a>
+								</li>
+							</c:when>
+							<c:when test="${condition == 'payment'}">
+								<li>
+									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}&condition=payment">이전</a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li>
+									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}&condition=all">이전</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
+						</c:if>
+						<c:if test="${not empty beginDate && not empty endDate}">
+							<li>
+								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}&beginDate=${beginDate}&endDate=${endDate}">이전</a>
+							</li>
+						</c:if>
+						<c:if test="${empty condition && empty beginDate && empty endDate}">
+							<li>
+								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}">이전</a>
+							</li>
+						</c:if>
+					</c:if>
+						
+					<%--블록내에 표시할 페이지 태그 작성(시작~끝) --%>
+					<c:forEach var="pageNo" begin="${pagingVO.beginPage}" end="${pagingVO.endPage}">
+					<c:choose>
+						<c:when test="${pageNo == pagingVO.nowPage}">
+							<li class="now">${pageNo}</li>
+						</c:when>
+						<c:otherwise>
+							<c:if test="${not empty condition}">
+							<c:choose>
+								<c:when test="${condition == 'before'}">
+									<li>
+										<a href="getHosApprovalList.do?cPage=${pageNo}&condition=after">${pageNo}</a>
+									</li>
+								</c:when>
+								<c:when test="${condition == 'after'}">
+									<li>
+										<a href="getHosApprovalList.do?cPage=${pageNo}&condition=after">${pageNo}</a>
+									</li>
+								</c:when>
+								<c:when test="${condition == 'payment'}">
+									<li>
+										<a href="getHosApprovalList.do?cPage=${pageNo}&condition=payment">${pageNo}</a>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<li>
+										<a href="getHosApprovalList.do?cPage=${pageNo}&condition=all">${pageNo}</a>
+									</li>
+								</c:otherwise>
+							</c:choose>
+							</c:if>
+							<c:if test="${not empty beginDate && not empty endDate}">
+								<li>
+									<a href="getHosApprovalList.do?cPage=${pageNo}&beginDate=${beginDate}&endDate=${endDate}">${pageNo}</a>
+								</li>
+							</c:if>
+							<c:if test="${empty condition && empty beginDate && empty endDate}">
+								<li>
+									<a href="getHosApprovalList.do?cPage=${pageNo}">${pageNo}</a>
+								</li>
+							</c:if>
+						</c:otherwise>
+					</c:choose>
+					</c:forEach>
+					
+					<%--[다음]에 대한 사용여부 처리 --%>
+					<c:if test="${pagingVO.nowPage < pagingVO.totalPage}">
+						<c:if test="${not empty condition}">
+						<c:choose>
+							<c:when test="${condition == 'before'}">
+								<li>
+									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}&condition=before">다음</a>
+								</li>
+							</c:when>
+							<c:when test="${condition == 'after'}">
+								<li>
+									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}&condition=after">다음</a>
+								</li>
+							</c:when>
+							<c:when test="${condition == 'payment'}">
+								<li>
+									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}&condition=payment">다음</a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li>
+									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}&condition=all">다음</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
+						</c:if>
+						<c:if test="${not empty beginDate && not empty endDate}">
+							<li>
+								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}&beginDate=${beginDate}&endDate=${endDate}">다음</a>
+							</li>
+						</c:if>
+						<c:if test="${empty condition && empty beginDate && empty endDate}">
+							<li>
+								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}">다음</a>
+							</li>
+						</c:if>
+					</c:if>
+					<c:if test="${pagingVO.nowPage >= pagingVO.totalPage}">
+						<li class="disable">다음</li>
+					</c:if>
+					</ol>
 				</td>
 			</tr>
 			
 		</tfoot>
 	</table>
-	</form>
 </div>
-  
+\${pagingVO} : ${pagingVO}<br><hr>
+\${hosList} : ${hosList}<br>  
 </body>
 </html>
