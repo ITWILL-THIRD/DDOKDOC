@@ -6,6 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>계정별 결제내역</title>
+<style>
+	.total-row {
+		background-color: #B6E5FF;
+		font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<c:choose>
@@ -50,8 +56,8 @@
 							<td><fmt:formatNumber value="${payment.amount}" pattern="#,###"/></td>
 						</tr>
 						<c:if test="${status.last}">
-							<tr>
-								<td colspan="5">총 결제금액: <fmt:formatNumber value="${payment.totalAmount}" pattern="#,###"/>원</td>
+							<tr class="total-row">
+								<td colspan="5">총 결제금액&nbsp;&nbsp;&nbsp;<fmt:formatNumber value="${payment.totalAmount}" pattern="#,###"/>&nbsp;원</td>
 							</tr>
 						</c:if>
 					</c:forEach>
