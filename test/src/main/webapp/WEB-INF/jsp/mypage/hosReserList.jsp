@@ -21,11 +21,6 @@
 		alert(${hospital.sunDayOff == 'Y'});
 	}
 
-/* 	//마이펫 등록 여부 체크
-	if (${myPetList.size()} == 0) {
-		  alert ("마이펫 등록 후 예약 가능합니다.");
-		  location.href="../mypage/insertMyPetView.do";
-	  } */
 	//달력 띄우기
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -84,11 +79,6 @@
         today.setHours(0, 0, 0, 0); // 시간을 0으로 설정해야 오늘 날짜를 클릭 가능함.
         var clickedDate = new Date(info.dateStr);
 
-/*         // 오늘 이전 날짜 클릭 비활성화
-        if (clickedDate < today) {
-          alert('지난 날짜는 선택할 수 없습니다.');
-          return;
-        } */
         // 휴무일 클릭 비활성화
         if (closedDates.includes(info.dateStr)) {
           alert(info.dateStr + "은 휴무입니다:)");
@@ -138,9 +128,6 @@
           var dateStr = dayEl.getAttribute('data-date');
           var date = new Date(dateStr);
           
-/*           if (date < today || closedDates.includes(dateStr) || (hospitalSundayOff && date.getDay() === 0)) {
-              dayEl.style.backgroundColor = 'gray';
-          } */
         });
       } 
     });
@@ -148,99 +135,7 @@
     calendar.render();
   });
 
-  
-/*   function getJsonTimeData(selectedDate, selectedDay) {
-    alert("선택한 날짜");
-    alert("selectedDay : " + selectedDay)
-    var selectedTime = null; 
-
-    // 병원 ID 및 선택된 날짜를 포함하여 데이터 전송
-    let vo = {
-      //hosIdx: ${hospital.hosIdx },
-      reserDate: selectedDate,
-      dayStr: selectedDay
-    };
-    console.log(vo);
-    console.log(JSON.stringify(vo));
-
-    $.ajax("getReseredTimes.do", {
-      type: "post",
-      data: JSON.stringify(vo),
-      contentType: "application/json",
-      dataType: "json",
-      success: function(response) {
-        alert("성공~~");
-        console.log(response);
-        
-        let dispHtml = "";
-        
-        var currentTime = new Date();
-        var currentHour = currentTime.getHours();
-        var currentMinute = currentTime.getMinutes();
-        
-        for (let time of response.availableTimes) {
-          if (response.reservedTimes.includes(time)) {
-            dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
-          } else {
-        	  var timeComponents = time.split(":");
-              var hour = parseInt(timeComponents[0]);
-              var minute = parseInt(timeComponents[1]);
-              
-              var todayDate = new Date();
-              todayDate.setHours(0, 0, 0, 0); // 오늘 날짜와 시간 초기화
-              
-              var selectedDateObj = new Date(selectedDate + "T00:00:00"); // 문자열을 Date 객체로 변환
-              
-           	  console.log("비교 : " + (selectedDateObj.getTime() === todayDate.getTime()));
-              console.log(selectedDateObj.getTime());
-              console.log(todayDate.getTime());
-              
-              var today = new Date();
-              
-              if (selectedDateObj.getTime() === todayDate.getTime()) {// 날짜 비교
-            	  console.log("if문 내부 true");
-                  var currentHour = today.getHours();
-                  var currentMinute = today.getMinutes();
-                  
-                  console.log(currentHour);
-                  console.log(currentMinute);
-                  
-                  if (hour < currentHour || (hour === currentHour && minute < currentMinute)) {
-                      dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
-                  } else {
-                      dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
-                  }
-              } else {
-                  dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
-              }
-              
-              
-          }
-          dispHtml += time;
-          dispHtml += "</button><br>";
-        }
-        $("#listDisp").html(dispHtml); 
-
-        // 시간 선택 이벤트 리스너 설정
-        $(".time-btn").on("click", function() {
-          if ($(this).hasClass("selected")) {
-            $(this).removeClass("selected");
-          } else {
-            clearSelectedTime();
-            $(this).addClass("selected");
-            let selectedTime = $(this).text();  // 선택된 시간 가져오기
-            $('#selectTime').val(selectedTime); // resertime에 선택된 시간 저장
-          }
-        });
-
-      },
-      error: function() {
-        alert("실패~~");
-      }
-    });
-
-  }  */
-  function getJsonTimeData(selectedDate, selectedDay) {
+	function getJsonTimeData(selectedDate, selectedDay) {
 	    let vo = {
 	        reserDate: selectedDate,
 	        dayStr: selectedDay
@@ -252,20 +147,21 @@
 	        contentType: "application/json",
 	        dataType: "json",
 	        success: function(response) {
+	            alert("성공~");
+
 	            let dispHtml = "";
 	            let currentTime = new Date();
 	            let currentHour = currentTime.getHours();
 	            let currentMinute = currentTime.getMinutes();
 	            console.log(response); // response 객체 구조 확인
-	            console.log(currentHour);
-	            console.log(currentMinute);
-	            
-	            // 전체 시간을 표시하는 부분
-	            for (let time of response.availableTimes) {
+	            console.log("currentHour : " + currentHour);
+	            console.log("currentMinute :" + currentMinute);
+
+	            // 예약된 시간만 표시하는 부분
+	            for (let time of response.reservedTimes) {
 	                let timeComponents = time.split(":");
 	                let hour = parseInt(timeComponents[0]);
 	                let minute = parseInt(timeComponents[1]);
-	                let isReserved = response.reservedTimes.includes(time);
 	                let isDisabled = false;
 	                let reservedUserNames = [];
 
@@ -277,29 +173,20 @@
 
 	                // 예약된 사용자 이름을 찾음
 	                for (var reservation of response.reserList) {
-	                    if (reservation.reserTime === time) {
-	                        reservedUserNames.push(reservation.userName);
+	                    if (reservation.reserTime === time) {  // reservation.time -> reservation.reserTime
+	                        reservedUserNames.push(reservation.guardian);
 	                    }
 	                }
 
-	                dispHtml += `<button type="button" class="time-btn ${isReserved ? 'reserved' : ''}" data-time="${time}" ${isDisabled ? 'disabled' : ''} style="${isReserved ? 'background-color: skyblue;' : ''}">`;
+	                dispHtml += `<div style="display: flex; align-items: center;">`;
+	                dispHtml += `<button type="button" class="time-btn reserved" data-time="${time}" ${isDisabled ? 'disabled' : ''} style="background-color: skyblue;">`;
 	                dispHtml += time;
-	                if (isReserved) {
-	                    dispHtml += ` (${reservedUserNames.join(', ')})`; // 예약자 이름 추가
-	                }
-	                dispHtml += "</button><br>";
+	                dispHtml += "</button>";
+	                dispHtml += `<span style="margin-left: 10px;">(${reservedUserNames.join(', ')})</span>`; // 예약자 이름 추가
+	                dispHtml += "</div><br>";
 	            }
 
 	            $("#listDisp").html(dispHtml); // HTML 삽입 위치 확인
-
-	            $(".time-btn:not(.reserved)").on("click", function() {
-	                clearSelectedTime();
-	                $(this).addClass("selected");
-	                $('#selectTime').val($(this).text());
-
-	                // 예약이 없는 시간 클릭 시
-	                $(".reserved-users").html("<p>예약이 없습니다</p>");
-	            });
 
 	            $(".reserved").on("click", function() {
 	                console.log("reserved");
@@ -309,28 +196,14 @@
 	                // 클릭한 버튼의 텍스트(시간)을 가져옴
 	                var clickedTime = $(this).text();
 	                console.log("reserved click " + clickedTime);
-					console.log("response.reserList : " + response.reserList);
+	                console.log("response.reserList : " + response.reserList);
 	                // reservedTimes 배열에서 클릭한 시간에 해당하는 사용자 이름을 찾음
 	                var reservedUserNames = [];
 	                for (var reservation of response.reserList) {
-	                    if (reservation.time === clickedTime) {
-	                        reservedUserNames.push(reservation.userName);
+	                    if (reservation.reserTime === clickedTime) {  // reservation.time -> reservation.reserTime
+	                        reservedUserNames.push(reservation.guardian);
 	                    }
-	                }
-
-	                // 사용자 이름을 표시할 테이블 생성
-	                var table = $("<table>");
-	                var tableHeader = $("<tr><th>예약자 이름</th></tr>");
-	                table.append(tableHeader);
-
-	                // 예약자 이름을 테이블에 추가
-	                for (var i = 0; i < reservedUserNames.length; i++) {
-	                    var row = $("<tr><td>" + reservedUserNames[i] + "</td></tr>");
-	                    table.append(row);
-	                }
-
-	                // 테이블을 화면에 표시
-	                $(".reserved-users").html(table);
+	                }   
 	            });
 	        },
 	        error: function() {
@@ -351,52 +224,11 @@
 	    $("#selectTime").val("");
 	}
 
-	
 	 //선택된 시간을 form 시간값에 저장
     $('form').on('submit', function() {
         let selectedTime = $('.time-btn.reserved').data('time');
         $('#selectTime').val(selectedTime);
     });
-
-
-  
-/*   $(document).ready(function(){
-    var initialPet = $("#selectPet :selected").val();
-    $("#petIdxStr").val(initialPet);
-
-    $("#selectPet").change(function(){
-      // Value값 가져오기
-      var selectedPet = $("#selectPet :selected").val();
-      alert("selectPet: " + selectedPet);
-
-      $("#petIdxStr").val(selectedPet);
-    });
-  }); */
-  
-  function updateReserCondition(frm) {
-    let selectedDate = document.getElementById('reserDate').value;
-    let selectedTime = document.getElementById('selectTime').value;
-    //let selectedPet = document.getElementById('petIdxStr').value;
-    //let strGuardian = document.getElementById('guardian').value;
-    //let strGuardianPhone = document.getElementById('guardianPhone').value;
-    
-/*     // null 체크
-    if (selectedPet === "null") {
-        alert("진료볼 마이펫을 선택하세요");
-        return false; 
-    }
-    if (strGuardian == null || strGuardianPhone == null) {
-    	alert("보호자 정보를 입력하세요");
-    	return false;
-    } */
-    
-    alert("Selected Date: " + selectedDate);
-    alert("Select Time: " + selectedTime);
-/*     alert("selectedPet: " + selectedPet); */
-     
-    frm.action = "updateReserCondition.do";
-    frm.submit();
-  }
   
 </script>
 <style>
@@ -469,21 +301,10 @@
       </ul>
     </div>
     <form method="post">
-<%--     <c:choose>
-    	<c:when test="${not empty user.name }">
-    		<input type="text" id="guardian" name="guardian" value="${user.name }">
-      		<input type="text" id="guardianPhone" name="guardianPhone" value="${user.phone }">
-    	</c:when>
-    	<c:otherwise>
-    		<input type="text" id="guardian" name="guardian" placeholder="보호자이름">
-      		<input type="text" id="guardianPhone" name="guardianPhone" placeholder="보호자연락처">
-    	</c:otherwise>
-    </c:choose> --%>
       <!-- <textarea rows="4" cols="5" id="memo" name="memo">메모를 남겨주세요</textarea>
       <input type="button" value="예약하기" onclick="insertReservation(this.form)"> -->
       <input type="hidden" id="reserDate" name="reserDate">
       <input type="hidden" id="selectTime" name="selectTime">
-      <input type="submit" value="진료완료">
     </form>
   </div>
 

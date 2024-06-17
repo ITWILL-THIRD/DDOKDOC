@@ -50,7 +50,7 @@ public class HosMypageAjaxController {
         
         HospitalVO hospital = hospitalService.selectOne(hosIdx);
         vo.setHosIdx(hosIdx);
-        
+        System.out.println(hospital);
         //해당 날짜에 대한 예약 내역
         List<ReservationVO> reserList = reservationService.getDateReservationList(vo);
         System.out.println("해당날짜 예약내역" + reserList);
@@ -59,7 +59,7 @@ public class HosMypageAjaxController {
         Time closeTime = hospital.getCloseTime();
         Time lunchTime = hospital.getLunchTime();
         Time endLunchTime = hospital.getEndLunchTime();
-
+        System.out.println(openTime + " " + closeTime + " " + lunchTime + " " + endLunchTime);
         List<String> availableTimes = new ArrayList<>();
         List<String> reservedTimes = new ArrayList<String>();
 
@@ -78,7 +78,7 @@ public class HosMypageAjaxController {
         for (ReservationVO reser : reserList) {
             reservedTimes.add(sdf.format(reser.getReserTime()));
         }
-        
+        System.out.println("availableTimes : " + availableTimes);
        
         // 결과를 맵에 저장하여 반환
         Map<String, Object> response = new HashMap<>();
