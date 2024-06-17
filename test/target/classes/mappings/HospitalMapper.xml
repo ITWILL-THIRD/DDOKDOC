@@ -89,7 +89,7 @@
 			, ANIMAL, SCORE, CONDITION, CERTIFICATEIMG)
 		VALUES ((SELECT NVL(MAX(HOSIDX), 0) + 1 FROM HOSPITAL), #{hosId}, #{hosPw}, #{hosName}, #{hosPhone}
 <!-- 		VALUES (SEQ_HOSIDX.NEXTVAL, #{hosId}, #{hosPw}, #{hosName}, #{hosPhone} -->
-			, #{animal}, #{score}, '승인 전', #{certificateImg})
+			, #{animal}, #{score}, '승인전', #{certificateImg})
 	</insert>
 <!-- 병원 사진(파일 여러장) 입력 -->
 	<insert id="insertHosImg" parameterType="HospitalVO">

@@ -12,41 +12,144 @@
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script>
+// 	window.onload = function() {
+// 		const urlParams = new URLSearchParams(window.location.search);
+// 		const msg = urlParams.get('msg');
+// 		if (msg === 'sucess') {
+// 			alert('승인 처리했습니다.');
+// 		} else if (msg === 'fail') {
+// 			alert('승인 처리를 실패했습니다.');
+// 		}
+// 	};
+	
 	function approval(frm, hosIdx) {
-		if(confirm('승인 수락하시겠습니까?')) {
-			let firstForm = document.forms[0];
-			console.log(firstForm.elements);
-// 			console.log(firstFrom.)
+		//승인전, 승인완료, 결제완료 상태 확인 후, 승인전 -> 승인완료 변경 처리!
+		
+		if (confirm('승인 수락하시겠습니까?')) {
 			
-			location.href = "approvalBtn.do?hosIdx=" + hosIdx;
-		}
-		
-		
+			location.href = "approvalPro.do?hosIdx=" + hosIdx;
+			
+// 			var hospitalData = frm.querySelector('input[name="hospital"]').value;
+// 			console.log(hospitalData);
+			
+// 	        $.ajax({
+// 	        	type: 'GET',
+//                 url: '/approvalBtn.do',
+//                 contentType: 'application/json',
+//                 data: JSON.stringify(hospitalData),
+//                 success: function(data) {
+//                     $("#listDisp").empty();
+
+//                     let html = '';
+                    
+//                     for (let hospital of data) {
+					
+// 	                    let openTimeSub = hospital.openTime.substring(0, 5);
+// 				    	let closeTimeSub = hospital.closeTime.substring(0, 5);
+				    	
+// 				    	html += "<tr>";
+// 				    	html += "<td class='center'>" + hospital.hosIdx + "</td>";
+// 				    	html += "<td class='center'>" + hospital.animal + "</td>";
+// 				    	html += "<td class='center'><a href='../hospital/hosDetail.do?hosIdx=" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
+// 				    	html += "<td class='center'>" + hospital.roadAddressName + " " + ${hospital.detailAddress} + "</td>";
+// 				    	html += "<td class='center'>" + openTimeSub + " - " + closeTimeSub + "</td>";
+// 				    	html += "<td class='center'>" + hospital.hosPhone + "</td>";
+// 				    	html += "<td class='center' id='fileLink'><a href='" + hospital.certificateImg + "'" + " target='_blank'>파일 </a></td>";
+// 				    	html += "<td class='center'>" + hospital.hosPhone + "</td>";
+// 				    	html += "<td class='center'>" + hospital.condition + "</td>";
+// 		       			html += "<input type='hidden' name='hosIdx' value='" + hospital.hosIdx + "'></td>";
+// 		       			html += "</tr>";
+//                     }
+// 	       			console.log('Final HTML:', dispHtml);
+//                     $('#listDisp').html(html);
+// 	            },
+// 	            error : function(jqXHR, textStatus, errorThrown){
+// 	 	            alert("Ajax 처리 실패:\n" +
+// 	 	                      "jqXHR.readyState: " + jqXHR.readyState + "\n" +
+// 	 	                      "textStatus: " + textStatus + "\n" +
+// 	 	                      "errorThrown: " + errorThrown);
+// 	 	        }
+// 	        });
+	    }
 	}
+	//동적 검색 ajax - 오류 중단
+// 	function searchData(category) {
+// 		let vo = {};
+// 		vo.searchCondition = category;
+// 		vo.beginDate = document.querySelector("input[name='beginDate']").value;
+// 		vo.endDate = document.querySelector("input[name='endDate']").value;
+
+// 		$.ajax("getHosApprovalSearch.do", { 
+// 	        type: 'GET',
+// 	        data: vo,
+// 	        success: function(data) {
+// 	        	$("#listDisp").empty();
+ 
+// 			    let dispHtml = "";
+
+// 			    for (let hospital of data) {
+// 			    	let openTimeSub = hospital.openTime.substring(0, 5);
+// 			    	let closeTimeSub = hospital.closeTime.substring(0, 5);
+			    	
+// 			        dispHtml += "<tr>";
+// 			        dispHtml += "<td class='center'>" + hospital.hosIdx + "</td>";
+// 			        dispHtml += "<td class='center'>" + hospital.animal + "</td>";
+// 			        dispHtml += "<td class='center'><a href='../hospital/hosDetail.do?hosIdx=" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
+// 			        dispHtml += "<td class='center'>" + hospital.roadAddressName + " " + ${hospital.detailAddress} + "</td>";
+// 			        dispHtml += "<td class='center'>" + openTimeSub + " - " + closeTimeSub + "</td>";
+// 			        dispHtml += "<td class='center'>" + hospital.hosPhone + "</td>";
+// 			        dispHtml += "<td class='center' id='fileLink'><a href='" + hospital.certificateImg + "'" + " target='_blank'>파일 </a></td>";
+// 			        dispHtml += "<td class='center'>" + hospital.hosPhone + "</td>";
+// 			        dispHtml += "<td class='center'>" + hospital.condition + "</td>";
+// 			        dispHtml += "<td class='center'><input type='button' class='approvalBtn' value='수락' data-hos-idx='"
+// 			        			+  hospital.hosIdx + "' onclick='approval(this.form, this.dataset.hosIdx)'>";
+//         			dispHtml += "<input type='hidden' name='hosIdx' value='" + hospital.hosIdx + "'></td>";
+// 			        dispHtml += "</tr>";
+// 			    }
+// 			    console.log('Final HTML:', dispHtml);
+			    
+// 			    $("#listDisp").html(dispHtml);
+// 	        },
+// 	        error : function(jqXHR, textStatus, errorThrown){
+// 	            alert("Ajax 처리 실패:\n" +
+// 	                      "jqXHR.readyState: " + jqXHR.readyState + "\n" +
+// 	                      "textStatus: " + textStatus + "\n" +
+// 	                      "errorThrown: " + errorThrown);
+// 	        }
+// 	    });
+// 	}
 </script>
 </head>
 <body>
 <div id="container">
-	<h1>병원 승인 관리 [getApprovalList.jsp]</h1>   
+	<h1>병원 승인 관리 [getApprovalList.jsp]</h1> 
+\${pagingVO} : ${pagingVO}<br><hr>  
 \${beginDate} : ${beginDate}<br>  
 \${endDate} : ${endDate}<br>  
-\${condition} : ${condition}<br><hr> 	
+\${searchCondition} : ${searchCondition}<br><hr> 	
 	<!-- 검색 -->
-	<form action="getHosApprovalList.do?cPage=${pagingVO.nowPage}" method="post">
+	<form action="getHosApprovalSearch.do?beginDate&endDate&cPage=${pagingVO.nowPage}" method="post">
+<!-- 	<form id="getDateSearch" onsubmit="searchData('date'); return false;"> -->
 	<table class="border-none">
 		<tr><td>
 			<input type="date" name="beginDate">~
 			<input type="date" name="endDate">
 			<input type="submit" value="검색" class="searchBtn">
+<%-- 			<input type="hidden" name="hosList" value="${hosList}"> --%>
 		</td></tr>
 	</table>
-	<div id="condition" class="center" >
-		<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage}&condition=all">전체</a>
-		<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage}&condition=before">승인전</a>
-		<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage}&condition=after">승인완료</a>
-		<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage}&condition=payment">결제완료</a>
-	</div>
 	</form>
+	<form>
+	<div id="getConditionSearch" class="center">
+<!-- 		<input type="button" onclick="searchData('all')" value="전체"> -->
+<!-- 		<input type="button" onclick="searchData('before')" value="승인전"> -->
+<!-- 		<input type="button" onclick="searchData('after')" value="승인완료"> -->
+<!-- 		<input type="button" onclick="searchData('payment')" value="결제완료"> -->
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=before">승인전</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=after">승인완료</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=payment">결제완료</a>
+	</div>
 	
 	<!-- 데이터 표시 -->
 	<table>
@@ -63,7 +166,7 @@
 				<th width="100">승인 관리</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="listDisp">
 		<c:forEach var="hospital" items="${hosList}">
 			<tr>
 				<td class="center">${hospital['hosIdx'] }</td>
@@ -83,7 +186,7 @@
 				<td class="center">
 					<input type="button" class="approvalBtn" value="수락"
 						data-hos-idx="${hospital.hosIdx}" onclick="approval(this.form, this.dataset.hosIdx)">
-					<input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
+					<input type="hidden" name="hospital" value="${hospital}">
 				</td>
 			</tr>
 		</c:forEach>
@@ -91,141 +194,182 @@
 		<tfoot>
 			<tr>
 				<td colspan="9">
-					<ol>
-					<%--[이전]에 대한 사용여부 처리 --%>
+					<!-- [이전]에 대한 사용여부 처리 -->
 					<c:if test="${pagingVO.nowPage == 1}">
-						<li class="disable">이전</li>
+						<span class="disable">이전</span>
 					</c:if>
 					<c:if test="${pagingVO.nowPage != 1}">
-						<c:if test="${not empty condition}">
+						<c:if test="${not empty searchCondition}">
 						<c:choose>
-							<c:when test="${condition == 'before'}">
-								<li>
-									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}&condition=before">이전</a>
-								</li>
+							<c:when test="${searchCondition == 'before'}">
+								<span>
+									<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage - 1}&searchCondition=before">이전</a>
+								</span>
 							</c:when>
-							<c:when test="${condition == 'after'}">
-								<li>
-									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}&condition=after">이전</a>
-								</li>
+							<c:when test="${searchCondition == 'after'}">
+								<span>
+									<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage - 1}&searchCondition=after">이전</a>
+								</span>
 							</c:when>
-							<c:when test="${condition == 'payment'}">
-								<li>
-									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}&condition=payment">이전</a>
-								</li>
+							<c:when test="${searchCondition == 'payment'}">
+								<span>
+									<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage - 1}&searchCondition=payment">이전</a>
+								</span>
 							</c:when>
 							<c:otherwise>
-								<li>
-									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}&condition=all">이전</a>
-								</li>
+								<span>
+									<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage - 1}&searchCondition=all">이전</a>
+								</span>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
 						<c:if test="${not empty beginDate && not empty endDate}">
-							<li>
-								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}&beginDate=${beginDate}&endDate=${endDate}">이전</a>
-							</li>
+							<span>
+								<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage - 1}&beginDate=${beginDate}&endDate=${endDate}">이전</a>
+							</span>
 						</c:if>
-						<c:if test="${empty condition && empty beginDate && empty endDate}">
-							<li>
+						<c:if test="${empty searchCondition && empty beginDate && empty endDate}">
+							<span>
 								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}">이전</a>
-							</li>
+							</span>
 						</c:if>
 					</c:if>
 						
-					<%--블록내에 표시할 페이지 태그 작성(시작~끝) --%>
+					<!-- 블록내에 표시할 페이지 태그 작성(시작~끝) -->
 					<c:forEach var="pageNo" begin="${pagingVO.beginPage}" end="${pagingVO.endPage}">
 					<c:choose>
 						<c:when test="${pageNo == pagingVO.nowPage}">
-							<li class="now">${pageNo}</li>
+							<span class="now">${pageNo}</span>
 						</c:when>
 						<c:otherwise>
-							<c:if test="${not empty condition}">
+							<c:if test="${not empty searchCondition}">
 							<c:choose>
-								<c:when test="${condition == 'before'}">
-									<li>
-										<a href="getHosApprovalList.do?cPage=${pageNo}&condition=after">${pageNo}</a>
-									</li>
+								<c:when test="${searchCondition == 'before'}">
+									<span>
+										<a href="getHosApprovalSearch.do?cPage=${pageNo}&searchCondition=after">${pageNo}</a>
+									</span>
 								</c:when>
-								<c:when test="${condition == 'after'}">
-									<li>
-										<a href="getHosApprovalList.do?cPage=${pageNo}&condition=after">${pageNo}</a>
-									</li>
+								<c:when test="${searchCondition == 'after'}">
+									<span>
+										<a href="getHosApprovalSearch.do?cPage=${pageNo}&searchCondition=after">${pageNo}</a>
+									</span>
 								</c:when>
-								<c:when test="${condition == 'payment'}">
-									<li>
-										<a href="getHosApprovalList.do?cPage=${pageNo}&condition=payment">${pageNo}</a>
-									</li>
+								<c:when test="${searchCondition == 'payment'}">
+									<span>
+										<a href="getHosApprovalSearch.do?cPage=${pageNo}&searchCondition=payment">${pageNo}</a>
+									</span>
 								</c:when>
 								<c:otherwise>
-									<li>
-										<a href="getHosApprovalList.do?cPage=${pageNo}&condition=all">${pageNo}</a>
-									</li>
+									<span>
+										<a href="getHosApprovalSearch.do?cPage=${pageNo}&searchCondition=all">${pageNo}</a>
+									</span>
 								</c:otherwise>
 							</c:choose>
 							</c:if>
 							<c:if test="${not empty beginDate && not empty endDate}">
-								<li>
-									<a href="getHosApprovalList.do?cPage=${pageNo}&beginDate=${beginDate}&endDate=${endDate}">${pageNo}</a>
-								</li>
+								<span>
+									<a href="getHosApprovalSearch.do?cPage=${pageNo}&beginDate=${beginDate}&endDate=${endDate}">${pageNo}</a>
+								</span>
 							</c:if>
-							<c:if test="${empty condition && empty beginDate && empty endDate}">
-								<li>
+							<c:if test="${empty searchCondition && empty beginDate && empty endDate}">
+								<span>
 									<a href="getHosApprovalList.do?cPage=${pageNo}">${pageNo}</a>
-								</li>
+								</span>
 							</c:if>
 						</c:otherwise>
 					</c:choose>
 					</c:forEach>
 					
-					<%--[다음]에 대한 사용여부 처리 --%>
+					<!-- [다음]에 대한 사용여부 처리 -->
 					<c:if test="${pagingVO.nowPage < pagingVO.totalPage}">
-						<c:if test="${not empty condition}">
+						<c:if test="${not empty searchCondition}">
 						<c:choose>
-							<c:when test="${condition == 'before'}">
-								<li>
-									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}&condition=before">다음</a>
-								</li>
+							<c:when test="${searchCondition == 'before'}">
+								<span>
+									<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage + 1}&searchCondition=before">다음</a>
+								</span>
 							</c:when>
-							<c:when test="${condition == 'after'}">
-								<li>
-									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}&condition=after">다음</a>
-								</li>
+							<c:when test="${searchCondition == 'after'}">
+								<span>
+									<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage + 1}&searchCondition=after">다음</a>
+								</span>
 							</c:when>
-							<c:when test="${condition == 'payment'}">
-								<li>
-									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}&condition=payment">다음</a>
-								</li>
+							<c:when test="${searchCondition == 'payment'}">
+								<span>
+									<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage + 1}&searchCondition=payment">다음</a>
+								</span>
 							</c:when>
 							<c:otherwise>
-								<li>
-									<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}&condition=all">다음</a>
-								</li>
+								<span>
+									<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage + 1}&searchCondition=all">다음</a>
+								</span>
 							</c:otherwise>
 						</c:choose>
 						</c:if>
 						<c:if test="${not empty beginDate && not empty endDate}">
-							<li>
-								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}&beginDate=${beginDate}&endDate=${endDate}">다음</a>
-							</li>
+							<span>
+								<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage + 1}&beginDate=${beginDate}&endDate=${endDate}">다음</a>
+							</span>
 						</c:if>
-						<c:if test="${empty condition && empty beginDate && empty endDate}">
-							<li>
+						<c:if test="${empty searchCondition && empty beginDate && empty endDate}">
+							<span>
 								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}">다음</a>
-							</li>
+							</span>
 						</c:if>
 					</c:if>
 					<c:if test="${pagingVO.nowPage >= pagingVO.totalPage}">
-						<li class="disable">다음</li>
+						<span class="disable">다음</span>
 					</c:if>
-					</ol>
 				</td>
 			</tr>
-			
+			<!-- 			<tr> -->
+<!-- 				<td colspan="9"> -->
+<%-- 					[이전]에 대한 사용여부 처리 --%>
+<%-- 					<c:if test="${pagingVO.nowPage == 1}"> --%>
+<!-- 						<span class="disable">이전</span> -->
+<%-- 					</c:if> --%>
+<%-- 					<c:if test="${pagingVO.nowPage != 1}"> --%>
+<%-- 						<c:if test="${empty condition && empty beginDate && empty endDate}"> --%>
+<!-- 							<span> -->
+<%-- 								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}">이전</a> --%>
+<!-- 							</span> -->
+<%-- 						</c:if> --%>
+<%-- 					</c:if> --%>
+						
+<%-- 					블록내에 표시할 페이지 태그 작성(시작~끝) --%>
+<%-- 					<c:forEach var="pageNo" begin="${pagingVO.beginPage}" end="${pagingVO.endPage}"> --%>
+<%-- 					<c:choose> --%>
+<%-- 						<c:when test="${pageNo == pagingVO.nowPage}"> --%>
+<%-- 							<span class="now">${pageNo}</span> --%>
+<%-- 						</c:when> --%>
+<%-- 						<c:otherwise> --%>
+<%-- 							<c:if test="${empty condition && empty beginDate && empty endDate}"> --%>
+<!-- 								<span> -->
+<%-- 									<a href="getHosApprovalList.do?cPage=${pageNo}">${pageNo}</a> --%>
+<!-- 								</span> -->
+<%-- 							</c:if> --%>
+<%-- 						</c:otherwise> --%>
+<%-- 					</c:choose> --%>
+<%-- 					</c:forEach> --%>
+					
+<%-- 					[다음]에 대한 사용여부 처리 --%>
+<%-- 					<c:if test="${pagingVO.nowPage < pagingVO.totalPage}"> --%>
+<%-- 						<c:if test="${empty condition && empty beginDate && empty endDate}"> --%>
+<!-- 							<span> -->
+<%-- 								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}">다음</a> --%>
+<!-- 							</span> -->
+<%-- 						</c:if> --%>
+<%-- 					</c:if> --%>
+<%-- 					<c:if test="${pagingVO.nowPage >= pagingVO.totalPage}"> --%>
+<!-- 						<span class="disable">다음</span> -->
+<%-- 					</c:if> --%>
+<!-- 				</td> -->
+<!-- 			</tr> -->
 		</tfoot>
 	</table>
+	</form>
 </div>
-\${pagingVO} : ${pagingVO}<br><hr>
+
 \${hosList} : ${hosList}<br>  
 </body>
 </html>

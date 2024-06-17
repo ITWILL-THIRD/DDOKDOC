@@ -56,7 +56,7 @@
 		text-decoration: underline;
 	}
 	
-	<%-- 승인 버트 --%>
+	<%-- 승인 버튼 --%>
 	.approvalBtn {
 		color: white;
 		border-radius: 10px;
