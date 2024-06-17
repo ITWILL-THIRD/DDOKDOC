@@ -4,28 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoc.admin.stats.dao.StatsDAO">
 
-    <!-- 병원 날짜별 조회 -->
-    <select id="getHosStatsByDate" parameterType="map" resultType="HosStatsVO">
-        <![CDATA[
-        SELECT HOSMEMBERSHIP.HOSIDX, HOSPITAL.HOSNAME, HOSMEMBERSHIP.HOSSTART, HOSMEMBERSHIP.HOSEND, HOSMEMBERSHIP.AMOUNT
-        FROM HOSMEMBERSHIP
-        JOIN HOSPITAL ON HOSMEMBERSHIP.HOSIDX = HOSPITAL.HOSIDX
-        WHERE HOSMEMBERSHIP.HOSSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
-          AND HOSMEMBERSHIP.HOSEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
-        ]]>
-    </select>
-    
-    <!-- 유저 날짜별 조회 -->
-    <select id="getUserStatsByDate" parameterType="map" resultType="UserStatsVO">
-        <![CDATA[
-        SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.NICKNAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND, USERMEMBERSHIP.AMOUNT
-        FROM USERMEMBERSHIP
-        JOIN DDOKUSER ON USERMEMBERSHIP.USERIDX = DDOKUSER.USERIDX
-        WHERE USERMEMBERSHIP.MEMSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
-          AND USERMEMBERSHIP.MEMEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
-        ]]>
-    </select>   
-	
     <!-- 병원 월별 수익 조회 -->
     <select id="getHosMonthlyRevenue" parameterType="map" resultType="HashMap">
         <![CDATA[
@@ -66,16 +44,120 @@
 	
 	<!-- 유저 계정별(EMAIL) 결제내역 -->
     <select id="getUserPaymentsByAccount" parameterType="map" resultType="UserStatsVO">
-		SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.EMAIL, DDOKUSER.NAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND
-		     , USERMEMBERSHIP.AMOUNT, SUM(USERMEMBERSHIP.AMOUNT) OVER (PARTITION BY DDOKUSER.EMAIL) AS TOTALAMOUNT
+	    SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.EMAIL, DDOKUSER.NAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND
+	         , USERMEMBERSHIP.AMOUNT, SUM(USERMEMBERSHIP.AMOUNT) OVER (PARTITION BY DDOKUSER.EMAIL) AS TOTALAMOUNT
+	    FROM USERMEMBERSHIP
+	    JOIN DDOKUSER ON USERMEMBERSHIP.USERIDX = DDOKUSER.USERIDX
+	    WHERE DDOKUSER.EMAIL = #{account}
+	    ORDER BY USERMEMBERSHIP.MEMSTART DESC
+	</select>
+	
+	<!-- 병원 아이디 자동완성 -->
+	<select id="getHosIds" parameterType="string" resultType="string">
+		SELECT DISTINCT HOSPITAL.HOSID
+		FROM HOSMEMBERSHIP
+		JOIN HOSPITAL ON HOSMEMBERSHIP.HOSIDX = HOSPITAL.HOSIDX
+		WHERE HOSPITAL.HOSID LIKE #{term} || '%'
+	</select>
+	
+	<!-- 유저 이메일 자동완성 -->
+	<select id="getUserEmails" parameterType="string" resultType="string">
+		SELECT DISTINCT DDOKUSER.EMAIL
 		FROM USERMEMBERSHIP
 		JOIN DDOKUSER ON USERMEMBERSHIP.USERIDX = DDOKUSER.USERIDX
-		WHERE DDOKUSER.EMAIL LIKE '%' || #{account} || '%'
-		ORDER BY USERMEMBERSHIP.MEMSTART DESC
+		WHERE DDOKUSER.EMAIL LIKE #{term} || '%'
+	</select>
+
+    <!-- 병원 가입자 통계 -->
+	<select id="getHosMemberStats" parameterType="map" resultType="map">
+	    SELECT 
+	        period,
+	        COUNT(*) AS totalHos, <!-- 총 병원 수 -->
+	        SUM(CASE 
+	                WHEN (#{searchType} = 'month' AND TO_CHAR(MIN_HOSSTART, 'MM') = #{dateValue}) 
+	                     OR (#{searchType} = 'year' AND TO_CHAR(MIN_HOSSTART, 'YYYY') = #{dateValue}) 
+	                     OR (#{searchType} = 'all' AND HOSSTART = MIN_HOSSTART)
+	                THEN 1 
+	                ELSE 0 
+	            END) AS newHos, <!-- 신규 병원 수 -->
+	        ROUND((SUM(CASE 
+	                WHEN (#{searchType} = 'month' AND TO_CHAR(MIN_HOSSTART, 'MM') = #{dateValue}) 
+	                     OR (#{searchType} = 'year' AND TO_CHAR(MIN_HOSSTART, 'YYYY') = #{dateValue}) 
+	                     OR (#{searchType} = 'all' AND HOSSTART = MIN_HOSSTART)
+	                THEN 1 
+	                ELSE 0 
+	            END) / COUNT(*)) * 100, 2) AS growthRate <!-- 성장률 -->
+	    FROM (
+	        SELECT H.*, MIN(H.HOSSTART) OVER (PARTITION BY H.HOSIDX) AS MIN_HOSSTART,
+	            CASE 
+	                WHEN #{searchType} = 'month' THEN TO_CHAR(H.HOSSTART, 'YYYY-MM')
+	                WHEN #{searchType} = 'year' THEN TO_CHAR(H.HOSSTART, 'YYYY')
+	                ELSE '전체' 
+	            END AS period
+	        FROM HOSMEMBERSHIP H
+	    ) H
+	    WHERE (#{searchType} = 'all' 
+	           OR (#{searchType} = 'month' AND TO_CHAR(HOSSTART, 'MM') = #{dateValue}) 
+	           OR (#{searchType} = 'year' AND TO_CHAR(HOSSTART, 'YYYY') = #{dateValue}))
+	    GROUP BY period
+	    ORDER BY period
+	</select> 
+    
+    <!-- 유저 가입자 통계 -->
+	<select id="getUserMemberStats" parameterType="map" resultType="map">
+	    SELECT 
+	        period,
+	        COUNT(*) AS totalUsers, <!-- 총 사용자 수 -->
+	        SUM(CASE 
+	                WHEN (#{searchType} = 'month' AND TO_CHAR(MIN_MEMSTART, 'MM') = #{dateValue}) 
+	                     OR (#{searchType} = 'year' AND TO_CHAR(MIN_MEMSTART, 'YYYY') = #{dateValue}) 
+	                     OR (#{searchType} = 'all' AND MEMSTART = MIN_MEMSTART)
+	                THEN 1 
+	                ELSE 0 
+	            END) AS newUsers, <!-- 신규 사용자 수 -->
+	        ROUND((SUM(CASE 
+	                WHEN (#{searchType} = 'month' AND TO_CHAR(MIN_MEMSTART, 'MM') = #{dateValue}) 
+	                     OR (#{searchType} = 'year' AND TO_CHAR(MIN_MEMSTART, 'YYYY') = #{dateValue}) 
+	                     OR (#{searchType} = 'all' AND MEMSTART = MIN_MEMSTART)
+	                THEN 1 
+	                ELSE 0 
+	            END) / COUNT(*)) * 100, 2) AS growthRate <!-- 성장률 -->
+	    FROM (
+	        SELECT U.*, MIN(U.MEMSTART) OVER (PARTITION BY U.USERIDX) AS MIN_MEMSTART,
+	            CASE 
+	                WHEN #{searchType} = 'month' THEN TO_CHAR(U.MEMSTART, 'YYYY-MM')
+	                WHEN #{searchType} = 'year' THEN TO_CHAR(U.MEMSTART, 'YYYY')
+	                ELSE '전체' 
+	            END AS period
+	        FROM USERMEMBERSHIP U
+	    ) U
+	    WHERE (#{searchType} = 'all' 
+	           OR (#{searchType} = 'month' AND TO_CHAR(MEMSTART, 'MM') = #{dateValue}) 
+	           OR (#{searchType} = 'year' AND TO_CHAR(MEMSTART, 'YYYY') = #{dateValue}))
+	    GROUP BY period
+	    ORDER BY period
+	</select>
+	
+<!--     병원 날짜별 조회
+    <select id="getHosStatsByDate" parameterType="map" resultType="HosStatsVO">
+        <![CDATA[
+        SELECT HOSMEMBERSHIP.HOSIDX, HOSPITAL.HOSNAME, HOSMEMBERSHIP.HOSSTART, HOSMEMBERSHIP.HOSEND, HOSMEMBERSHIP.AMOUNT
+        FROM HOSMEMBERSHIP
+        JOIN HOSPITAL ON HOSMEMBERSHIP.HOSIDX = HOSPITAL.HOSIDX
+        WHERE HOSMEMBERSHIP.HOSSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND HOSMEMBERSHIP.HOSEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        ]]>
     </select>
     
-    <!-- 유저 가입자 수-->
+    유저 날짜별 조회
+    <select id="getUserStatsByDate" parameterType="map" resultType="UserStatsVO">
+        <![CDATA[
+        SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.NICKNAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND, USERMEMBERSHIP.AMOUNT
+        FROM USERMEMBERSHIP
+        JOIN DDOKUSER ON USERMEMBERSHIP.USERIDX = DDOKUSER.USERIDX
+        WHERE USERMEMBERSHIP.MEMSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND USERMEMBERSHIP.MEMEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        ]]>
+    </select>    -->
     
-    <!-- 병원 가입자 수 -->
-	
 </mapper>
