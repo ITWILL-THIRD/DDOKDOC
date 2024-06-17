@@ -1,6 +1,7 @@
 package com.todoc.reservation.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.todoc.hospital.HospitalVO;
 import com.todoc.reservation.ReservationVO;
@@ -18,5 +19,5 @@ public interface ReservationDAO {
 	List<ReservationVO> myCancleReserList(int userIdx);
 	//주은 ==================
 	ReservationVO getReservation(int reserIdx);
-	List<ReservationVO> userReserList(int userIdx);
+	List<ReservationVO> userReserList(Map<String, Object> params);
 }

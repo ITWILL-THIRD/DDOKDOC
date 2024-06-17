@@ -64,7 +64,7 @@
  <c:choose>
         <c:when test="${empty getUserList}">
             <tr>
-                <td colspan="8" style="text-align:center;">검색 결과가 없습니다</td>
+                <td colspan="12" style="text-align:center;">검색 결과가 없습니다</td>
             </tr>
         </c:when>
         <c:otherwise>
@@ -75,9 +75,9 @@
                     <td><a href="userMypage.do?userIdx=${user.userIdx}">${user.email}</a></td>
                     <td>${user.name}</td>
                     <td>${user.phone}</td>
-                    <td>예약완료</td>
-			        <td>진료완료</td>
-			        <td>노쇼</td>
+                    <td>${user.reserCount }</td>
+			        <td>${user.finishCount }</td>
+			        <td>${user.noShowCount }</td>
 			        <td><a href="userReservPage.do?userIdx=${user.userIdx}">예약현황</a></td>
                     <td><a href="userReviewList.do?userIdx=${user.userIdx}">${user.reviewCount}</a></td>
                     <td><a href="userPostList.do?userIdx=${user.userIdx}">${user.postCount}</a></td>
@@ -86,6 +86,47 @@
             </c:forEach>
         </c:otherwise>
     </c:choose>
+   <tfoot>
+	<tr>
+		<td colspan="12">
+			<ol>
+				<!-- [이전]에 대한 사용여부 처리 -->
+				<c:if test="${pagingVO.nowPage == 1}">
+					<li class="disable">이전</li>
+				</c:if>
+				<c:if test="${pagingVO.nowPage != 1}">
+					<li>
+						<a href="getUserList.do?cPage=${pagingVO.nowPage - 1}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">이전</a>
+					</li>
+				</c:if>
+
+				<!-- 블록내에 표시할 페이지 태그 작성(시작~끝) -->
+				<c:forEach var="pageNo" begin="${pagingVO.beginPage}" end="${pagingVO.endPage}">
+					<c:choose>
+						<c:when test="${pageNo == pagingVO.nowPage}">
+							<li class="now">${pageNo}</li>
+						</c:when>
+						<c:otherwise>
+							<li>
+								<a href="getUserList.do?cPage=${pageNo}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">${pageNo}</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+
+				<!-- [다음]에 대한 사용여부 처리 -->
+				<c:if test="${pagingVO.nowPage < pagingVO.totalPage}">
+					<li>
+						<a href="getUserList.do?cPage=${pagingVO.nowPage + 1}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">다음</a>
+					</li>
+				</c:if>
+				<c:if test="${pagingVO.nowPage >= pagingVO.totalPage}">
+					<li class="disable">다음</li>
+				</c:if>
+			</ol>
+		</td>
+	</tr>
+</tfoot>
 </table>
 </div>
 </body>

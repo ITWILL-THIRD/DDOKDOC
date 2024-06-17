@@ -75,7 +75,7 @@ public class NoticeController {
 		
 		noticeService.updateNotice(notice);
 		
-		String add = "redirect:getNotice.do?hosIdx=" + notice.getHosIdx() + "&noticeIdx=" + notice.getNoticeIdx();
+		String add = "redirect:../mypage/hoNoticeDetail.do?hosIdx=" + notice.getHosIdx() + "&noticeIdx=" + notice.getNoticeIdx();
 		
 		return add;
 	}
@@ -88,7 +88,7 @@ public class NoticeController {
 		noticeService.deleteNotice(vo);
 		sessionStatus.setComplete(); //@SessionAttributes 저장객체 삭제 처리
 		
-		String add = "redirect:../hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
+		String add = "redirect:../mypage/hosNoticeList.do?hosIdx=" + vo.getHosIdx();
 		return add;
 	}
 	

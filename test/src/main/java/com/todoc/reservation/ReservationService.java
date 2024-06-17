@@ -2,6 +2,7 @@ package com.todoc.reservation;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.todoc.hospital.HospitalVO;
 
@@ -18,5 +19,5 @@ public interface ReservationService {
 	List<ReservationVO> myCancleReserList(int userIdx);
 	//주은 ==================
 	ReservationVO getReservation(int reserIdx);
-	List<ReservationVO> userReserList(int userIdx);
+	List<ReservationVO> userReserList(Map<String, Object> params);
 }

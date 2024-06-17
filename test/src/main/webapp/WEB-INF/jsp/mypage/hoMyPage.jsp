@@ -63,7 +63,17 @@ function hosDelete_ok(frm) {
 			<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
 			<c:set var="closeTime" value="${hoUser.closeTime}"/>
 			<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
-			<td colspan="2">평일 ${openTimeSub} - ${closeTimeSub}</td>
+			<td colspan="2">평일
+		        <c:choose>
+		            <c:when test="${openTimeSub == '00:00' and closeTimeSub == '23:59'}">
+		                24시간
+		            </c:when>
+		            <c:otherwise>
+		                ${openTimeSub} - ${closeTimeSub}
+		            </c:otherwise>
+		        </c:choose>
+		    </td>
+			
 		</tr>
 		<tr>
 			<c:set var="lunchTime" value="${hoUser.lunchTime}"/>
@@ -76,6 +86,7 @@ function hosDelete_ok(frm) {
 						or hoUser.lunchTime == '00:00:00' or hoUser.endLunchTime == '00:00:00'
 						or hoUser.lunchTime == null or hoUser.endLunchTime == null}">
 					</c:when>
+					
 					<c:otherwise>
 						점심 ${lunchTimeSub} - ${endLunchTimeSub}
 					</c:otherwise>
@@ -87,7 +98,18 @@ function hosDelete_ok(frm) {
 			<c:set var="satOpenTimeSub" value="${fn:substring(satOpenTime, 0, 5)}"/>
 			<c:set var="satCloseTime" value="${hoUser.satCloseTime}"/>
 			<c:set var="satCloseTimeSub" value="${fn:substring(satCloseTime, 0, 5)}"/>
-			<td colspan="2">토요일 ${satOpenTimeSub} - ${satCloseTimeSub}</td>
+			
+			<td colspan="2">토요일
+		        <c:choose>
+		            <c:when test="${satOpenTimeSub == '00:00' and satCloseTimeSub == '23:59'}">
+		                24시간
+		            </c:when>
+		            <c:otherwise>
+		                ${satOpenTimeSub} - ${satCloseTimeSub}
+		            </c:otherwise>
+		        </c:choose>
+		    </td>
+			
 		</tr>
 		<tr>
 			<c:set var="satLunchTime" value="${hoUser.satLunchTime}"/>
@@ -117,6 +139,9 @@ function hosDelete_ok(frm) {
                     	or hoUser.sunOpenTime == null or hoUser.sunCloseTime == null}">
                       	<span class="holiday">휴무</span>
                     </c:when>
+                     <c:when test="${sunOpenTime == '00:00:00' and sunCloseTime == '23:59:00'}">
+		                24시간
+		            </c:when>
                     <c:otherwise>
 						${sunOpenTimeSub} - ${sunCloseTimeSub}
                     </c:otherwise>

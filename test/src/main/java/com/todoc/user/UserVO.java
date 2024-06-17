@@ -14,6 +14,10 @@ public class UserVO {
 	private String phone;
 	private String role;
 	private String userImg;
+	//회원 예약, 진료 완료, 노쇼 건수 조회
+	private int ReserCount;
+	private int FinishCount;
+	private int NoShowCount;
 	
 	//회원 리뷰,게시물,댓글 건수 조회
 	private int reviewCount;
@@ -119,6 +123,27 @@ public class UserVO {
 	public void setCommentCount(int commentCount) {
 		this.commentCount = commentCount;
 	}
+	public int getReserCount() {
+		return ReserCount;
+	}
+	public void setReserCount(int reserCount) {
+		ReserCount = reserCount;
+	}
+	public int getFinishCount() {
+		return FinishCount;
+	}
+	public void setFinishCount(int finishCount) {
+		FinishCount = finishCount;
+	}
+	public int getNoShowCount() {
+		return NoShowCount;
+	}
+	public void setNoShowCount(int noShowCount) {
+		NoShowCount = noShowCount;
+	}
+	
+	
+	
 	
 	
 	

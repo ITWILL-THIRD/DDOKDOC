@@ -322,8 +322,8 @@
 
 	<h4>공지사항</h4>
 	<div>
-		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}"
-			onclick="insertNotice(this.dataset.hosIdx)">
+<%-- 		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}" --%>
+<!-- 			onclick="insertNotice(this.dataset.hosIdx)"> -->
 		<table border="">
 			<tr>
 				<th>작성일</th>

@@ -259,6 +259,15 @@ public class HoMyPageController {
 
 		return "mypage/hosNoticeList";
 	}
+	//공지 상세
+	@RequestMapping("/hoNoticeDetail.do")
+	public String hoNoticeDetail(@ModelAttribute("noticeIdx") int noticeIdx, Model model) {
+		NoticeVO notice = noticeService.getNotice(noticeIdx);
+		System.out.println("notice : " + notice);
+		model.addAttribute("notice", notice);
+		
+		return "mypage/hoNoticeDetail";
+	}
 
 	// 병원 휴무일 등록 페이지
 	@RequestMapping("/insertHosHoliday.do")

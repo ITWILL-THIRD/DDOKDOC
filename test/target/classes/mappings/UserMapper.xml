@@ -89,22 +89,60 @@
 
 	
 	<!-- 관리자 유저 검색 -->
-	<select id="getUserList" parameterType="userVO" resultType="userVO">
-		SELECT * FROM DDOKUSER
-		WHERE  role != 'admin'
-		AND 1=1
-		 
-	        <if test='searchType == "EMAIL" and searchKeyword != "" '>
-	            AND EMAIL LIKE '%'|| #{searchKeyword} || '%'
-	        </if>
-	        <if test='searchType == "NICKNAME" and searchKeyword != "" '>
-	            AND NICKNAME LIKE '%'|| #{searchKeyword}|| '%'
-	        </if>
-	        <if test='searchType == "NAME" and searchKeyword != "" '>
-	            AND NAME LIKE '%'|| #{searchKeyword}|| '%'
-	        </if>
+<select id="getUserList" parameterType="map" resultType="userVO">
+    SELECT * 
+    FROM (
+        SELECT ROWNUM AS R_NUM, U.*
+        FROM (
+            SELECT * 
+            FROM DDOKUSER
+            WHERE role != 'admin'
+            <if test='searchType == "EMAIL" and searchKeyword != "" '>
+                AND (EMAIL LIKE '%' || #{searchKeyword} || '%' 
+                OR SUBSTR(EMAIL, 1, INSTR(EMAIL, '@') - 1) LIKE '%' || #{searchKeyword} || '%')
+            </if>
+            <if test='searchType == "NAME" and searchKeyword != "" '>
+                AND NAME LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test='searchType == "PHONE" and searchKeyword != "" '>
+                AND (PHONE LIKE '%' || #{searchKeyword} || '%' 
+                OR REPLACE(PHONE, '-', '') LIKE '%' || #{searchKeyword} || '%')
+            </if>
+            ORDER BY USERIDX DESC
+        ) U
+        <![CDATA[
         
+        WHERE ROWNUM <= #{end}
+    ) 
+    WHERE R_NUM >= #{begin}
+    ]]>
+</select>
+
+<!-- 	회원 예약완료 건수 -->
+	<select id="getReserCount" resultType="int">
+		SELECT COUNT(*)
+		FROM RESERVATION
+		WHERE CONDITION = 'RESERVATION'
+		AND USERIDX = #{userIdx}
 	</select>
+	<!-- 	회원 진료완료 건수 -->
+	<select id="getFinishCount" resultType="int">
+		SELECT COUNT(*)
+		FROM RESERVATION
+		WHERE CONDITION = 'FINISH'
+		AND USERIDX = #{userIdx}
+	</select>
+	
+	 <!-- 회원 예약 후 진료를 보지 않은 건수 -->
+    <select id="getNoShowCount" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*)
+        FROM RESERVATION
+        WHERE CONDITION = 'RESERVATION'
+        AND USERIDX = #{userIdx}
+        AND RESERDATE < SYSDATE
+        ]]>
+    </select>
 
 <!-- 	회원리뷰건수 -->
 	<select id="getReviewCount" resultType="int">
@@ -125,6 +163,30 @@
 		WHERE USERIDX = #{userIdx}
 	</select>
 	
+<!-- 	관리자 제외 전체 유저 수 -->
+	<select id="getTotCnt" resultType="int">
+		SELECT COUNT(*) FROM DDOKUSER
+		WHERE  role != 'admin'
+	</select>
+	
+<!-- 	카테고리 별 건수 -->
+	<select id="getTotalCountByCondition" parameterType="map" resultType="int">
+	    SELECT COUNT(*) FROM DDOKUSER
+	    WHERE 1=1
+	    <if test="searchType != null and searchKeyword != null">
+	        <choose>
+	            <when test="searchType == 'EMAIL'">
+	                AND EMAIL LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	            <when test="searchType == 'NAME'">
+	                AND NAME LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	            <when test="searchType == 'PHONE'">
+	                AND PHONE LIKE '%' || #{searchKeyword} || '%'
+	            </when>
+	        </choose>
+	    </if>
+	</select>
 </mapper>
 
 

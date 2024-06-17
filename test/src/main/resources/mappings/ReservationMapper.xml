@@ -102,14 +102,25 @@
     </update>
     
 <!--     회원 모든 예약 조회 - 주은 -->
-	<select id="userReserList" parameterType="int" resultType="ReservationVO">
-	SELECT * 
-	FROM RESERVATION R, HOSPITAL H, MYPET P
-	WHERE R.USERIDX = #{userIdx}
-	AND R.USERIDX = P.USERIDX
-	AND R.HOSIDX = H.HOSIDX
-	AND R.PETIDX = P.PETIDX
-	</select>
+	<select id="userReserList" parameterType="map" resultType="ReservationVO">
+<!-- 	SELECT *  -->
+<!-- 	FROM RESERVATION R, HOSPITAL H, MYPET P -->
+<!-- 	WHERE R.USERIDX = #{userIdx} -->
+<!-- 	AND R.USERIDX = P.USERIDX -->
+<!-- 	AND R.HOSIDX = H.HOSIDX -->
+<!-- 	AND R.PETIDX = P.PETIDX -->
+<!-- 	ORDER BY RESERDATE DESC -->
+    SELECT * 
+    FROM RESERVATION R
+    JOIN HOSPITAL H ON R.HOSIDX = H.HOSIDX
+    JOIN MYPET P ON R.PETIDX = P.PETIDX AND R.USERIDX = P.USERIDX
+    WHERE R.USERIDX = #{userIdx}
+    <if test="condition != null and condition != 'all'">
+        AND R.condition = #{condition}
+    </if>
+    ORDER BY R.RESERDATE DESC
+</select>
+	
     
 
 </mapper>

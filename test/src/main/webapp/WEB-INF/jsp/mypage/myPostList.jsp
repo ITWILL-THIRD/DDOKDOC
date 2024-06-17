@@ -37,7 +37,7 @@
                     </c:choose>
                 </td>    
 				<td>
-					<a href="../board/getBoard.do?postidx=${board.postidx }">${board.title }</a>
+					<a href="myPostDetail.do?postidx=${board.postidx }">${board.title }</a>
 				</td>
 				<td>${board.nickname }</td>
 				<td>${board.formattedDate }</td>
