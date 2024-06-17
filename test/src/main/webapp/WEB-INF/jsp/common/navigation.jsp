@@ -109,7 +109,7 @@
         <a href="../board/getBoardList.do">정보나눔</a>
         <a href="../membership/checkout.do">멤버십</a>
         
-    	<c:if test="${empty sessionScope}">
+    	<c:if test="${empty sessionScope.hoUser and empty sessionScope.user}">
     		<a href="../user/login.do">로그인 /회원가입</a>
     	</c:if>
     	

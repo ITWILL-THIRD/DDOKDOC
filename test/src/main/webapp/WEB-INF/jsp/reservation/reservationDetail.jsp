@@ -30,7 +30,7 @@
 	<table>
 		<tr>
 			<th>병원 이름</th>
-			<td>${hospital.hosName }</td>
+			<td><a href="../hospital/hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName }</a></td>
 		</tr>
 		<tr>
 			<th>예약일</th>
