@@ -1,6 +1,7 @@
 package com.todoc.reservation.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,8 +78,8 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 	
 	@Override
-	public List<ReservationVO> userReserList(int userIdx) {
-		return reservationDAO.userReserList(userIdx);
+	public List<ReservationVO> userReserList(Map<String, Object> params) {
+		return reservationDAO.userReserList(params);
 	}
 	//=====================
 

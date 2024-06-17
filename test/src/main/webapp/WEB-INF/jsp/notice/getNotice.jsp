@@ -64,19 +64,19 @@
 			<tfoot>
 			<tr>
 				<td>
-					<input type="submit" value="수정" 
-						onclick="javascript:noticeForm.action='updateProNotice.do';">
-					<input type="submit" value="삭제" 
-						onclick="javascript:noticeForm.action='deleteNotice.do';">
-					<input type="hidden" name="noticeIdx" value="${notice.noticeIdx}">  
-					<input type="hidden" name="noticeTitle" value="${notice.noticeTitle}">  
-					<input type="hidden" name="noticeContent" value="${notice.noticeContent}">  
-					<input type="hidden" name="hosIdx" value="${notice.hosIdx}">  
+<!-- 					<input type="submit" value="수정"  -->
+<!-- 						onclick="javascript:noticeForm.action='updateProNotice.do';"> -->
+<!-- 					<input type="submit" value="삭제"  -->
+<!-- 						onclick="javascript:noticeForm.action='deleteNotice.do';"> -->
+<%-- 					<input type="hidden" name="noticeIdx" value="${notice.noticeIdx}">   --%>
+<%-- 					<input type="hidden" name="noticeTitle" value="${notice.noticeTitle}">   --%>
+<%-- 					<input type="hidden" name="noticeContent" value="${notice.noticeContent}">   --%>
+<%-- 					<input type="hidden" name="hosIdx" value="${notice.hosIdx}">   --%>
 					
 					<input type="button" value="병원 상세 뒤로 가기" 
 						onclick="javascript:location.href='../hospital/hosDetail.do?hosIdx=${notice.hosIdx}'">
-					<input type="button" value="마이페이지  공지사항" 
-					onclick="javascript:location.href='../mypage/hosNoticeList.do?hosIdx=${hoUser.hosIdx}'">
+<!-- 					<input type="button" value="마이페이지  공지사항"  -->
+<%-- 					onclick="javascript:location.href='../mypage/hosNoticeList.do?hosIdx=${hoUser.hosIdx}'"> --%>
 				</td>
 			</tr>
 			</tfoot>

@@ -15,8 +15,15 @@ public interface UserService {
 	UserVO findEmail(UserVO vo);
 	int findPwd(UserVO vo);
 	void updateExPwd(UserVO vo);
-	List<UserVO> getUserList(UserVO vo);
-	
+	List<UserVO> getUserList(UserVO vo, String searchType, String searchKeyword, int begin, int end);
+	int getTotCnt();
+//	//이메일 검색 유저수
+//    int getEmailTotCnt(String searchKeyword);
+//    //이름 검색 유저수
+//    int getNameTotCnt(String searchKeyword);
+//    //전화번호 검색 유저수
+//    int getPhoneTotCnt(String searchKeyword);
+	int getUserCountByCondition(String searchType, String searchKeyword);
 	
 	
 	

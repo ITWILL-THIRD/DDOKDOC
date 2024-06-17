@@ -15,6 +15,7 @@ function insertNotice(hosIdx){
 	//location.href = "../notice/insertProNotice.do?hosIdx=" + hosIdx;
 }
 </script>
+
 </head>
 <body>
 <h1>공지사항</h1>
@@ -37,7 +38,7 @@ function insertNotice(hosIdx){
 				<tr>
 					<td>${notice.noticeDate }</td>
 					<td><a
-						href="../notice/getNotice.do?hosIdx=${notice.hosIdx}&noticeIdx=${notice.noticeIdx }">${notice.noticeTitle }</a>
+						href="hoNoticeDetail.do?hosIdx=${notice.hosIdx}&noticeIdx=${notice.noticeIdx }">${notice.noticeTitle }</a>
 					</td>
 					<td>${notice.hit }</td>
 				</tr>

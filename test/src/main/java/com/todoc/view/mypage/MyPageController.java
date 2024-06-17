@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.todoc.board.BoardService;
 import com.todoc.board.BoardVO;
+import com.todoc.board.CommentVO;
 import com.todoc.googlecloudstorage.GCSService;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
@@ -210,7 +211,7 @@ public class MyPageController {
     	
     	 // 날짜 변환
         SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
         for (BoardVO board : myPostList) {
 	        String formattedDate = targetFormat.format(board.getPostdate());
 	        board.setFormattedDate(formattedDate);
@@ -219,6 +220,30 @@ public class MyPageController {
     	model.addAttribute("myPostList", myPostList);
     	
     	return "mypage/myPostList";
+    }
+    @RequestMapping("/myPostDetail.do")
+    public String myPostDetail(BoardVO vo, CommentVO co,  Model model) {
+    	// 게시글 상세 조회
+        BoardVO board = boardService.getBoard(vo);
+        List<CommentVO> comments = boardService.getCommentList(co);
+        co.setPostidx(vo.getPostidx());
+        
+     // 날짜 변환
+        SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        String formattedDate = targetFormat.format(board.getPostdate());
+        board.setFormattedDate(formattedDate);
+        
+        // 댓글 날짜 변환
+        for (CommentVO comment : comments) {
+            String formattedCommentDate = targetFormat.format(comment.getCommentdate());
+            comment.setFormattedCommentDate(formattedCommentDate);
+        }
+        
+        model.addAttribute("board", board); // Model에 데이터 저장
+        model.addAttribute("comments", comments);
+    	return "mypage/myPostDetail";
     }
     
     // (개인)리뷰 목록 조회

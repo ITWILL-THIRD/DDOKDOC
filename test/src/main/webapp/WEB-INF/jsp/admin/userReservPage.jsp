@@ -13,12 +13,19 @@
 <hr>
 <h2>회원 진료 예약내역</h2>
 <%-- \${userReserList } : ${userReserList } --%>
+<%-- ${userIdx } --%>
 <!-- 카테고리별  -->
-
+<div id="condition">
+	<a href="userReservPage.do?userIdx=${userIdx}">전체</a>
+	<a href="userReservPage.do?userIdx=${userIdx}&condition=RESERVATION">예약완료</a>
+	<a href="userReservPage.do?userIdx=${userIdx}&condition=CANCLE">예약취소</a>
+	<a href="userReservPage.do?userIdx=${userIdx}&condition=FINISH">진료완료</a>
+	<a href="userReservPage.do?userIdx=${userIdx}&condition=REVIEW">리뷰작성</a>
+</div>
 <table border>
 	<c:choose>
 		<c:when test="${empty userReserList}">
-			<p>예약 내역이 없습니다.</p>
+			<p>내역이 없습니다.</p>
 		</c:when>
 		<c:otherwise>
 			<tr>
