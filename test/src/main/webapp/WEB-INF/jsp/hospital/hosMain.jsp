@@ -7,11 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>토닥토닥 메인</title>
-
-<jsp:include page="../../css/hosMainCss.jsp"/>
-<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script>
 	function fetchData(category) {
 		let intSido = document.querySelector("select[name='sido']").value;
@@ -73,10 +70,15 @@
 	}
 
 </script>
+<style>
+	#hosTitle {
+		background-color: #B6E5FF;
+	}
+</style>
 </head>
 <body>
 <%-- \${hosList} : ${hosList } --%>
-	<div id="container">
+	<div class="container">
 		
 		<h1>병원 검색</h1>
 		<form id="getHosSearch" onsubmit="fetchData('search'); return false;">
@@ -95,10 +97,10 @@
 			<button class="tab" onclick="fetchData('night')">야간진료</button>
 			<button class="tab" onclick="fetchData('24h')">24시</button>
 		</div>
-	<table>
+	<table class="table">
 		<thead>
-			<tr>
-				<th width="30">번호</th>
+			<tr id="hosTitle">
+				<th width="50">번호</th>
 				<th width="150">병원명</th>
 				<th width="300">주소</th>
 				<th width="150">진료시간</th>

@@ -7,7 +7,8 @@
 <head>
 <meta charset='utf-8' />
 <jsp:include page="../common/navigation.jsp"/>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/" ></script>
 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.css" rel="stylesheet">
@@ -115,7 +116,7 @@
             }
           }
           // 클릭한 날짜를 새로운 선택 날짜로 설정
-          info.dayEl.style.backgroundColor = 'lightblue'; // 선택된 색상 설정
+          info.dayEl.style.backgroundColor = '#B6E5FF'; // 선택된 색상 설정
           selectedDate = info.dateStr; // 선택된 날짜 업데이트
           selectedDay = info.date.getDay(); //선택된 날짜의 요일
           // 예약 가능한 시간 비동기처리
@@ -180,7 +181,7 @@
         
         for (let time of response.availableTimes) {
           if (response.reservedTimes.includes(time)) {
-            dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
+            dispHtml += `<button type="button" class="btn btn-secondary" data-time="${time}" disabled>`;
           } else {
         	  var timeComponents = time.split(":");
               var hour = parseInt(timeComponents[0]);
@@ -206,12 +207,12 @@
                   console.log(currentMinute);
                   
                   if (hour < currentHour || (hour === currentHour && minute < currentMinute)) {
-                      dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
+                      dispHtml += `<button type="button" class="btn btn-secondary" data-time="${time}" disabled>`;
                   } else {
-                      dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
+                      dispHtml += `<button type="button" class="btn btn-outline-primary" data-time="${time}">`;
                   }
               } else {
-                  dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
+                  dispHtml += `<button type="button" class="btn btn-outline-primary" data-time="${time}">`;
               }
               
               
@@ -222,7 +223,7 @@
         $("#listDisp").html(dispHtml); 
 
         // 시간 선택 이벤트 리스너 설정
-        $(".time-btn").on("click", function() {
+        $(".btn").on("click", function() {
           if ($(this).hasClass("selected")) {
             $(this).removeClass("selected");
           } else {
@@ -242,7 +243,7 @@
   }
 
   function clearSelectedTime() {
-    $(".time-btn").removeClass("selected");
+    $(".btn").removeClass("selected");
     $("#selectTime").val("");
   }
   
@@ -288,34 +289,109 @@
 </script>
 <style>
   #reserBody {
-    margin: 40px 10px;
+    margin: auto;
+    margin-top: 10px;
     padding: 0;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
     font-size: 14px;
+    text-align: center;
+  }
+
+   #selectPetDiv, #selectDateTimeDiv {
+	float: left;
+    vertical-align: top;
+    margin-top: 20px;
+  }
+
+  #selectPetDiv {
+    width: calc(30% - 5px); /* 50% width for two divs with 5px space in between */
+  }
+
+  #selectDateTimeDiv {
+    width: calc(70% - 5px);
+    margin-left: 10px; /* Adjust margin between the two divs */
+    display: flex; /* Flexbox 레이아웃 설정 */
+    align-items: flex-start; /* 위쪽 정렬 */
+
+    /* 선택적으로 간격을 조정할 수 있습니다. */
+    gap: 10px; /* 요소 사이의 간격 */
   }
 
   #calendar {
-    max-width: 700px;
-    margin-left: 100px;
-    display: inline-block;
+  	flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
+    max-width: 700px; /* 최대 너비 설정 */
+  }
+  
+  #listDisp {
+  	width: 100px;
+  	height: 600px;
+  	margin-left: 10px;
+  	display: inline-block;
+  	overflow-y: auto;
   }
   
   .reserInfo {
     display: inline-block;
     vertical-align: top;
   }
-  
-  .time-btn {
-       margin: 5px;
-       padding: 10px;
-       border: 1px solid #ccc;
-       background-color: #f9f9f9;
-       cursor: pointer;
-   }
 
-   .time-btn.selected {
-       background-color: lightblue;
+   .btn {
+     margin-bottom: 2px;
+   }	
+   	
+   .btn.selected {
+       background-color: #B6E5FF;
    }
+   
+   #guardianInfo {
+	    margin-top: 10px;
+	    font-size: 16px;
+	    text-align: center;
+	    width: 100%; /* 너비를 100%로 설정하여 부모 요소에 맞추기 */
+	}
+	
+	#guardianInfoTitle, #timeListTitle {
+		border-radius: 10px;
+		background-color: #B6E5FF;
+	}
+	
+	
+	#guardianInfo p {
+		 margin: 0;	
+	}
+   
+   #guardian, #guardianPhone {
+	    margin-bottom: 5px;
+	    width: calc(100% - 20px); /* 입력 필드의 너비 설정 */
+	    padding: 5px; /* 내부 여백 설정 */
+	    box-sizing: border-box; /* 내부 여백과 테두리를 포함하여 요소의 크기 계산 */
+	    text-align: left; /* 입력 필드 내용 왼쪽 정렬 */
+	}
+	
+	#reserButton {
+		border: none;
+		border-radius: 10px;
+		background-color: #f0f1f1;
+		width: calc(100% - 20px);
+	}
+	#reserButton:hover {
+	  box-shadow: 0 5px 20px rgba(0,0,0,0.25), 0 3px 5px rgba(0,0,0,0.22);
+	}
+  	
+  	.btn-secondary {
+  		background-color: #f0f1f1; opacity : 0.5;
+  		border-color: #f0f1f1;
+  	}
+  	.btn-outline-primary {
+		border-color: #B6E5FF;
+		color: black;
+  	}
+  	
+  	.btn-outline-primary:hover {
+  		border-color: #B6E5FF;
+		background-color: #B6E5FF;
+		color: black;
+  	}
   
 </style>
 </head>
@@ -325,47 +401,59 @@
 \${user } : ${user }<br>
 \${myPetList } : ${myPetList }<br>
 \${session.getAttribute } : ${userIdx }<br> --%>
-\${hospital } : ${hospital }<br>
-\${hosHoliday } : ${hosHoliday }<br>
+<%-- \${hospital } : ${hospital }<br>
+\${hosHoliday } : ${hosHoliday }<br> --%>
 
-  <div id="reserBody">
+  <div id="reserBody" class="container">
+	<h1>진료 예약하기</h1>
     <div id="selectPetDiv">
-      <select id="selectPet">
+      <select id="selectPet" class="custom-select">
         <option value="null">진료볼 마이펫을 선택하세요</option>
         <c:forEach var="myPet" items="${myPetList }">
           <option value="${myPet.petIdx}">${myPet.petName}</option>
         </c:forEach>
       </select>
+      
+      <div id="guardianInfo">
+      	<p id="guardianInfoTitle">보호자 정보</p>
+      	<form method="post">
+      		<c:choose>
+		    	<c:when test="${not empty user.name }">
+		    		<p>이름 : <input type="text" id="guardian" name="guardian" value="${user.name }"></p>
+		      		<p>연락처 : <input type="text" id="guardianPhone" name="guardianPhone" value="${user.phone }"></p>
+		    	</c:when>
+		    	<c:otherwise>
+		    		<p>이름 : <input type="text" id="guardian" name="guardian" placeholder="보호자이름"></p>
+		      		<p>연락처 : <input type="text" id="guardianPhone" name="guardianPhone" placeholder="보호자연락처"></p>
+		    	</c:otherwise>
+		    </c:choose>
+		      <textarea rows="10" cols="30" id="memo" name="memo">메모를 남겨주세요</textarea>
+		      <input type="button" value="예약하기" id="reserButton" onclick="insertReservation(this.form)">
+		      <input type="hidden" id="reserDate" name="reserDate">
+		      <input type="hidden" id="selectTime" name="selectTime">
+		      <input type="hidden" id="petIdxStr" name="petIdxStr">
+      	</form>
+      	
+   	  </div>  
     </div>
-    <div id="calendar" class="reserInfo"></div>
-    <div id="listDisp" class="reserInfo">
-      <ul>
-        <li>예약가능시간</li>
-      </ul>
+    
+    
+    
+    <div id="selectDateTimeDiv" class="container">
+    	<div id="calendar" class="reserInfo"></div>
+    	<div id="listDisp" class="reserInfo">
+    		<p id="timeListTitle">예약 가능 시간</p>
+	    </div>
     </div>
-    <form method="post">
-    <c:choose>
-    	<c:when test="${not empty user.name }">
-    		<input type="text" id="guardian" name="guardian" value="${user.name }">
-      		<input type="text" id="guardianPhone" name="guardianPhone" value="${user.phone }">
-    	</c:when>
-    	<c:otherwise>
-    		<input type="text" id="guardian" name="guardian" placeholder="보호자이름">
-      		<input type="text" id="guardianPhone" name="guardianPhone" placeholder="보호자연락처">
-    	</c:otherwise>
-    </c:choose>
-      <textarea rows="4" cols="5" id="memo" name="memo">메모를 남겨주세요</textarea>
-      <input type="button" value="예약하기" onclick="insertReservation(this.form)">
-      <input type="hidden" id="reserDate" name="reserDate">
-      <input type="hidden" id="selectTime" name="selectTime">
-      <input type="hidden" id="petIdxStr" name="petIdxStr">
-    </form>
+    
+    
+    
   </div>
 
   <script>
     //선택된 시간을 form 시간값에 저장
     $('form').on('submit', function() {
-        let selectedTime = $('.time-btn.selected').data('time');
+        let selectedTime = $('.btn.selected').data('time');
         $('#selectTime').val(selectedTime);
     });
   </script>
