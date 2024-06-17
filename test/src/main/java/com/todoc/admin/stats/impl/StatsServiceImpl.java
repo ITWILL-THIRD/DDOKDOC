@@ -17,16 +17,6 @@ public class StatsServiceImpl implements StatsService {
 	private StatsDAO statsDAO;
 
 	@Override
-	public List<HosStatsVO> getHosStatsByDate(Map<String, String> params) {
-		return statsDAO.getHosStatsByDate(params);
-	}
-
-	@Override
-	public List<UserStatsVO> getUserStatsByDate(Map<String, String> params) {
-		return statsDAO.getUserStatsByDate(params);
-	}
-
-	@Override
 	public List<Map<String, String>> getHosMonthlyRevenue(Map<String, String> params) {
 		return statsDAO.getHosMonthlyRevenue(params);
 	}

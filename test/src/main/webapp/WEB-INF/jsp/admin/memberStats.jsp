@@ -11,10 +11,10 @@
 <body>
 	<c:choose>
 		<c:when test="${empty stats}">
-			<p>선택한 기간 내에 가입자 통계 데이터가 없습니다.</p>
+			<p>선택한 기간 내에 데이터가 없습니다.</p>
 		</c:when>
 		<c:otherwise>
-		    <table>
+		    <table style="display:none;">
 		        <tr>
 		            <th>기간</th>
 		            <th>총 가입자</th>

@@ -4,28 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoc.admin.stats.dao.StatsDAO">
 
-    <!-- 병원 날짜별 조회 -->
-    <select id="getHosStatsByDate" parameterType="map" resultType="HosStatsVO">
-        <![CDATA[
-        SELECT HOSMEMBERSHIP.HOSIDX, HOSPITAL.HOSNAME, HOSMEMBERSHIP.HOSSTART, HOSMEMBERSHIP.HOSEND, HOSMEMBERSHIP.AMOUNT
-        FROM HOSMEMBERSHIP
-        JOIN HOSPITAL ON HOSMEMBERSHIP.HOSIDX = HOSPITAL.HOSIDX
-        WHERE HOSMEMBERSHIP.HOSSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
-          AND HOSMEMBERSHIP.HOSEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
-        ]]>
-    </select>
-    
-    <!-- 유저 날짜별 조회 -->
-    <select id="getUserStatsByDate" parameterType="map" resultType="UserStatsVO">
-        <![CDATA[
-        SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.NICKNAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND, USERMEMBERSHIP.AMOUNT
-        FROM USERMEMBERSHIP
-        JOIN DDOKUSER ON USERMEMBERSHIP.USERIDX = DDOKUSER.USERIDX
-        WHERE USERMEMBERSHIP.MEMSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
-          AND USERMEMBERSHIP.MEMEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
-        ]]>
-    </select>   
-	
     <!-- 병원 월별 수익 조회 -->
     <select id="getHosMonthlyRevenue" parameterType="map" resultType="HashMap">
         <![CDATA[
@@ -160,4 +138,26 @@
 	    ORDER BY period
 	</select>
 	
+<!--     병원 날짜별 조회
+    <select id="getHosStatsByDate" parameterType="map" resultType="HosStatsVO">
+        <![CDATA[
+        SELECT HOSMEMBERSHIP.HOSIDX, HOSPITAL.HOSNAME, HOSMEMBERSHIP.HOSSTART, HOSMEMBERSHIP.HOSEND, HOSMEMBERSHIP.AMOUNT
+        FROM HOSMEMBERSHIP
+        JOIN HOSPITAL ON HOSMEMBERSHIP.HOSIDX = HOSPITAL.HOSIDX
+        WHERE HOSMEMBERSHIP.HOSSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND HOSMEMBERSHIP.HOSEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        ]]>
+    </select>
+    
+    유저 날짜별 조회
+    <select id="getUserStatsByDate" parameterType="map" resultType="UserStatsVO">
+        <![CDATA[
+        SELECT USERMEMBERSHIP.USERIDX, DDOKUSER.NICKNAME, USERMEMBERSHIP.MEMSTART, USERMEMBERSHIP.MEMEND, USERMEMBERSHIP.AMOUNT
+        FROM USERMEMBERSHIP
+        JOIN DDOKUSER ON USERMEMBERSHIP.USERIDX = DDOKUSER.USERIDX
+        WHERE USERMEMBERSHIP.MEMSTART >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+          AND USERMEMBERSHIP.MEMEND <= TO_DATE(#{endDate}, 'YYYY-MM-DD') + INTERVAL '1' DAY - INTERVAL '1' SECOND
+        ]]>
+    </select>    -->
+    
 </mapper>
