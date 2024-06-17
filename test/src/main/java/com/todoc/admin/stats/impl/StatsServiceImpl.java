@@ -17,42 +17,43 @@ public class StatsServiceImpl implements StatsService {
 	private StatsDAO statsDAO;
 
 	@Override
-	public List<HosStatsVO> getHosStatsByDate(Map<String, String> params) {
-		// TODO Auto-generated method stub
-		return statsDAO.getHosStatsByDate(params);
-	}
-
-	@Override
-	public List<UserStatsVO> getUserStatsByDate(Map<String, String> params) {
-		// TODO Auto-generated method stub
-		return statsDAO.getUserStatsByDate(params);
-	}
-
-	@Override
 	public List<Map<String, String>> getHosMonthlyRevenue(Map<String, String> params) {
-		// TODO Auto-generated method stub
 		return statsDAO.getHosMonthlyRevenue(params);
 	}
 
 	@Override
 	public List<Map<String, String>> getUserMonthlyRevenue(Map<String, String> params) {
-		// TODO Auto-generated method stub
 		return statsDAO.getUserMonthlyRevenue(params);
 	}
 
 	@Override
 	public List<HosStatsVO> getHosPaymentsByAccount(Map<String, String> params) {
-		// TODO Auto-generated method stub
 		return statsDAO.getHosPaymentsByAccount(params);
 	}
 
 	@Override
 	public List<UserStatsVO> getUserPaymentsByAccount(Map<String, String> params) {
-		// TODO Auto-generated method stub
 		return statsDAO.getUserPaymentsByAccount(params);
 	}
 
+	@Override
+	public List<Map<String, String>> getHosMemberStats(Map<String, String> params) {
+		return statsDAO.getHosMemberStats(params);
+	}
 
+	@Override
+	public List<Map<String, String>> getUserMemberStats(Map<String, String> params) {
+		return statsDAO.getUserMemberStats(params);
+	}
 
+	@Override
+	public List<String> getHosIds(String term) {
+		return statsDAO.getHosIds(term);
+	}
 	
+	@Override
+	public List<String> getUserEmails(String term) {
+		return statsDAO.getUserEmails(term);
+	}
+
 }

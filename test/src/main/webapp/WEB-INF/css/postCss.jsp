@@ -49,6 +49,14 @@
 		border: none;
 	}
 	
+	.btnWhite {
+		border-radius: 10px;
+		border-color: #B6E5FF;
+		background-color: #FFF;
+		padding: 3px;
+		width: 50px;
+	}
+	
 	<%-- 글 수정 취소 --%>
 	
 	.aBtn {

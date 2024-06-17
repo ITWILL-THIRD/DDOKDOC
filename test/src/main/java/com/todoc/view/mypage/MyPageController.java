@@ -137,14 +137,23 @@ public class MyPageController {
     	UserVO user = (UserVO) session.getAttribute("user");
     	
     	//예약 리스트 가져오기
+    	System.out.println(user.getUserIdx());
     	List<ReservationVO> myReserList = reservationService.myReserList(user.getUserIdx());
+    	
+    	System.out.println(myReserList);
     	
     	//변환된 시간 추가
     	for (int i = 0; i < myReserList.size(); i++) {
     		String formattedTime = myReserList.get(i).getReserTime().toString().substring(0, 5);
-    		myReserList.get(i).setFormattedTime(formattedTime);
+    		ReservationVO rvo = myReserList.get(i);
+    		rvo.setFormattedTime(formattedTime);
+    		System.out.println(formattedTime);
+    		myReserList.set(i, rvo);
+    		System.out.println("myReserList : " + myReserList);
+    		
     	}
     	
+    	System.out.println("myReserList : " + myReserList);
     	model.addAttribute("myReserList", myReserList);
     	
     	return "mypage/myReserList";

@@ -11,10 +11,12 @@ public interface BoardService {
 	List<BoardVO> getBoardList(BoardVO vo);
 	
 	void insertComment(CommentVO vo);
-	void deleteComment(CommentVO vo);
+	void updateComment(CommentVO vo);
+	void deleteComment(int commentIdx);
 	CommentVO getComment(CommentVO vo);
 	List<CommentVO> getCommentList(CommentVO vo);
 	List<CommentVO> getCommentList(int postidx);
 	
 	List<BoardVO> myPostList(int userIdx);
+	List<CommentVO> myCommentList(int userIdx);
 }

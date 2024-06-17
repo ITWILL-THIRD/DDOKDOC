@@ -37,10 +37,10 @@
     <insert id="insertReservation" parameterType="ReservationVO">
     	INSERT INTO RESERVATION (RESERIDX, HOSIDX, USERIDX, 
     								PETIDX, RESERDATE, RESERTIME, 
-    								MEMO, GUARDIAN, GUARDIANPHONE)          
+    								MEMO, CONDITION, GUARDIAN, GUARDIANPHONE)          
 		VALUES (SEQ_RESERIDX.NEXTVAL, #{hosIdx}, #{userIdx}, 
 					#{petIdx}, #{reserDate}, #{reserTime}, 
-					#{memo}, #{guardian}, #{guardianPhone})   
+					#{memo}, 'RESERVATION', #{guardian}, #{guardianPhone})   
 		<selectKey keyProperty="reserIdx" resultType="int" order="AFTER">
 		     SELECT SEQ_RESERIDX.CURRVAL FROM DUAL
 		</selectKey>			
@@ -48,6 +48,7 @@
     
     <!-- USER의 예약 리스트 -->
     <select id="myReserList" parameterType="int" resultType="ReservationVO">
+    <![CDATA[	
 		SELECT ROWNUM, T.*
 		FROM (SELECT R.*, H.HOSNAME HOSNAME, P.PETNAME PETNAME
 				FROM RESERVATION R, HOSPITAL H, MYPET P
@@ -55,8 +56,9 @@
 				AND R.RESERDATE >= SYSDATE-1
 				AND R.HOSIDX = H.HOSIDX
 				AND R.PETIDX = P.PETIDX
-				AND R.CONDITION IS NULL
+				AND R.CONDITION = 'RESERVATION'
 				ORDER BY RESERDATE ) T 
+	]]>			
     </select>
     
     <!-- 지난예약 조회 -->
@@ -98,4 +100,16 @@
 			MEMO = #{memo}
 		WHERE RESERIDX = #{reserIdx}
     </update>
+    
+<!--     회원 모든 예약 조회 - 주은 -->
+	<select id="userReserList" parameterType="int" resultType="ReservationVO">
+	SELECT * 
+	FROM RESERVATION R, HOSPITAL H, MYPET P
+	WHERE R.USERIDX = #{userIdx}
+	AND R.USERIDX = P.USERIDX
+	AND R.HOSIDX = H.HOSIDX
+	AND R.PETIDX = P.PETIDX
+	</select>
+    
+
 </mapper>

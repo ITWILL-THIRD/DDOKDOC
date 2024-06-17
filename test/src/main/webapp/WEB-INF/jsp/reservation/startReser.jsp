@@ -16,6 +16,10 @@
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@4.4.0/main.min.js"></script>
 <script>
+	//병원 일요일 휴무 체크
+	if (${hospital.sunDayOff == 'Y'}) {
+		alert(${hospital.sunDayOff == 'Y'});
+	}
 
 	//마이펫 등록 여부 체크
 	if (${myPetList.size()} == 0) {
@@ -28,7 +32,8 @@
     var selectedDate = null; 
     var selectedDay = null;
     
- 	// 예시 휴무일 데이터
+    var hospitalSundayOff = ${hospital.sunDayOff == 'Y'};
+    
     // 휴무일 목록을 받아옴
     var closedDates = [
 	    <c:forEach var="date" items="${hosHoliday}">
@@ -36,8 +41,6 @@
 	    </c:forEach>
 	];
  	alert(closedDates);
-    // 마지막 쉼표 제거
-    closedDates.pop();
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
@@ -88,6 +91,11 @@
           alert(info.dateStr + "은 휴무입니다:)");
           return;
         }
+     	// 일요일 클릭 비활성화
+        if (hospitalSundayOff && clickedDate.getDay() === 0) {
+          alert("일요일은 휴무입니다.");
+          return;
+        }
         // 클릭한 날짜가 선택된 날짜인지 확인
         if (selectedDate === info.dateStr) {
           // 선택된 날짜 다시 클릭 시 해제
@@ -127,8 +135,8 @@
           var dateStr = dayEl.getAttribute('data-date');
           var date = new Date(dateStr);
           
-          if (date < today || closedDates.includes(dateStr)) {
-              dayEl.style.backgroundColor = 'gray';
+          if (date < today || closedDates.includes(dateStr) || (hospitalSundayOff && date.getDay() === 0)) {
+              dayEl.style.backgroundColor = '#f0f1f1';
           }
         });
       } 
@@ -143,6 +151,7 @@
   
   function getJsonTimeData(selectedDate, selectedDay) {
     alert("예약 가능한 시간");
+    alert("selectedDay : " + selectedDay)
     var selectedTime = null; 
 
     // 병원 ID 및 선택된 날짜를 포함하여 데이터 전송
@@ -316,6 +325,7 @@
 \${user } : ${user }<br>
 \${myPetList } : ${myPetList }<br>
 \${session.getAttribute } : ${userIdx }<br> --%>
+\${hospital } : ${hospital }<br>
 \${hosHoliday } : ${hosHoliday }<br>
 
   <div id="reserBody">

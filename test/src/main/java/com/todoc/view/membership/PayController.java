@@ -129,10 +129,10 @@ public class PayController {
     	vo.setHosIdx(hvo.getHosIdx());
        	hosmembershipService.insertHosMembership(vo); 
        	
-    	HospitalVO ho = new HospitalVO();
-        ho.setHosIdx(hvo.getHosIdx());
-        ho.setCondition("결제완료");
-    	hosmembershipService.updateHosCondition(ho); 
+        hvo.setCondition("결제완료");
+    	hosmembershipService.updateHosCondition(hvo); 
+    	
+    	session.setAttribute("hoUser", hvo);
         return "membership/success";
     }
 
@@ -142,7 +142,7 @@ public class PayController {
     	
         boolean isApproved = hvo != null && "승인완료".equals(hvo.getCondition());
         model.addAttribute("isApproved", isApproved);
-        boolean notApproved = hvo != null && "승인 전".equals(hvo.getCondition());
+        boolean notApproved = hvo != null && "승인전".equals(hvo.getCondition());
         model.addAttribute("notApproved", notApproved);
         boolean isMember = hvo != null && "결제완료".equals(hvo.getCondition());
         model.addAttribute("isMember", isMember);

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,13 +16,27 @@
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@4.4.0/main.min.js"></script>
 <script>
-	
+	//병원 일요일 휴무 체크
+	if (${hospital.sunDayOff == 'Y'}) {
+		alert(${hospital.sunDayOff == 'Y'});
+	}
+ 	
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
       var selectedDate = null; 
       var selectedDay = null;
       var initialDate = '${reservationVO.reserDate}'; // 기존 예약 날짜
       var initialTime = '${reservationVO.formattedTime}'; // 기존 예약 시간
+      
+      var hospitalSundayOff = ${hospital.sunDayOff == 'Y'};
+      
+   // 휴무일 목록을 받아옴
+      var closedDates = [
+  	    <c:forEach var="date" items="${hosHoliday}">
+  	        '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
+  	    </c:forEach>
+  	];
+   	alert(closedDates);
       
       var calendar = new FullCalendar.Calendar(calendarEl, {
         googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
@@ -67,9 +82,14 @@
             alert('지난 날짜는 선택할 수 없습니다.');
             return;
           }
-          // 특정 날짜만 클릭 비활성화 (예: 2024-05-30)
-          if (info.dateStr === '2024-06-01') {
-            alert('2024-06-01은 병원 휴무입니다:)');
+       	  // 휴무일 클릭 비활성화
+          if (closedDates.includes(info.dateStr)) {
+            alert(info.dateStr + "은 휴무입니다:)");
+            return;
+          }
+          // 일요일 클릭 비활성화
+          if (hospitalSundayOff && clickedDate.getDay() === 0) {
+            alert("일요일은 휴무입니다.");
             return;
           }
           // 클릭한 날짜가 선택된 날짜인지 확인
@@ -100,15 +120,22 @@
           }
         },
         
-        dayRender: function(info) {
+     	// 과거 날짜, 휴무일 회색으로 설정
+        datesRender: function(info) {
           var today = new Date();
-          today.setHours(0, 0, 0, 0); // 오늘 날짜와 시간 초기화
-          var cellDate = new Date(info.date);
-          
-          if (cellDate < today) {
-            info.el.style.backgroundColor = 'gray'; // 이전 날짜 회색 배경 설정
-          }
-        }
+          today.setHours(0, 0, 0, 0);
+
+          var allDayEls = document.querySelectorAll('.fc-day');
+
+          allDayEls.forEach(function(dayEl) {
+            var dateStr = dayEl.getAttribute('data-date');
+            var date = new Date(dateStr);
+            
+            if (date < today || closedDates.includes(dateStr) || (hospitalSundayOff && date.getDay() === 0)) {
+                dayEl.style.backgroundColor = '#f0f1f1';
+            }
+          });
+        } 
         
       });
 
@@ -118,6 +145,16 @@
       if (initialDate) {
         selectedDate = initialDate;
         document.getElementById('reserDate').value = initialDate; // 숨겨진 필드 업데이트
+        
+        var initialDateObj = new Date(initialDate);
+        var calendarStartDate = new Date(calendar.view.currentStart);
+        var calendarEndDate = new Date(calendar.view.currentEnd);
+
+        // 예약된 날짜가 현재 달력에 포함되지 않으면 해당 달로 이동
+        if (initialDateObj < calendarStartDate || initialDateObj > calendarEndDate) {
+          calendar.gotoDate(initialDate);
+        }
+        
         var initialDayEl = document.querySelector('[data-date="' + initialDate + '"]');
         if (initialDayEl) {
           initialDayEl.style.backgroundColor = 'lightblue'; // 선택된 색상 설정
@@ -299,6 +336,7 @@
 </style>
 </head>
 <body>
+<%-- \${hospital } : ${hospital } --%>
 <%-- \${reservationVO } : ${reservationVO }<br>  --%>
 
 	<h2>예약변경하기</h2>

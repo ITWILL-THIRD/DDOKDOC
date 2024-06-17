@@ -7,7 +7,7 @@
 <title>postListCSS</title>
 <style>
 
-	#container { width: 1000px; margin: auto; }
+	#container { width: 1100px; margin: auto; }
 	h1, h3, p { text-align: center; }
 	
 	<%-- 목록 --%>
@@ -40,8 +40,8 @@
 	
 	<%-- 제목 링크 --%>
 	a {	
-		text-decoration: none;
-		color: black;	
+		
+		color: navy;	
 	}
 	a:hover {color:#B6E5FF;}
 	

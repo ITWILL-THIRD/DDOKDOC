@@ -18,4 +18,7 @@ public interface UserDAO {
 	 int findPwd(UserVO vo);
 	 void updateExPwd(UserVO vo);
 	 List<UserVO> getUserList(UserVO vo);
+	 int getReviewCount(int userIdx);
+     int getPostCount(int userIdx);
+     int getCommentCount(int userIdx);
 }

@@ -318,7 +318,6 @@
 	<p class="center">
 		<!-- 예약 버튼 함수실행으로 수정 -->
 		<input type="button" value="예약" onclick="userCheck('${user}')"/>
-		<button ></button>
 	</p>
 
 	<h4>공지사항</h4>
@@ -346,6 +345,7 @@
 <jsp:include page="partials/hosDatailJS.jsp"></jsp:include>
 <script>
 //로그인 유무 체크
+	// 로그인 유무 체크
 	function userCheck(user) {
 		if (user == null) {
 			alert("로그인 후 예약이 가능합니다.")

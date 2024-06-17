@@ -22,6 +22,13 @@ function validateForm() {
     }
     return true;
 }
+
+
+function clearFileInput() {
+    var fileInput = document.getElementById("file");
+    fileInput.value = "";
+}
+
 </script>
 </head>
 <body>
@@ -64,7 +71,8 @@ function validateForm() {
 		<tr>
 			<th>사진 첨부</th>
 			<td>
-				<input type="file" name="file">
+				<input type="file" id="file" name="file">
+				<button type="button" onclick="clearFileInput()"  class="btnWhite">삭제</button>
 			</td>
 		</tr>
 		<tr>

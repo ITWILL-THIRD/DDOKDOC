@@ -313,5 +313,26 @@
         VALUES (#{hosIdx}, #{holiDate})
 	</insert>
 	
+
+	<!-- 병원 휴무 삭제 -->
+	<delete id="deleteHosHoliday" parameterType="HolidayInsertParams">
+		DELETE 
+		FROM HOSHOLIDAY
+		WHERE HOSIDX = #{hosIdx}
+		AND HOLIDATE = #{holiDateStr}
+	</delete>
+
+<!-- 	내가 작성한 리뷰-주은 -->
+	<select id="myReviewList" parameterType="int" resultType="HosReviewVO">
+		SELECT H.HOSNAME, HR.*, R.RESERDATE, U.NICKNAME AS NICKNAME
+		FROM HOSPITAL H, HOSREVIEW HR, DDOKUSER U, RESERVATION R
+		WHERE H.HOSIDX = HR.HOSIDX 
+        AND HR.USERIDX = U.USERIDX
+        AND HR.RESERIDX = R.RESERIDX
+        AND HR.USERIDX = #{userIdx}
+		ORDER BY H.HOSIDX DESC
+	</select>
+
+	
 </mapper>
 

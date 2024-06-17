@@ -178,6 +178,8 @@ public class ReservationController {
 		vo.setReserIdx(Integer.parseInt(reserIdx));
 		
 		ReservationVO reservationVO = reservationService.getReservation(vo);
+		HospitalVO hvo = new HospitalVO();
+		hvo.setHosIdx(reservationVO.getHosIdx());
 		
 		// 가져온 ReservationVO 객체에서 RESERTIME 값을 가져와서 'hh:mm' 형식으로 변환
 		String formattedTime = reservationVO.getReserTime().toString().substring(0, 5); // HH:mm 형식으로 변환
@@ -189,8 +191,12 @@ public class ReservationController {
 		
 		List<MyPetVO> myPetList = myPetService.getMyPetList(reservationVO.getUserIdx());
 		
+		//휴무일 리스트
+		List<Date> hosHoliday = hospitalService.hosHoliday(hvo);
+		
 		model.addAttribute("reservationVO", reservationVO);
 		model.addAttribute("myPetList", myPetList);
+		model.addAttribute("hosHoliday", hosHoliday);
 		
 		return "reservation/updateReservation";
 	}

@@ -46,6 +46,8 @@ public interface HospitalService {
 	void updateHosTime(HospitalVO vo);
 	void updateHoPwd(HospitalVO vo);
 	void deleteHos(int hosIdx);
+	//관리자 리뷰리스트
+	List<HosReviewVO> myReviewList(int userIdx);
 	//기업(병원) 회원가입 시,
 	//병원 hosIdx 조회
 	int getHosIdx(HospitalVO vo);
@@ -61,4 +63,6 @@ public interface HospitalService {
 	List<Date> hosHoliday(HospitalVO vo);
 	//병원 휴무 입력
 	void insertHolidays(HolidayInsertParams param);
+	//병원 휴무 삭제
+	void deleteHosHoliday(HolidayInsertParams param);
 }

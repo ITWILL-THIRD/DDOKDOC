@@ -16,4 +16,7 @@ public interface ReservationService {
 	List<ReservationVO> myReserList(int useridx);
 	List<ReservationVO> myOldReserList(int userIdx);
 	List<ReservationVO> myCancleReserList(int userIdx);
+	//주은 ==================
+	ReservationVO getReservation(int reserIdx);
+	List<ReservationVO> userReserList(int userIdx);
 }
