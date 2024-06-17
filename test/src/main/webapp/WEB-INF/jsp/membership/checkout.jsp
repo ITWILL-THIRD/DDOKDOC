@@ -61,7 +61,7 @@
 			<c:when test="${notApproved}">
 	 	       	 승인완료 후 결제가 가능합니다.
 		    </c:when>
-			<c:when test="${isMember eq true}">
+			<c:when test="${isMember}">
 		        	이미	멤버십 회원입니다.
 		    </c:when>
 		</c:choose>	

@@ -27,7 +27,7 @@ public class HospitalServiceImpl implements HospitalService{
 	public HospitalServiceImpl() {
 		System.out.println(">> HospitalServiceImpl() 객체 생성");
 	}
-	
+
 	//병원 전체 조회
 	@Override
 	public List<HospitalVO> selectList() {

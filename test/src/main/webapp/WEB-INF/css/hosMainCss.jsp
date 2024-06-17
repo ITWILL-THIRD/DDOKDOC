@@ -7,7 +7,7 @@
 <title>postListCSS</title>
 <style>
 
-	#container { width: 900px; margin: auto; }
+	#container { width: 700px; margin: auto; }
 	h1, h3, p { text-align: center; }
 	
 	<%-- 목록 --%>
