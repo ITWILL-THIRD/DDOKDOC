@@ -19,7 +19,7 @@ public class UserVO {
 	private int ReserCount;
 	private int FinishCount;
 	private int NoShowCount;
-	private String condition;
+	
 	
 	//회원 리뷰,게시물,댓글 건수 조회
 	private int reviewCount;
