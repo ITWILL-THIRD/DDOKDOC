@@ -136,9 +136,9 @@ function userDelete_ok(frm) {
 	<p><a href="insertMyPetView.do">마이펫 등록</a></p>
 
 	<p><a href="myReserList.do">내 진료 예약내역 보기</a>
-	<p><a href="myOldReserList.do">내 진료 지난 예약내역 보기</a>
+<!-- 	<p><a href="myOldReserList.do">내 진료 지난 예약내역 보기</a> -->
 	<p><a href="myCancleReserList.do">취소한 예약내역 보기</a>
-	<p><a href="myReviewList.do">리뷰 목록 조회</a></p>
+	<p><a href="myReviewList.do">내 진료 지난 예약내역 보기</a></p>
 	<p><a href="myPostList.do">나의 작성 게시물</a>
 	</c:if>
 

@@ -88,4 +88,16 @@ public class ReservationServiceImpl implements ReservationService{
 		return reservationDAO.getHosReserList(hosIdx);
 	}
 
+	@Override
+	public List<ReservationVO> getDatePetReserList(ReservationVO vo) {
+		return reservationDAO.getDatePetReserList(vo);
+	}
+
+	@Override
+	public void updateComplete(int reserIdx) {
+		reservationDAO.updateComplete(reserIdx);
+	}
+	
+	
+
 }

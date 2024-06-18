@@ -100,7 +100,7 @@
 			MEMO = #{memo}
 		WHERE RESERIDX = #{reserIdx}
     </update>
- 
+
 <!--     회원 모든 예약 조회 - 주은 -->
 	<select id="userReserList" parameterType="map" resultType="ReservationVO">
 <!-- 	SELECT *  -->
@@ -128,5 +128,21 @@
 		WHERE R.USERIDX = U.USERIDX
 		AND R.HOSIDX = #{hosIdx}
     </select>
-
+    
+	<!-- 특정날짜 예약 내역 (pet 추가) -->
+    <select id="getDatePetReserList" parameterType="ReservationVO" resultType="ReservationVO">
+		SELECT R.*, P.PETNAME, P.ANIMAL, P.PETAGE
+		FROM RESERVATION R, MYPET P
+		WHERE R.PETIDX = P.PETIDX
+		AND HOSIDX = #{hosIdx}
+		AND TO_CHAR(RESERDATE, 'YYYY-MM-DD') = TO_CHAR(#{reserDate}, 'YYYY-MM-DD')
+    </select>
+    
+    <!-- 진료 완료 처리 -->
+    <update id="updateComplete" parameterType="int">
+    	UPDATE RESERVATION 
+		SET CONDITION = 'FINISH'
+		WHERE RESERIDX = #{reviewIdx}
+    </update>
+    	
 </mapper>
