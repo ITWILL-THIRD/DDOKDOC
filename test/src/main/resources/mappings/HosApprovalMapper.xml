@@ -9,6 +9,12 @@
 		SET CONDITION = '승인완료'
 		WHERE HOSIDX = #{hosIdx}
 	</update>
+	<!-- 병원 승인취소(승인전) -->
+	<update id="updateBeforeApproval" parameterType="int">
+		UPDATE HOSPITAL
+		SET CONDITION = '승인전'
+		WHERE HOSIDX = #{hosIdx}
+	</update>
 	
 	<!-- 전체 병원 건수 cnt 조회 -->
 	<select id="getTotCnt" resultType="int">
@@ -29,7 +35,7 @@
         	<when test="searchCondition == 'all'">
         		AND 1 = 1
         	</when>
-        	<when test="beginDate != null  and endDate != null ">
+        	<when test="searchCondition == 'date' and beginDate != null  and endDate != null ">
 <!--         		<![CDATA[ -->
         		AND TO_CHAR(HT.OPENTIME, 'YYYYMMDD') BETWEEN #{beginDate} AND #{endDate}
 <!--    				]]> -->
@@ -92,7 +98,7 @@
 		        	<when test="searchCondition == 'all'">
 		        		WHERE 1 = 1
 		        	</when>
-		        	<when test="beginDate != ''  and endDate != '' ">
+		        	<when test="searchCondition == 'date' and beginDate != ''  and endDate != '' ">
 		        		<![CDATA[
 		        		WHERE TO_CHAR(T.OPENTIME, 'YYYYMMDD') >= #{beginDate}
            				  AND TO_CHAR(T.OPENTIME, 'YYYYMMDD') <= #{endDate}

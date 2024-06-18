@@ -26,6 +26,11 @@ public class HosApprovalServiceImpl implements HosApprovalService{
 	public int updateApproval(int hosIdx) {
 		return hosApprovalDAO.updateApproval(hosIdx);
 	}
+	//병원 승인 취소(승인전)
+	@Override
+	public int updateBeforeApproval(int hosIdx) {
+		return hosApprovalDAO.updateBeforeApproval(hosIdx);
+	}
 	//전체 병원 건수 cnt 조회
 	@Override
 	public int getTotCnt() {
@@ -60,13 +65,13 @@ public class HosApprovalServiceImpl implements HosApprovalService{
 			System.out.println("beginDate : " + beginDate);
 			System.out.println("endDate : " + endDate);
 			Map<String, Object> map = new HashMap<String, Object>();
-			String yearBegin = beginDate.substring(1, 5);
-			String monthBegin = beginDate.substring(6, 8);
-			String dayBegin = beginDate.substring(9);
+			String yearBegin = beginDate.substring(0, 4);
+			String monthBegin = beginDate.substring(5, 7);
+			String dayBegin = beginDate.substring(8);
 			String beginDateStr = yearBegin + monthBegin + dayBegin;
-			String yearEnd = endDate.substring(1, 5);
-			String monthEnd = endDate.substring(6, 8);
-			String dayEnd = endDate.substring(9);
+			String yearEnd = endDate.substring(0, 4);
+			String monthEnd = endDate.substring(5, 7);
+			String dayEnd = endDate.substring(8);
 			String endDateStr = yearEnd + monthEnd + dayEnd;
 			map.put("searchCondition", "date");
 			map.put("beginDate", beginDateStr);

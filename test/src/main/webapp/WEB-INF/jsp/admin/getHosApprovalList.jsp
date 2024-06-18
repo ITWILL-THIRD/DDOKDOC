@@ -11,18 +11,101 @@
 <jsp:include page="../../css/hosApprovalListCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
+<style>
+        .condition-payment {
+            background-color: green;
+            color: white;
+        }
+        .condition-before {
+            background-color: yellow;
+            color: black;
+        }
+        .condition-after {
+            background-color: red;
+            color: white;
+        }
+    </style>
 <script>
+	$(document).ready(function() {
+	    // 모든 approvalBtn 버튼에 대해
+	    $('.approvalBtn').each(function() {
+	        var condition = $(this).data('condition');
+	        
+	        // condition 값에 따라 클래스 추가
+	        if (condition === '결제완료') {
+	            $(this).addClass('condition-payment');
+	        	$(this).val('결제완료');
+	        } else if (condition === '승인전') {
+	            $(this).addClass('condition-before');
+	            $(this).val('승인');
+	        } else if (condition === '승인완료') {
+	            $(this).addClass('condition-after');
+	            $(this).val('승인취소');
+	        }
+	    });
+	});
+
 	function approval(frm, hosIdx, condition, hosName) {
-		//승인전, 승인완료, 결제완료 상태 확인 후, 승인전 -> 승인완료 변경 처리!
-		if (condition == '승인전') {
-			if (confirm('[' + hosName + '] 승인 처리하시겠습니까?')) {
+		//토글(승인전 <-> 승인완료) 처리
+		if (condition == '결제완료') {
+			alert('이미 결제 완료된 [' + hosName + '] 병원입니다!\n이전 단계로(승인완료) 변경할 수 없습니다.');
+		} else if (condition == '승인전') {
+			if (confirm('[' + hosName + '] 병원 "승인완료" 처리하시겠습니까?')) {
 				location.href = "approvalPro.do?hosIdx=" + hosIdx;
 		    }
 		} else if (condition == '승인완료') {
-			alert('이미 승인된 [' + hosName + '] 병원입니다!');
-		} else if (condition == '결제완료') {
-			alert('이미 결제 완료된 [' + hosName + '] 병원입니다!\n이전 단계로(승인완료) 변경할 수 없습니다.');
+			if (confirm('이미 승인된 [' + hosName + '] 병원입니다.\n"승인전" 상태로 변경하시겠습니까?')) {
+				location.href = "approvalBeforePro.do?hosIdx=" + hosIdx;
+			}
 		}
+	}
+	
+	function dateSearch(frm) {
+		//가입날짜 검색할 때, 페이징 처리?
+		var beginDate = $('#beginDate').val();
+		var endDate = $('#endDate').val();
+		var cPage = $('#cPage').val();
+		var pagingVO = $('#pagingVO').val();
+		console.log("beginDate : " + beginDate + ", endDate : " + endDate);
+		console.log("cPage : " + cPage);
+		console.log("pagingVO : " + pagingVO);
+		
+		
+// 		$(document).ready(function() {
+//             $('.searchBtn').click(function() {
+//                 var hoListValue = $('#hoList').val();
+                
+//                 // 리스트의 각 객체를 추출하기 위해 배열로 분리
+//                 var hosListArray = hoListValue.match(/HosApprovalVO \[.*?\]/g);
+                
+//                 hosListArray.forEach(function(item, index) {
+//                     // 각 객체의 속성 값 추출
+//                     var hosIdx = item.match(/hosIdx=([^,]*)/)[1];
+//                     var animal = item.match(/animal=([^,]*)/)[1];
+//                     var hosName = item.match(/hosName=([^,]*)/)[1];
+//                     var roadAddressName = item.match(/roadAddressName=([^,]*)/)[1];
+//                     var detailAddress = item.match(/detailAddress=([^,]*)/)[1];
+//                     var openTime = item.match(/openTime=([^,]*)/)[1];
+//                     var closeTime = item.match(/closeTime=([^,]*)/)[1];
+//                     var hosPhone = item.match(/hosPhone=([^,]*)/)[1];
+//                     var certificateImg = item.match(/certificateImg=([^,]*)/)[1];
+//                     var condition = item.match(/condition=([^,]*)/)[1];
+//                     var beginDate = item.match(/beginDate=([^,]*)/)[1];
+//                     var endDate = item.match(/endDate=([^,]*)/)[1];
+//                     var searchCondition = item.match(/searchCondition=([^,]*)/)[1];
+
+//                     // 객체별로 추출된 속성 값 출력
+//                     console.log("Object " + (index + 1));
+//                     console.log("hosIdx: " + hosIdx);
+//                     console.log("animal: " + animal);
+//                     console.log("hosName: " + hosName);
+//                     console.log("roadAddressName: " + roadAddressName);
+//                     console.log("condition: " + condition);
+//                 });
+//                 alert.log("hosListArray : " + hosListArray);
+//             });
+//         });
+		location.href = "getHosApprovalSearch.do?cPage=" + cPage + "&beginDate=" + beginDate + "&endDate=" + endDate;
 	}
 </script>
 </head>
@@ -34,17 +117,16 @@
 \${endDate} : ${endDate}<br>  
 \${searchCondition} : ${searchCondition}<br><hr> 	
 	<!-- 검색 -->
-	<form action="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&beginDate=${beginDate}&endDate=${endDate}" method="post">
+	<form method="post">
 	<table class="border-none">
-		<tr><td>
-			<input type="date" name="beginDate">~
-			<input type="date" name="endDate">
-			<input type="submit" value="검색" class="searchBtn">
-			<input type="hidden" name="hospitalList" value="${hosList }">
+		<tr><td>가입일자 : 
+			<input type="date" id="beginDate" name="beginDate"> ~
+			<input type="date" id="endDate" name="endDate">
+			<input type="hidden" id="cPage" name="cPage" value="${pagingVO.nowPage}">
+			<input type="hidden" id="pagingVO" name="pagingVO" value="${pagingVO}">
+			<input type="button" value="검색" class="searchBtn" onclick="dateSearch(this.form)">
 		</td></tr>
 	</table>
-<!-- 	</form> -->
-<!-- 	<form> -->
 	<div id="getConditionSearch" class="center">
 		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
 		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=before">승인전</a>
@@ -85,7 +167,7 @@
 				</td>
 				<td class="center" id="condition">${hospital.condition}</td>
 				<td class="center">
-					<input type="button" class="approvalBtn" value="수락"
+					<input type="button" class="approvalBtn"
 						data-hos-idx="${hospital.hosIdx}" 
 						data-condition="${hospital.condition}"
 						data-hos-name="${hospital.hosName}" 

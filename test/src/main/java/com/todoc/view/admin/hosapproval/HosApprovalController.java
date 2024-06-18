@@ -4,25 +4,17 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.http.MediaType;
 
-import com.google.gson.Gson;
 import com.todoc.admin.hosapproval.HosApprovalService;
 import com.todoc.admin.hosapproval.HosApprovalVO;
 import com.todoc.common.Paging;
 import com.todoc.hospital.HospitalService;
-import com.todoc.hospital.HospitalVO;
 
 @RequestMapping("/admin")
 @Controller
@@ -109,21 +101,14 @@ public class HosApprovalController {
 					, @RequestParam(value = "beginDate", required = false) String beginDate
 					, @RequestParam(value = "endDate", required = false) String endDate
 					, @RequestParam(value = "searchCondition", required = false) String searchCondition
-					, @RequestParam(value = "hospitalList", required = false) String hospitalList
 					) {
 		System.out.println(">> HosApprovalController getAjaxApprovalList() 실행");
 		System.out.println(">> HosApprovalVO vo : " + vo);
 		System.out.println("beginDate : " + beginDate);
 		System.out.println("endDate : " + endDate);
-		System.out.println("hospitalList : " + hospitalList);
 		
 		//회원가입 조건별
 		if (beginDate != null && beginDate != null) {
-			String beginInput = beginDate.substring(1);
-			String endInput = endDate.substring(1);
-			System.out.println("beginInput : " + beginInput);
-			System.out.println("endInput : " + endInput);
-			
 			vo.setSearchCondition("date");
 			vo.setBeginDate(beginDate);
 			vo.setEndDate(endDate);
@@ -145,13 +130,16 @@ public class HosApprovalController {
                 break;
 			}
 		}
-		System.out.println("searchCondition : " + searchCondition);
+		System.out.println("searchCondition getSearchCondition() : " + vo.getSearchCondition());
+		
+		//vo 데이터의 getOpenTime() null 값으로  cnt 검색 조건으로 사용X
 		System.out.println(">> 페이징 전 vo.getOpenTime() : " + vo.getOpenTime());
 		
 		//페이징 처리를 위한 객체(Paging)생성 - numPerPage=10, pagePerBlock=10 세팅
 		Paging p = new Paging();
 		
 		//1. 전체 게시물 수량 구하기
+		//날짜 검색 시, totalRecord가 0 추출되면 안됨.
 		int totalRecord = hosApprovalService.getAjaxTotCnt(vo);
 		System.out.println("::: totalRecord 전체 수 : " + totalRecord);
 		p.setTotalRecord(totalRecord);
@@ -211,7 +199,7 @@ public class HosApprovalController {
 		return "admin/getHosApprovalList";
 	}
 	
-	//병원 정보 및 사업자등록증 승인 버튼 클릭
+	//병원 승인 클릭
 	@RequestMapping("/approvalPro.do")
 	public String aprrovalClick(HosApprovalVO hosptial, Model model) {
 		System.out.println(">> approvalClick() 메소드 실행~~");
@@ -221,7 +209,7 @@ public class HosApprovalController {
 		try {
 			clickCnt = hosApprovalService.updateApproval(hosptial.getHosIdx());
 			System.out.println("hosptial.getHosIdx() : " + hosptial.getHosIdx()
-				+ ", clickCnt : " + clickCnt);
+			+ ", clickCnt : " + clickCnt);
 			if (clickCnt == 1) {
 				System.out.println("승인 완료!!");
 			} 
@@ -231,5 +219,25 @@ public class HosApprovalController {
 		}
 		return "redirect:../admin/getHosApprovalList.do";
 	}
-	
+
+	//병원 승인취소 클릭
+	@RequestMapping("/approvalBeforePro.do")
+	public String aprrovalClickCancel(HosApprovalVO hosptial, Model model) {
+		System.out.println(">> aprrovalClickCancel() 메소드 실행~~");
+		System.out.println("hosptial : " + hosptial);
+		
+		int clickCnt;
+		try {
+			clickCnt = hosApprovalService.updateBeforeApproval(hosptial.getHosIdx());
+			System.out.println("hosptial.getHosIdx() : " + hosptial.getHosIdx()
+			+ ", clickCnt : " + clickCnt);
+			if (clickCnt == 1) {
+				System.out.println("승인취소 완료!!");
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("승인취소 처리 오류 발생!");
+		}
+		return "redirect:../admin/getHosApprovalList.do";
+	}
 }
