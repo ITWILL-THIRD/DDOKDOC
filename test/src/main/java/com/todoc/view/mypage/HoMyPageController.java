@@ -1,46 +1,35 @@
 package com.todoc.view.mypage;
 
-import javax.servlet.http.HttpSession;
-
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.ognl.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todoc.hospital.HolidayInsertParams;
+import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.TimeMapper;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
-import com.todoc.user.UserVO;
-
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpSession;
+import com.todoc.reservation.ReservationService;
+import com.todoc.reservation.ReservationVO;
 
 @RequestMapping("/mypage")
 @Controller
@@ -51,6 +40,8 @@ public class HoMyPageController {
 	private TimeMapper timeMapper;
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private ReservationService reservationService;
 
 	// 병원 마이페이지로 이동
 	@RequestMapping("/hoMyPage.do")
@@ -317,6 +308,27 @@ public class HoMyPageController {
 
         return "redirect:/mypage/insertHosHoliday.do";
 	}
+	// 병원 리뷰 목록 조회
+  	@RequestMapping("/hosReviewList.do")
+  	public String hosReviewList(Model model, HttpSession session) {
+ 		System.out.println("::마이페이지-리뷰리스트");
+ 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+ 		int hosIdx = 0;
+ 		if (hoUser != null) {
+ 		    hosIdx = hoUser.getHosIdx();
+ 		}
+ 		
+ 		model.addAttribute("hosIdx", hosIdx);
+ 		
+	    // 병원 1개 조회
+	    HospitalVO hospital = hospitalService.selectOne(hosIdx);
+	    model.addAttribute("hospital", hospital);
+		//작성된 리뷰 목록
+		List<HosReviewVO> hosReviewList = hospitalService.getHosReviewList(hosIdx);
+		model.addAttribute("hosReviewList", hosReviewList);
+
+		return "mypage/hosReviewList";
+	 }
 
 	// 병원 휴무 취소
 	/*
@@ -338,4 +350,39 @@ public class HoMyPageController {
 		
 		return "redirect:/mypage/insertHosHoliday.do";
 	}
+
+  	// 병원 예약 현황
+  	@RequestMapping("/hosReserList.do")
+  	public String hosReserList(Model model, HttpSession session) {
+ 		System.out.println("::병원예약현황");
+ 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+ 		int hosIdx = 0;
+ 		if (hoUser != null) {
+ 		    hosIdx = hoUser.getHosIdx();
+ 		}
+ 		
+ 		HospitalVO vo = new HospitalVO();
+		vo.setHosIdx(hosIdx);
+ 		
+ 		model.addAttribute("hosIdx", hosIdx);
+ 		
+		//병원 1개 조회
+		HospitalVO hospital = hospitalService.selectOne(hosIdx);
+		System.out.println("hospital : " + hospital);
+		model.addAttribute("hospital", hospital);
+ 		
+ 		//병원 전체 예약 목록 
+ 		List<ReservationVO> hosResrList = reservationService.getHosReserList(hosIdx);
+ 		model.addAttribute("hosResrList", hosResrList);
+ 		System.out.println(hosResrList);
+ 		
+ 		//휴무일 리스트
+		List<Date> hosHoliday = hospitalService.hosHoliday(vo);
+		System.out.println("hosHoliday : " + hosHoliday);
+
+		model.addAttribute("hosHoliday", hosHoliday);
+
+ 		return "mypage/hosReserList";
+  	}
+
 }
