@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>마이펫 등록하기</title>
+<jsp:include page="../common/header.jsp"/>
+<jsp:include page="../common/navigation.jsp"/>
 <script>
 	window.onload = function(){
 		var errorMessage = "<c:out value='${errorMessage}'/>";

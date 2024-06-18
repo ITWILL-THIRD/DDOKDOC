@@ -4,15 +4,15 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoc.user.dao.UserDAO">
 
-<!-- 	개인 로그인 -->
-	<select id="getUser" resultType="userVO">
-		SELECT * 
-		FROM DDOKUSER
-		WHERE EMAIL = #{email} AND PASSWORD = #{password}
-	</select>
-	
+<!--    개인 로그인 -->
+   <select id="getUser" resultType="userVO">
+      SELECT * 
+      FROM DDOKUSER
+      WHERE EMAIL = #{email} AND PASSWORD = #{password}
+   </select>
+   
 
-	 <!-- 회원가입 -->
+    <!-- 회원가입 -->
     <insert id="insertUser" parameterType="userVO">
         <!-- 방금 삽입된 시퀀스 값 가져오기 -->
         <selectKey keyProperty="userIdx" resultType="int" order="AFTER">
@@ -24,71 +24,71 @@
         VALUES (SEQ_USERIDX.NEXTVAL, #{email}, #{nickname}, #{password}, #{name}, #{birth}, #{phone}, #{role}, #{userImg})
     </insert>
 
-	
-	<!-- 이메일중복체크 -->
-	
-<!-- 	<select id="email" parameterType="string" resultType="string"> -->
-<!-- 		SELECT EMAIL FROM DDOKUSER -->
-<!-- 		WHERE EMAIL = #{email} -->
-<!-- 	</select> -->
+   
+   <!-- 이메일중복체크 -->
+   
+<!--    <select id="email" parameterType="string" resultType="string"> -->
+<!--       SELECT EMAIL FROM DDOKUSER -->
+<!--       WHERE EMAIL = #{email} -->
+<!--    </select> -->
 
-	<select id="email" resultType="int">
-		SELECT COUNT(*) FROM DDOKUSER
-		WHERE EMAIL = #{email}
-	</select>
-	
-<!-- 	카카오 이메일 있나 확인 -->
-	<select id="getUserByEmail" parameterType="String" resultType="userVO">
+   <select id="email" resultType="int">
+      SELECT COUNT(*) FROM DDOKUSER
+      WHERE EMAIL = #{email}
+   </select>
+   
+<!--    카카오 이메일 있나 확인 -->
+   <select id="getUserByEmail" parameterType="String" resultType="userVO">
         SELECT * FROM DDOKUSER WHERE email = #{email}
     </select>
-	
+   
 <!--     내 정보 수정  -->
-	<update id="updateUser" parameterType="userVO">
-		UPDATE DDOKUSER 
-		SET USERIMG = #{userImg}, NICKNAME = #{nickname}, PHONE = #{phone}
-		WHERE USERIDX = #{userIdx}
-	</update>
-<!-- 	비밀번호 수정 -->
-	<update id="updatePwd" parameterType="userVO">
-		UPDATE DDOKUSER 
-		SET PASSWORD = #{password}
-		WHERE USERIDX = #{userIdx}
-	</update>
-	
-<!-- 	내 정보 조회 -->
-	<select id="getUserInfo" parameterType="int" resultType="userVO">
-		SELECT *
-		FROM DDOKUSER
-		WHERE USERIDX = #{userIdx}
-	</select>
-	
-<!-- 	회원탈퇴 -->
-	<delete id="deleteUser" parameterType="userVO">
-		DELETE FROM DDOKUSER WHERE USERIDX = #{userIdx}
-	</delete>
-	
-<!-- 	이메일찾기 -->
-	<select id="findEmail" resultType="userVO">
-		SELECT * FROM DDOKUSER
-		WHERE NAME = #{name} AND PHONE = #{phone}
-	</select>
-	
-<!-- 	비번찾기 -->
-	<select id="findPwd" resultType="int">
-		SELECT COUNT(*) FROM DDOKUSER
-		WHERE NAME = #{name} AND EMAIL = #{email}
-	</select>
-	
-<!-- 	임시비번으로 업데이트 -->
-	<update id="updateExPwd" parameterType="userVO">
-		UPDATE DDOKUSER 
-		SET PASSWORD = #{password}
-		WHERE NAME = #{name} AND EMAIL = #{email}
-	</update>
-	
+   <update id="updateUser" parameterType="userVO">
+      UPDATE DDOKUSER 
+      SET USERIMG = #{userImg}, NICKNAME = #{nickname}, PHONE = #{phone}
+      WHERE USERIDX = #{userIdx}
+   </update>
+<!--    비밀번호 수정 -->
+   <update id="updatePwd" parameterType="userVO">
+      UPDATE DDOKUSER 
+      SET PASSWORD = #{password}
+      WHERE USERIDX = #{userIdx}
+   </update>
+   
+<!--    내 정보 조회 -->
+   <select id="getUserInfo" parameterType="int" resultType="userVO">
+      SELECT *
+      FROM DDOKUSER
+      WHERE USERIDX = #{userIdx}
+   </select>
+   
+<!--    회원탈퇴 -->
+   <delete id="deleteUser" parameterType="userVO">
+      DELETE FROM DDOKUSER WHERE USERIDX = #{userIdx}
+   </delete>
+   
+<!--    이메일찾기 -->
+   <select id="findEmail" resultType="userVO">
+      SELECT * FROM DDOKUSER
+      WHERE NAME = #{name} AND PHONE = #{phone}
+   </select>
+   
+<!--    비번찾기 -->
+   <select id="findPwd" resultType="int">
+      SELECT COUNT(*) FROM DDOKUSER
+      WHERE NAME = #{name} AND EMAIL = #{email}
+   </select>
+   
+<!--    임시비번으로 업데이트 -->
+   <update id="updateExPwd" parameterType="userVO">
+      UPDATE DDOKUSER 
+      SET PASSWORD = #{password}
+      WHERE NAME = #{name} AND EMAIL = #{email}
+   </update>
+   
 
-	
-	<!-- 관리자 유저 검색 -->
+   
+   <!-- 관리자 유저 검색 -->
 <select id="getUserList" parameterType="map" resultType="userVO">
     SELECT * 
     FROM (
@@ -118,22 +118,22 @@
     ]]>
 </select>
 
-<!-- 	회원 예약완료 건수 -->
-	<select id="getReserCount" resultType="int">
-		SELECT COUNT(*)
-		FROM RESERVATION
-		WHERE CONDITION = 'RESERVATION'
-		AND USERIDX = #{userIdx}
-	</select>
-	<!-- 	회원 진료완료 건수 -->
-	<select id="getFinishCount" resultType="int">
-		SELECT COUNT(*)
-		FROM RESERVATION
-		WHERE CONDITION = 'FINISH'
-		AND USERIDX = #{userIdx}
-	</select>
-	
-	 <!-- 회원 예약 후 진료를 보지 않은 건수 -->
+<!--    회원 예약완료 건수 -->
+   <select id="getReserCount" resultType="int">
+      SELECT COUNT(*)
+      FROM RESERVATION
+      WHERE CONDITION = 'RESERVATION'
+      AND USERIDX = #{userIdx}
+   </select>
+   <!--    회원 진료완료 건수 -->
+   <select id="getFinishCount" resultType="int">
+      SELECT COUNT(*)
+      FROM RESERVATION
+      WHERE CONDITION = 'FINISH'
+      AND USERIDX = #{userIdx}
+   </select>
+   
+    <!-- 회원 예약 후 진료를 보지 않은 건수 -->
     <select id="getNoShowCount" resultType="int">
         <![CDATA[
         SELECT COUNT(*)
@@ -144,52 +144,48 @@
         ]]>
     </select>
 
-<!-- 	회원리뷰건수 -->
-	<select id="getReviewCount" resultType="int">
-		SELECT COUNT(*)
-		FROM HOSREVIEW
-		WHERE USERIDX = #{userIdx}
-	</select>
+<!--    회원리뷰건수 -->
+   <select id="getReviewCount" resultType="int">
+      SELECT COUNT(*)
+      FROM HOSREVIEW
+      WHERE USERIDX = #{userIdx}
+   </select>
 <!-- 회원게시물건수 -->
-	<select id="getPostCount" resultType="int">
-		SELECT COUNT(*)
-		FROM POST 
-		WHERE USERIDX = #{userIdx}
-	</select>
+   <select id="getPostCount" resultType="int">
+      SELECT COUNT(*)
+      FROM POST 
+      WHERE USERIDX = #{userIdx}
+   </select>
 <!-- 회원 댓글건수 -->
-	<select id="getCommentCount" resultType="int">
-		SELECT COUNT(*)
-		FROM COMMENTS
-		WHERE USERIDX = #{userIdx}
-	</select>
-	
-<!-- 	관리자 제외 전체 유저 수 -->
-	<select id="getTotCnt" resultType="int">
-		SELECT COUNT(*) FROM DDOKUSER
-		WHERE  role != 'admin'
-	</select>
-	
-<!-- 	카테고리 별 건수 -->
-	<select id="getTotalCountByCondition" parameterType="map" resultType="int">
-	    SELECT COUNT(*) FROM DDOKUSER
-	    WHERE 1=1
-	    <if test="searchType != null and searchKeyword != null">
-	        <choose>
-	            <when test="searchType == 'EMAIL'">
-	                AND EMAIL LIKE '%' || #{searchKeyword} || '%'
-	            </when>
-	            <when test="searchType == 'NAME'">
-	                AND NAME LIKE '%' || #{searchKeyword} || '%'
-	            </when>
-	            <when test="searchType == 'PHONE'">
-	                AND PHONE LIKE '%' || #{searchKeyword} || '%'
-	            </when>
-	        </choose>
-	    </if>
-	</select>
+   <select id="getCommentCount" resultType="int">
+      SELECT COUNT(*)
+      FROM COMMENTS
+      WHERE USERIDX = #{userIdx}
+   </select>
+   
+<!--    관리자 제외 전체 유저 수 -->
+   <select id="getTotCnt" resultType="int">
+      SELECT COUNT(*) FROM DDOKUSER
+      WHERE  role != 'admin'
+   </select>
+   
+<!--    카테고리 별 건수 -->
+   <select id="getTotalCountByCondition" parameterType="map" resultType="int">
+       SELECT COUNT(*) FROM DDOKUSER
+       WHERE 1=1
+       <if test="searchType != null and searchKeyword != null">
+           <choose>
+               <when test="searchType == 'EMAIL'">
+                   AND EMAIL LIKE '%' || #{searchKeyword} || '%'
+               </when>
+               <when test="searchType == 'NAME'">
+                   AND NAME LIKE '%' || #{searchKeyword} || '%'
+               </when>
+               <when test="searchType == 'PHONE'">
+                   AND PHONE LIKE '%' || #{searchKeyword} || '%'
+               </when>
+           </choose>
+       </if>
+   </select>
 </mapper>
-
-
-
-
 
