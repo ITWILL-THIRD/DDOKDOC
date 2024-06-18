@@ -20,6 +20,11 @@ public class ReservationVO {
 	private String guardian;
 	private String guardianPhone;
 	
+	//user 테이블
+	private String userName;
+	private String userPhone;
+	private String userBirth;
+	
 	public int getRownum() {
 		return rownum;
 	}
@@ -110,6 +115,24 @@ public class ReservationVO {
 	public void setGuardianPhone(String guardianPhone) {
 		this.guardianPhone = guardianPhone;
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getUserPhone() {
+		return userPhone;
+	}
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+	public String getUserBirth() {
+		return userBirth;
+	}
+	public void setUserBirth(String userBirth) {
+		this.userBirth = userBirth;
+	}
 	
 	@Override
 	public String toString() {
@@ -117,6 +140,8 @@ public class ReservationVO {
 				+ userIdx + ", petIdx=" + petIdx + ", reserDate=" + reserDate + ", dayStr=" + dayStr + ", reserTime="
 				+ reserTime + ", memo=" + memo + ", hosName=" + hosName + ", petName=" + petName + ", condition="
 				+ condition + ", formattedTime=" + formattedTime + ", guardian=" + guardian + ", guardianPhone="
-				+ guardianPhone + "]";
+				+ guardianPhone + ", userName=" + userName + ", userPhone=" + userPhone + ", userBirth=" + userBirth
+				+ "]";
 	}
+	
 }

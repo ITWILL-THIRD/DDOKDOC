@@ -20,4 +20,6 @@ public interface ReservationService {
 	//주은 ==================
 	ReservationVO getReservation(int reserIdx);
 	List<ReservationVO> userReserList(Map<String, Object> params);
+	//병원 예약 현황
+	List<ReservationVO> getHosReserList(int hosIdx);
 }

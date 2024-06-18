@@ -83,6 +83,9 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 	//=====================
 
-	
+	@Override
+	public List<ReservationVO> getHosReserList(int hosIdx) {
+		return reservationDAO.getHosReserList(hosIdx);
+	}
 
 }

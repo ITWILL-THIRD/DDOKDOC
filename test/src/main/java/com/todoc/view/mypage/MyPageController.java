@@ -140,9 +140,8 @@ public class MyPageController {
     	//예약 리스트 가져오기
     	System.out.println(user.getUserIdx());
     	List<ReservationVO> myReserList = reservationService.myReserList(user.getUserIdx());
-    	
     	System.out.println(myReserList);
-    	
+
     	//변환된 시간 추가
     	for (int i = 0; i < myReserList.size(); i++) {
     		String formattedTime = myReserList.get(i).getReserTime().toString().substring(0, 5);
@@ -369,27 +368,5 @@ public class MyPageController {
  	    hospitalService.updateAvgScore(hosVo);
  	}
  	
- 	// (병원)리뷰 목록 조회
-  	@RequestMapping("/hosReviewList.do")
-  	public String hosReviewList(Model model, HttpSession session) {
- 		System.out.println("::마이페이지-리뷰리스트");
- 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
- 		int hosIdx = 0;
- 		if (hoUser != null) {
- 		    hosIdx = hoUser.getHosIdx();
- 		}
- 		
- 		model.addAttribute("hosIdx", hosIdx);
- 		
-	    // 병원 1개 조회
-	    HospitalVO hospital = hospitalService.selectOne(hosIdx);
-	    model.addAttribute("hospital", hospital);
-
- 		//작성된 리뷰 목록
- 		List<HosReviewVO> hosReviewList = hospitalService.getHosReviewList(hosIdx);
- 		model.addAttribute("hosReviewList", hosReviewList);
-
- 		return "mypage/hosReviewList";
-  	}
  	
 }
