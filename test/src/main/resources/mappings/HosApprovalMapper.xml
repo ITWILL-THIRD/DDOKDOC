@@ -29,7 +29,7 @@
         	<when test="searchCondition == 'all'">
         		AND 1 = 1
         	</when>
-        	<when test="searchCondition == 'date' and beginDate != null  and endDate != null ">
+        	<when test="beginDate != null  and endDate != null ">
 <!--         		<![CDATA[ -->
         		AND TO_CHAR(HT.OPENTIME, 'YYYYMMDD') BETWEEN #{beginDate} AND #{endDate}
 <!--    				]]> -->
@@ -92,7 +92,7 @@
 		        	<when test="searchCondition == 'all'">
 		        		WHERE 1 = 1
 		        	</when>
-		        	<when test="searchCondition == 'date' and beginDate != ''  and endDate != '' ">
+		        	<when test="beginDate != ''  and endDate != '' ">
 		        		<![CDATA[
 		        		WHERE TO_CHAR(T.OPENTIME, 'YYYYMMDD') >= #{beginDate}
            				  AND TO_CHAR(T.OPENTIME, 'YYYYMMDD') <= #{endDate}
