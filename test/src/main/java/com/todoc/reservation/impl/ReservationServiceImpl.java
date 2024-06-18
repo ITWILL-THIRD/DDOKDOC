@@ -1,5 +1,6 @@
 package com.todoc.reservation.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,8 +79,26 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 	
 	@Override
-	public List<ReservationVO> userReserList(Map<String, Object> params) {
-		return reservationDAO.userReserList(params);
+	public List<ReservationVO> userReserList(ReservationVO vo, int userIdx, String condition, int begin, int end) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("vo", vo);
+		map.put("userIdx", userIdx);
+		map.put("condition", condition);
+		map.put("begin", begin);
+	    map.put("end", end);
+		
+		return reservationDAO.userReserList(map);
+	}
+	@Override
+	public int getResTotCnt(int userIdx) {
+		return reservationDAO.getResTotCnt(userIdx);
+	}
+	@Override
+	public int getResTotCntByCondition(int userIdx, String condition) {
+		 Map<String, Object> params = new HashMap<>();
+		 params.put("condition", condition);
+		 params.put("userIdx", userIdx);
+		return reservationDAO.getResTotCntByCondition(params);
 	}
 	//=====================
 

@@ -19,9 +19,13 @@ public interface ReservationService {
 	List<ReservationVO> myCancleReserList(int userIdx);
 	//주은 ==================
 	ReservationVO getReservation(int reserIdx);
-	List<ReservationVO> userReserList(Map<String, Object> params);
+	//List<ReservationVO> userReserList(Map<String, Object> params);
+	int getResTotCnt(int userIdx);
+	int getResTotCntByCondition(int userIdx, String condition);
+	List<ReservationVO> userReserList(ReservationVO vo, int userIdx, String condition, int begin, int end);
 	//병원 예약 현황
 	List<ReservationVO> getHosReserList(int hosIdx);
 	List<ReservationVO> getDatePetReserList(ReservationVO vo);
 	void updateComplete(int reserIdx);
 }
+

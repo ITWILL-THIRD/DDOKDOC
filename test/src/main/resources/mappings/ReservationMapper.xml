@@ -100,26 +100,58 @@
 			MEMO = #{memo}
 		WHERE RESERIDX = #{reserIdx}
     </update>
-
-<!--     회원 모든 예약 조회 - 주은 -->
-	<select id="userReserList" parameterType="map" resultType="ReservationVO">
-<!-- 	SELECT *  -->
-<!-- 	FROM RESERVATION R, HOSPITAL H, MYPET P -->
-<!-- 	WHERE R.USERIDX = #{userIdx} -->
-<!-- 	AND R.USERIDX = P.USERIDX -->
-<!-- 	AND R.HOSIDX = H.HOSIDX -->
-<!-- 	AND R.PETIDX = P.PETIDX -->
-<!-- 	ORDER BY RESERDATE DESC -->
-    SELECT * 
-    FROM RESERVATION R
-    JOIN HOSPITAL H ON R.HOSIDX = H.HOSIDX
-    JOIN MYPET P ON R.PETIDX = P.PETIDX AND R.USERIDX = P.USERIDX
-    WHERE R.USERIDX = #{userIdx}
-    <if test="condition != null and condition != 'all'">
-        AND R.condition = #{condition}
-    </if>
-    ORDER BY R.RESERDATE DESC
+    
+<select id="userReserList" parameterType="map" resultType="ReservationVO">
+    SELECT *
+    FROM (
+        SELECT ROWNUM AS R_NUM, R.*
+        FROM (
+            SELECT R.*, H.HOSNAME HOSNAME, P.PETNAME PETNAME
+            FROM RESERVATION R
+            JOIN HOSPITAL H ON R.HOSIDX = H.HOSIDX
+            JOIN MYPET P ON R.PETIDX = P.PETIDX AND R.USERIDX = P.USERIDX
+            WHERE R.USERIDX = #{userIdx}
+            <if test="condition != null and condition != 'all'">
+                AND R.CONDITION = #{condition}
+            </if>
+            ORDER BY R.RESERDATE DESC
+        ) R
+         <![CDATA[
+        WHERE ROWNUM <= #{end}
+    )
+    WHERE R_NUM >= #{begin}
+    ]]>
 </select>
+
+<!-- 	회원 모든 예약 건수 -->
+	<select id="getResTotCnt" resultType="int">
+	SELECT COUNT(*)
+	FROM RESERVATION 
+	WHERE USERIDX = #{userIdx}
+	</select>
+	
+<!-- 	동적처리 예약 건수 -->
+	<select id="getResTotCntByCondition" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM RESERVATION 
+		WHERE USERIDX = #{userIdx}
+		AND 1 = 1
+		<choose>
+			<when test="condition == 'RESERVATION'">
+			AND CONDITION = 'RESERVATION'
+			</when>
+			<when test="condition == 'CANCLE'">
+			AND CONDITION = 'CANCLE'
+			</when>
+			<when test="condition == 'FINISH'">
+			AND CONDITION = 'FINISH'
+			</when>
+			<when test="condition == 'REVIEW'">
+			AND CONDITION = 'REVIEW'
+			</when>
+		</choose>
+	</select>
+    
 
     <!-- 병원 예약 현황 -->
     <select id="getHosReserList" parameterType="int" resultType="ReservationVO">

@@ -31,6 +31,13 @@ function userDelete_ok(frm) {
 
 <hr>
 	<h2>내 정보</h2>
+	<c:if test="${user.condition == '결제전'}">
+	일반회원
+	</c:if>
+	<c:if test="${user.condition == '결제완료'}">
+	MEMBERSHIP 
+	</c:if>
+<%-- 	${user.condition } --%>
 	<form action="updateUser.do">
 	<table>
 	<tr>
