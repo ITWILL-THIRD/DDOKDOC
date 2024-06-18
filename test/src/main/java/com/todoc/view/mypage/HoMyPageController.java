@@ -286,48 +286,13 @@ public class HoMyPageController {
 
 	// 병원 휴무 DB 저장
 	@PostMapping("/insertHosHoliday.do")
-	private String insertHosHoliday(@RequestParam("holidays") String holidaysJson, String hosIdx) {
+	private String insertHosHoliday(HolidayInsertParams param) {
 
-		ObjectMapper objectMapper = new ObjectMapper();
-
-        try {
-            // JSON 문자열을 List<String>으로 변환
-            List<String> holidays = objectMapper.readValue(holidaysJson, new TypeReference<List<String>>() {});
-
-            // List<String>을 List<java.sql.Date>으로 변환
-            List<Date> holidayDates = holidays.stream()
-                                               .map(LocalDate::parse)
-                                               .map(java.sql.Date::valueOf)
-                                               .collect(Collectors.toList());
-
-            // hospitalService를 통해 휴무일 날짜 DB에 저장
-            for (Date holiDate : holidayDates) {
-            	
-            	HolidayInsertParams param = new HolidayInsertParams();
-            	param.setHosIdx(Integer.parseInt(hosIdx));
-            	param.setHoliDate(holiDate);
-            	
-                hospitalService.insertHolidays(param);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "오류 발생";
-        }
+		System.out.println("param : " + param);
+		hospitalService.insertHolidays(param);
 
         return "redirect:/mypage/insertHosHoliday.do";
 	}
-
-	// 병원 휴무 취소
-	/*
-	 * @PostMapping("/deleteHosHoliday.do") private String deleteHosHoliday(String
-	 * delHoliday, String hosIdx) {
-	 * 
-	 * System.out.println("delHoliday : " + delHoliday);
-	 * System.out.println("hosIdx : " + hosIdx);
-	 * 
-	 * return "redirect:/mypage/insertHosHoliday.do"; }
-	 */
 	
 	@PostMapping("/deleteHosHoliday.do")
 	private String deleteHosHoliday(HolidayInsertParams param) {
