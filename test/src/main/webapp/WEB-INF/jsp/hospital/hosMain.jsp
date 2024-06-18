@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>토닥토닥 메인</title>
-<jsp:include page="../common/header.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script>
 	function fetchData(category) {
