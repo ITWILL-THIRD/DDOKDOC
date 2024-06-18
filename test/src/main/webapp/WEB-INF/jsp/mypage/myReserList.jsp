@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>내 예약 내역</title>
-<jsp:include page="../common/header.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
 	.reserHead {
 		background-color: #B6E5FF;
