@@ -6,9 +6,10 @@
 <meta charset="UTF-8">
 <title>postListCSS</title>
 <style>
-	#container { width: 700px; margin: auto; }
+	#container { width: 800px; margin: auto; }
 	h1, h3, p { text-align: center; }
 	.center { text-align: center; }
+	.top-margin {margin-top: 100px;}
 	
 	<%-- 글내용 --%>
 	
@@ -20,15 +21,16 @@
 		padding: 5px;
 		text-align: center;
 	}
+	
 	th { background-color: #B6E5FF; }
 
 	.border-none, .border-none td { border: none; }
 	
 	.getBoard {
-		width: 600px;
+		width: 800px;
 	}
 	
-	.insertBoard {width: 600px;	}
+	.insertBoard {width: 800px;	}
 	
 	#category {
 		padding: 10px;

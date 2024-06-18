@@ -2,6 +2,8 @@ package com.todoc.user;
 
 import java.util.List;
 
+import com.todoc.membership.UserMembershipVO;
+
 public interface UserService {
 	UserVO getUser(UserVO vo);
 	void insertUser(UserVO vo);
@@ -24,6 +26,8 @@ public interface UserService {
 //    //전화번호 검색 유저수
 //    int getPhoneTotCnt(String searchKeyword);
 	int getUserCountByCondition(String searchType, String searchKeyword);
+	void updateUserCondition(UserVO user);
+	UserMembershipVO getUserMembershipByIdx(int userIdx);
 	
 	
 	

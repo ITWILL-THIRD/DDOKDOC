@@ -9,8 +9,8 @@ public class HosMembershipVO {
 	private String orderId;
 	private int amount;
 	private String paymentKey;
-	private Date startDate;
-	private Date endDate;
+	private Date hosStart;
+	private Date hosEnd;
 	
 	public int getHosIdx() {
 		return hosIdx;
@@ -36,17 +36,17 @@ public class HosMembershipVO {
 	public void setPaymentKey(String paymentKey) {
 		this.paymentKey = paymentKey;
 	}
-	public Date getStartDate() {
-		return startDate;
+	public Date getHosStart() {
+		return hosStart;
 	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setHosStart(Date hosStart) {
+		this.hosStart = hosStart;
 	}
-	public Date getEndDate() {
-		return endDate;
+	public Date getHosEnd() {
+		return hosEnd;
 	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setHosEnd(Date hosEnd) {
+		this.hosEnd = hosEnd;
 	}
 	public void put(String string, String string2) {
 		// TODO Auto-generated method stub
@@ -69,7 +69,7 @@ public class HosMembershipVO {
 	@Override
 	public String toString() {
 		return "HosMembershipVO [hosIdx=" + hosIdx + ", orderId=" + orderId + ", amount=" + amount + ", paymentKey="
-				+ paymentKey + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+				+ paymentKey + ", startDate=" + hosStart + ", endDate=" + hosEnd + "]";
 	}
 	
 	

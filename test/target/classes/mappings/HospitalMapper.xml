@@ -323,7 +323,19 @@
         AND HR.USERIDX = #{userIdx}
 		ORDER BY H.HOSIDX DESC
 	</select>
-
+	
+	<!-- 병원 멤버십 상태 조회 및 변경 -->
+	<select id="getHosMembershipByIdx" parameterType="int" resultType="HosMembershipVO">
+		SELECT *
+		FROM HOSMEMBERSHIP
+		WHERE HOSIDX = #{hosIdx}
+	</select>
+	
+	<update id="updateHosCondition" parameterType="HospitalVO">
+		UPDATE HOSPITAL
+		SET CONDITION = #{condition}
+		WHERE HOSIDX = #{hosIdx}
+	</update>
 	
 </mapper>
 

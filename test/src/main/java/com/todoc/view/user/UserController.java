@@ -1,6 +1,8 @@
 package com.todoc.view.user;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,8 @@ import com.todoc.googlecloudstorage.GCSService;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.TimeMapper;
+import com.todoc.membership.HosMembershipVO;
+import com.todoc.membership.UserMembershipVO;
 import com.todoc.user.UserService;
 import com.todoc.user.UserVO;
 
@@ -66,6 +70,36 @@ public class UserController {
          session.setAttribute("user", user);
          model.addAttribute("msg", "로그인 성공");
          System.out.println(">>로그인 성공");
+         
+         UserMembershipVO memvo = userService.getUserMembershipByIdx(user.getUserIdx());
+         
+         if (memvo == null) {
+             System.out.println("UserMembershipVO is null");
+             model.addAttribute("msg", "회원 기간 정보가 없습니다.");
+             return "redirect:login.do?msg=failure";
+         }
+
+         Date userStart = (Date) memvo.getMemstart();
+         Date userEnd = (Date) memvo.getMemend();
+
+         // Null 체크 추가
+         if (userStart == null || userEnd == null) {
+             System.out.println("hosStart 또는 hosEnd가 null입니다.");
+             model.addAttribute("msg", "회원 기간 정보가 없습니다.");
+             return "redirect:login.do?msg=failure";
+         }
+
+         Date currentDate = new Date(System.currentTimeMillis());
+
+         // 날짜 비교
+         if (currentDate.before(userStart) || currentDate.after(userEnd)) {
+             user.setCondition("결제전");
+             userService.updateUserCondition(user); 
+             System.out.println(">> 기간이 유효하지 않아 결제전으로 설정");
+         } else {
+        	 System.out.println(">> 멤버십 기간 유효");
+         }
+         
          session.setAttribute("user", user);
          if (user.getRole().equals("admin")) {
             return "redirect:/index.jsp?msg=admin";
@@ -101,6 +135,38 @@ public class UserController {
          model.addAttribute("msg", "로그인 성공");
          session.setAttribute("hoUser", user);
          System.out.println(">>로그인 성공");
+         
+         
+         HosMembershipVO memvo = hospitalService.getHosMembershipByIdx(user.getHosIdx());
+         
+         if (memvo == null) {
+             System.out.println("HosMembershipVO is null");
+             model.addAttribute("msg", "회원 기간 정보가 없습니다.");
+             return "redirect:hoLogin.do?msg=failure";
+         }
+
+         Date hosStart = (Date) memvo.getHosStart();
+         Date hosEnd = (Date) memvo.getHosEnd();
+
+         // Null 체크 추가
+         if (hosStart == null || hosEnd == null) {
+             System.out.println("hosStart 또는 hosEnd가 null입니다.");
+             System.out.println("user.getHosIdx()" +user.getHosIdx());
+             System.out.println("memvo" + memvo);
+             model.addAttribute("msg", "회원 기간 정보가 없습니다.");
+             return "redirect:hoLogin.do?msg=failure";
+         }
+
+         Date currentDate = new Date(System.currentTimeMillis());
+
+         // 날짜 비교
+         if (currentDate.before(hosStart) || currentDate.after(hosEnd)) {
+             user.setCondition("승인완료");
+             hospitalService.updateHosCondition(user); 
+             System.out.println(">> 기간이 유효하지 않아 승인완료로 설정");
+         } else {
+        	 System.out.println(">> 멤버십 기간 유효");
+         }
          
          return "redirect:/index.jsp?msg=hosuccess";
          
