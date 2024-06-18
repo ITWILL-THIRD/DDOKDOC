@@ -12,11 +12,9 @@
 </head>
 <body>
 <div id="container">
-	<h1>글목록 [getBoardList.jsp]</h1>
-	
 	<!-- 검색 -->
 	<form action="getBoardList.do" method="get">
-	<table class="border-none">
+	<table class="border-none top-margin">
 		<tr>
 			<td>
 				<select name="searchCondition">
@@ -42,8 +40,8 @@
 		<thead>
 			<tr>
 				<th width="50">번호</th>
-				<th width="80">카테고리</th>
-				<th width="260">제목</th>
+				<th width="100">카테고리</th>
+				<th width="310">제목</th>
 				<th width="150">작성자</th>
 				<th width="140">작성일</th>
 				<th width="50">조회수</th>

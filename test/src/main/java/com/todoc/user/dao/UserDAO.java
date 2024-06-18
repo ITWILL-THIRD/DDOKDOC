@@ -3,6 +3,7 @@ package com.todoc.user.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.todoc.membership.UserMembershipVO;
 import com.todoc.user.UserVO;
 
 public interface UserDAO {
@@ -17,7 +18,7 @@ public interface UserDAO {
 	 void deleteUser(int userIdx);
 	 UserVO findEmail(UserVO vo);
 	 int findPwd(UserVO vo);
-	 void updateExPwd(UserVO vo);
+	 void userDAO(UserVO vo);
 	 List<UserVO> getUserList(Map<String, Object> map);
 	 int getReserCount(int userIdx);
 	 int getFinishCount(int userIdx);
@@ -35,4 +36,7 @@ public interface UserDAO {
 //     int getPhoneTotCnt();
 //     int getTotalCountByCondition(String searchType, String searchKeyword, int begin, int end);
 	int getTotalCountByCondition( Map<String, Object> params);
+	void updateUserCondition(UserVO user);
+	void updateExPwd(UserVO vo);
+	UserMembershipVO getUserMembershipByIdx(int userIdx);
 }

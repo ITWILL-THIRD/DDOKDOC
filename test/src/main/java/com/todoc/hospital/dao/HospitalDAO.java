@@ -6,6 +6,7 @@ import java.util.List;
 import com.todoc.hospital.HolidayInsertParams;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalVO;
+import com.todoc.membership.HosMembershipVO;
 import com.todoc.reservation.ReservationVO;
 import com.todoc.hospital.HosImgVO;
 
@@ -74,6 +75,8 @@ public interface HospitalDAO {
 	
 	//병원 휴무 삭제
 	void deleteHosHoliday(HolidayInsertParams param);
-	
+	//병원 멤버십 상태 확인 및 변경
+	void updateHosCondition(HospitalVO vo);
+	HosMembershipVO getHosMembershipByIdx(int hosIdx);
 }
 
