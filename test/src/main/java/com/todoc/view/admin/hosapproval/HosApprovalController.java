@@ -108,17 +108,22 @@ public class HosApprovalController {
 	public String getAjaxApprovalList(HosApprovalVO vo, HttpServletRequest request, Model model
 					, @RequestParam(value = "beginDate", required = false) String beginDate
 					, @RequestParam(value = "endDate", required = false) String endDate
-//					, @RequestParam(value = "list", required = false) List<HosApprovalVO> list
+//					, @RequestParam(value = "hospitalList", required = false) List<HosApprovalVO> hospitalList
+//					, @RequestParam(value = "hospitalOpenTimeList", required = false) List<String> hospitalOpenTimeList
 					, @RequestParam(value = "searchCondition", required = false) String searchCondition
 					) {
-		System.out.println(">> HosHosApprovalController getAjaxApprovalList() 실행");
+		System.out.println(">> HosApprovalController getAjaxApprovalList() 실행");
 		System.out.println(">> HosApprovalVO vo : " + vo);
 		System.out.println("beginDate : " + beginDate);
 		System.out.println("endDate : " + endDate);
-//		System.out.println("hosList : " + list);
+//		System.out.println("hospitalOpenTimeList : " + hospitalOpenTimeList);
+//		System.out.println("hospitalList : " + hospitalList);
 		
 		//회원가입 조건별
 		if (beginDate != null && beginDate != null) {
+			String beginInput = beginDate.substring(1);
+			String endInput = endDate.substring(1);
+			
 			vo.setSearchCondition("date");
 			vo.setBeginDate(beginDate);
 			vo.setEndDate(endDate);

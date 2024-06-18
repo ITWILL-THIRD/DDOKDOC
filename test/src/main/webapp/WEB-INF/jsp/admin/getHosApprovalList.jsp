@@ -22,55 +22,19 @@
 // 		}
 // 	};
 	
-	function approval(frm, hosIdx) {
+	function approval(frm, hosIdx, condition) {
 		//승인전, 승인완료, 결제완료 상태 확인 후, 승인전 -> 승인완료 변경 처리!
+		console.log("hosIdx : " + hosIdx + ", condition : " + condition);
 		
-		if (confirm('승인 수락하시겠습니까?')) {
-			
-			location.href = "approvalPro.do?hosIdx=" + hosIdx;
-			
-// 			var hospitalData = frm.querySelector('input[name="hospital"]').value;
-// 			console.log(hospitalData);
-			
-// 	        $.ajax({
-// 	        	type: 'GET',
-//                 url: '/approvalBtn.do',
-//                 contentType: 'application/json',
-//                 data: JSON.stringify(hospitalData),
-//                 success: function(data) {
-//                     $("#listDisp").empty();
-
-//                     let html = '';
-                    
-//                     for (let hospital of data) {
-					
-// 	                    let openTimeSub = hospital.openTime.substring(0, 5);
-// 				    	let closeTimeSub = hospital.closeTime.substring(0, 5);
-				    	
-// 				    	html += "<tr>";
-// 				    	html += "<td class='center'>" + hospital.hosIdx + "</td>";
-// 				    	html += "<td class='center'>" + hospital.animal + "</td>";
-// 				    	html += "<td class='center'><a href='../hospital/hosDetail.do?hosIdx=" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
-// 				    	html += "<td class='center'>" + hospital.roadAddressName + " " + ${hospital.detailAddress} + "</td>";
-// 				    	html += "<td class='center'>" + openTimeSub + " - " + closeTimeSub + "</td>";
-// 				    	html += "<td class='center'>" + hospital.hosPhone + "</td>";
-// 				    	html += "<td class='center' id='fileLink'><a href='" + hospital.certificateImg + "'" + " target='_blank'>파일 </a></td>";
-// 				    	html += "<td class='center'>" + hospital.hosPhone + "</td>";
-// 				    	html += "<td class='center'>" + hospital.condition + "</td>";
-// 		       			html += "<input type='hidden' name='hosIdx' value='" + hospital.hosIdx + "'></td>";
-// 		       			html += "</tr>";
-//                     }
-// 	       			console.log('Final HTML:', dispHtml);
-//                     $('#listDisp').html(html);
-// 	            },
-// 	            error : function(jqXHR, textStatus, errorThrown){
-// 	 	            alert("Ajax 처리 실패:\n" +
-// 	 	                      "jqXHR.readyState: " + jqXHR.readyState + "\n" +
-// 	 	                      "textStatus: " + textStatus + "\n" +
-// 	 	                      "errorThrown: " + errorThrown);
-// 	 	        }
-// 	        });
-	    }
+		if (condition == '승인전') {
+			if (confirm('승인 수락하시겠습니까?')) {
+				location.href = "approvalPro.do?hosIdx=" + hosIdx;
+		    }
+		} else if (condition == '승인완료') {
+			alert('이미 승인 처리된 병원입니다!');
+		} else if (condition == '결제완료') {
+			alert('이미 결제 완료된 병원입니다!\n이전 단계로(승인완료) 변경할 수 없습니다.');
+		}
 	}
 	//동적 검색 ajax - 오류 중단
 // 	function searchData(category) {
@@ -128,14 +92,14 @@
 \${endDate} : ${endDate}<br>  
 \${searchCondition} : ${searchCondition}<br><hr> 	
 	<!-- 검색 -->
-	<form action="getHosApprovalSearch.do?beginDate&endDate&cPage=${pagingVO.nowPage}" method="post">
+	<form action="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&beginDate=${beginDate}&endDate=${endDate}" method="post">
 <!-- 	<form id="getDateSearch" onsubmit="searchData('date'); return false;"> -->
 	<table class="border-none">
 		<tr><td>
 			<input type="date" name="beginDate">~
 			<input type="date" name="endDate">
 			<input type="submit" value="검색" class="searchBtn">
-<%-- 			<input type="hidden" name="hosList" value="${hosList}"> --%>
+			<input type="hidden" id="hospitalListInput" name="hospitalOpenTimeList">
 		</td></tr>
 	</table>
 	</form>
@@ -182,11 +146,12 @@
 				<td class="center" id="fileLink">
 					<a href="${hospital.certificateImg}" target="_blank">파일</a>
 				</td>
-				<td class="center">${hospital.condition}</td>
+				<td class="center" id="condition">${hospital.condition}</td>
 				<td class="center">
 					<input type="button" class="approvalBtn" value="수락"
-						data-hos-idx="${hospital.hosIdx}" onclick="approval(this.form, this.dataset.hosIdx)">
+						data-hos-idx="${hospital.hosIdx}" data-condition="${hospital.condition}" onclick="approval(this.form, this.dataset.hosIdx, this.dataset.condition)">
 					<input type="hidden" name="hospital" value="${hospital}">
+					<input type="hidden" name="condition" value="${hospital.condition}">
 				</td>
 			</tr>
 		</c:forEach>
