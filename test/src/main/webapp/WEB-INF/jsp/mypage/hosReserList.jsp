@@ -36,7 +36,7 @@
 	        '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
 	    </c:forEach>
 	];
- 	alert(closedDates);
+ 	//alert(closedDates);
     // 마지막 쉼표 제거
     closedDates.pop();
 
@@ -135,7 +135,7 @@
     calendar.render();
   });
 
-	function getJsonTimeData(selectedDate, selectedDay) {
+  function getJsonTimeData(selectedDate, selectedDay) {
 	    let vo = {
 	        reserDate: selectedDate,
 	        dayStr: selectedDay
@@ -163,8 +163,8 @@
 	                let hour = parseInt(timeComponents[0]);
 	                let minute = parseInt(timeComponents[1]);
 	                let isDisabled = false;
-	                let reservedUserNames = [];
-
+	                let reserGuardian = null;
+					let reserGuardianPhone = null; 
 	                if (selectedDate === formatDate(currentTime)) {
 	                    if (hour < currentHour || (hour === currentHour && minute < currentMinute)) {
 	                        isDisabled = true;
@@ -172,45 +172,37 @@
 	                }
 
 	                // 예약된 사용자 이름을 찾음
-	                for (var reservation of response.reserList) {
-	                    if (reservation.reserTime === time) {  // reservation.time -> reservation.reserTime
-	                        reservedUserNames.push(reservation.guardian);
+	                for (let reservation of response.reserList) {
+	                    let reservationTime = reservation.reserTime.substring(0, 5); // 시간과 분까지만 추출 (14:30:00 -> 14:30)
+	                    if (reservationTime === time) {
+	                        reserGuardian = reservation.guardian;
+	                        reserGuardianPhone = reservation.guardianPhone;
 	                    }
 	                }
-
+	                
+	                console.log("reserGuardian : " + reserGuardian);
+	                
 	                dispHtml += `<div style="display: flex; align-items: center;">`;
 	                dispHtml += `<button type="button" class="time-btn reserved" data-time="${time}" ${isDisabled ? 'disabled' : ''} style="background-color: skyblue;">`;
 	                dispHtml += time;
 	                dispHtml += "</button>";
-	                dispHtml += `<span style="margin-left: 10px;">(${reservedUserNames.join(', ')})</span>`; // 예약자 이름 추가
+	                dispHtml += `<span style="margin-left: 10px;">`;
+	                dispHtml += reserGuardian ? reserGuardian : '예약 없음'; // 템플릿 리터럴 사용
+	                dispHtml += "&nbsp;"
+                	dispHtml +=	reserGuardianPhone
+	                dispHtml += "</span>"; 
 	                dispHtml += "</div><br>";
 	            }
 
 	            $("#listDisp").html(dispHtml); // HTML 삽입 위치 확인
-
-	            $(".reserved").on("click", function() {
-	                console.log("reserved");
-	                clearSelectedTime();
-	                $(this).addClass("selected");
-
-	                // 클릭한 버튼의 텍스트(시간)을 가져옴
-	                var clickedTime = $(this).text();
-	                console.log("reserved click " + clickedTime);
-	                console.log("response.reserList : " + response.reserList);
-	                // reservedTimes 배열에서 클릭한 시간에 해당하는 사용자 이름을 찾음
-	                var reservedUserNames = [];
-	                for (var reservation of response.reserList) {
-	                    if (reservation.reserTime === clickedTime) {  // reservation.time -> reservation.reserTime
-	                        reservedUserNames.push(reservation.guardian);
-	                    }
-	                }   
-	            });
 	        },
 	        error: function() {
 	            alert("실패~~");
 	        }
 	    });
 	}
+
+
 
 	function formatDate(date) {
 	    let year = date.getFullYear();
