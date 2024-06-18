@@ -13,8 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.todoc.hospital.HospitalVO;
-import com.todoc.membership.HosMembershipVO;
 import com.todoc.membership.UserMembershipService;
 import com.todoc.membership.UserMembershipVO;
 import com.todoc.user.UserVO;
@@ -122,11 +120,22 @@ public class UserPayController {
 		model.addAttribute("user", uvo);
     	vo.setUserIdx(uvo.getUserIdx());
        	usermembershipService.insertUserMembership(vo); 
+       	
+       	uvo.setCondition("결제완료");
+    	usermembershipService.updateUserCondition(uvo);
+    	
         return "membership/usersuccess";
     }
 
     @RequestMapping(value = "/usercheckout.do", method = RequestMethod.GET)
     public String index(HttpServletRequest request, Model model, HttpSession session) throws Exception {
+    	UserVO uvo= (UserVO) session.getAttribute("user");
+    	
+    	boolean isNotMember = uvo != null && "결제전".equals(uvo.getCondition());
+        model.addAttribute("isNotMember", isNotMember);
+        boolean isMember = uvo != null && "결제완료".equals(uvo.getCondition());
+        model.addAttribute("isMember", isMember);
+    	
         return "membership/usercheckout";
     }
 

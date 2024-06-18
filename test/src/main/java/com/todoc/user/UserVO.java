@@ -18,6 +18,7 @@ public class UserVO {
 	private int ReserCount;
 	private int FinishCount;
 	private int NoShowCount;
+	private String condition;
 	
 	//회원 리뷰,게시물,댓글 건수 조회
 	private int reviewCount;
@@ -83,6 +84,12 @@ public class UserVO {
 	}
 	public void setUserImg(String userImg) {
 		this.userImg = userImg;
+	}
+	public String getCondition() {
+		return condition;
+	}
+	public void setCondition(String condition) {
+		this.condition = condition;
 	}
 	@Override
 	public String toString() {

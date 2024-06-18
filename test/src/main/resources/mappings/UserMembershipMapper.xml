@@ -16,7 +16,7 @@
 		)
 	</insert>
 	<update id="updateUserCondition" parameterType="UserVO">
-		UPDATE 
+		UPDATE DDOKUSER
 		SET CONDITION = #{condition}
 		WHERE USERIDX = #{userIdx}
 	</update>
