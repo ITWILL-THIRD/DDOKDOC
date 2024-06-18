@@ -8,6 +8,32 @@
 <title>마이펫 등록하기</title>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
+<style>
+	/* 컨테이너 */
+	#container {
+		width: 700px;
+		margin: auto;
+	}
+	h1, h3, p {
+		text-align: center;
+	}
+	
+	/* 테이블 */
+	table {
+		border-collapse: collapse; 
+		width: 100%;
+		margin: 20px 0;
+	}
+	table, th, td {
+		border: 1px solid #B9B9B9;
+		padding: 8px;
+		text-align: center;
+	}
+	td {
+		text-align: left;
+	}
+	
+</style>
 <script>
 	window.onload = function(){
 		var errorMessage = "<c:out value='${errorMessage}'/>";
