@@ -14,7 +14,7 @@ public class JDBCUtil {
 			Class.forName("oracle.jdbc.OracleDriver");
 			return DriverManager.getConnection(
 					"jdbc:oracle:thin:@localhost:1521:xe", 
-					"TODOC", "todocpw");
+					"mystudy", "mystudypw");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
