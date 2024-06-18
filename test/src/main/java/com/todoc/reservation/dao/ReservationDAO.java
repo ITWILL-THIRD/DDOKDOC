@@ -22,4 +22,6 @@ public interface ReservationDAO {
 	List<ReservationVO> userReserList(Map<String, Object> params);
 	//병원 예약 현황
 	List<ReservationVO> getHosReserList(int hosIdx);
+	List<ReservationVO> getDatePetReserList(ReservationVO vo);
+	void updateComplete(int reserIdx);
 }

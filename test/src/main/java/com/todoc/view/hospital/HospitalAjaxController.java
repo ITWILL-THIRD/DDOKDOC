@@ -41,20 +41,4 @@ public class HospitalAjaxController {
 		return reviewList;
 	}
 	
-	//리뷰 동적 수정
-//	@RequestMapping(value = "hospital/updateReview.do", method = RequestMethod.POST,
-//			produces = "application/json; charset=utf-8")
-//	@ResponseBody
-//	public Map<String, String> updateReview(@RequestParam("userIdx") int userIdx, @RequestBody HosReviewVO vo) {
-//	    System.out.println(":: 병원 리뷰 update");
-//	    vo.setUserIdx(userIdx);
-//	    System.out.println("vo : " + vo);
-//	   
-//	    hospitalService.updateReview(vo);
-//	    System.out.println("update");
-//	    
-//	    Map<String, String> response = new HashMap<>();
-//	    response.put("redirect", "/hospital/hosDetail.do?hosIdx=" + vo.getHosIdx());
-//	    return response;
-//	}
 }

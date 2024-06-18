@@ -15,6 +15,8 @@ public class ReservationVO {
 	private String memo;
 	private String hosName;
 	private String petName;
+	private String animal;
+	private String petAge;
 	private String condition;
 	private String formattedTime;
 	private String guardian;
@@ -133,15 +135,27 @@ public class ReservationVO {
 	public void setUserBirth(String userBirth) {
 		this.userBirth = userBirth;
 	}
+	public String getAnimal() {
+		return animal;
+	}
+	public void setAnimal(String animal) {
+		this.animal = animal;
+	}
+	public String getPetAge() {
+		return petAge;
+	}
+	public void setPetAge(String petAge) {
+		this.petAge = petAge;
+	}
 	
 	@Override
 	public String toString() {
 		return "ReservationVO [rownum=" + rownum + ", reserIdx=" + reserIdx + ", hosIdx=" + hosIdx + ", userIdx="
 				+ userIdx + ", petIdx=" + petIdx + ", reserDate=" + reserDate + ", dayStr=" + dayStr + ", reserTime="
-				+ reserTime + ", memo=" + memo + ", hosName=" + hosName + ", petName=" + petName + ", condition="
-				+ condition + ", formattedTime=" + formattedTime + ", guardian=" + guardian + ", guardianPhone="
-				+ guardianPhone + ", userName=" + userName + ", userPhone=" + userPhone + ", userBirth=" + userBirth
-				+ "]";
+				+ reserTime + ", memo=" + memo + ", hosName=" + hosName + ", petName=" + petName + ", animal=" + animal
+				+ ", petAge=" + petAge + ", condition=" + condition + ", formattedTime=" + formattedTime + ", guardian="
+				+ guardian + ", guardianPhone=" + guardianPhone + ", userName=" + userName + ", userPhone=" + userPhone
+				+ ", userBirth=" + userBirth + "]";
 	}
-	
+
 }
