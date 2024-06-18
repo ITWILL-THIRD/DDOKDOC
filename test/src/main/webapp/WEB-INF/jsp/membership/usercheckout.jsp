@@ -31,31 +31,28 @@
 		        <img src="https://i.ibb.co/BfnCRZ4/3d-casual-life-happy-man-with-laptop-showing-ok-hand-sign.png" alt="예약" border="0">
 		    </div>
 		</div>
-
-	
+		<c:choose>
+			<c:when test="${isNotMember}">
+		        <!-- 결제 UI -->
+		        <div id="payment-method" class="checkable typography--p" style="padding-left: 25px">
+		        </div>
+		        <!-- 이용약관 UI -->
+		        <div id="agreement"></div>
+		        <!-- 쿠폰 체크박스
+		        <div class="checkable typography--p" style="padding-left: 25px">
+		          <label for="coupon-box" class="checkable__label typography--regular"
+		            ><input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true" /><span class="checkable__label-text">5,000원 쿠폰 적용</span></label>
+		        </div> -->
+		        <!-- 결제하기 버튼 -->
+		        <button class="button" id="payment-button" style="margin-top: 30px" disabled>결제하기</button>
+		      	</div>
+	    		</div>
+			</c:when>
 			
-	        <!-- 결제 UI -->
-	        <div id="payment-method" class="checkable typography--p" style="padding-left: 25px">
-	        </div>
-	        <!-- 이용약관 UI -->
-	        <div id="agreement"></div>
-	        <!-- 쿠폰 체크박스
-	        <div class="checkable typography--p" style="padding-left: 25px">
-	          <label for="coupon-box" class="checkable__label typography--regular"
-	            ><input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true" /><span class="checkable__label-text">5,000원 쿠폰 적용</span></label>
-	        </div> -->
-	        <!-- 결제하기 버튼 -->
-	        <button class="button" id="payment-button" style="margin-top: 30px" disabled>결제하기</button>
-	      </div>
-	    </div>
-			
-			<c:choose>
-			<c:when test="${notApproved}">
-	 	       	 승인완료 후 결제가 가능합니다.
-		    </c:when>
 			<c:when test="${isMember}">
 		        	이미	멤버십 회원입니다.
 		    </c:when>
+			
 		</c:choose>	
     <script>
       const button = document.getElementById("payment-button");

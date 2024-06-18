@@ -12,6 +12,7 @@ public class UserVO {
 	private String phone;
 	private String role;
 	private String userImg;
+	private String condition;
 	
 	public int getUserIdx() {
 		return userIdx;
@@ -66,6 +67,12 @@ public class UserVO {
 	}
 	public void setUserImg(String userImg) {
 		this.userImg = userImg;
+	}
+	public String getCondition() {
+		return condition;
+	}
+	public void setCondition(String condition) {
+		this.condition = condition;
 	}
 	@Override
 	public String toString() {
