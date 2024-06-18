@@ -137,6 +137,7 @@ public class UserController {
          } else {
             //관리자 계정 외는 모든 개인유저
             vo.setRole("user");
+            vo.setCondition("결제전");
             userService.insertUser(vo);
             System.out.println("vo : " + vo);
             System.out.println(">>회원가입 완료");

@@ -69,6 +69,7 @@ public class UserAjaxController {
 //	            userService.insertUser(userVO);
 	            response.put("newUser", true);
 	            session.setAttribute("user", userVO);
+	            
 	        } else {
 	            response.put("newUser", false);
 	            session.setAttribute("user", existingUser);
@@ -91,6 +92,8 @@ public class UserAjaxController {
 	                vo.setName(additionalInfo.get("name"));
 //	                userVO.setBirth(additionalInfo.get("birth")); // 생년월일 값 설정
 	                vo.setPhone(additionalInfo.get("phone"));
+	                vo.setRole("user");
+	                vo.setCondition("결제전");
 	             // String 타입의 생년월일을 java.sql.Date 타입으로 변환
 	                String birthStr = additionalInfo.get("birth");
 	                if (birthStr != null && !birthStr.isEmpty()) {
@@ -104,6 +107,8 @@ public class UserAjaxController {
 	        	    }
 	                userService.insertUser(vo);
 	                session.setAttribute("user", vo);
+	                vo.setRole("user");
+	                vo.setCondition("결제전");
 //	                userService.updateUser(userVO);
 	                response.put("success", true);
 	                System.out.println("userIdx (저장 후): " + vo.getUserIdx());

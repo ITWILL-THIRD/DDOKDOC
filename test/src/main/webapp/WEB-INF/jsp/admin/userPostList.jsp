@@ -5,26 +5,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>내 작성 게시물</title>
-<jsp:include page="../../css/postListCss.jsp"/>
-<jsp:include page="../../css/commonCss.jsp"/>
+<title>유저의 작성게시물</title>
 </head>
 <body>
-<h1>나의 작성 게시물</h1>
-<%-- ${myPostList } --%>
-	<table>
-		<thead>
-			<tr>
-				<th width="50">번호</th>
-				<th width="100">카테고리</th>
-				<th width="200">제목</th>
-				<th width="150">작성자</th>
-				<th width="180">작성일</th>
-				<th width="50">조회수</th>
-			</tr>
-		</thead>
-		<tbody>
-		<c:forEach var="board" items="${myPostList }">
+<h1>유저의 작성게시물</h1>
+<%-- \${userPostList } : ${userPostList } --%>
+<a href="getUserList.do">회원관리목록 가기</a>
+<table>
+<tr>
+	<th>번호</th>
+	<th>카테고리</th>
+	<th>제목</th>
+	<th>작성자</th>
+	<th>작성일</th>
+	<th>조회수</th>
+</tr>
+<tbody>
+		<c:forEach var="board" items="${userPostList }">
 			<tr>
 				<td class="center">${board.postidx }</td>
 				<td class="center">
@@ -37,7 +34,7 @@
                     </c:choose>
                 </td>    
 				<td>
-					<a href="../board/getBoard.do?postidx=${board.postidx }">${board.title }</a>
+					<a href="userPostDetail.do?postidx=${board.postidx }">${board.title }</a>
 				</td>
 				<td>${board.nickname }</td>
 				<td>${board.formattedDate }</td>
@@ -45,8 +42,7 @@
 			</tr>
 		</c:forEach>
 		</tbody>
-	</table>
-
+</table>
 
 </body>
 </html>

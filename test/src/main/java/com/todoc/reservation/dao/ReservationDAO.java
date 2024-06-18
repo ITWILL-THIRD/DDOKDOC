@@ -20,4 +20,6 @@ public interface ReservationDAO {
 	//주은 ==================
 	ReservationVO getReservation(int reserIdx);
 	List<ReservationVO> userReserList(Map<String, Object> params);
+	int getResTotCnt(int userIdx);
+	int getResTotCntByCondition( Map<String, Object> params);
 }
