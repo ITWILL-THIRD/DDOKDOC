@@ -9,6 +9,12 @@
 		SET CONDITION = '승인완료'
 		WHERE HOSIDX = #{hosIdx}
 	</update>
+	<!-- 병원 승인취소(승인전) -->
+	<update id="updateBeforeApproval" parameterType="int">
+		UPDATE HOSPITAL
+		SET CONDITION = '승인전'
+		WHERE HOSIDX = #{hosIdx}
+	</update>
 	
 	<!-- 전체 병원 건수 cnt 조회 -->
 	<select id="getTotCnt" resultType="int">

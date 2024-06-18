@@ -11,113 +11,102 @@
 <jsp:include page="../../css/hosApprovalListCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
+<style>
+        .condition-payment {
+            background-color: green;
+            color: white;
+        }
+        .condition-before {
+            background-color: yellow;
+            color: black;
+        }
+        .condition-after {
+            background-color: red;
+            color: white;
+        }
+    </style>
 <script>
-// 	window.onload = function() {
-// 		const urlParams = new URLSearchParams(window.location.search);
-// 		const msg = urlParams.get('msg');
-// 		if (msg === 'sucess') {
-// 			alert('승인 처리했습니다.');
-// 		} else if (msg === 'fail') {
-// 			alert('승인 처리를 실패했습니다.');
-// 		}
-// 	};
-	
-	function approval(frm, hosIdx) {
-		//승인전, 승인완료, 결제완료 상태 확인 후, 승인전 -> 승인완료 변경 처리!
-		
-		if (confirm('승인 수락하시겠습니까?')) {
-			
-			location.href = "approvalPro.do?hosIdx=" + hosIdx;
-			
-// 			var hospitalData = frm.querySelector('input[name="hospital"]').value;
-// 			console.log(hospitalData);
-			
-// 	        $.ajax({
-// 	        	type: 'GET',
-//                 url: '/approvalBtn.do',
-//                 contentType: 'application/json',
-//                 data: JSON.stringify(hospitalData),
-//                 success: function(data) {
-//                     $("#listDisp").empty();
+	$(document).ready(function() {
+	    // 모든 approvalBtn 버튼에 대해
+	    $('.approvalBtn').each(function() {
+	        var condition = $(this).data('condition');
+	        
+	        // condition 값에 따라 클래스 추가
+	        if (condition === '결제완료') {
+	            $(this).addClass('condition-payment');
+	        	$(this).val('결제완료');
+	        } else if (condition === '승인전') {
+	            $(this).addClass('condition-before');
+	            $(this).val('승인');
+	        } else if (condition === '승인완료') {
+	            $(this).addClass('condition-after');
+	            $(this).val('승인취소');
+	        }
+	    });
+	});
 
-//                     let html = '';
-                    
-//                     for (let hospital of data) {
-					
-// 	                    let openTimeSub = hospital.openTime.substring(0, 5);
-// 				    	let closeTimeSub = hospital.closeTime.substring(0, 5);
-				    	
-// 				    	html += "<tr>";
-// 				    	html += "<td class='center'>" + hospital.hosIdx + "</td>";
-// 				    	html += "<td class='center'>" + hospital.animal + "</td>";
-// 				    	html += "<td class='center'><a href='../hospital/hosDetail.do?hosIdx=" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
-// 				    	html += "<td class='center'>" + hospital.roadAddressName + " " + ${hospital.detailAddress} + "</td>";
-// 				    	html += "<td class='center'>" + openTimeSub + " - " + closeTimeSub + "</td>";
-// 				    	html += "<td class='center'>" + hospital.hosPhone + "</td>";
-// 				    	html += "<td class='center' id='fileLink'><a href='" + hospital.certificateImg + "'" + " target='_blank'>파일 </a></td>";
-// 				    	html += "<td class='center'>" + hospital.hosPhone + "</td>";
-// 				    	html += "<td class='center'>" + hospital.condition + "</td>";
-// 		       			html += "<input type='hidden' name='hosIdx' value='" + hospital.hosIdx + "'></td>";
-// 		       			html += "</tr>";
-//                     }
-// 	       			console.log('Final HTML:', dispHtml);
-//                     $('#listDisp').html(html);
-// 	            },
-// 	            error : function(jqXHR, textStatus, errorThrown){
-// 	 	            alert("Ajax 처리 실패:\n" +
-// 	 	                      "jqXHR.readyState: " + jqXHR.readyState + "\n" +
-// 	 	                      "textStatus: " + textStatus + "\n" +
-// 	 	                      "errorThrown: " + errorThrown);
-// 	 	        }
-// 	        });
-	    }
+	function approval(frm, hosIdx, condition, hosName) {
+		//토글(승인전 <-> 승인완료) 처리
+		if (condition == '결제완료') {
+			alert('이미 결제 완료된 [' + hosName + '] 병원입니다!\n이전 단계로(승인완료) 변경할 수 없습니다.');
+		} else if (condition == '승인전') {
+			if (confirm('[' + hosName + '] 병원 "승인완료" 처리하시겠습니까?')) {
+				location.href = "approvalPro.do?hosIdx=" + hosIdx;
+		    }
+		} else if (condition == '승인완료') {
+			if (confirm('이미 승인된 [' + hosName + '] 병원입니다.\n"승인전" 상태로 변경하시겠습니까?')) {
+				location.href = "approvalBeforePro.do?hosIdx=" + hosIdx;
+			}
+		}
 	}
-	//동적 검색 ajax - 오류 중단
-// 	function searchData(category) {
-// 		let vo = {};
-// 		vo.searchCondition = category;
-// 		vo.beginDate = document.querySelector("input[name='beginDate']").value;
-// 		vo.endDate = document.querySelector("input[name='endDate']").value;
+	
+	function dateSearch(frm) {
+		//가입날짜 검색할 때, 페이징 처리?
+		var beginDate = $('#beginDate').val();
+		var endDate = $('#endDate').val();
+		var cPage = $('#cPage').val();
+		var pagingVO = $('#pagingVO').val();
+		console.log("beginDate : " + beginDate + ", endDate : " + endDate);
+		console.log("cPage : " + cPage);
+		console.log("pagingVO : " + pagingVO);
+		
+		
+// 		$(document).ready(function() {
+//             $('.searchBtn').click(function() {
+//                 var hoListValue = $('#hoList').val();
+                
+//                 // 리스트의 각 객체를 추출하기 위해 배열로 분리
+//                 var hosListArray = hoListValue.match(/HosApprovalVO \[.*?\]/g);
+                
+//                 hosListArray.forEach(function(item, index) {
+//                     // 각 객체의 속성 값 추출
+//                     var hosIdx = item.match(/hosIdx=([^,]*)/)[1];
+//                     var animal = item.match(/animal=([^,]*)/)[1];
+//                     var hosName = item.match(/hosName=([^,]*)/)[1];
+//                     var roadAddressName = item.match(/roadAddressName=([^,]*)/)[1];
+//                     var detailAddress = item.match(/detailAddress=([^,]*)/)[1];
+//                     var openTime = item.match(/openTime=([^,]*)/)[1];
+//                     var closeTime = item.match(/closeTime=([^,]*)/)[1];
+//                     var hosPhone = item.match(/hosPhone=([^,]*)/)[1];
+//                     var certificateImg = item.match(/certificateImg=([^,]*)/)[1];
+//                     var condition = item.match(/condition=([^,]*)/)[1];
+//                     var beginDate = item.match(/beginDate=([^,]*)/)[1];
+//                     var endDate = item.match(/endDate=([^,]*)/)[1];
+//                     var searchCondition = item.match(/searchCondition=([^,]*)/)[1];
 
-// 		$.ajax("getHosApprovalSearch.do", { 
-// 	        type: 'GET',
-// 	        data: vo,
-// 	        success: function(data) {
-// 	        	$("#listDisp").empty();
- 
-// 			    let dispHtml = "";
-
-// 			    for (let hospital of data) {
-// 			    	let openTimeSub = hospital.openTime.substring(0, 5);
-// 			    	let closeTimeSub = hospital.closeTime.substring(0, 5);
-			    	
-// 			        dispHtml += "<tr>";
-// 			        dispHtml += "<td class='center'>" + hospital.hosIdx + "</td>";
-// 			        dispHtml += "<td class='center'>" + hospital.animal + "</td>";
-// 			        dispHtml += "<td class='center'><a href='../hospital/hosDetail.do?hosIdx=" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
-// 			        dispHtml += "<td class='center'>" + hospital.roadAddressName + " " + ${hospital.detailAddress} + "</td>";
-// 			        dispHtml += "<td class='center'>" + openTimeSub + " - " + closeTimeSub + "</td>";
-// 			        dispHtml += "<td class='center'>" + hospital.hosPhone + "</td>";
-// 			        dispHtml += "<td class='center' id='fileLink'><a href='" + hospital.certificateImg + "'" + " target='_blank'>파일 </a></td>";
-// 			        dispHtml += "<td class='center'>" + hospital.hosPhone + "</td>";
-// 			        dispHtml += "<td class='center'>" + hospital.condition + "</td>";
-// 			        dispHtml += "<td class='center'><input type='button' class='approvalBtn' value='수락' data-hos-idx='"
-// 			        			+  hospital.hosIdx + "' onclick='approval(this.form, this.dataset.hosIdx)'>";
-//         			dispHtml += "<input type='hidden' name='hosIdx' value='" + hospital.hosIdx + "'></td>";
-// 			        dispHtml += "</tr>";
-// 			    }
-// 			    console.log('Final HTML:', dispHtml);
-			    
-// 			    $("#listDisp").html(dispHtml);
-// 	        },
-// 	        error : function(jqXHR, textStatus, errorThrown){
-// 	            alert("Ajax 처리 실패:\n" +
-// 	                      "jqXHR.readyState: " + jqXHR.readyState + "\n" +
-// 	                      "textStatus: " + textStatus + "\n" +
-// 	                      "errorThrown: " + errorThrown);
-// 	        }
-// 	    });
-// 	}
+//                     // 객체별로 추출된 속성 값 출력
+//                     console.log("Object " + (index + 1));
+//                     console.log("hosIdx: " + hosIdx);
+//                     console.log("animal: " + animal);
+//                     console.log("hosName: " + hosName);
+//                     console.log("roadAddressName: " + roadAddressName);
+//                     console.log("condition: " + condition);
+//                 });
+//                 alert.log("hosListArray : " + hosListArray);
+//             });
+//         });
+		location.href = "getHosApprovalSearch.do?cPage=" + cPage + "&beginDate=" + beginDate + "&endDate=" + endDate;
+	}
 </script>
 </head>
 <body>
@@ -128,23 +117,17 @@
 \${endDate} : ${endDate}<br>  
 \${searchCondition} : ${searchCondition}<br><hr> 	
 	<!-- 검색 -->
-	<form action="getHosApprovalSearch.do?beginDate&endDate&cPage=${pagingVO.nowPage}" method="post">
-<!-- 	<form id="getDateSearch" onsubmit="searchData('date'); return false;"> -->
+	<form method="post">
 	<table class="border-none">
-		<tr><td>
-			<input type="date" name="beginDate">~
-			<input type="date" name="endDate">
-			<input type="submit" value="검색" class="searchBtn">
-<%-- 			<input type="hidden" name="hosList" value="${hosList}"> --%>
+		<tr><td>가입일자 : 
+			<input type="date" id="beginDate" name="beginDate"> ~
+			<input type="date" id="endDate" name="endDate">
+			<input type="hidden" id="cPage" name="cPage" value="${pagingVO.nowPage}">
+			<input type="hidden" id="pagingVO" name="pagingVO" value="${pagingVO}">
+			<input type="button" value="검색" class="searchBtn" onclick="dateSearch(this.form)">
 		</td></tr>
 	</table>
-	</form>
-	<form>
 	<div id="getConditionSearch" class="center">
-<!-- 		<input type="button" onclick="searchData('all')" value="전체"> -->
-<!-- 		<input type="button" onclick="searchData('before')" value="승인전"> -->
-<!-- 		<input type="button" onclick="searchData('after')" value="승인완료"> -->
-<!-- 		<input type="button" onclick="searchData('payment')" value="결제완료"> -->
 		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
 		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=before">승인전</a>
 		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=after">승인완료</a>
@@ -182,10 +165,13 @@
 				<td class="center" id="fileLink">
 					<a href="${hospital.certificateImg}" target="_blank">파일</a>
 				</td>
-				<td class="center">${hospital.condition}</td>
+				<td class="center" id="condition">${hospital.condition}</td>
 				<td class="center">
-					<input type="button" class="approvalBtn" value="수락"
-						data-hos-idx="${hospital.hosIdx}" onclick="approval(this.form, this.dataset.hosIdx)">
+					<input type="button" class="approvalBtn"
+						data-hos-idx="${hospital.hosIdx}" 
+						data-condition="${hospital.condition}"
+						data-hos-name="${hospital.hosName}" 
+						onclick="approval(this.form, this.dataset.hosIdx, this.dataset.condition, this.dataset.hosName)">
 					<input type="hidden" name="hospital" value="${hospital}">
 				</td>
 			</tr>
@@ -322,49 +308,6 @@
 					</c:if>
 				</td>
 			</tr>
-			<!-- 			<tr> -->
-<!-- 				<td colspan="9"> -->
-<%-- 					[이전]에 대한 사용여부 처리 --%>
-<%-- 					<c:if test="${pagingVO.nowPage == 1}"> --%>
-<!-- 						<span class="disable">이전</span> -->
-<%-- 					</c:if> --%>
-<%-- 					<c:if test="${pagingVO.nowPage != 1}"> --%>
-<%-- 						<c:if test="${empty condition && empty beginDate && empty endDate}"> --%>
-<!-- 							<span> -->
-<%-- 								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage - 1}">이전</a> --%>
-<!-- 							</span> -->
-<%-- 						</c:if> --%>
-<%-- 					</c:if> --%>
-						
-<%-- 					블록내에 표시할 페이지 태그 작성(시작~끝) --%>
-<%-- 					<c:forEach var="pageNo" begin="${pagingVO.beginPage}" end="${pagingVO.endPage}"> --%>
-<%-- 					<c:choose> --%>
-<%-- 						<c:when test="${pageNo == pagingVO.nowPage}"> --%>
-<%-- 							<span class="now">${pageNo}</span> --%>
-<%-- 						</c:when> --%>
-<%-- 						<c:otherwise> --%>
-<%-- 							<c:if test="${empty condition && empty beginDate && empty endDate}"> --%>
-<!-- 								<span> -->
-<%-- 									<a href="getHosApprovalList.do?cPage=${pageNo}">${pageNo}</a> --%>
-<!-- 								</span> -->
-<%-- 							</c:if> --%>
-<%-- 						</c:otherwise> --%>
-<%-- 					</c:choose> --%>
-<%-- 					</c:forEach> --%>
-					
-<%-- 					[다음]에 대한 사용여부 처리 --%>
-<%-- 					<c:if test="${pagingVO.nowPage < pagingVO.totalPage}"> --%>
-<%-- 						<c:if test="${empty condition && empty beginDate && empty endDate}"> --%>
-<!-- 							<span> -->
-<%-- 								<a href="getHosApprovalList.do?cPage=${pagingVO.nowPage + 1}">다음</a> --%>
-<!-- 							</span> -->
-<%-- 						</c:if> --%>
-<%-- 					</c:if> --%>
-<%-- 					<c:if test="${pagingVO.nowPage >= pagingVO.totalPage}"> --%>
-<!-- 						<span class="disable">다음</span> -->
-<%-- 					</c:if> --%>
-<!-- 				</td> -->
-<!-- 			</tr> -->
 		</tfoot>
 	</table>
 	</form>
