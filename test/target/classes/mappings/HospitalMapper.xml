@@ -310,7 +310,7 @@
 	<!-- 병원 휴무 입력 -->
 	<insert id="insertHolidays" parameterType="HolidayInsertParams">
 		INSERT INTO HOSHOLIDAY (HOSIDX, HOLIDATE)
-        VALUES (#{hosIdx}, #{holiDate})
+        VALUES (#{hosIdx}, #{holiDateStr})
 	</insert>
 	
 
