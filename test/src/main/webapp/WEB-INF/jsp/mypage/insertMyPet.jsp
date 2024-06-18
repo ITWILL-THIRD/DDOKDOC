@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>마이펫 등록하기</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../common/navigation.jsp"/>
 <script>
 	window.onload = function(){
 		var errorMessage = "<c:out value='${errorMessage}'/>";
@@ -22,7 +24,7 @@
 		<input type="hidden" id="errorMessage" value="${errorMessage}" />		
 			<table>
 				<tr>
-					<th>펫종류:</th>
+					<th>펫종류</th>
 					<td>
 				        <select name="animal">
 				        	<option value="" disabled selected>선택해주세요</option>
@@ -55,19 +57,21 @@
 					</td>
 				</tr>
 				<tr>
-					<th>펫이름:</th>
+					<th>펫이름</th>
 					<td><input type="text" name="petName"></td>
 				</tr>
 				<tr>
-					<th>펫나이:</th>
-					<td><input type="number" name="petAge"></td>
+					<th>펫나이</th>
+					<td><input type="number" name="petAge" min="0"></td>
 				</tr>
 				<tr>
-                    <th>펫사진:</th>
+                    <th>펫사진</th>
                     <td><input type="file" name="file"></td>
                 </tr>
 				<tr>
-					<td colspan="2"><input type="submit" value="등록" onclick="alert('펫 등록이 완료되었습니다')"></td>
+					<td colspan="2"><input type="submit" value="등록" onclick="alert('펫 등록이 완료되었습니다')">
+					<button type="button" onclick="window.location.href='myPage.do'">취소</button>
+					</td>
 				</tr>
 			</table>
 		</form>

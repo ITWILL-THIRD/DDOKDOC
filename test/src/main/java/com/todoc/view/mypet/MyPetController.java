@@ -40,8 +40,12 @@ public class MyPetController {
     @RequestMapping("/insertMyPet.do")
 	public String insertMyPet(@RequestParam("file") MultipartFile file, MyPetVO vo, Model model, HttpSession session) {
         try {
-            String petImg = gcsService.uploadFile(file); // 파일 업로드
-            vo.setPetImg(petImg);
+        	if (!file.isEmpty()) {
+        		String petImg = gcsService.uploadFile(file); // 파일 업로드
+        		vo.setPetImg(petImg);
+        	} else {
+        		vo.setPetImg(null);
+        	}
             UserVO user = (UserVO) session.getAttribute("user");
             vo.setUserIdx(user.getUserIdx());
             myPetService.insertMyPet(vo);
@@ -65,13 +69,24 @@ public class MyPetController {
 	@PostMapping("/updateMyPet.do")
 	public String updateMyPet(@RequestParam("file") MultipartFile file, MyPetVO vo, Model model) {
 		try {
+			MyPetVO currentImg = myPetService.getMyPet(vo.getPetIdx());
+			vo.setAnimal(currentImg.getAnimal());
 			if (!file.isEmpty()) { // 파일이 있으면 업로드 처리
 				String petImg = gcsService.uploadFile(file);
 				vo.setPetImg(petImg);
+				if (currentImg != null && currentImg.getPetImg() != null) { // 기존 파일 GCS에서 삭제
+					gcsService.deleteFile(currentImg.getPetImg());
+				}
+			} else { // 새 파일이 없으면 기존 파일 유지
+				if (currentImg != null && currentImg.getPetImg() != null) {
+					vo.setPetImg(currentImg.getPetImg());
+				} else {
+					vo.setPetImg(null);
+				}
 			}
 			System.out.println("updating : " + vo); // 값 설정 확인
 			myPetService.updateMyPet(vo);
-	        return "redirect:mypage/myPage.do";
+	        return "redirect:myPage.do";
 		} catch (IOException e) {
 			e.printStackTrace();
 	        model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
