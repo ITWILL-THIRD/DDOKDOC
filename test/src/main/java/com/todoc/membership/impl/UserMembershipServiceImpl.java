@@ -25,6 +25,11 @@ public class UserMembershipServiceImpl implements UserMembershipService {
 		userMembershipMapper.updateUserCondition(uvo);
 		
 	}
+	
+	@Override
+	public UserMembershipVO getMembership(UserMembershipVO umo) {
+		return userMembershipMapper.getMembership(umo);
+	}
 
 
 }

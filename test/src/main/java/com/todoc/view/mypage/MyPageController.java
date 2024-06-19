@@ -24,6 +24,8 @@ import com.todoc.googlecloudstorage.GCSService;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
+import com.todoc.membership.UserMembershipService;
+import com.todoc.membership.UserMembershipVO;
 import com.todoc.mypet.MyPetService;
 import com.todoc.mypet.MyPetVO;
 import com.todoc.reservation.ReservationService;
@@ -48,14 +50,19 @@ public class MyPageController {
 	private ReservationService reservationService;
 	@Autowired
 	private BoardService boardService;
-
+	@Autowired
+	private UserMembershipService userMembershipService;
+	
+	
+	
 	@GetMapping("/updateUser.do")
 	public String updateUserView(@RequestParam("userIdx") int userIdx, Model model, HttpSession session) {
 		System.out.println(">> 내 정보 수정페이지");
 	    UserVO vo = userService.getUserInfo(userIdx);
-	    session.setAttribute("user", vo); 
-	    
+	    session.setAttribute("user", vo);
+		
 	    model.addAttribute("user", vo); 
+	   
 	    return "mypage/updateUser";
 	}
 	//정보수정
@@ -69,6 +76,7 @@ public class MyPageController {
             System.out.println("내 정보 수정");
             System.out.println("vo : " + vo);
             userService.updateUser(vo);
+            vo.setRole("user");
             session.setAttribute("user", vo); 
             return "redirect:myPage.do";
 	    } catch (IOException e) {
@@ -126,8 +134,27 @@ public class MyPageController {
     	if (user == null) {
     		return "redirect:/index.jsp"; // 로그인 정보가 없으면 로그인 페이지로 리다이렉트 처리
     	}
+    	UserMembershipVO umo = new UserMembershipVO();
+	    umo.setUserIdx(user.getUserIdx()); // 세션에서 가져온 user의 userIdx를 설정
+	    umo = userMembershipService.getMembership(umo);
+	    
+	    // 멤버십 정보가 없을 경우 처리
+	    if (umo == null) {
+	        return "mypage/myPage"; // 멤버십 정보가 없을 때의 페이지로 이동
+	    }
+	 // 날짜 변환
+        SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd ");
+
+        String startFormattedDate = targetFormat.format(umo.getMemstart());
+        String endFormattedDate = targetFormat.format(umo.getMemend());
+        umo.setStartformattedDate(startFormattedDate);
+        umo.setEndformattedDate(endFormattedDate);
+	    
     	List<MyPetVO> pets = myPetService.getMyPetList(user.getUserIdx());
     	model.addAttribute("pets", pets);
+    	model.addAttribute("umo", umo);
+    	System.out.println("umo : " + umo);
         return "mypage/myPage";
     }
     

@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 회원가입</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/loginCss.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- 카카오 주소 API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -180,56 +182,67 @@
 <body>
 <h1>병원회원가입</h1>
 <form method="post" enctype="multipart/form-data">
-<table border="">
-	<tr>
-		<th>아이디</th>
-		<td>
-			<input type="text" id="hosId" title="아아디" name="hosId" value="${hospitalVO.hosId }">
-			<input type="button" value="중복확인" onclick="checkDup(this.form)"/>
-		</td>
+<table class="tb">
+	
+	<tr>	
+			<td>아이디</td>
 	</tr>
 	<tr>
-		<th>비밀번호</th>
-		<td><input type="password" title="비밀번호" name="hosPw" value="${hospitalVO.hosPw }"></td>
+		<td><input class="text" type="text" id="hosId" title="아아디" name="hosId" value="${hospitalVO.hosId }"></td>
+		<td><input class="btn" type="button" value="중복확인" onclick="checkDup(this.form)"/></td>
 	</tr>
 	<tr>
-		<th>비밀번호 확인</th>
-		<td><input type="password" title="비밀번호 확인" name="pwdCheck" value="${hospitalVO.hosPw }" onblur="check_pwd(this.form)"></td>
+		<td>비밀번호</td>
 	</tr>
 	<tr>
-		<th>병원명</th>
-		<td><input type="text" title="병원명" name="hosName" value="${hospitalVO.hosName }"></td>
+		<td><input class="text" type="password" title="비밀번호" name="hosPw" value="${hospitalVO.hosPw }"></td>
+	</tr>
+	<tr>
+		<td>비밀번호 확인</td>
+	</tr>
+	<tr>
+		<td><input class="text" type="password" title="비밀번호 확인" name="pwdCheck" value="${hospitalVO.hosPw }" onblur="check_pwd(this.form)"></td>
+	</tr>
+	<tr>
+		<td>병원명</td>
+	</tr>
+	<tr>
+		<td><input class="text" type="text" title="병원명" name="hosName" value="${hospitalVO.hosName }"></td>
+	</tr>
+	<tr>
+		<td>주소</td>
 	</tr>
 	<tr>
 <!-- 		지번 입력하여 시도,시도군 분리하여 insert 처리 -->
-		<th>주소</th>
 		<td>
-			<input type="text" id="sample4_postcode" title="우편번호" placeholder="우편번호">
-			<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-			<input type="text" id="sample4_roadAddress" name="roadAddressName" title="도로명주소" placeholder="도로명주소">
-			<input type="text" id="sample4_jibunAddress" name="addressName" title="지번주소" placeholder="지번주소"><br>
-			<input type="text" id="sample4_detailAddress" name="detailAddress" title="상세주소" placeholder="상세주소">
-			<input type="text" id="sample4_extraAddress" title="참고항목" placeholder="참고항목">
+			<input class="sText" type="text" id="sample4_postcode" title="우편번호" placeholder="우편번호">
+			<input class="wBtn" type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
+			<input class="sText" type="text" id="sample4_roadAddress" name="roadAddressName" title="도로명주소" placeholder="도로명주소">
+			<input class="sText" type="text" id="sample4_jibunAddress" name="addressName" title="지번주소" placeholder="지번주소"><br>
+			<input class="sText" type="text" id="sample4_detailAddress" name="detailAddress" title="상세주소" placeholder="상세주소">
+			<input class="sText" type="text" id="sample4_extraAddress" title="참고항목" placeholder="참고항목">
 			<span id="guide" style="color:#999;display:none"></span>
 		</td>
 	</tr>
 	<tr>
+		<td>진료시간</td>
+	</tr>
+	<tr>
 <!-- 		점심시간 없음/주말 휴무 처리 -->
-		<th rowspan="8">진료시간</th>
 		<td>
 			평일 : <input type="checkbox" id="toggleWeekdayLunch" name="lunchOff" value="Y">점심 없음<br>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			진료 <input type="time" title="주중 시작시간" name="openTimeStr" value="00:00"> 
-				~ <input type="time" title="주중 마감시간" name="closeTimeStr" value="00:00">
+			진료 <input class="tText" type="time" title="주중 시작시간" name="openTimeStr" value="00:00"> 
+				~ <input class="tText" type="time" title="주중 마감시간" name="closeTimeStr" value="00:00">
 		</td>
 	</tr>
 	<tr>
 		<td id="tdWeekday">
-			점심 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="00:00"> 
-				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="00:00">
+			점심 <input class="tText" type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="00:00"> 
+				~ <input class="tText" type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="00:00">
 		</td>
 	</tr>
 	<tr>
@@ -239,14 +252,14 @@
 	</tr>
 	<tr>
 		<td>
-			진료 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="00:00"> 
-				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="00:00">
+			진료 <input class="tText" type="time" title="토요일 시작시간" name="satOpenTimeStr" value="00:00"> 
+				~ <input class="tText" type="time" title="토요일 마감시간" name="satCloseTimeStr" value="00:00">
 		</td>
 	</tr>
 	<tr>
 		<td id="tdsatLunch">
-			점심 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="00:00"> 
-				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="00:00">
+			점심 <input class="tText" type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="00:00"> 
+				~ <input class="tText" type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="00:00">
 		</td>
 	</tr>
 	<tr>
@@ -257,11 +270,11 @@
 	</tr>
 	<tr>
 		<td id="sun">
-			진료 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="00:00"> 
-				~ <input type="time" title="일요일 마감시간" name="sunCloseTimeStr" value="00:00"><br>
+			진료 <input class="tText" type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="00:00"> 
+				~ <input class="tText" type="time" title="일요일 마감시간" name="sunCloseTimeStr" value="00:00"><br>
 			<span id="spanSunLunch">
-			점심 <input type="time" class="lunch" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="00:00"> 
-				~ <input type="time" class="lunch" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="00:00"><br>
+			점심 <input class="tText" type="time" class="lunch" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="00:00"> 
+				~ <input class="tText" type="time" class="lunch" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="00:00"><br>
 			</span>
 <script>
  	//평일 점심시간 없음 처리
@@ -338,34 +351,44 @@
 		</td>
 	</tr>
 	<tr>
-		<th>전화번호</th>
-		<td><input type="tel" title="전화번호" name="hosPhone" value="${hospitalVO.hosPhone }" oninput="oninputPhone(this)"></td>
+		<td>전화번호</td>
 	</tr>
 	<tr>
-		<th>병원 외/내부사진</th>
-		<td><input type="file" title="병원 사진" name="hosImgStr" multiple="multiple"></td>
+		<td><input class="text" type="tel" title="전화번호" name="hosPhone" value="${hospitalVO.hosPhone }" oninput="oninputPhone(this)"></td>
 	</tr>
 	<tr>
-		<th>사업자 등록증</th>
-		<td><input type="file" title="사업자 등록증" name="certificateImgStr"></td>
+		<td>병원 외/내부사진</td>
 	</tr>
 	<tr>
-		<th>분류(일반/특수병원)</th>
-		<td><input type="text" title="병원 분류" name="animal" value="${hospitalVO.animal}" placeholder="일반 또는 특수 작성"></td>
+		<td><input class="text" type="file" title="병원 사진" name="hosImgStr" multiple="multiple"></td>
+	</tr>
+	<tr>
+		<td>사업자 등록증</td>
+	</tr>
+	<tr>
+		<td><input class="text" type="file" title="사업자 등록증" name="certificateImgStr"></td>
+	</tr>
+	<tr>
+		<td>분류(일반/특수병원)</td>
+	</tr>
+	<tr>
+		<td><input class="text" type="text" title="병원 분류" name="animal" value="${hospitalVO.animal}" placeholder="일반 또는 특수 작성"></td>
 	</tr>
 	
 	<tr>
-		<td colspan="2">
-			<input class="loginbtn" type="button" value="회원가입" onclick="hosJoin_ok(this.form)">
-			<input type="reset" value="초기화">
+		<td>
+			<input class="loginBtn" type="button" value="회원가입" onclick="hosJoin_ok(this.form)">
 		</td>
 	</tr>
-	<tr>
-		<td colspan="2"><a href="login.do">로그인으로 이동</a></td>
-	</tr>
-	
-</table>
+	</table>
 </form>
+	<table class="select">
+	<tr>
+		<td><a href="hoLogin.do">병원 로그인</a></td>
+		<td class="s">&nbsp;&nbsp;|&nbsp;&nbsp;</td>
+	<td><input class="joinBtn" type="reset" value="초기화"></td>
+	</tr>
+	</table>
 
 
 </body>

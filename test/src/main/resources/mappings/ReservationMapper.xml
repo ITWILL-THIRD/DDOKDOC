@@ -170,6 +170,7 @@
 		WHERE R.PETIDX = P.PETIDX
 		AND HOSIDX = #{hosIdx}
 		AND TO_CHAR(RESERDATE, 'YYYY-MM-DD') = TO_CHAR(#{reserDate}, 'YYYY-MM-DD')
+		ORDER BY R.RESERTIME
     </select>
     
     <!-- 진료 완료 처리 -->

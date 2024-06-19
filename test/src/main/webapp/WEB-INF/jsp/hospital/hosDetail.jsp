@@ -84,121 +84,145 @@
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38a906000cd6c18d4d8489d1eddaec85&libraries=services,clusterer,drawing"></script>
 <div id="container">
-\${user} : ${user }<hr>
-\${hospital} : ${hospital}
-
-	<h1>병원 상세 [hosDetail.jsp]</h1>
-	<table border="">
-		<tr>
-			<th>병원명</th>
-			<td colspan="2">${hospital.hosName}</td>
-		</tr>
-		<tr>
-			<th>주소</th>
-			<td colspan="2">${hospital.roadAddressName} ${hospital.detailAddress}</td>
-		</tr>
-		<tr>
-			<th rowspan="3">진료시간</th>
-			<c:set var="openTime" value="${hospital.openTime}"/>
-			<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
-			<c:set var="closeTime" value="${hospital.closeTime}"/>
-			<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
-			<c:set var="lunchTime" value="${hospital.lunchTime}"/>
-			<c:set var="lunchTimeSub" value="${fn:substring(lunchTime, 0, 5)}"/>
-			<c:set var="endLunchTime" value="${hospital.endLunchTime}"/>
-			<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
-			<td>
-				평일 ${openTimeSub} - ${closeTimeSub}
-			</td>
-			<td>
-				<c:choose>
-					<c:when test="${hospital.lunchOff == 'Y'
- 						or hospital.lunchTime == '00:00:00' or hospital.endLunchTime == '00:00:00'
- 						or hospital.lunchTime == null or hospital.endLunchTime == null}">
-					</c:when>
-					<c:otherwise>
-						점심 ${lunchTimeSub} - ${endLunchTimeSub}
-					</c:otherwise>
-				</c:choose>
-			</td>
-		</tr>
-		<tr>
-			<c:set var="satOpenTime" value="${hospital.satOpenTime}"/>
-			<c:set var="satOpenTimeSub" value="${fn:substring(satOpenTime, 0, 5)}"/>
-			<c:set var="satCloseTime" value="${hospital.satCloseTime}"/>
-			<c:set var="satCloseTimeSub" value="${fn:substring(satCloseTime, 0, 5)}"/>
-			<c:set var="satLunchTime" value="${hospital.satLunchTime}"/>
-			<c:set var="satLunchTimeSub" value="${fn:substring(satLunchTime, 0, 5)}"/>
-			<c:set var="satEndLunchTime" value="${hospital.satEndLunchTime}"/>
-			<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
-			<td>
-				토요일 ${satOpenTimeSub} - ${satCloseTimeSub}
-			</td>
-			<td>
-				<c:choose>
-					<c:when test="${hospital.satLunchOff == 'Y'
- 						or hospital.satLunchTime == '00:00:00' or hospital.satEndLunchTime == '00:00:00'
- 						or hospital.satLunchTime == null or hospital.satEndLunchTime == null}">
-					</c:when>
-					<c:otherwise>
-						점심 ${satLunchTimeSub} - ${satEndLunchTimeSub}
-					</c:otherwise>
-				</c:choose>
-			</td>
-		</tr>
-		<tr>
-			<c:set var="sunOpenTime" value="${hospital.sunOpenTime}"/>
-			<c:set var="sunOpenTimeSub" value="${fn:substring(sunOpenTime, 0, 5)}"/>
-			<c:set var="sunCloseTime" value="${hospital.sunCloseTime}"/>
-			<c:set var="sunCloseTimeSub" value="${fn:substring(sunCloseTime, 0, 5)}"/>
-			<c:set var="sunLunchTime" value="${hospital.sunLunchTime}"/>
-			<c:set var="sunLunchTimeSub" value="${fn:substring(sunLunchTime, 0, 5)}"/>
-			<c:set var="sunEndLunchTime" value="${hospital.sunEndLunchTime}"/>
-			<c:set var="sunEndLunchTimeSub" value="${fn:substring(sunEndLunchTime, 0, 5)}"/>
-			<td>
-				일요일
-				<c:choose>
-                    <c:when test="${hospital.sunDayOff == 'Y'
-                     	or hospital.sunOpenTime == null or hospital.sunCloseTime == null}">
-                      	<span class="holiday">휴무</span>
-                    </c:when>
-					<c:otherwise>
-						 ${sunOpenTimeSub} - ${sunCloseTimeSub}
-					</c:otherwise>
-				</c:choose>
-			</td>
-			<td>
-				<c:choose>
-                    <c:when test="${hospital.sunLunchOff == 'Y'
- 						or hospital.sunLunchTime == '00:00:00' or hospital.sunEndLunchTime == '00:00:00'
- 						or hospital.sunLunchTime == null or hospital.sunEndLunchTime == null}">
-					</c:when>
-					<c:otherwise>
-						점심 ${sunLunchTimeSub} - ${sunEndLunchTimeSub}
-					</c:otherwise>
-                </c:choose>
-			</td>
-		</tr>
-		<tr>
-			<th>전화번호</th>
-			<td colspan="2">${hospital.hosPhone}</td>
-		</tr>
-		<tr>
-			<th>병원분류</th>
-			<td colspan="2">${hospital.animal}</td>
-		</tr>
-		<tr>
-			<th>평점</th>
-			<td colspan="2">${hospital.score}</td>
-		</tr>
-	</table>
+	<div>
+		<h1>${hospital.hosName}</h1>
+		<table border="">
+			<tr>
+				<th>주소</th>
+				<td colspan="2">${hospital.roadAddressName} ${hospital.detailAddress}</td>
+			</tr>
+			<tr>
+				<th rowspan="3">진료시간</th>
+				<c:set var="openTime" value="${hospital.openTime}"/>
+				<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
+				<c:set var="closeTime" value="${hospital.closeTime}"/>
+				<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
+				<c:set var="lunchTime" value="${hospital.lunchTime}"/>
+				<c:set var="lunchTimeSub" value="${fn:substring(lunchTime, 0, 5)}"/>
+				<c:set var="endLunchTime" value="${hospital.endLunchTime}"/>
+				<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
+				<td>
+					평일 ${openTimeSub} - ${closeTimeSub}
+				</td>
+				<td>
+					<c:choose>
+						<c:when test="${hospital.lunchOff == 'Y'
+	 						or hospital.lunchTime == '00:00:00' or hospital.endLunchTime == '00:00:00'
+	 						or hospital.lunchTime == null or hospital.endLunchTime == null}">
+						</c:when>
+						<c:otherwise>
+							점심 ${lunchTimeSub} - ${endLunchTimeSub}
+						</c:otherwise>
+					</c:choose>
+				</td>
+			</tr>
+			<tr>
+				<c:set var="satOpenTime" value="${hospital.satOpenTime}"/>
+				<c:set var="satOpenTimeSub" value="${fn:substring(satOpenTime, 0, 5)}"/>
+				<c:set var="satCloseTime" value="${hospital.satCloseTime}"/>
+				<c:set var="satCloseTimeSub" value="${fn:substring(satCloseTime, 0, 5)}"/>
+				<c:set var="satLunchTime" value="${hospital.satLunchTime}"/>
+				<c:set var="satLunchTimeSub" value="${fn:substring(satLunchTime, 0, 5)}"/>
+				<c:set var="satEndLunchTime" value="${hospital.satEndLunchTime}"/>
+				<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
+				<td>
+					토요일 ${satOpenTimeSub} - ${satCloseTimeSub}
+				</td>
+				<td>
+					<c:choose>
+						<c:when test="${hospital.satLunchOff == 'Y'
+	 						or hospital.satLunchTime == '00:00:00' or hospital.satEndLunchTime == '00:00:00'
+	 						or hospital.satLunchTime == null or hospital.satEndLunchTime == null}">
+						</c:when>
+						<c:otherwise>
+							점심 ${satLunchTimeSub} - ${satEndLunchTimeSub}
+						</c:otherwise>
+					</c:choose>
+				</td>
+			</tr>
+			<tr>
+				<c:set var="sunOpenTime" value="${hospital.sunOpenTime}"/>
+				<c:set var="sunOpenTimeSub" value="${fn:substring(sunOpenTime, 0, 5)}"/>
+				<c:set var="sunCloseTime" value="${hospital.sunCloseTime}"/>
+				<c:set var="sunCloseTimeSub" value="${fn:substring(sunCloseTime, 0, 5)}"/>
+				<c:set var="sunLunchTime" value="${hospital.sunLunchTime}"/>
+				<c:set var="sunLunchTimeSub" value="${fn:substring(sunLunchTime, 0, 5)}"/>
+				<c:set var="sunEndLunchTime" value="${hospital.sunEndLunchTime}"/>
+				<c:set var="sunEndLunchTimeSub" value="${fn:substring(sunEndLunchTime, 0, 5)}"/>
+				<td>
+					일요일
+					<c:choose>
+	                    <c:when test="${hospital.sunDayOff == 'Y'
+	                     	or hospital.sunOpenTime == null or hospital.sunCloseTime == null}">
+	                      	<span class="holiday">휴무</span>
+	                    </c:when>
+						<c:otherwise>
+							 ${sunOpenTimeSub} - ${sunCloseTimeSub}
+						</c:otherwise>
+					</c:choose>
+				</td>
+				<td>
+					<c:choose>
+	                    <c:when test="${hospital.sunLunchOff == 'Y'
+	 						or hospital.sunLunchTime == '00:00:00' or hospital.sunEndLunchTime == '00:00:00'
+	 						or hospital.sunLunchTime == null or hospital.sunEndLunchTime == null}">
+						</c:when>
+						<c:otherwise>
+							점심 ${sunLunchTimeSub} - ${sunEndLunchTimeSub}
+						</c:otherwise>
+	                </c:choose>
+				</td>
+			</tr>
+			<tr>
+				<th>전화번호</th>
+				<td colspan="2">${hospital.hosPhone}</td>
+			</tr>
+			<tr>
+				<th>병원분류</th>
+				<td colspan="2">${hospital.animal}</td>
+			</tr>
+			<tr>
+				<th>평점</th>
+				<td colspan="2">${hospital.score}</td>
+			</tr>
+		</table>
+	</div>
 	<p>
 		<!-- CSS 사진 이동 처리 -->
 		<c:forEach var="img" items="${imgList}">
 			<img src="${img.hosImg}" alt="병원 내부사진" width="300px">
 		</c:forEach> 
 	</p>
+	<h4>지도 표시</h4>
+	<div id="map" style="width: 300px; height: 300px; margin-top: 10px;"></div>
 
+	<p class="center">
+		<!-- 예약 버튼 함수실행으로 수정 -->
+		<input type="button" value="예약" onclick="userCheck('${user}')"/>
+	</p>
+	
+	<h4>공지사항</h4>
+	<div>
+<%-- 		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}" --%>
+<!-- 			onclick="insertNotice(this.dataset.hosIdx)"> -->
+		<table border="">
+			<tr>
+				<th>작성일</th>
+				<th>제목</th>
+				<th>조회수</th>
+			</tr>
+			<c:forEach var="notice" items="${noticeList }">
+				<tr>
+					<td>${notice.noticeDate }</td>
+					<td><a
+						href="../notice/getNotice.do?hosIdx=${notice.hosIdx}&noticeIdx=${notice.noticeIdx }">${notice.noticeTitle }</a>
+					</td>
+					<td>${notice.hit }</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+	
 	<h4>리뷰 목록</h4>
 	<div id="review">
 		<!-- 예약 후 진료 완료 상태인 사용자만 form 작성 가능 -->
@@ -235,7 +259,7 @@
 		        <input type="submit" value="리뷰 작성">
 		    </form>
 		</c:if>
-
+		
 		<table border=1>
 			<tr>
 				<th>닉네임</th>
@@ -309,36 +333,6 @@
 				</c:forEach>
 			</tbody>
 
-		</table>
-	</div>
-
-	<h4>지도 표시</h4>
-	<div id="map" style="width: 300px; height: 300px; margin-top: 10px;"></div>
-
-	<p class="center">
-		<!-- 예약 버튼 함수실행으로 수정 -->
-		<input type="button" value="예약" onclick="userCheck()"/>
-	</p>
-
-	<h4>공지사항</h4>
-	<div>
-<%-- 		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}" --%>
-<!-- 			onclick="insertNotice(this.dataset.hosIdx)"> -->
-		<table border="">
-			<tr>
-				<th>작성일</th>
-				<th>제목</th>
-				<th>조회수</th>
-			</tr>
-			<c:forEach var="notice" items="${noticeList }">
-				<tr>
-					<td>${notice.noticeDate }</td>
-					<td><a
-						href="../notice/getNotice.do?hosIdx=${notice.hosIdx}&noticeIdx=${notice.noticeIdx }">${notice.noticeTitle }</a>
-					</td>
-					<td>${notice.hit }</td>
-				</tr>
-			</c:forEach>
 		</table>
 	</div>
 </div>

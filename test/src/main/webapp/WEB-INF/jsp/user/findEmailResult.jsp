@@ -8,8 +8,8 @@
 <title>이메일 찾기 결과</title>
 </head>
 <body>
-<h1>이메일 찾기 결과</h1>
-<p class="title">회원님이 가입한 이메일 입니다.</p>
+<h1>아이디 찾기 결과</h1>
+<p class="title">회원님의 아이디 입니다.</p>
 <div class="result-box">
 	<c:choose>
 		<c:when test="${empty findEmail}">
