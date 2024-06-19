@@ -16,4 +16,8 @@ public interface StatsService {
     // 검색 자동완성
     List<String> getHosIds(String term);
     List<String> getUserEmails(String term);
+    // 개인 + 병원
+    Map<String, List<Map<String, String>>> getMonthlyRevenue(Map<String, String> params); // <가입구분, 수익>
+    Map<String, List<Map<String, String>>> getMemberStats(Map<String, String> params); // <가입구분, 통계>
+
 }
