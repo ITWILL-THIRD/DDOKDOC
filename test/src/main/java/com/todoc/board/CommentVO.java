@@ -14,6 +14,7 @@ public class CommentVO {
 	private String nickname;
 	private String hosname;
 	private String formattedCommentDate;
+	private String title;
 	
 	public int getCommentidx() {
 		return commentidx;
@@ -65,10 +66,18 @@ public class CommentVO {
 	public void setHosname(String hosname) {
 		this.hosname = hosname;
 	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 	@Override
 	public String toString() {
-		return "CommentVO [commentidx=" + commentidx + ", postidx=" + postidx + ", useridx=" + useridx + ", content="
-				+ content + ", commentdate=" + commentdate + "]";
+		return "CommentVO [commentidx=" + commentidx + ", postidx=" + postidx + ", useridx=" + useridx + ", hosidx="
+				+ hosidx + ", content=" + content + ", commentdate=" + commentdate + ", nickname=" + nickname
+				+ ", hosname=" + hosname + ", formattedCommentDate=" + formattedCommentDate + ", title=" + title + "]";
 	}
 	public String getFormattedCommentDate() {
 		return formattedCommentDate;

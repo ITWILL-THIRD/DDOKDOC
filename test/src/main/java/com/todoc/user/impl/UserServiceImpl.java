@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.todoc.membership.UserMembershipVO;
 import com.todoc.user.UserService;
 import com.todoc.user.UserVO;
 import com.todoc.user.dao.UserDAO;
@@ -115,5 +116,16 @@ public class UserServiceImpl implements UserService{
 
 	        return userDAO.getTotalCountByCondition(params);
 	    }
+
+	@Override
+	public void updateUserCondition(UserVO user) {
+		userDAO.updateUserCondition(user);
+		
+	}
+
+	@Override
+	public UserMembershipVO getUserMembershipByIdx(int userIdx) {
+		return userDAO.getUserMembershipByIdx(userIdx);
+	}
 
 }

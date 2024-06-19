@@ -1,18 +1,17 @@
 package com.todoc.view.mypage;
 
-import javax.servlet.http.HttpSession;
-
 import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Map;
 import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.apache.ibatis.ognl.ParseException;
@@ -31,12 +30,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todoc.hospital.HolidayInsertParams;
+import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.TimeMapper;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
 import com.todoc.user.UserVO;
+import com.todoc.reservation.ReservationService;
+import com.todoc.reservation.ReservationVO;
 
 import java.util.stream.Collectors;
 
@@ -51,6 +53,8 @@ public class HoMyPageController {
 	private TimeMapper timeMapper;
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private ReservationService reservationService;
 
 	// 병원 마이페이지로 이동
 	@RequestMapping("/hoMyPage.do")
@@ -286,48 +290,36 @@ public class HoMyPageController {
 
 	// 병원 휴무 DB 저장
 	@PostMapping("/insertHosHoliday.do")
-	private String insertHosHoliday(@RequestParam("holidays") String holidaysJson, String hosIdx) {
+	private String insertHosHoliday(HolidayInsertParams param) {
 
-		ObjectMapper objectMapper = new ObjectMapper();
-
-        try {
-            // JSON 문자열을 List<String>으로 변환
-            List<String> holidays = objectMapper.readValue(holidaysJson, new TypeReference<List<String>>() {});
-
-            // List<String>을 List<java.sql.Date>으로 변환
-            List<Date> holidayDates = holidays.stream()
-                                               .map(LocalDate::parse)
-                                               .map(java.sql.Date::valueOf)
-                                               .collect(Collectors.toList());
-
-            // hospitalService를 통해 휴무일 날짜 DB에 저장
-            for (Date holiDate : holidayDates) {
-            	
-            	HolidayInsertParams param = new HolidayInsertParams();
-            	param.setHosIdx(Integer.parseInt(hosIdx));
-            	param.setHoliDate(holiDate);
-            	
-                hospitalService.insertHolidays(param);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "오류 발생";
-        }
+		System.out.println("param : " + param);
+		hospitalService.insertHolidays(param);
 
         return "redirect:/mypage/insertHosHoliday.do";
 	}
+	
+	// 병원 리뷰 목록 조회
+  	@RequestMapping("/hosReviewList.do")
+  	public String hosReviewList(Model model, HttpSession session) {
+ 		System.out.println("::마이페이지-리뷰리스트");
+ 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+ 		int hosIdx = 0;
+ 		if (hoUser != null) {
+ 		    hosIdx = hoUser.getHosIdx();
+ 		}
+ 		
+ 		model.addAttribute("hosIdx", hosIdx);
+ 		
+	    // 병원 1개 조회
+	    HospitalVO hospital = hospitalService.selectOne(hosIdx);
+	    model.addAttribute("hospital", hospital);
+		//작성된 리뷰 목록
+		List<HosReviewVO> hosReviewList = hospitalService.getHosReviewList(hosIdx);
+		model.addAttribute("hosReviewList", hosReviewList);
 
-	// 병원 휴무 취소
-	/*
-	 * @PostMapping("/deleteHosHoliday.do") private String deleteHosHoliday(String
-	 * delHoliday, String hosIdx) {
-	 * 
-	 * System.out.println("delHoliday : " + delHoliday);
-	 * System.out.println("hosIdx : " + hosIdx);
-	 * 
-	 * return "redirect:/mypage/insertHosHoliday.do"; }
-	 */
+		return "mypage/hosReviewList";
+	 }
+
 	
 	@PostMapping("/deleteHosHoliday.do")
 	private String deleteHosHoliday(HolidayInsertParams param) {
@@ -338,4 +330,39 @@ public class HoMyPageController {
 		
 		return "redirect:/mypage/insertHosHoliday.do";
 	}
+
+  	// 병원 예약 현황
+  	@RequestMapping("/hosReserList.do")
+  	public String hosReserList(Model model, HttpSession session) {
+ 		System.out.println("::병원예약현황");
+ 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+ 		int hosIdx = 0;
+ 		if (hoUser != null) {
+ 		    hosIdx = hoUser.getHosIdx();
+ 		}
+ 		
+ 		HospitalVO vo = new HospitalVO();
+		vo.setHosIdx(hosIdx);
+ 		
+ 		model.addAttribute("hosIdx", hosIdx);
+ 		
+		//병원 1개 조회
+		HospitalVO hospital = hospitalService.selectOne(hosIdx);
+		System.out.println("hospital : " + hospital);
+		model.addAttribute("hospital", hospital);
+ 		
+ 		//병원 전체 예약 목록 
+ 		List<ReservationVO> hosResrList = reservationService.getHosReserList(hosIdx);
+ 		model.addAttribute("hosResrList", hosResrList);
+ 		System.out.println(hosResrList);
+ 		
+ 		//휴무일 리스트
+		List<Date> hosHoliday = hospitalService.hosHoliday(vo);
+		System.out.println("hosHoliday : " + hosHoliday);
+
+		model.addAttribute("hosHoliday", hosHoliday);
+
+ 		return "mypage/hosReserList";
+  	}
+
 }

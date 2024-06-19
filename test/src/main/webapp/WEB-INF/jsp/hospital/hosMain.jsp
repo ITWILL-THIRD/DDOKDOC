@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>토닥토닥 메인</title>
 <jsp:include page="../common/navigation.jsp"/>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 	function fetchData(category) {
 		let intSido = document.querySelector("select[name='sido']").value;

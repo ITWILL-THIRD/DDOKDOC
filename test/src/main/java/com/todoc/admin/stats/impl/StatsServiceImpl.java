@@ -1,5 +1,6 @@
 package com.todoc.admin.stats.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,4 +57,26 @@ public class StatsServiceImpl implements StatsService {
 		return statsDAO.getUserEmails(term);
 	}
 
+	@Override
+	public Map<String, List<Map<String, String>>> getMonthlyRevenue(Map<String, String> params) {
+		List<Map<String, String>> userRevenue = statsDAO.getUserMonthlyRevenue(params);
+		List<Map<String, String>> hosRevenue = statsDAO.getHosMonthlyRevenue(params);
+		
+		Map<String, List<Map<String, String>>> monthlyRevenue = new HashMap<>();
+		monthlyRevenue.put("user", userRevenue);
+		monthlyRevenue.put("hospital", hosRevenue);
+		return monthlyRevenue;
+	}
+
+	@Override
+	public Map<String, List<Map<String, String>>> getMemberStats(Map<String, String> params) {
+		List<Map<String, String>> userStats = statsDAO.getUserMemberStats(params);
+		List<Map<String, String>> hosStats = statsDAO.getHosMemberStats(params);
+		
+		Map<String, List<Map<String, String>>> memberStats = new HashMap<>();
+		memberStats.put("user", userStats);
+		memberStats.put("hospital", hosStats);
+		return memberStats;
+	}
+	
 }

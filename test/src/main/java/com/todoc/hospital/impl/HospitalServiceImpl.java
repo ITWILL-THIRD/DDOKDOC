@@ -14,6 +14,7 @@ import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.HospitalDAO;
 import com.todoc.hospital.dao.TimeMapper;
+import com.todoc.membership.HosMembershipVO;
 import com.todoc.reservation.ReservationVO;
 
 @Service("hospitalService")
@@ -221,6 +222,16 @@ public class HospitalServiceImpl implements HospitalService{
 	@Override
 	public List<HosReviewVO> myReviewList(int userIdx) {
 		return hospitalDAO.myReviewList(userIdx);
+	}
+	//병원 멤버십 상태 확인 및 변경
+	@Override
+	public void updateHosCondition(HospitalVO vo) {
+		hospitalDAO.updateHosCondition(vo);
+	}
+
+	@Override
+	public HosMembershipVO getHosMembershipByIdx(int hosIdx) {
+		return hospitalDAO.getHosMembershipByIdx(hosIdx);
 	}
 
 }

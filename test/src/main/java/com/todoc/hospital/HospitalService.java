@@ -3,6 +3,7 @@ package com.todoc.hospital;
 import java.sql.Date;
 import java.util.List;
 
+import com.todoc.membership.HosMembershipVO;
 import com.todoc.reservation.ReservationVO;
 
 
@@ -65,4 +66,7 @@ public interface HospitalService {
 	void insertHolidays(HolidayInsertParams param);
 	//병원 휴무 삭제
 	void deleteHosHoliday(HolidayInsertParams param);
+	//병원 멤버십 기간 확인 및 변경
+	void updateHosCondition(HospitalVO vo);
+	HosMembershipVO getHosMembershipByIdx(int hosIdx);
 }

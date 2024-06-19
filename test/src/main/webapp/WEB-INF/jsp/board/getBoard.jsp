@@ -80,11 +80,9 @@ function deleteComment(commentIdx) {
 </head>
 <body>
 <div id="container">
-	<h1>글상세 [getBoard.jsp]</h1>
-	
 	<form action="updateBoard.do" method="get">
 		<input type="hidden" name="postIdx" value="${board.postidx }">
-	<table class="getBoard">
+	<table class="getBoard top-margin">
 		<tr>
 			<th>카테고리</th>
 			<td colspan="2">

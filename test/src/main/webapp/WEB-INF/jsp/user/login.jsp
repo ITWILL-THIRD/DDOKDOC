@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/loginCss.jsp"/>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -57,21 +59,21 @@
 </script>
 </head>
 <body>
-
+<div id="container">
 <h1>login</h1>
 <a href= "hoLogin.do">병원로그인</a>
 <form action="login.do" method="post">
-<table>
+<table class="tb">
 	<tr>
-		<td><input type="text" name="email" value="${userVO.email }" placeholder="아이디"></td>
+		<td><input class="psTitle" type="text" name="email" value="${userVO.email }" placeholder="아이디"></td>
 	</tr>
 	<tr>
-		<td><input type="password" name="password" value="${userVO.password }"  onclick="password(this.form)" placeholder="비밀번호"></td>
+		<td><input class="psTitle" type="password" name="password" value="${userVO.password }"  onclick="password(this.form)" placeholder="비밀번호"></td>
 		
 	</tr>
 	<tr>
 		<td>
-			<input type="submit" value="로그인">
+			<input class="loginBtn" type="submit" value="로그인">
 		</td>
 	</tr>
 	
@@ -89,28 +91,30 @@
 
 
 
-<!-- 자바스크립트 카카오 -->
- <div class="kakao-btn" onclick="loginWithKakao()">
-         <img
-            src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
-            width="222" alt="카카오 로그인 버튼" />
-      </div>
+
 
 
 <table>
 	<tr>
-		<td><input type="button" value="개인 회원가입" onclick="user_join(this.form)"></td>
-		<td><input type="button" value="병원 회원가입" onclick="ho_join(this.form)"></td>
+		<td><input class="joinBtn" type="button" value="개인 회원가입" onclick="user_join(this.form)"></td>
+		<td><input class="joinBtn" type="button" value="병원 회원가입" onclick="ho_join(this.form)"></td>
 	</tr>
 
 	<tr>
 		<td><a href="findEmail.do">이메일찾기</a></td>
 		<td><a href="findPwd.do">비밀번호 찾기</a></td>
 	</tr>
-	<tr>
-		<td><a href="../index.jsp">메인화면 이동</a></td>
-	</tr>
+<!-- 	<tr> -->
+<!-- 		<td><a href="../index.jsp">메인화면 이동</a></td> -->
+<!-- 	</tr> -->
 </table>
 
+<!-- 자바스크립트 카카오 -->
+ <div class="kakao-btn" onclick="loginWithKakao()">
+         <img
+            src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
+            width="222" alt="카카오 로그인 버튼" />
+      </div>
+</div>
 </body>
 </html>

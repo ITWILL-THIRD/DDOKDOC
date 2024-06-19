@@ -7,7 +7,7 @@
 <title>postListCSS</title>
 <style>
 
-	#container { width: 700px; margin: auto; }
+	#container { width: 1100px; margin: auto; }
 	h1, h3, p { text-align: center; }
 	
 	<%-- 목록 --%>
@@ -21,7 +21,7 @@
 	th { background-color: #B6E5FF; }
 	.center { text-align: center; }
 	.border-none, .border-none td { border: none; }
-	
+	.top-margin {margin-top: 100px;}
 	<%-- 검색창 --%>
 	#category {
 		padding: 10px;

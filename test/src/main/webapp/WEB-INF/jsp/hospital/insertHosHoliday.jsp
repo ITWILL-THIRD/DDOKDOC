@@ -84,18 +84,22 @@
 	          } else {
 		          return;
 	          }
-	        }
-	        var dateIndex = selectedDates.indexOf(info.dateStr);
-	        if (dateIndex > -1) {
-	          // 이미 선택된 날짜일 경우 선택 해제
-	          selectedDates.splice(dateIndex, 1);
-	          info.dayEl.style.backgroundColor = ''; // 원래 색상으로 복원
 	        } else {
-	          // 선택되지 않은 날짜일 경우 선택
-	          selectedDates.push(info.dateStr);
-	          info.dayEl.style.backgroundColor = 'lightblue'; // 선택된 색상 설정
+	        	selectedDates.push(info.dateStr);
+	          	info.dayEl.style.backgroundColor = 'lightblue'; // 선택된 색상 설정
+	        	
+		          // 선택되지 않은 날짜일 경우 선택
+		          if (confirm(info.dateStr + "휴무지정 하시겠습니까?")) {
+		        	  //휴무 지정 함수 실행시키기
+		        	  alert("휴무 지정하기");
+		        	  insertHoliday(info.dateStr);
+		          } else {
+		        	  
+		        	  return;
+		          }
+	        	
 	        }
-	        alert(selectedDates);
+	        
 	        
 	        // 숨겨진 필드 업데이트
 	        document.getElementById('holidays').value = JSON.stringify(selectedDates);
@@ -128,6 +132,11 @@
   
   function submitForm() {
     document.getElementById("holidayForm").submit();
+  }
+  
+  function insertHoliday(dateStr) {
+	  document.getElementById('holiday').value = dateStr;
+	  document.getElementById('holidayForm').submit();
   }
   
   function deleteHoliday(dateStr) {
@@ -176,9 +185,8 @@
 	<h2>병원 휴무일 등록</h2>
 	<div id="calendar" class="reserInfo"></div>
 	<form id="holidayForm" action="insertHosHoliday.do" method="post">
-		<input type="hidden" id="holidays" name="holidays" value="[]">
+		<input type="hidden" id="holiday" name="holiDateStr">
 		<input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
-		<button type="button" onclick="submitForm()">제출</button>
 	</form>
 	<form id="DelHolidayForm" action="deleteHosHoliday.do" method="post">
 		<input type="hidden" id="holiDateStr" name="holiDateStr" >

@@ -34,10 +34,8 @@ function clearFileInput() {
 <body>
 
 <div id="container">
-	<h1>글등록 [insertBoard.jsp]</h1>
-	
 	<form name="insertForm" action="insertBoard.do" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
-	<table class="insertBoard">
+	<table class="insertBoard top-margin">
 		<tr>
 			<th>카테고리</th>
 			<td>

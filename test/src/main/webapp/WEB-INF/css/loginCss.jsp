@@ -4,33 +4,64 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>postListCSS</title>
+<title>loginCSS</title>
 <style>
-	#container { width: 800px; margin: auto; }
+	#container { width: 700px; margin: auto; }
 	h1, h3, p { text-align: center; }
 	.center { text-align: center; }
-	.top-margin {margin-top: 100px;}
+	
+	.psTitle {
+		position: relative;
+		margin-top: 5px;
+		width: 350px;
+		height: 25px;
+		border: 1px solid #bbb;
+		border-radius: 7px;
+		padding: 10px 12px;
+		font-size: 14px;
+	 }
+	 
+	 .loginBtn {
+		position: relative;
+border: 1px solid #bbb;
+	background-color: #2C307D;
+	border:  none;
+border-radius: 7px;
+	color: white;
+	 width: 375px;
+  height: 50px;
+  margin-top: 20px;
+  font-size: 16px;
+
+	 }
+	 .joinBtn {
+	 position: relative;
+border: 1px solid #bbb;
+	background-color:  white;
+	border: 2px solid #888888;
+border-radius: 5px;
+
+	 width: 185px;
+  height: 42px;
+  margin-top: 14px;
+	 
+	 }
+	
 	
 	<%-- 글내용 --%>
 	
-	table { border-collapse: collapse; }
 	
-	table, th, td {
-		border: 1px solid #B9B9B9;
-		margin: 0 auto;
-		padding: 5px;
-		text-align: center;
-	}
+	
 	
 	th { background-color: #B6E5FF; }
 
 	.border-none, .border-none td { border: none; }
 	
 	.getBoard {
-		width: 800px;
+		width: 600px;
 	}
 	
-	.insertBoard {width: 800px;	}
+	.insertBoard {width: 600px;	}
 	
 	#category {
 		padding: 10px;

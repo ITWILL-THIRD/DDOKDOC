@@ -14,10 +14,12 @@ public class UserVO {
 	private String phone;
 	private String role;
 	private String userImg;
+	private String condition;
 	//회원 예약, 진료 완료, 노쇼 건수 조회
 	private int ReserCount;
 	private int FinishCount;
 	private int NoShowCount;
+	
 	
 	//회원 리뷰,게시물,댓글 건수 조회
 	private int reviewCount;
@@ -84,13 +86,23 @@ public class UserVO {
 	public void setUserImg(String userImg) {
 		this.userImg = userImg;
 	}
+
+	public String getCondition() {
+		return condition;
+	}
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
 	@Override
 	public String toString() {
 		return "UserVO [userIdx=" + userIdx + ", email=" + email + ", nickname=" + nickname + ", password=" + password
 				+ ", name=" + name + ", birth=" + birth + ", phone=" + phone + ", role=" + role + ", userImg=" + userImg
+				+ ", condition=" + condition + ", ReserCount=" + ReserCount + ", FinishCount=" + FinishCount
+				+ ", NoShowCount=" + NoShowCount + ", reviewCount=" + reviewCount + ", postCount=" + postCount
+				+ ", commentCount=" + commentCount + ", searchType=" + searchType + ", searchKeyword=" + searchKeyword
 				+ "]";
 	}
-	
 	//검색조건 처리용 ------
 	public String getSearchType() {
 		return searchType;

@@ -18,6 +18,7 @@
                     $("#revenueChart").hide(); 
                     $("#statsChart").hide();
                     $(".dateBtn").removeClass("active");
+                    $("#initAccount").hide(); // 계정 초기 메시지 숨기기
                 }
 				
                 // 버튼이 클릭되면 active 클래스 지정
@@ -39,6 +40,7 @@
                     $("#searchStats").hide(); // 통계 입력 폼 숨김
                     $("#searchDate").data("type", "monthlyRevenue"); // 검색 데이터 타입 설정
                     $("#result").empty(); // 검색 결과 초기화
+                    initMonthlyRevenue(); // 초기 데이터 로드
                 });
                 
                 // 가입구분 버튼 표시
@@ -55,6 +57,7 @@
                 $("#paymentsByAccountBtn").click(function() {
                 	resetAll();
                     $("#searchAccount").show();
+                    $("#initAccount").show();	
                     $("#searchDate").hide();
                     $("#searchStats").hide();
                     $("#searchAccount").data("type", "paymentsByAccount");
@@ -68,6 +71,7 @@
                     $("#searchAccount").hide();
                     $("#searchStats").data("type", "memberStats");
                     $("#result").empty();
+                    initMemberStats();
                 });
                 
              	// 전체검색 시 입력 필드 숨기기
@@ -102,6 +106,37 @@
                 }
                 
              	// ajax 처리
+             	// 초기 데이터 로드
+			    function initMonthlyRevenue() {
+			        if (revenueChart) {
+			            revenueChart.destroy();
+			        }
+			
+			        $.ajax({
+			            url: 'initMonthlyRevenue.do',
+			            method: 'get',
+			            success: function(data) {
+			                drawRevenueChart(data.user, data.hospital); // 차트 데이터 그리기
+			                $("#revenueChart").show();
+			            }
+			        });
+			    }
+             	
+			    function initMemberStats() {
+			        if (statsChart) {
+			            statsChart.destroy();
+			        }
+
+			        $.ajax({
+			            url: 'initMemberStats.do',
+			            method: 'get',
+			            success: function(data) {
+			                drawMemberStatsChart(data.user, data.hospital);
+			                $("#statsChart").show();
+			            }
+			        });
+			    }
+             	
              	// 수익 통계 조회
                 $("#searchBtn").click(function() {
                     var type = $("#type").val();
@@ -120,7 +155,6 @@
                                 type: type
                             },
                             success: function(data) {
-                            	console.log(data);
                                 $("#result").html(data);
                                 if ($("#result table tr").length > 1) {
                                     drawChart();
@@ -137,6 +171,7 @@
                 $("#accountSearchBtn").click(function() {
                     var type = $("#accountType").val();
                     var account = $("#account").val();
+                    $("#initAccount").hide();
                     
                     if ($("#searchAccount").data("type") === "paymentsByAccount") {
                         $.ajax('paymentsByAccount.do', {
@@ -197,6 +232,86 @@
                 });
                 
                 // 차트 그리기
+			    function drawRevenueChart(userData, hosData) {
+			        var userLabels = [], userPoints = [];
+			        var hosLabels = [], hosPoints = [];
+			
+			        userData.forEach(function(item) {
+			            userLabels.push(item.MONTH);
+			            userPoints.push(parseFloat(item.TOTAL_PAY));
+			        });
+			
+			        hosData.forEach(function(item) {
+			            hosLabels.push(item.MONTH);
+			            hosPoints.push(parseFloat(item.TOTAL_PAY));
+			        });
+			
+			        if (revenueChart) {
+			            revenueChart.destroy(); // 기존 차트 삭제
+			        }
+			
+			        var ctx = document.getElementById('revenueChart').getContext('2d');
+			        revenueChart = new Chart(ctx, {
+			            type: 'line',
+			            data: {
+			                labels: userLabels.length > hosLabels.length ? userLabels : hosLabels, // 데이터가 더 많은 배열 x축에 표시
+			                datasets: [
+			                    {
+			                        label: '개인 월별 수익',
+			                        data: userPoints,
+			                        borderColor: '#2C307D',
+			                        backgroundColor: '#E0EAF5',
+			                        borderWidth: 1,
+			                        fill: false,
+			                        yAxisID: 'y-axis-user'
+			                    },
+			                    {
+			                        label: '병원 월별 수익',
+			                        data: hosPoints,
+			                        borderColor: '#FF5733',
+			                        backgroundColor: '#FFCCCB',
+			                        borderWidth: 1,
+			                        fill: false,
+			                        yAxisID: 'y-axis-hospital'
+			                    }
+			                ]
+			            },
+			            options: {
+			                scales: {
+			                    yAxes: [
+			                        {
+			                            id: 'y-axis-user',
+			                            type: 'linear',
+			                            position: 'left',
+			                            ticks: {
+			                                beginAtZero: true,
+			                            },
+			                            scaleLabel: {
+			                                display: true,
+			                                labelString: '개인 월별 수익'
+			                            }
+			                        },
+			                        {
+			                            id: 'y-axis-hospital',
+			                            type: 'linear',
+			                            position: 'right',
+			                            ticks: {
+			                                beginAtZero: true,
+			                            },
+			                            scaleLabel: {
+			                                display: true,
+			                                labelString: '병원 월별 수익'
+			                            }
+			                        }
+			                    ],
+			                    x: {
+			                        beginAtZero: true
+			                    }
+			                }
+			            }
+			        });
+			    }
+
                 function drawChart() {
                     var labels = [];
                     var dataPoints = [];
@@ -312,5 +427,107 @@
                     });
                 }
                 
+                function drawMemberStatsChart(userStats, hosStats) {
+                    var userLabels = [], userTotal = [], userNew = [], userGrowth = [];
+                    var hosLabels = [], hosTotal = [], hosNew = [], hosGrowth = [];
+
+                    userStats.forEach(function(item) {
+                        userLabels.push(item.PERIOD);
+                        userTotal.push(parseInt(item.TOTALUSERS));
+                        userNew.push(parseInt(item.NEWUSERS));
+                        userGrowth.push(parseFloat(item.GROWTHRATE));
+                    });
+
+                    hosStats.forEach(function(item) {
+                        hosLabels.push(item.PERIOD);
+                        hosTotal.push(parseInt(item.TOTALHOS));
+                        hosNew.push(parseInt(item.NEWHOS));
+                        hosGrowth.push(parseFloat(item.GROWTHRATE));
+                    });
+
+                    if (statsChart) {
+                        statsChart.destroy();
+                    }
+
+                    var ctx = document.getElementById('statsChart').getContext('2d');
+                    statsChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: userLabels.length > hosLabels.length ? userLabels : hosLabels,
+                            datasets: [
+                                {
+                                    label: '개인 총 가입자',
+                                    data: userTotal,
+                                    backgroundColor: 'rgba(182, 229, 255, 0.5)',
+                                    borderColor: 'rgba(155, 200, 230, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: '개인 신규 가입자',
+                                    data: userNew,
+                                    backgroundColor: 'rgba(255, 162, 23, 0.5)',
+                                    borderColor: 'rgba(255, 162, 23, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: '병원 총 가입자',
+                                    data: hosTotal,
+                                    backgroundColor: 'rgba(46, 119, 174, 0.5)',
+                                    borderColor: 'rgba(46, 119, 174, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: '병원 신규 가입자',
+                                    data: hosNew,
+                                    backgroundColor: 'rgba(253, 111, 47, 0.5)',
+                                    borderColor: 'rgba(253, 111, 47, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: '개인 증가율 (%)',
+                                    data: userGrowth,
+                                    backgroundColor: 'rgba(44, 48, 125, 0.5)',
+                                    borderColor: 'rgba(44, 48, 125, 1)',
+                                    borderWidth: 1,
+                                    yAxisID: 'y-axis-2'
+                                },
+                                {
+                                    label: '병원 증가율 (%)',
+                                    data: hosGrowth,
+                                    backgroundColor: 'rgba(31, 82, 107, 0.5)',
+                                    borderColor: 'rgba(31, 82, 107, 1)',
+                                    borderWidth: 1,
+                                    yAxisID: 'y-axis-2'
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return value + '명';
+                                        }
+                                    }
+                                },
+                                'y-axis-2': {
+                                    type: 'linear',
+                                    position: 'right',
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return value + '%';
+                                        }
+                                    }
+                                },
+                                x: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                }
+                initMonthlyRevenue(); // 페이지 로드 후 차트표시
 			});
 		</script>

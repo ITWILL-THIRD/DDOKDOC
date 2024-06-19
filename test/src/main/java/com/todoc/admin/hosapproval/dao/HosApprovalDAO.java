@@ -10,6 +10,8 @@ public interface HosApprovalDAO {
 	
 	//병원 승인(승인완료)
 	int updateApproval(int hosIdx);
+	//병원 승인 취소(승인전)
+	int updateBeforeApproval(int hosIdx);
 	//전체 병원 건수 cnt 조회
 	int getTotCnt();
 	//(동적처리 조건별)전체 병원 건수 cnt 조회
