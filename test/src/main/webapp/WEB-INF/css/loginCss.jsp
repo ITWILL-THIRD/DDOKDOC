@@ -9,17 +9,25 @@
 	#container { width: 700px; margin: auto; }
 	h1, h3, p { text-align: center; }
 	.center { text-align: center; }
-	
+	.tb {
+	 margin-left:auto; 
+    margin-right:auto;
+	}
 	.psTitle {
 		position: relative;
-		margin-top: 5px;
+		margin-top: 3px;
 		width: 350px;
-		height: 25px;
+		height: 30px;
 		border: 1px solid #bbb;
 		border-radius: 7px;
 		padding: 10px 12px;
 		font-size: 14px;
 	 }
+	 input::placeholder {
+  
+/*   font-size: 15px; */
+ 
+}
 	 
 	 .loginBtn {
 		position: relative;
@@ -32,120 +40,112 @@ border-radius: 7px;
   height: 50px;
   margin-top: 20px;
   font-size: 16px;
+  font-weight: bold;
 
 	 }
+	 .loginBtn:active{
+		background-color: #4349B4;
+        color: #FFFFFF; 
+	}
+	
+	.loginBtn:disabled {
+    background-color: #cccccc; /* 비활성화된 상태의 색상 */
+    color: #FFFFFF;
+	}
+	.loginBtn:disabled:active {
+	background-color: #E4E4E4; /* 비활성화된 상태의 색상 */
+    color: #FFFFFF;
+	}
+	
 	 .joinBtn {
+	 color: #2E77AE;
 	 position: relative;
-border: 1px solid #bbb;
-	background-color:  white;
-	border: 2px solid #888888;
-border-radius: 5px;
-
-	 width: 185px;
-  height: 42px;
-  margin-top: 14px;
-	 
+	 border: 0;
+	  background-color: transparent;
+	font-size: 15px;
+    font-style: normal;
 	 }
-	
-	
-	<%-- 글내용 --%>
-	
-	
-	
-	
-	th { background-color: #B6E5FF; }
+	 .joinBtn:hover {color:#B6E5FF;}
+	 .s {
+	 color: #B5B5B5;
+	 }
+	 .select {
+	 margin-top: 20px;
+	 margin-left:auto; 
+    margin-right:auto;
+	 }
+	.kakao-btn {
+	margin-top: 30px;
+	text-align: center;
+	}
 
-	.border-none, .border-none td { border: none; }
-	
-	.getBoard {
-		width: 600px;
-	}
-	
-	.insertBoard {width: 600px;	}
-	
-	#category {
-		padding: 10px;
-	}
-	
-	.searchInput {
-		margin-left: 5px;
-		border-radius: 10px;
-	}
-	
-	<%-- 글 등록, 수정, 댓글 등록, 삭제--%>
-	
-	.btn {
-		border-radius: 10px;
-		background-color: #B6E5FF;
-		padding: 3px;
-		width: 50px;
-		border: none;
-	}
-	
-	.btnWhite {
-		border-radius: 10px;
-		border-color: #B6E5FF;
-		background-color: #FFF;
-		padding: 3px;
-		width: 50px;
-	}
-	
-	<%-- 글 수정 취소 --%>
-	
-	.aBtn {
-		border-radius: 10px;
-		padding: 3px;
-		width: 45px;
-		border: 1px solid #B6E5FF;	
-		display: inline-block;
-		font-size: 13px;
-	}
-	
-	<%-- 수정, 취소, 목록 링크 --%>
-	
 	a {	
+		font-size: 15px;
 		text-decoration: none;
 		color: black;	
 	}
 	a:hover {color:#B6E5FF;}
 	
-	<%-- 댓글 작성, 댓글 구분 --%>
-	
-	hr {    
-		background-color:#B6E5FF;;
-    	height:1px;
-    	border:0;
+	.text {
+		position: relative;
+		margin-bottom: 7px;
+		width: 350px;
+		height: 20px;
+		border: 1px solid #bbb;
+		border-radius: 7px;
+		padding: 10px 12px;
+		font-size: 14px;
 	}
-	
-	.width {
-		display: inline-block;
-	}
-	
-	.hosname {color:#2C307D;}
-	
-	<%-- 댓글 작성자 로그인처리 후 삭제 --%>
-	
-	.idInput {
-		width: 100px;
-	}
-	
-	.commentInput {
+	.btn {
+		position: absolute;
+		margin-top: -18px;
+		margin-left: -80px;
 		border-radius: 5px;
-		border: 1px solid #B6E5FF;
-		align-items: center;
+		padding: 3px;
+		width: 70px;
+		height: 30px;
+		border: none;
+		background-color: #2C307D;
+        color: #FFFFFF; 
+	}
+	.btn:active{
+		background-color: #4349B4;
+        color: #FFFFFF; 
+	}
+	.sText {
+		position: relative;
+		margin-bottom: 7px;
+		width: 160px;
+		height: 20px;
+		border: 1px solid #bbb;
+		border-radius: 7px;
+		padding: 10px 12px;
+		font-size: 14px;
+	}
+	.tText {
+		position: relative;
+		margin-bottom: 7px;
+		width: 137px;
+		height: 20px;
+		border: 1px solid #bbb;
+		border-radius: 7px;
+		padding: 10px 12px;
+		font-size: 14px;
+	}
+	.wBtn {
+		border-radius: 5px;
+		padding: 3px;
+		width: 100px;
+		height: 30px;
+		border: none;
+		background-color: #2C307D;
+        color: #FFFFFF; 
+	}
+	.wBtn:active{
+		background-color: #4349B4;
+        color: #FFFFFF; 
 	}
 	
-	form > textarea { align-items: center;}
-	
-
-	.content { min-height: 200px;}
-	
-	<%-- 댓글 목록 스크롤 --%>
-	.scroll {
-	    overflow-y: auto;
-	    max-height: 500px;
-	}
-
 
 	
 </style>

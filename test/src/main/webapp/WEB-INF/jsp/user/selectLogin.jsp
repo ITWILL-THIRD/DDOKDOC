@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>로그인 선택</h1>
-<a href="user/login.do">일반로그인</a>
-<a href="user/hoLogin.do">병원로그인</a>
+<a href="login.do">일반로그인</a>
+<a href="hoLogin.do">병원로그인</a>
 </body>
 </html>

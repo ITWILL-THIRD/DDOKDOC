@@ -140,7 +140,7 @@
         
         
     	<c:if test="${empty sessionScope.hoUser and empty sessionScope.user}">
-    		<a href="user/login.do">로그인 /회원가입</a>
+    		<a href="user/selectLogin.do">로그인 /회원가입</a>
     	</c:if>
     	
     	<c:if test="${not empty sessionScope.hoUser}">

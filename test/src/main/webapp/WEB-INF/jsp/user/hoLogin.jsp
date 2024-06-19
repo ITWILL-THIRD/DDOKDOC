@@ -5,6 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/loginCss.jsp"/>
+
 <script>
 
 	function user_join(frm) {
@@ -41,22 +44,21 @@
 	</script>
 </head>
 <body>
+<div id="container">
 <h1>병원 login</h1>
 <form action="hoLogin.do" method="post">
 
-<table>
+<table class="tb">
 	<tr>
-		<td>아이디</td>
-		<td><input type="text" name="hosId" value="${hospitalVO.hosId }"></td>
+		<td><input class="psTitle" type="text" name="hosId" value="${hospitalVO.hosId }" placeholder="아이디"></td>
 	</tr>
 	<tr>
-		<td>비밀번호</td>
-		<td><input type="password" name="hosPw" value="${hospitalVO.hosPw }" onclick="password(this.form)"></td>
+		<td><input class="psTitle" type="password" name="hosPw" value="${hospitalVO.hosPw }" onclick="password(this.form)" placeholder="비밀번호"></td>
 		
 	</tr>
 	<tr>
-		<td colspan="2">
-			<input type="submit" value="로그인">
+		<td>
+			<input class="loginBtn" type="submit" value="로그인">
 		</td>
 	</tr>
 	
@@ -64,18 +66,22 @@
 </table>
 </form>
 
-<table>
-	<tr>
-		<td><input type="button" value="개인 회원가입" onclick="user_join(this.form)"></td>
-		<td><input type="button" value="병원 회원가입" onclick="ho_join(this.form)"></td>
-	</tr>
+<table class="select">
+
+<!-- 		<td><input type="button" value="개인 회원가입" onclick="user_join(this.form)"></td> -->
+		
+
 	<tr>
 		<td><a href="hoFindId.do">아이디찾기</a></td>
+		<td class="s">&nbsp;&nbsp;|&nbsp;&nbsp;</td>
 		<td><a href="hoFindPwd.do">비밀번호 찾기</a></td>
+		<td class="s">&nbsp;&nbsp;|&nbsp;&nbsp;</td>
+		<td><input class="joinBtn" type="button" value="병원 회원가입" onclick="ho_join(this.form)"></td>
 	</tr>
-	<tr>
-		<td><a href="../index.jsp">메인화면 이동</a></td>
-	</tr>
+<!-- 	<tr> -->
+<!-- 		<td><a href="../index.jsp">메인화면 이동</a></td> -->
+<!-- 	</tr> -->
 </table>
+</div>
 </body>
 </html>

@@ -208,4 +208,3 @@
 		WHERE USERIDX = #{userIdx}
 	</update>
 </mapper>
-
