@@ -51,11 +51,12 @@
 			</td>
 		</tr>
 		<tr>
+		<%-- 
 			<th>사진 첨부</th>
 			<td>
 				<input type="file" name="file">
 			</td>
-		</tr>
+		</tr>--%>
 		<tr>
 			<td colspan="2" class="center">
 				<input type="submit" value="수정" class="btn">

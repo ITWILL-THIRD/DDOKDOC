@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.todoc.board.BoardService;
 import com.todoc.board.BoardVO;
 import com.todoc.board.CommentVO;
+import com.todoc.common.Paging;
 import com.todoc.googlecloudstorage.GCSService;
 
 
@@ -63,7 +66,9 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/getBoard.do")
-    public String getBoard(BoardVO vo, CommentVO co , Model model) {
+    public String getBoard(HttpServletRequest request, BoardVO vo, CommentVO co , Model model) {
+		String cPage = request.getParameter("cPage");
+		
         // 조회수 증가
         boardService.updateHit(vo);
        
@@ -92,15 +97,68 @@ public class BoardController {
     }
 	
 	@RequestMapping("/getBoardList.do")
-	public String getBoardList(BoardVO vo, @RequestParam(value = "category", required = false) String category, Model model) {
+	public String getBoardList(BoardVO vo, 
+			@RequestParam(value = "searchCondition", required = false) String searchCondition,
+			@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+			@RequestParam(value = "category", required = false) String category, HttpServletRequest request, Model model) {
 		System.out.println(">> 게시글 전체 목록 보여주기");
 		System.out.println("vo : " + vo);
 		
 		if (category != null && !category.isEmpty()) {
 	        vo.setCategory(category);
 		}
+		
+		if (searchCondition != null) {
+			
+          vo.setSearchCondition(searchCondition);
+               
+		}
+		
+		//페이징 처리를 위한 객체(Paging)생성 - numPerPage=10, pagePerBlock=10 세팅
+		Paging p = new Paging();
+		
+		//1. 전체 게시물 수량 구하기
+		System.out.println("전체 게시물 수량 전 vo : " + vo);
+		p.setTotalRecord(boardService.getAjaxTotCnt(vo));
+		p.setTotalPage();
+		System.out.println("> 전체 게시글 수 : " + p.getTotalRecord());
+		System.out.println("> 전체 페이지 수 : " + p.getTotalPage());
+		
+		//2. 현재 페이지 번호 구하기
+		String cPage = request.getParameter("cPage");
+		if (cPage != null) {
+			p.setNowPage(Integer.parseInt(cPage));
+		}
+		System.out.println("> cPage : " + cPage);
+		System.out.println("> Paging nowPage : " + p.getNowPage());
+		
+		//3. 현재 페이지에 표시할 게시글 시작번호(begin), 끝번호(end) 구하기
+		p.setEnd(p.getNowPage() * p.getNumPerPage());
+		p.setBegin(p.getEnd() - p.getNumPerPage() + 1);
+		System.out.println(">> 시작번호(begin) : " + p.getBegin());
+		System.out.println(">> 끝번호(end) : " + p.getEnd());
+		int begin = p.getBegin();
+		int end = p.getEnd();
+		
+		//4. 블록(block) 계산하기
+		//블록 시작페이지(beginPage), 끝페이지(endPage) - 현재페이지 번호 사용
+		int nowBlock = (p.getNowPage() - 1) / p.getPagePerBlock() + 1;
+		p.setNowBlock(nowBlock);
+		p.setEndPage(nowBlock * p.getPagePerBlock());
+		p.setBeginPage(p.getEndPage() - p.getPagePerBlock() + 1);
+		System.out.println(">> nowBlock : " + p.getNowBlock());
+		System.out.println(">> beginPage : " + p.getBeginPage());
+		System.out.println(">> endPage : " + p.getEndPage());
+		
+		// 끝페이지(endPage)가 전체페이지 수(totalPage) 보다 크면
+		// 끝페이지를 전체페이지 수로 변경 처리
+		if (p.getEndPage() > p.getTotalPage()) {
+			p.setEndPage(p.getTotalPage());
+			System.out.println(">> 정정 후 endPage : " + p.getEndPage());
+		}
         
-		List<BoardVO> boardList = boardService.getBoardList(vo);
+		//List<BoardVO> boardList = boardService.getBoardList(vo);
+		List<BoardVO> boardList = boardService.getListPage(vo,category,searchCondition, searchKeyword, begin, end);
 		
 		SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MM dd HH:mm:ss z yyyy");
 	    SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -109,8 +167,94 @@ public class BoardController {
 	        String formattedDate = targetFormat.format(board.getPostdate());
 	        board.setFormattedDate(formattedDate);
 	    }
-		
+	   
 		model.addAttribute("boardList", boardList); // Model에 데이터 저장
+		model.addAttribute("searchCondition", searchCondition);
+		model.addAttribute("category", category);
+		model.addAttribute("pagingVO", p);
+		
+		return "board/getBoardList";
+	}
+	
+	@RequestMapping("/getSearchBoardList.do")
+	public String getBoardList(BoardVO vo, HttpServletRequest request, Model model,
+			@RequestParam(value = "searchCondition", required = false) String searchCondition,
+			@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+			@RequestParam(value = "category", required = false) String category ) {
+		System.out.println(">> 게시글 전체 목록 보여주기");
+		System.out.println("vo : " + vo);
+		
+		if (category != null && !category.isEmpty()) {
+	        vo.setCategory(category);
+		}
+		
+		if (searchCondition != null) {			
+            vo.setSearchCondition(searchCondition);
+		}
+		
+		if (searchKeyword != null) {
+		    vo.setSearchKeyword(searchKeyword);
+		}
+		
+		//페이징 처리를 위한 객체(Paging)생성 - numPerPage=10, pagePerBlock=10 세팅
+		Paging p = new Paging();
+		
+		//1. 전체 게시물 수량 구하기
+		System.out.println("전체 게시물 수량 전 vo : " + vo);
+		p.setTotalRecord(boardService.getAjaxTotCnt(vo));
+		p.setTotalPage();
+		System.out.println("> 전체 게시글 수 : " + p.getTotalRecord());
+		System.out.println("> 전체 페이지 수 : " + p.getTotalPage());
+		
+		//2. 현재 페이지 번호 구하기
+		String cPage = request.getParameter("cPage");
+		if (cPage != null) {
+			p.setNowPage(Integer.parseInt(cPage));
+		}
+		System.out.println("> cPage : " + cPage);
+		System.out.println("> Paging nowPage : " + p.getNowPage());
+		
+		//3. 현재 페이지에 표시할 게시글 시작번호(begin), 끝번호(end) 구하기
+		p.setEnd(p.getNowPage() * p.getNumPerPage());
+		p.setBegin(p.getEnd() - p.getNumPerPage() + 1);
+		System.out.println(">> 시작번호(begin) : " + p.getBegin());
+		System.out.println(">> 끝번호(end) : " + p.getEnd());
+		int begin = p.getBegin();
+		int end = p.getEnd();
+		
+		//4. 블록(block) 계산하기
+		//블록 시작페이지(beginPage), 끝페이지(endPage) - 현재페이지 번호 사용
+		int nowBlock = (p.getNowPage() - 1) / p.getPagePerBlock() + 1;
+		p.setNowBlock(nowBlock);
+		p.setEndPage(nowBlock * p.getPagePerBlock());
+		p.setBeginPage(p.getEndPage() - p.getPagePerBlock() + 1);
+		System.out.println(">> nowBlock : " + p.getNowBlock());
+		System.out.println(">> beginPage : " + p.getBeginPage());
+		System.out.println(">> endPage : " + p.getEndPage());
+		
+		// 끝페이지(endPage)가 전체페이지 수(totalPage) 보다 크면
+		// 끝페이지를 전체페이지 수로 변경 처리
+		if (p.getEndPage() > p.getTotalPage()) {
+			p.setEndPage(p.getTotalPage());
+			System.out.println(">> 정정 후 endPage : " + p.getEndPage());
+		}
+        
+		//List<BoardVO> boardList = boardService.getBoardList(vo);
+		List<BoardVO> boardList = boardService.getListPage(vo,category,searchCondition, searchKeyword, begin, end);
+		
+		SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MM dd HH:mm:ss z yyyy");
+	    SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    
+	    for (BoardVO board : boardList) {
+	        String formattedDate = targetFormat.format(board.getPostdate());
+	        board.setFormattedDate(formattedDate);
+	    }
+	   
+		model.addAttribute("boardList", boardList); // Model에 데이터 저장
+		model.addAttribute("pagingVO", p);
+		model.addAttribute("searchCondition", searchCondition);
+		model.addAttribute("searchKeyword", searchKeyword);
+		model.addAttribute("category", category);
 		
 		return "board/getBoardList";
 	}

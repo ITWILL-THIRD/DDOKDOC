@@ -19,4 +19,7 @@ public interface BoardService {
 	
 	List<BoardVO> myPostList(int userIdx);
 	List<CommentVO> myCommentList(int userIdx);
+	int getTotCnt();
+	int getAjaxTotCnt(BoardVO vo);
+	List<BoardVO> getListPage(BoardVO vo, String category, String searchCondition, String searchKeyword, int begin, int end);
 }
