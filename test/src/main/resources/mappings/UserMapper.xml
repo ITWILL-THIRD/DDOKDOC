@@ -194,6 +194,8 @@
 		SELECT *
 		FROM USERMEMBERSHIP
 		WHERE USERIDX = #{userIdx}
+		ORDER BY USERSTART DESC
+    	LIMIT 1
 	</select>
    <update id="updateUserCondition" parameterType="UserVO">
 		UPDATE DDOKUSER
