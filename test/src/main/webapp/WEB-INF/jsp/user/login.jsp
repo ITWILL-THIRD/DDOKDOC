@@ -61,7 +61,7 @@
 <body>
 <div id="container">
 <h1>login</h1>
-<a href= "hoLogin.do">병원로그인</a>
+<!-- <a href= "hoLogin.do">병원로그인</a> -->
 <form action="login.do" method="post">
 <table class="tb">
 	<tr>
@@ -94,15 +94,18 @@
 
 
 
-<table>
-	<tr>
-		<td><input class="joinBtn" type="button" value="개인 회원가입" onclick="user_join(this.form)"></td>
-		<td><input class="joinBtn" type="button" value="병원 회원가입" onclick="ho_join(this.form)"></td>
-	</tr>
+<table class="select">
+	
+		
+<!-- 		<td><input class="joinBtn" type="button" value="병원 회원가입" onclick="ho_join(this.form)"></td> -->
+	
 
 	<tr>
-		<td><a href="findEmail.do">이메일찾기</a></td>
+		<td><a href="findEmail.do">아이디 찾기</a></td>
+		<td class="s">&nbsp;&nbsp;|&nbsp;&nbsp;</td>
 		<td><a href="findPwd.do">비밀번호 찾기</a></td>
+		<td  class="s">&nbsp;&nbsp;|&nbsp;</td>
+		<td><input class="joinBtn" type="button" value="개인 회원가입" onclick="user_join(this.form)"></td>
 	</tr>
 <!-- 	<tr> -->
 <!-- 		<td><a href="../index.jsp">메인화면 이동</a></td> -->
@@ -113,7 +116,7 @@
  <div class="kakao-btn" onclick="loginWithKakao()">
          <img
             src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
-            width="222" alt="카카오 로그인 버튼" />
+            width="180" alt="카카오 로그인 버튼" />
       </div>
 </div>
 </body>

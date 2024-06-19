@@ -126,7 +126,15 @@
 								<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
 								<c:set var="closeTime" value="${hospital.closeTime}"/>
 								<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
-								${openTimeSub} - ${closeTimeSub}
+								<c:choose>
+						            <c:when test="${openTimeSub == '00:00' and closeTimeSub == '23:59'}">
+						                24시
+						            </c:when>
+						            <c:otherwise>
+						                ${openTimeSub} - ${closeTimeSub}
+						            </c:otherwise>
+						        </c:choose>
+																
 							</td>
 							<td>${hospital.hosPhone}</td>
 							<td>${hospital.animal}</td>

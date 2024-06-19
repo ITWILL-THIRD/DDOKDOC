@@ -100,7 +100,6 @@
 			MEMO = #{memo}
 		WHERE RESERIDX = #{reserIdx}
     </update>
-
     
 <select id="userReserList" parameterType="map" resultType="ReservationVO">
     SELECT *

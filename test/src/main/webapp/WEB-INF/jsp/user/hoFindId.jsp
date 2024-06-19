@@ -5,23 +5,32 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 아이디 찾기</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/loginCss.jsp"/>
 </head>
 <body>
+<div id="container">
 <h1>병원 아이디 찾기</h1>
 <form name="frm" action="hoFindId.do" method="post">
-	<table>
+	<table class="tb">
 		<tr>
-			<td><input type="text" name="hosName" placeholder="병원이름"></td>
+			<td><input class="psTitle" type="text" name="hosName" placeholder="병원이름"></td>
 		</tr>
 		<tr>
-			<td><input type="text" name="hosPhone" placeholder="전화번호" oninput="oninputPhone(this)" maxlength="14"></td>
+			<td><input class="psTitle" type="text" name="hosPhone" placeholder="전화번호" oninput="oninputPhone(this)" maxlength="14"></td>
 		</tr>
 		<tr>
-			<td><input type="submit" id="submit" value="아이디 찾기"></td>
+			<td><input class="loginBtn" type="submit" id="submit" value="아이디 찾기"></td>
 		</tr>
 	</table>
 </form>
-<a href="hoJoin.do">회원가입하기</a>
-<a href="hoLogin.do">로그인하기</a>
+<table class="select">
+<tr>
+<td><a href="hoJoin.do">회원가입하기</a></td>
+<td class="s">&nbsp;&nbsp;|&nbsp;&nbsp;</td>
+<td><a href="hoLogin.do">로그인하기</a></td>
+</tr>
+</table>
+</div>
 </body>
 </html>

@@ -35,9 +35,10 @@ function userDelete_ok(frm) {
 	일반회원
 	</c:if>
 	<c:if test="${user.condition == '결제완료'}">
-	MEMBERSHIP 
+	MEMBERSHIP ${umo.startformattedDate } ~ ${umo.endformattedDate }
 	</c:if>
-<%-- 	${user.condition } --%>
+	
+	${user.condition }
 	<form action="updateUser.do">
 	<table>
 	<tr>

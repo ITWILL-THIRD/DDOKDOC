@@ -48,6 +48,13 @@ public class UserController {
    public UserController() {
       System.out.println("=======> UserController()객체생성");
    }
+   //로그인선택 ====(추가)
+   @RequestMapping("user/selectLogin.do")
+   public String selectLogin() {
+	   return "user/selectLogin";
+   }
+   
+   
    //개인로그인=======
    @PostMapping("/user/login.do")
    public String login(UserVO vo, Model model, HttpSession session ) {
