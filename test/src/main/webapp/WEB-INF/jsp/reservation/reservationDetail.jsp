@@ -7,11 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>예약 상세보기</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 <jsp:include page="../../css/postCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style type="text/css">
 	#info {
 		color: gray;
