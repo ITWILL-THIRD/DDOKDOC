@@ -143,8 +143,7 @@ public class UserController {
          
          if (memvo == null) {
              System.out.println("HosMembershipVO is null");
-             model.addAttribute("msg", "회원 기간 정보가 없습니다.");
-             return "redirect:hoLogin.do?msg=failure";
+             return "redirect:/index.jsp?msg=hosuccess";
          }
 
          Date hosStart = (Date) memvo.getHosStart();
