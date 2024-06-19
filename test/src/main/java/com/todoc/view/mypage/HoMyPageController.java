@@ -334,7 +334,6 @@ public class HoMyPageController {
   	// 병원 예약 현황
   	@RequestMapping("/hosReserList.do")
   	public String hosReserList(Model model, HttpSession session) {
- 		System.out.println("::병원예약현황");
  		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
  		int hosIdx = 0;
  		if (hoUser != null) {

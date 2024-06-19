@@ -275,6 +275,7 @@
 		AND R.HOSIDX = H.HOSIDX
         AND R.USERIDX = #{userIdx}
 		AND R.CONDITION='FINISH'
+		ORDER BY R.RESERIDX DESC
 	</select>
 	
 	<!-- (개인)마이페이지 - 작성한 리뷰 목록 -->
@@ -285,7 +286,7 @@
         AND HR.USERIDX = U.USERIDX
         AND HR.RESERIDX = R.RESERIDX
         AND HR.USERIDX = #{userIdx}
-		ORDER BY H.HOSIDX DESC
+		ORDER BY R.RESERIDX DESC
 	</select>
 	
 	<!-- (병원)마이페이지 - 작성된 리뷰 목록 -->
@@ -295,7 +296,7 @@
 		WHERE H.USERIDX = U.USERIDX
         AND H.RESERIDX = R.RESERIDX
 		AND H.HOSIDX = #{hosIdx}
-		ORDER BY H.HOSIDX DESC
+		ORDER BY R.RESERIDX DESC
 	</select>
 	
 	<!-- 병원 휴무 입력 -->

@@ -7,6 +7,8 @@
 <head>
 <meta charset='utf-8' />
 <jsp:include page="../common/navigation.jsp"/>
+<jsp:include page="../../css/hosReserListCss.jsp"/>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/" ></script>
 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.css" rel="stylesheet">
@@ -20,123 +22,109 @@
 /* 	if (${hospital.sunDayOff == 'Y'}) {
 		alert(${hospital.sunDayOff == 'Y'});
 	} */
+	
+	//달력 띄우기 
+	document.addEventListener('DOMContentLoaded', function() {
+	    var calendarEl = document.getElementById('calendar');
+	    var selectedDate = localStorage.getItem('selectedDate') || null;
+	    var selectedDay = selectedDate ? new Date(selectedDate).getDay() : null;
 
-	//달력 띄우기
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var selectedDate = null; 
-    var selectedDay = null;
-    
-    var hospitalSundayOff = ${hospital.sunDayOff == 'Y'};
-    
- 	// 예시 휴무일 데이터
-    // 휴무일 목록을 받아옴
-    var closedDates = [
-	    <c:forEach var="date" items="${hosHoliday}">
-	        '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
-	    </c:forEach>
-	];
- 	//alert(closedDates);
-    // 마지막 쉼표 제거
-    closedDates.pop();
+	    var hospitalSundayOff = ${hospital.sunDayOff == 'Y'};
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
-      plugins: [ 'interaction', 'dayGrid', 'googleCalendar' ],
-      header: {
-        left: 'prevYear,prev,next,nextYear today',
-        center: 'title',
-        right: 'dayGridMonth,dayGridWeek,dayGridDay'
-      },
-      editable: false,
-      eventLimit: true, // allow "more" link when too many events
-      selectable: false,
-      eventSources:[
-        {
-          googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-          className: 'ko_event',
-          color: 'white',
-          textColor: 'red'
-        }
-      ],
-      eventRender: function(info) {
-        // href 속성 제거
-        if (info.el.tagName === 'A') {
-          info.el.removeAttribute('href');
-        }
-        // 부모 노드로부터 링크 제거
-        if (info.el.parentNode) {
-          var parent = info.el.parentNode;
-          if (parent.tagName === 'A') {
-            parent.replaceWith(info.el);
-          }
-        }
-      },
-      dateClick: function(info) {
-        //alert(info.dateStr);
-        
-        var today = new Date();
-        today.setHours(0, 0, 0, 0); // 시간을 0으로 설정해야 오늘 날짜를 클릭 가능함.
-        var clickedDate = new Date(info.dateStr);
+	    var closedDates = [
+	        <c:forEach var="date" items="${hosHoliday}">
+	            '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
+	        </c:forEach>
+	    ];
+	    closedDates.pop();
 
-        // 휴무일 클릭 비활성화
-        if (closedDates.includes(info.dateStr)) {
-          alert(info.dateStr + "은 휴무입니다:)");
-          return;
-        }
-     	// 일요일 클릭 비활성화
-        if (hospitalSundayOff && clickedDate.getDay() === 0) {
-          alert("일요일은 휴무입니다.");
-          return;
-        }
-        // 클릭한 날짜가 선택된 날짜인지 확인
-        if (selectedDate === info.dateStr) {
-          // 선택된 날짜 다시 클릭 시 해제
-          info.dayEl.style.backgroundColor = ''; // 원래 색상으로 복원
-          selectedDate = null; // 선택 해제
-          document.getElementById('reserDate').value = ''; // 숨겨진 필드 비움
-          // 시간 리스트 숨김
-          $("#listDisp").html("");
-          clearSelectedTime(); // 선택된 시간 초기화
-        } else {
-          // 다른 날짜를 클릭했을 때
-          if (selectedDate) {
-            // 이미 선택된 날짜가 있으면 원래 색상으로 복원
-            var prevDayEl = document.querySelector('[data-date="' + selectedDate + '"]');
-            if (prevDayEl) {
-              prevDayEl.style.backgroundColor = '';
-            }
-          }
-          // 클릭한 날짜를 새로운 선택 날짜로 설정
-          info.dayEl.style.backgroundColor = '#B6E5FF'; // 선택된 색상 설정
-          selectedDate = info.dateStr; // 선택된 날짜 업데이트
-          selectedDay = info.date.getDay(); //선택된 날짜의 요일
-          // 예약 가능한 시간 비동기처리
-          getJsonTimeData(selectedDate, selectedDay);
-          document.getElementById('reserDate').value = info.dateStr; // 숨겨진 필드 업데이트
-        }
-      },
-      
-   //휴무일 회색으로 설정
-      datesRender: function(info) {
-        var today = new Date();
-        today.setHours(0, 0, 0, 0);
+	    var calendar = new FullCalendar.Calendar(calendarEl, {
+	        googleCalendarApiKey: 'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
+	        plugins: ['interaction', 'dayGrid', 'googleCalendar'],
+	        header: {
+	            left: 'prevYear,prev,next,nextYear today',
+	            center: 'title',
+	            right: 'dayGridMonth,dayGridWeek,dayGridDay'
+	        },
+	        editable: false,
+	        eventLimit: true,
+	        selectable: false,
+	        eventSources: [
+	            {
+	                googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+	                className: 'ko_event',
+	                color: 'white',
+	                textColor: 'red'
+	            }
+	        ],
+	        eventRender: function(info) {
+	            if (info.el.tagName === 'A') {
+	                info.el.removeAttribute('href');
+	            }
+	            if (info.el.parentNode) {
+	                var parent = info.el.parentNode;
+	                if (parent.tagName === 'A') {
+	                    parent.replaceWith(info.el);
+	                }
+	            }
+	        },
+	        dateClick: function(info) {
+	            var today = new Date();
+	            today.setHours(0, 0, 0, 0);
+	            var clickedDate = new Date(info.dateStr);
 
-        var allDayEls = document.querySelectorAll('.fc-day');
+	            if (closedDates.includes(info.dateStr)) {
+	                alert(info.dateStr + "은 휴무입니다:)");
+	                return;
+	            }
+	            if (hospitalSundayOff && clickedDate.getDay() === 0) {
+	                alert("일요일은 휴무입니다.");
+	                return;
+	            }
+	            if (selectedDate === info.dateStr) {
+	                info.dayEl.style.backgroundColor = '';
+	                selectedDate = null;
+	                localStorage.removeItem('selectedDate');
+	                $("#listDisp").html("");
+	                clearSelectedTime();
+	            } else {
+	                if (selectedDate) {
+	                    var prevDayEl = document.querySelector('[data-date="' + selectedDate + '"]');
+	                    if (prevDayEl) {
+	                        prevDayEl.style.backgroundColor = '';
+	                    }
+	                }
+	                info.dayEl.style.backgroundColor = '#B6E5FF';
+	                selectedDate = info.dateStr;
+	                selectedDay = info.date.getDay();
+	                localStorage.setItem('selectedDate', selectedDate);
+	                getJsonTimeData(selectedDate, selectedDay);
+	            }
+	        },
+	        datesRender: function(info) {
+	            var today = new Date();
+	            today.setHours(0, 0, 0, 0);
 
-        allDayEls.forEach(function(dayEl) {
-          var dateStr = dayEl.getAttribute('data-date');
-          var date = new Date(dateStr);
-          
-          if (closedDates.includes(dateStr) || (hospitalSundayOff && date.getDay() === 0)) {
-              dayEl.style.backgroundColor = '#f0f1f1';
-          }
-        });
-      } 
-    });
+	            var allDayEls = document.querySelectorAll('.fc-day');
 
-    calendar.render();
-  });
+	            allDayEls.forEach(function(dayEl) {
+	                var dateStr = dayEl.getAttribute('data-date');
+	                var date = new Date(dateStr);
+
+	                if (closedDates.includes(dateStr) || (hospitalSundayOff && date.getDay() === 0)) {
+	                    dayEl.style.backgroundColor = '#f0f1f1';
+	                }
+	            });
+	        }
+	    });
+
+	    calendar.render();
+	    
+	    if (selectedDate) {
+	    	getJsonTimeData(selectedDate, selectedDay);
+	    }
+	});
+
 
   function getJsonTimeData(selectedDate, selectedDay) {
 	    let vo = {
@@ -150,167 +138,62 @@
 	        contentType: "application/json",
 	        dataType: "json",
 	        success: function(response) {
-	            let dispHtml = "";
-	            console.log(response); // response 객체 구조 확인
+ 				getReservData(response);
+	            	/* let currentTime = new Date();
+	                let currentDateString = currentTime.toISOString().split('T')[0]; // YYYY-MM-DD 형식의 현재 날짜
+	                let currentHours = currentTime.getHours().toString().padStart(2, '0');
+	                let currentMinutes = currentTime.getMinutes().toString().padStart(2, '0');
+	                let currentTimeStr = currentHours + ':' + currentMinutes;
 
-	            // 예약된 시간만 표시하는 부분
-	            for (let time of response.reservedTimes) {
-	                let timeComponents = time.split(":");
-	                let hour = parseInt(timeComponents[0]);
-	                let minute = parseInt(timeComponents[1]);
-	                let isDisabled = false;
+	                let reservationTime = $(this).attr('data-reservationTime');
+	                let reservationDateStr = $(this).attr('data-reserDate');    
+	                let reservationDate = new Date(reservationDateStr); // 문자열을 Date 객체로 변환
+	                let reservationDateString = reservationDate.toISOString().split('T')[0]; // YYYY-MM-DD 형식의 예약 날짜
+	               
+	                console.log("reservationDateString :" + reservationDateString + typeof reservationDateString);
+	                //let reservationDateString = reservationDate.toISOString().split('T')[0]; // YYYY-MM-DD 형식의 예약 날짜
+	                
+	                console.log("reservationTime : " + reservationTime + typeof reservationTime);
 
-	                dispHtml = ''; // 여기서 초기화
-
-	                for (let reservation of response.petReserList) {
-	                    let reservationTime = reservation.reserTime.substring(0, 5); // 시간과 분까지만 추출 (14:30:00 -> 14:30)
-	                    let reserGuardian = reservation.guardian;
-	                    let reserGuardianPhone = reservation.guardianPhone;
-	                    let reserPetName = reservation.petName;
-	                    let reserAnimal = reservation.animal;
-	                    let reserPetAge = reservation.petAge;
-	                    let reserCondition = reservation.condition;
-	                    let reserIdx = reservation.reserIdx;
-
-	                    console.log("reserIdx : " + reserIdx);
-
-	                    let completBtn = "";
-	                    if (reservation.condition === "RESERVATION") {
-	                        completBtn += '<button class="complete-btn" data-reserIdx="';
-	                        completBtn += reservation.reserIdx;
-	                        completBtn += '">진료 완료</button>';
-	                    } else {
-	                        completBtn = "";
-	                    }
-
-	                    dispHtml += '<div id="reserDate" style="display: flex; align-items: center;">';
-	                    dispHtml += '<button type="button" class="complete-btn" data-reserIdx="';
-	                    dispHtml += reserIdx;
-	                    dispHtml += '" ';
-	                    if (isDisabled) {
-	                        dispHtml += 'disabled ';
-	                    }
-	                    dispHtml += 'style="background-color: skyblue;">';
-	                    dispHtml += reservationTime;
-	                    dispHtml += '</button>';
-	                    dispHtml += '<span style="margin-left: 10px;">보호자 : ';
-	                    dispHtml += reserGuardian;
-	                    dispHtml += ' 연락처 : ';
-	                    dispHtml += reserGuardianPhone;
-	                    dispHtml += ' 이름 : ';
-	                    dispHtml += reserPetName;
-	                    dispHtml += ' 종류 : ';
-	                    dispHtml += reserAnimal;
-	                    dispHtml += ' 나이 : ';
-	                    dispHtml += reserPetAge;
-	                    dispHtml += '살 ';
-	                    dispHtml += completBtn; // 여기서 버튼을 포함한 reserCondition을 추가
-	                    dispHtml += '</span>';
-	                    dispHtml += '</div><br>';
-	                }
-
-	                console.log(dispHtml);
-	                $("#listDisp").html(dispHtml);
-	            }
-
-	            // '진료 완료' 버튼 클릭 이벤트 등록
+	                if (reservationTime > currentTimeStr && reservationDateString > currentDateString) {
+	                    alert("진료 시간이 아닙니다.");
+	                } else {  */
+ 				
+	            // 진료 완료 버튼 클릭 이벤트
 	            $('#listDisp').on('click', '.complete-btn', function() {
 	            	let reserIdx = $(this).attr('data-reserIdx');  // 문자열 타입
 	            	reserIdx = parseInt(reserIdx, 10);  // 정수 타입으로 변환
 
-	                console.log("reserIdx : " + reserIdx + " type : " + typeof reserIdx);
-
+		                $.ajax({
+		                    url: '../mypage/updateComplete.do',
+		                    method: 'POST',
+		                    contentType: 'application/json',
+		                    data: JSON.stringify({ reserIdx: reserIdx }),
+		                    success: function(data) {
+		                        console.log('updateComplete 완료:', data);
+	
+		                        // 진료 완료 처리가 완료된 후 데이터를 다시 호출
+		                        $.ajax({
+		                            url: '../mypage/getReseredTimes.do',
+		                            type: "post",
+		                	        data: JSON.stringify(vo),
+		                	        contentType: "application/json",
+		                	        dataType: "json",
+		                	        success: function(response) {
+		                	        	getReservData(response);
+	                	            }
+		                        });
+		                    },
+		                    error: function(jqXHR, textStatus, errorThrown) {
+		                        console.error('updateComplete 호출 중 오류 발생:', textStatus, errorThrown);
+		                    }
+		                });	
+	                //}
 	                // reserIdx가 "정보 없음"인 경우를 처리
 	                if (reserIdx === "정보 없음") {
 	                    alert("예약 정보가 없습니다.");
 	                    return;
-	                }
-
-	                $.ajax({
-	                    url: '../mypage/updateComplete.do',
-	                    method: 'POST',
-	                    contentType: 'application/json',
-	                    data: JSON.stringify({ reserIdx: reserIdx }),
-	                    success: function(data) {
-	                        console.log('updateComplete 완료:', data);
-
-	                        // updateFinish가 완료된 후 getReseredTimes.do를 호출
-	                        $.ajax({
-	                            url: '../mypage/getReseredTimes.do',
-	                            type: "post",
-	                	        data: JSON.stringify(vo),
-	                	        contentType: "application/json",
-	                	        dataType: "json",
-	                	        success: function(response) {
-	                	            let dispHtml = "";
-	                	            console.log(response); // response 객체 구조 확인
-
-	                	            // 예약된 시간만 표시하는 부분
-	                	            for (let time of response.reservedTimes) {
-	                	                let timeComponents = time.split(":");
-	                	                let hour = parseInt(timeComponents[0]);
-	                	                let minute = parseInt(timeComponents[1]);
-	                	                let isDisabled = false;
-
-	                	                dispHtml = ''; // 여기서 초기화
-
-	                	                for (let reservation of response.petReserList) {
-	                	                    let reservationTime = reservation.reserTime.substring(0, 5); // 시간과 분까지만 추출 (14:30:00 -> 14:30)
-	                	                    let reserGuardian = reservation.guardian;
-	                	                    let reserGuardianPhone = reservation.guardianPhone;
-	                	                    let reserPetName = reservation.petName;
-	                	                    let reserAnimal = reservation.animal;
-	                	                    let reserPetAge = reservation.petAge;
-	                	                    let reserCondition = reservation.condition;
-	                	                    let reserIdx = reservation.reserIdx;
-
-	                	                    console.log("reserIdx : " + reserIdx);
-
-	                	                    let completBtn = "";
-	                	                    if (reservation.condition === "RESERVATION") {
-	                	                        completBtn += '<button class="complete-btn" data-reserIdx="';
-	                	                        completBtn += reservation.reserIdx;
-	                	                        completBtn += '">진료 완료</button>';
-	                	                    } else {
-	                	                        completBtn = "";
-	                	                    }
-
-	                	                    dispHtml += '<div id="reserDate" style="display: flex; align-items: center;">';
-	                	                    dispHtml += '<button type="button" class="complete-btn" data-reserIdx="';
-	                	                    dispHtml += reserIdx;
-	                	                    dispHtml += '" ';
-	                	                    if (isDisabled) {
-	                	                        dispHtml += 'disabled ';
-	                	                    }
-	                	                    dispHtml += 'style="background-color: skyblue;">';
-	                	                    dispHtml += reservationTime;
-	                	                    dispHtml += '</button>';
-	                	                    dispHtml += '<span style="margin-left: 10px;">보호자 : ';
-	                	                    dispHtml += reserGuardian;
-	                	                    dispHtml += ' 연락처 : ';
-	                	                    dispHtml += reserGuardianPhone;
-	                	                    dispHtml += ' 이름 : ';
-	                	                    dispHtml += reserPetName;
-	                	                    dispHtml += ' 종류 : ';
-	                	                    dispHtml += reserAnimal;
-	                	                    dispHtml += ' 나이 : ';
-	                	                    dispHtml += reserPetAge;
-	                	                    dispHtml += '살 ';
-	                	                    dispHtml += completBtn; // 여기서 버튼을 포함한 reserCondition을 추가
-	                	                    dispHtml += '</span>';
-	                	                    dispHtml += '</div><br>';
-	                	                }
-
-	                	                console.log(dispHtml);
-	                	                $("#listDisp").html(dispHtml);
-	                	            }
-	                	        }
-	                        });
-	                    },
-	                    error: function(jqXHR, textStatus, errorThrown) {
-	                        console.error('updateComplete 호출 중 오류 발생:', textStatus, errorThrown);
-	                    }
-	                });
+	                }                
 	            });
 	        },
 	        error: function() {
@@ -330,91 +213,97 @@
 	    $(".time-btn").removeClass("selected");
 	    $("#selectTime").val("");
 	}
+	function getReservData(response) {
+		let dispHtml = "";
+        //console.log(response); // response 객체 구조 확인
 
-	 //선택된 시간을 form 시간값에 저장
+        if (response.petReserList.length === 0) {
+            dispHtml += '<tr><td colspan="6">진료 내역이 없습니다</td></tr>';
+        } else {
+       			// 예약된 시간만 표시하는 부분
+            for (let time of response.reservedTimes) {
+                let timeComponents = time.split(":");
+                let hour = parseInt(timeComponents[0]);
+                let minute = parseInt(timeComponents[1]);
+                let isDisabled = false;
+
+                dispHtml = ''; // 여기서 초기화
+
+                for (let reservation of response.petReserList) {
+                    let reservationTime = reservation.reserTime.substring(0, 5); // 시간과 분까지만 추출 (14:30:00 -> 14:30)
+                    let reservationDate = new Date(parseInt(reservation.reserDate)); // 타임스탬프를 Date 객체로 변환
+                    let reserGuardian = reservation.guardian;
+                    let reserGuardianPhone = reservation.guardianPhone;
+                    let reserPetName = reservation.petName;
+                    let reserAnimal = reservation.animal;
+                    let reserPetAge = reservation.petAge;
+                    let reserCondition = reservation.condition;
+                    let reserIdx = reservation.reserIdx;
+				
+					if (reserIdx == null) {
+                		dispHtml += '<tr><td colspan="6">진료 내역이 없습니다</td></tr>';
+                		console.log( );
+            		}
+                    let completBtn = "";
+                    if (reservation.condition === "RESERVATION") {
+                        completBtn += '<button class="complete-btn" data-reserIdx="';
+                        completBtn += reservation.reserIdx;
+                        completBtn += '" data- data-reservationTime="' + reservationTime + '" data-reserDate="' + reservationDate + '">진료 완료</button>';
+                    } else {
+                        completBtn = "";
+                    }
+                    if (isDisabled) {
+                        dispHtml += 'disabled ';
+                    }
+                    dispHtml += '<tr>';
+                    if (isDisabled) {
+                        dispHtml += 'disabled ';
+                    }
+                    dispHtml += '<td class="reserTime">' + reservationTime + '</td>';
+                    dispHtml += '<td>' + reserGuardian + '</td>';
+                    dispHtml += '<td>' + reserGuardianPhone + '</td>';
+                    dispHtml += '<td>' + reserPetName + '</td>';
+                    dispHtml += '<td>' + reserAnimal + '</td>';
+                    dispHtml += '<td>' + reserPetAge + '살</td>';
+                    dispHtml += '<td>' + completBtn + '</td>';
+                    dispHtml += '</tr>';
+                }
+            }
+   		}
+        $("#listDisp").html(dispHtml);
+	}
+
+/* 	 //선택된 시간을 form 시간값에 저장
     $('form').on('submit', function() {
         let selectedTime = $('.time-btn.reserved').data('time');
         $('#selectTime').val(selectedTime);
-    });
+    }); */
   
 </script>
-<style>
-  #reserBody {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-  }
-
-  #calendar {
-    max-width: 700px;
-    margin-left: 100px;
-    display: inline-block;
-  }
-  
-  .reserInfo {
-    display: inline-block;
-    vertical-align: top;
-  }
-  
-  .time-btn {
-       margin: 5px;
-       padding: 10px;
-       border: 1px solid #ccc;
-       background-color: #f9f9f9;
-       cursor: pointer;
-   }
-
-   .time-btn.selected {
-       background-color: lightblue;
-   }
-   
-   /* 예약된 시간 버튼 스타일 */
-	.reserved {
-	  background-color: #87CEEB; /* 하늘색 */
-	  color: white;
-	  cursor: not-allowed; /* 마우스 커서를 변경하여 클릭할 수 없음을 표시 */
-	}
-	
-	.reserved:hover {
-	  background-color: #6495ED; /* 버튼에 마우스를 올리면 약간 더 어두운 색으로 변경 */
-	}
-   
-  
-</style>
 </head>
 <body>
-<%-- \${hospital } : ${hospital }<br>
-\${reservationList } : ${reservationList }<br>
-\${user } : ${user }<br>
-\${myPetList } : ${myPetList }<br>
-\${session.getAttribute } : ${userIdx }<br> --%>
-<%-- \${hospital } : ${hospital }<br>
-\${hosHoliday } : ${hosHoliday }<br> --%>
-
-  <div id="reserBody">
-    <%-- <div id="selectPetDiv">
-      <select id="selectPet">
-        <option value="null">진료볼 마이펫을 선택하세요</option>
-        <c:forEach var="myPet" items="${myPetList }">
-          <option value="${myPet.petIdx}">${myPet.petName}</option>
-        </c:forEach>
-      </select>
-    </div> --%>
-    <div id="calendar" class="reserInfo"></div>
-      <ul>
-        <li>예약 목록</li>
-      </ul>
-    <div id="listDisp" class="reserInfo">
-    </div>
-<!--     <form method="post">
-      <textarea rows="4" cols="5" id="memo" name="memo">메모를 남겨주세요</textarea>
-      <input type="button" value="예약하기" onclick="insertReservation(this.form)">
-      <input type="hidden" id="reserDate" name="reserDate">
-      <input type="hidden" id="selectTime" name="selectTime">
-    </form> -->
-  </div>
-
-
+	<div id="reserBody">
+	    <div id="calendar" class="reserInfo"></div>
+	    <div>    
+			<ul>
+				<li>예약 목록</li>
+			</ul>
+			   <table id="reserList">
+					<thead>
+				        <tr>
+				            <th width="60px">예약시간</th>
+				            <th width="80px">보호자</th>
+				            <th width="150px">연락처</th>
+				            <th width="60px">펫이름</th>
+				            <th width="60px">종류</th>
+				            <th width="60px">나이</th>
+				            <th width="60px"></th>
+				        </tr>
+			    	</thead>
+				    <tbody id="listDisp">
+				    </tbody>
+				</table>
+	    </div>
+	</div>
 </body>
 </html>
