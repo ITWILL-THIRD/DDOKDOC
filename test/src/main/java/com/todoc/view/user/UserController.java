@@ -76,7 +76,7 @@ public class UserController {
          if (memvo == null) {
              System.out.println("UserMembershipVO is null");
              model.addAttribute("msg", "회원 기간 정보가 없습니다.");
-             return "redirect:login.do?msg=failure";
+             return "redirect:/index.jsp?msg=success";
          }
 
          Date userStart = (Date) memvo.getMemstart();

@@ -317,7 +317,7 @@
 
 	<p class="center">
 		<!-- 예약 버튼 함수실행으로 수정 -->
-		<input type="button" value="예약" onclick="userCheck('${user}')"/>
+		<input type="button" value="예약" onclick="userCheck()"/>
 	</p>
 
 	<h4>공지사항</h4>
@@ -346,13 +346,17 @@
 <script>
 //로그인 유무 체크
 	// 로그인 유무 체크
-	function userCheck(user) {
-		if (user == null) {
-			alert("로그인 후 예약이 가능합니다.")
-			location.href="../user/login.do";
-		} else {
-			location.href="../reservation/reservation.do?hosIdx=" + ${hospital.hosIdx};
-		}
+	function userCheck() {
+		const userCondition = '${user.condition}';
+		console.log('userCondition:', userCondition);
+		if (userCondition === 'null' || userCondition === '') { // JSP에서 null인 경우 'null' 문자열로 전달될 수 있음
+            alert("로그인 후 예약이 가능합니다.");
+            location.href="../user/login.do";
+        } else if (userCondition === '결제전') {
+            alert("멤버십 가입 후 예약이 가능합니다.");
+        } else if (userCondition === '결제완료')
+            location.href="../reservation/reservation.do?hosIdx=" + ${hospital.hosIdx};
+		
 	}
 </script>
 </body>

@@ -26,7 +26,7 @@
     
     <!-- reserIdx로 예약 1개 조회 -->
     <select id="getReservation" parameterType="ReservationVO" resultType="ReservationVO">
-    	SELECT R.RESERIDX, R.HOSIDX, R.USERIDX, R.PETIDX, R.RESERDATE, R.RESERTIME, R.MEMO, R.CONDITION, H.HOSNAME, P.PETNAME
+    	SELECT R.RESERIDX, R.HOSIDX, R.USERIDX, R.PETIDX, R.RESERDATE, R.RESERTIME, R.MEMO, R.CONDITION, R.GUARDIAN, R.GUARDIANPHONE, H.HOSNAME, P.PETNAME
 		FROM RESERVATION R, HOSPITAL H, MYPET P
     	WHERE RESERIDX = #{reserIdx}
     	AND R.HOSIDX = H.HOSIDX
@@ -97,7 +97,9 @@
     	UPDATE RESERVATION
 		SET RESERDATE = #{reserDate},
 			RESERTIME = #{reserTime},
-			MEMO = #{memo}
+			MEMO = #{memo},
+			GUARDIAN = #{guardian},
+   			GUARDIANPHONE  = #{guardianPhone}
 		WHERE RESERIDX = #{reserIdx}
     </update>
     

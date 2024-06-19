@@ -337,7 +337,7 @@
 </head>
 <body>
 <%-- \${hospital } : ${hospital } --%>
-<%-- \${reservationVO } : ${reservationVO }<br>  --%>
+\${reservationVO } : ${reservationVO }<br>
 
 	<h2>예약변경하기</h2>
   <div  id="reserBody">
@@ -355,7 +355,10 @@
       </ul>
     </div>
     <form method="post">
-      <textarea rows="4" cols="5" id="memo" name="memo">${reservation.memo}</textarea>
+      <p>이름 : <input type="text" id="guardian" name="guardian" value="${reservationVO.guardian }"></p>
+	  <p>연락처 : <input type="text" id="guardianPhone" name="guardianPhone" value="${reservationVO.guardianPhone }"></p>
+		    		
+      <textarea rows="4" cols="5" id="memo" name="memo">${reservationVO.memo }</textarea>
       <input type="button" value="예약 변경하기" onclick="updateReservation(this.form)">
       <input type="hidden" id="reserIdx" name="reserIdx" value="${reservationVO.reserIdx}">
       <input type="hidden" id="reserDate" name="reserDate">
