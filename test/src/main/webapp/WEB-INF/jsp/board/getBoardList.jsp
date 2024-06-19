@@ -23,6 +23,7 @@
 				</c:forEach>
 				<input type="text" name="searchKeyword" class="searchInput">
 				<input type="submit" value="검색" class="searchBtn">
+				</select>
 			</td>
 		</tr>
 	</table>
@@ -69,6 +70,123 @@
 			</tr>
 		</c:forEach>
 		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="9">
+					<!-- [이전]에 대한 사용여부 처리 -->
+					<c:if test="${pagingVO.nowPage == 1}">
+						<span class="disable">이전</span>
+					</c:if>
+					<c:if test="${pagingVO.nowPage != 1}">
+						<c:if test="${not empty searchCondition}">
+						<c:choose>
+							<c:when test="${searchCondition == 'CONTENT'}">
+								<span>
+									<a href="getSearchBoardList.do?cPage=${pagingVO.nowPage - 1}&searchCondition=${content}">이전</a>
+								</span>
+							</c:when>
+							<c:when test="${searchCondition == 'TITLE'}">
+								<span>
+									<a href="getSearchBoardList.do?cPage=${pagingVO.nowPage - 1}&searchCondition=${title}">이전</a>
+								</span>
+							</c:when>
+							<c:otherwise>
+								<span>
+									<a href="getSearchBoardList.do?cPage=${pagingVO.nowPage - 1}">이전</a>
+								</span>
+							</c:otherwise>
+						</c:choose>
+						</c:if>
+						<c:if test="${not empty category}">
+							<span>
+								<a href="getSearchBoardList.do?cPage=${pagingVO.nowPage - 1}&category=${category}">이전</a>
+							</span>
+						</c:if>
+						<c:if test="${empty searchCondition && empty category}">
+							<span>
+								<a href="getBoardList.do?cPage=${pagingVO.nowPage - 1}">이전</a>
+							</span>
+						</c:if>
+					</c:if>
+						
+					<!-- 블록내에 표시할 페이지 태그 작성(시작~끝) -->
+					<c:forEach var="pageNo" begin="${pagingVO.beginPage}" end="${pagingVO.endPage}">
+					<c:choose>
+						<c:when test="${pageNo == pagingVO.nowPage}">
+							<span class="now">${pageNo}</span>
+						</c:when>
+						<c:otherwise>
+							<c:if test="${not empty searchCondition}">
+							<c:choose>
+								<c:when test="${searchCondition == 'CONTENT'}">
+									<span>
+										<a href="getSearchBoardList.do?cPage=${pageNo}&searchCondition=${content}">${pageNo}</a>
+									</span>
+								</c:when>
+								<c:when test="${searchCondition == 'TITLE'}">
+									<span>
+										<a href="getSearchBoardList.do?cPage=${pageNo}&searchCondition=${title}">${pageNo}</a>
+									</span>
+								</c:when>								
+								<c:otherwise>
+									<span>
+										<a href="getSearchBoardList.do?cPage=${pageNo}">${pageNo}</a>
+									</span>
+								</c:otherwise>
+							</c:choose>
+							</c:if>
+							<c:if test="${not empty category}">
+							<span>
+								<a href="getSearchBoardList.do?cPage=${pageNo}&category=${category}">${pageNo}</a>
+							</span>
+							</c:if>
+							<c:if test="${empty searchCondition && empty category}">
+								<span>
+									<a href="getBoardList.do?cPage=${pageNo}">${pageNo}</a>
+								</span>
+							</c:if>
+						</c:otherwise>
+					</c:choose>
+					</c:forEach>
+					
+					<!-- [다음]에 대한 사용여부 처리 -->
+					<c:if test="${pagingVO.nowPage < pagingVO.totalPage}">
+						<c:if test="${not empty searchCondition}">
+						<c:choose>
+							<c:when test="${searchCondition == 'CONTENT'}">
+								<span>
+									<a href="getSearchBoardList.do?cPage=${pagingVO.nowPage + 1}&searchCondition=${content}">다음</a>
+								</span>
+							</c:when>
+							<c:when test="${searchCondition == 'TITLE'}">
+								<span>
+									<a href="getSearchBoardList.do?cPage=${pagingVO.nowPage + 1}&searchCondition=${title}">다음</a>
+								</span>
+							</c:when>			
+							<c:otherwise>
+								<span>
+									<a href="getSearchBoardList.do?cPage=${pagingVO.nowPage + 1}">다음</a>
+								</span>
+							</c:otherwise>
+						</c:choose>
+						</c:if>
+						<c:if test="${not empty category}">
+							<span>
+								<a href="getSearchBoardList.do?cPage=${pagingVO.nowPage + 1}&category=${category}">다음</a>
+							</span>
+						</c:if>
+						<c:if test="${empty searchCondition && empty category}">
+							<span>
+								<a href="getBoardList.do?cPage=${pagingVO.nowPage + 1}">다음</a>
+							</span>
+						</c:if>
+					</c:if>
+					<c:if test="${pagingVO.nowPage >= pagingVO.totalPage}">
+						<span class="disable">다음</span>
+					</c:if>
+				</td>
+			</tr>
+		</tfoot>
 	</table>
 	<c:if test="${not empty sessionScope.user}">
 			<p><a href="getInsertBoard.do">새글등록</a></p>
