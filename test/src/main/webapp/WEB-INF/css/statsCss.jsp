@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>statsCSS</title>
-</head>
 <style>
 	/* 컨테이너 */
 	#container {
@@ -111,6 +110,7 @@
 		padding: 5px 10px;
 	}
 </style>
+</head>
 <body>
 
 </body>

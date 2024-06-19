@@ -6,14 +6,36 @@
 <head>
 <meta charset="UTF-8">
 <title>마이펫 수정하기</title>
+<jsp:include page="../../css/myPetCss.jsp" />
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script>
-	window.onload = function(){
+	window.onload = function() {
 		var errorMessage = "<c:out value='${errorMessage}'/>";
 		if (errorMessage){
 			alert(errorMessage);
 		}
+	}
+	
+	function fileName() {
+		var input = document.getElementById('fileUpload');
+		var fileName = document.getElementById('fileName');
+		var clearBtn = document.getElementById('clearBtn');
+		
+	    if (input.files.length > 0) {
+	        fileName.textContent = input.files[0].name;
+	        clearBtn.style.display = 'inline';
+	    } else {
+	        fileName.textContent = '선택된 파일이 없습니다.';
+	        clearBtn.style.display = 'none';
+	    }
+	}
+	
+	function clearFileInput() {
+	    var fileInput = document.getElementById("fileUpload");
+	    fileInput.value = "";
+	    document.getElementById('fileName').textContent = '선택된 파일이 없습니다';
+	    clearBtn.style.display = 'none';
 	}
 </script>
 </head>
@@ -51,10 +73,15 @@
 	                </tr>
 	                <tr>
 	                    <th>새 펫사진</th>
-	                    <td><input type="file" name="file"></td>
+	                    <td>
+	                    	<label for="fileUpload" class="fileBtn">파일 선택</label>
+	                    	<input id="fileUpload" type="file" name="file" onchange="fileName()">
+	                    	<span id="fileName">선택된 파일이 없습니다.</span>
+	                    	<button id="clearBtn" type="button" class="btn" onclick="clearFileInput()" style="display: none;">삭제</button>
+	                    </td>
 	                </tr>
 			        <tr>
-			            <td colspan="2"><input type="submit" value="수정" onclick="alert('펫 정보 수정이 완료되었습니다.')" />
+			            <td class="center" colspan="2"><input type="submit" value="수정" onclick="alert('펫 정보 수정이 완료되었습니다.')" />
 			            <button type="button" onclick="window.location.href='myPage.do'">취소</button>
 			            </td>
 			        </tr>
