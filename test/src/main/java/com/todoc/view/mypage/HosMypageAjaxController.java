@@ -57,7 +57,7 @@ public class HosMypageAjaxController {
         Time closeTime = hospital.getCloseTime();
         Time lunchTime = hospital.getLunchTime();
         Time endLunchTime = hospital.getEndLunchTime();
-        System.out.println(openTime + " " + closeTime + " " + lunchTime + " " + endLunchTime);
+        //System.out.println(openTime + " " + closeTime + " " + lunchTime + " " + endLunchTime);
         List<String> availableTimes = new ArrayList<>();
         List<String> reservedTimes = new ArrayList<String>();
         
@@ -78,6 +78,7 @@ public class HosMypageAjaxController {
         }
         System.out.println("availableTimes : " + availableTimes);
         System.out.println("reservedTimes : " + reservedTimes);
+
         // 결과를 맵에 저장하여 반환
         Map<String, Object> response = new HashMap<>();
         response.put("availableTimes", availableTimes);

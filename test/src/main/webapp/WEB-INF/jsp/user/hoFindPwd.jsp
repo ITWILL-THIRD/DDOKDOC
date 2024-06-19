@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 비밀번호 찾기</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/loginCss.jsp"/>
 <script>
 window.onload = function() {
     var msg = "${msg}"; // 서버 사이드에서 전달된 msg를 받아옵니다.
@@ -30,21 +32,29 @@ window.onload = function() {
 </script>
 </head>
 <body>
+<div id="container">
 <h1>병원 비밀번호 찾기</h1>
 <form name="frm" action="hoFindPwd.do" method="post">
-	<table>
+	<table class="tb">
 		<tr>
-			<td><input type="text" name="hosName" placeholder="병원이름"></td>
+			<td><input class="psTitle" type="text" name="hosName" placeholder="병원 이름"></td>
 		</tr>
 		<tr>
-			<td><input type="text" name="hosId" placeholder="병원 아이디"></td>
+			<td><input class="psTitle" type="text" name="hosId" placeholder="병원 아이디"></td>
 		</tr>
 		<tr>
-			<td><input type="submit" id="submit" value="비밀번호 찾기"></td>
+			<td><input class="loginBtn" type="submit" id="submit" value="비밀번호 찾기"></td>
 		</tr>
 	</table>
+	
 </form>
-<a href="hoJoin.do">병원 회원가입하기</a>
-<a href="hoLogin.do">병원 로그인하기</a>
+<table class="select">
+<tr>
+<td><a href="hoJoin.do">회원가입하기</a></td>
+<td class="s">&nbsp;&nbsp;|&nbsp;&nbsp;</td>
+<td><a href="hoLogin.do">로그인하기</a></td>
+</tr>
+</table>
+</div>
 </body>
 </html>

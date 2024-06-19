@@ -33,7 +33,6 @@ public class MyPetController {
 	
 	@RequestMapping("/insertMyPetView.do")
 	public String insertMyPetView() {
-		System.out.println(">> 마이펫 등록페이지");
 		return "mypage/insertMyPet";
 	}
 	
@@ -59,7 +58,6 @@ public class MyPetController {
 
 	@GetMapping("/updateMyPetView.do")
 	public String updateMyPetView(@RequestParam("petIdx") int petIdx, Model model) {
-		System.out.println(">> 마이펫 수정페이지");
 		MyPetVO pet = myPetService.getMyPet(petIdx);
 		System.out.println("pet: " + pet);
 		model.addAttribute("pet", pet);

@@ -21,6 +21,13 @@
 		WHERE USERIDX = #{userIdx}
 	</update>
 	
+	<select id="getMembership" resultType="UserMembershipVO">
+		SELECT *
+		FROM USERMEMBERSHIP M, DDOKUSER U
+		WHERE M.USERIDX = U.USERIDX
+        AND M.USERIDX = #{userIdx}
+	</select>
+	
 	
 	
 </mapper>

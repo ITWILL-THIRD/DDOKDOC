@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>개인회원가입</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/loginCss.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 	
@@ -134,7 +136,30 @@
 		
 		
 	}
+	function checkFormFilled() {
+	    const form = document.forms[0];
+	    const email = form.email.value.trim();
+	    const nickname = form.nickname.value.trim();
+	    const password = form.password.value.trim();
+	    const pwdCheck = form.pwdCheck.value.trim();
+	    const name = form.name.value.trim();
+	    const birth = form.birth.value.trim();
+	    const phone = form.phone.value.trim();
 
+	    const isFormFilled = email && nickname && password && pwdCheck && name && birth && phone;
+
+	    document.querySelector('.loginBtn').disabled = !isFormFilled;
+	}
+	
+	function resetForm() {
+	    // 폼 초기화 후 checkFormFilled 함수 호출
+	    document.forms[0].reset();
+	    checkFormFilled();
+	};
+	
+	window.onload = function() {
+	    checkFormFilled(); // 페이지 로드 시 초기 체크
+	};
 // 	 window.onload = function() {
 //          const urlParams = new URLSearchParams(window.location.search);
 //          const msg = urlParams.get('msg');
@@ -148,53 +173,70 @@
 <body>
 <h1>개인회원가입</h1>
 <form action="userJoin.do" method="post">
-<table>
+<table class="tb">
 	<tr>
 		<td>이메일</td>
-		<td><input id="email" type="text" name="email" value="${userVO.email }" onblur="check_email(this.form)"></td>
+	</tr>
+	<tr>
+		<td><input class="text" id="email" type="text" name="email" value="${userVO.email }"oninput="checkFormFilled()" onblur="check_email(this.form)" placeholder="이메일 입력 (ex: todoc@todoc.com)"></td>
 		<td>
-			<input type="button" value="중복체크" onclick="checkDup(this.form)"/>
+			<input class="btn" type="button" value="중복확인" onclick="checkDup(this.form)"/>
 		</td>
 	</tr>
 	<tr>
 		<td>닉네임</td>
-		<td><input type="text" name="nickname" value="${userVO.nickname }"></td>
+	</tr>
+	<tr>
+		<td><input class="text" type="text" name="nickname" value="${userVO.nickname }" oninput="checkFormFilled()" placeholder="닉네임 입력"></td>
 	</tr>
 	<tr>
 		<td>비밀번호</td>
-		<td><input id="password" type="password" name="password" value="${userVO.password }"></td>
+	</tr>
+	<tr>
+		<td><input class="text" id="password" type="password" name="password" value="${userVO.password }" oninput="checkFormFilled()" placeholder="비밀번호 입력"></td>
 	</tr>
 	<tr>
 		<td>비밀번호 확인</td>
-		<td><input type="password" name="pwdCheck" value="${userVO.password }" onblur="check_pwd(this.form)"></td>
+	</tr>
+	<tr>
+		<td><input class="text" type="password" name="pwdCheck" value="${userVO.password }" onblur="check_pwd(this.form)" oninput="checkFormFilled()" placeholder="비밀번호 확인"></td>
 	</tr>
 	<tr>
 		<td>이름</td>
-		<td><input type="text" name="name" value="${userVO.name }"></td>
+	</tr>
+	<tr>
+		<td><input class="text" type="text" name="name" value="${userVO.name }" oninput="checkFormFilled()" placeholder="이름을 입력해주세요"></td>
 	</tr>
 	<tr>
 		<td>생년월일</td>
-		<td><input type="date" name="birth" value="${userVO.birth }"></td>
+	</tr>
+	<tr>
+		<td><input class="text" type="date" name="birth" value="${userVO.birth }" oninput="checkFormFilled()"></td>
 
 	</tr>
 	<tr>
 		<td>전화번호</td>
+	</tr>
+	<tr>
 		<td>
-		<input type="text"  name="phone" value="${userVO.phone }" oninput="oninputPhone(this)" maxlength="14">
+		<input class="text" type="text"  name="phone" value="${userVO.phone }" oninput="checkFormFilled()" oninput="oninputPhone(this)" maxlength="14" placeholder="휴대폰 번호 입력 ('-' 제외 입력)">
 		</td>
 	</tr>
 	
 	<tr>
-		<td colspan="2">
-			<input class="loginbtn" type="button" value="회원가입" onclick="userJoin_ok(this.form)">
+		<td>
+			<input class="loginBtn" type="button" value="회원가입" onclick="userJoin_ok(this.form)">
 		</td>
 	</tr>
-	<tr>
-		<td><a href="login.do">로그인으로 이동</a></td>
-		<td><input type="reset" value="초기화"></td>
-	</tr>
-	
-</table>
+	</table>
 </form>
+	<table class="select">
+	<tr>
+		<td><a href="login.do">로그인</a></td>
+		<td class="s">&nbsp;&nbsp;|&nbsp;&nbsp;</td>
+		<td><input class="joinBtn" type="reset" value="회원가입 초기화" onclick="resetForm()"></td>
+	</tr>
+	</table>
+
 </body>
 </html>

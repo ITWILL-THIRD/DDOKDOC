@@ -7,6 +7,9 @@
 <head>
 <meta charset='utf-8' />
 <jsp:include page="../common/navigation.jsp"/>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/postListCss.jsp"/>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/" ></script>
 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.css" rel="stylesheet">
@@ -191,7 +194,7 @@
         //초기시간값 저장
         $('#selectTime').val(initialTime);
         
-        let dispHtml = "";
+        let dispHtml = `<p id="timeListTitle">예약 가능 시간</p>`;
         
         var currentTime = new Date();
         var currentHour = currentTime.getHours();
@@ -202,9 +205,9 @@
             if (response.reservedTimes.includes(time)) {
         	// 기존 예약 시간과 같을 때 선택 상태로 설정
             	if (time == initialTime) {
-            		dispHtml += `<button type="button" class="time-btn selected" data-time="${time}">`;
+            		dispHtml += `<button type="button" class="btn selected" data-time="${time}">`;
             	} else {
-	                dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
+	                dispHtml += `<button type="button" class="btn" data-time="${time}" disabled>`;
             	}
             } else {
             	var timeComponents = time.split(":");
@@ -231,12 +234,12 @@
                     console.log(currentMinute);
                     
                     if (time != initialTime && hour < currentHour || (hour === currentHour && minute < currentMinute)) {
-                        dispHtml += `<button type="button" class="time-btn" data-time="${time}" disabled>`;
+                        dispHtml += `<button type="button" class="btn" data-time="${time}" disabled>`;
                     } else {
-                        dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
+                        dispHtml += `<button type="button" class="btn" data-time="${time}">`;
                     }
                 } else {
-                    dispHtml += `<button type="button" class="time-btn" data-time="${time}">`;
+                    dispHtml += `<button type="button" class="btn" data-time="${time}">`;
                 }
             }
             dispHtml += time;
@@ -303,68 +306,166 @@
   
 </script>
 <style>
-  #reserBody {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
+   #petDiv, #selectDateTimeDiv {
+	float: left;
+    vertical-align: top;
+    margin-top: 20px;
+  }
+
+  #petDiv {
+    width: calc(30% - 5px);
+    height: 530px;
+    box-sizing: border-box; 
+  	border: 1px solid gray;
+  	border-radius: 5px;
+  	padding: 5px;
+  }
+  
+  #petDivTitle {
+    width: 100%;
+    height: 50px;
+    font-size: 20x; 
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+
+  #selectDateTimeDiv {
+    width: calc(70% - 5px);
+    margin-left: 10px; /* Adjust margin between the two divs */
+    display: flex; /* Flexbox 레이아웃 설정 */
+    align-items: flex-start; /* 위쪽 정렬 */
+
+    /* 선택적으로 간격을 조정할 수 있습니다. */
+    gap: 10px; /* 요소 사이의 간격 */
   }
 
   #calendar {
-    max-width: 700px;
-    margin-left: 100px;
-    display: inline-block;
+  	flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
+    max-width: 700px; /* 최대 너비 설정 */
+  }
+  
+  #listDisp {
+  	width: 120px;
+  	height: 500px;
+  	margin-left: 10px;
+  	margin-right: 15px;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: center;
+  	overflow-y: auto;
+  }
+  
+  #listDisp > p {
+  	margin-bottom: 30px;
   }
   
   .reserInfo {
     display: inline-block;
     vertical-align: top;
   }
-  
-  .time-btn {
-       margin: 5px;
-       padding: 10px;
-       border: 1px solid #ccc;
-       background-color: #f9f9f9;
-       cursor: pointer;
-   }
 
-   .time-btn.selected {
-       background-color: lightblue;
+   .btn {
+     margin-bottom: 0px;
+     width: 70%;
+     height: 200px;
+     font-size: 16px;
+   }	
+   	
+   .btn.selected {
+       background-color: #B6E5FF;
    }
-  
+   
+   #guardianInfo {
+   		/* box-sizing: border-box; 
+   		border: 1px solid gray; */
+   		padding: 3px;
+	    font-size: 16px;
+	    display: flex;
+	  	flex-direction: column;
+	  	text-align: center;
+	  	align-items: center;
+	    width: 100%; /* 너비를 100%로 설정하여 부모 요소에 맞추기 */
+	}
+	
+	#guardianInfoTitle, #timeListTitle {
+		border-radius: 10px;
+		background-color: #B6E5FF;
+	}
+	
+	
+	#guardianInfo p {
+		height: 30px;
+		width: 90%;
+		margin-bottom: 10px;
+		display: flex; /* Flexbox 레이아웃 설정 */
+    	justify-content: center; /* 수평 가운데 정렬 */
+    	align-items: center; /* 수직 가운데 정렬 */
+	}
+   
+   #guardian, #guardianPhone {
+	    margin-bottom: 5px;
+	    padding: 5px;
+	    box-sizing: border-box; 
+	    text-align: left; 
+	}
+	
+	#memo {
+		font-size: 15px;
+	}
+	
+	#reserButton {
+		margin-top: 25px;
+		height: 35px;
+		border: none;
+		border-radius: 10px;
+		background-color: #f0f1f1;
+		width: calc(100% - 20px);
+		font-size: 15px;
+	}
+	#reserButton:hover {
+	  box-shadow: 0 5px 20px rgba(0,0,0,0.25), 0 3px 5px rgba(0,0,0,0.22);
+	}
+  	
 </style>
 </head>
 <body>
 <%-- \${hospital } : ${hospital } --%>
 \${reservationVO } : ${reservationVO }<br>
 
-	<h2>예약변경하기</h2>
-  <div  id="reserBody">
+  <div  id="container">
+	<h1>예약변경하기</h1>
+	
+	<div id="selectDateTimeDiv" class="container">
+		<div id="calendar" class="reserInfo"></div>
+    	<div id="listDisp" class="reserInfo">
+    		<p id="timeListTitle">예약 가능 시간</p>
+    	</div>
+	</div>
+	
     <div id="petDiv">
 		<c:forEach var="myPet" items="${myPetList }">
           <c:if test="${myPet.petIdx == reservationVO.petIdx}">
-          	<p value="${myPet.petIdx}">${myPet.petName}</p>
+          	<p id="petDivTitle" value="${myPet.petIdx}">${myPet.petName}</p>
           </c:if>
         </c:forEach>
+        <hr>
+        <div id="guardianInfo">
+        	<p id="guardianInfoTitle">보호자 정보</p>
+        	<form method="post">
+		      <p>이름 : <input type="text" id="guardian" name="guardian" value="${reservationVO.guardian }"></p>
+			  <p>연락처 : <input type="text" id="guardianPhone" name="guardianPhone" value="${reservationVO.guardianPhone }"></p>
+				    		
+		      <textarea rows="10" cols="30" id="memo" name="memo">${reservationVO.memo }</textarea>
+		      <input type="button" value="예약 변경하기" onclick="updateReservation(this.form)">
+		      <input type="hidden" id="reserIdx" name="reserIdx" value="${reservationVO.reserIdx}">
+		      <input type="hidden" id="reserDate" name="reserDate">
+		      <input type="hidden" id="selectTime" name="selectTime">
+		      <input type="hidden" id="petIdxStr" name="petIdxStr" value="${reservationVO.petIdx}">
+		    </form>
+        </div>
     </div>
-    <div id="calendar" class="reserInfo"></div>
-    <div id="listDisp" class="reserInfo">
-      <ul>
-        <li>예약가능시간</li>
-      </ul>
-    </div>
-    <form method="post">
-      <p>이름 : <input type="text" id="guardian" name="guardian" value="${reservationVO.guardian }"></p>
-	  <p>연락처 : <input type="text" id="guardianPhone" name="guardianPhone" value="${reservationVO.guardianPhone }"></p>
-		    		
-      <textarea rows="4" cols="5" id="memo" name="memo">${reservationVO.memo }</textarea>
-      <input type="button" value="예약 변경하기" onclick="updateReservation(this.form)">
-      <input type="hidden" id="reserIdx" name="reserIdx" value="${reservationVO.reserIdx}">
-      <input type="hidden" id="reserDate" name="reserDate">
-      <input type="hidden" id="selectTime" name="selectTime">
-      <input type="hidden" id="petIdxStr" name="petIdxStr" value="${reservationVO.petIdx}">
-    </form>
+    
+    
   </div>
 
   <script>

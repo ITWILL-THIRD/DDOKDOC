@@ -9,6 +9,8 @@ public class UserMembershipVO {
 	private int amount;
 	private Date memstart;
 	private Date memend;
+	private String startformattedDate;
+	private String endformattedDate;
 	
 	public int getUserIdx() {
 		return userIdx;
@@ -46,10 +48,24 @@ public class UserMembershipVO {
 	public void setMemend(Date memend) {
 		this.memend = memend;
 	}
+	public String getStartformattedDate() {
+		return startformattedDate;
+	}
+	public void setStartformattedDate(String startformattedDate) {
+		this.startformattedDate = startformattedDate;
+	}
+	public String getEndformattedDate() {
+		return endformattedDate;
+	}
+	public void setEndformattedDate(String endformattedDate) {
+		this.endformattedDate = endformattedDate;
+	}
 	@Override
 	public String toString() {
-		return "UserMembershipVO [useridx=" + userIdx + ", orderid=" + orderId + ", paymentkey=" + paymentKey
-				+ ", amount=" + amount + ", memstart=" + memstart + ", memend=" + memend + "]";
+		return "UserMembershipVO [userIdx=" + userIdx + ", orderId=" + orderId + ", paymentKey=" + paymentKey
+				+ ", amount=" + amount + ", memstart=" + memstart + ", memend=" + memend + ", startformattedDate="
+				+ startformattedDate + ", endformattedDate=" + endformattedDate + "]";
 	}
+	
 	
 }
