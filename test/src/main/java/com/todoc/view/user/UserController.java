@@ -86,8 +86,6 @@ public class UserController {
          if (userStart == null || userEnd == null) {
              System.out.println("hosStart 또는 hosEnd가 null입니다.");
              model.addAttribute("msg", "회원 기간 정보가 없습니다.");
-             user.setCondition("결제전");
-             userService.updateUserCondition(user); 
              return "redirect:/index.jsp?msg=success";
          }
 
@@ -155,7 +153,7 @@ public class UserController {
              System.out.println("user.getHosIdx()" +user.getHosIdx());
              System.out.println("memvo" + memvo);
              model.addAttribute("msg", "회원 기간 정보가 없습니다.");
-             return "redirect:hoLogin.do?msg=failure";
+             return "redirect:/index.jsp?msg=hosuccess";
          }
 
          Date currentDate = new Date(System.currentTimeMillis());
