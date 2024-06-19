@@ -8,6 +8,7 @@
 <meta charset='utf-8' />
 <jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/postListCss.jsp"/>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/" ></script>
@@ -105,7 +106,7 @@
           selectedDate = null; // 선택 해제
           document.getElementById('reserDate').value = ''; // 숨겨진 필드 비움
           // 시간 리스트 숨김
-          $("#listDisp").html("예약가능시간");
+          $("#listDisp").html(`<p id="timeListTitle">예약 가능 시간</p>`);
           clearSelectedTime(); // 선택된 시간 초기화
         } else {
           // 다른 날짜를 클릭했을 때
@@ -174,7 +175,7 @@
         alert("성공~~");
         console.log(response);
         
-        let dispHtml = "";
+        let dispHtml = `<p id="timeListTitle">예약 가능 시간</p>`;
         
         var currentTime = new Date();
         var currentHour = currentTime.getHours();
@@ -182,7 +183,7 @@
         
         for (let time of response.availableTimes) {
           if (response.reservedTimes.includes(time)) {
-            dispHtml += `<button type="button" class="btn btn-secondary" data-time="${time}" disabled>`;
+            dispHtml += `<button type="button" class="btn" data-time="${time}" disabled>`;
           } else {
         	  var timeComponents = time.split(":");
               var hour = parseInt(timeComponents[0]);
@@ -208,12 +209,12 @@
                   console.log(currentMinute);
                   
                   if (hour < currentHour || (hour === currentHour && minute < currentMinute)) {
-                      dispHtml += `<button type="button" class="btn btn-secondary" data-time="${time}" disabled>`;
+                      dispHtml += `<button type="button" class="btn" data-time="${time}" disabled>`;
                   } else {
-                      dispHtml += `<button type="button" class="btn btn-outline-primary" data-time="${time}">`;
+                      dispHtml += `<button type="button" class="btn" data-time="${time}">`;
                   }
               } else {
-                  dispHtml += `<button type="button" class="btn btn-outline-primary" data-time="${time}">`;
+                  dispHtml += `<button type="button" class="btn" data-time="${time}">`;
               }
               
               
@@ -289,15 +290,6 @@
   
 </script>
 <style>
-  #reserBody {
-    margin: auto;
-    margin-top: 10px;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-    text-align: center;
-  }
-
    #selectPetDiv, #selectDateTimeDiv {
 	float: left;
     vertical-align: top;
@@ -305,7 +297,20 @@
   }
 
   #selectPetDiv {
-    width: calc(30% - 5px); /* 50% width for two divs with 5px space in between */
+    width: calc(30% - 5px);
+    height: 530px;
+    box-sizing: border-box; 
+  	border: 1px solid gray;
+  	border-radius: 5px;
+  	padding: 5px;
+  }
+  
+  #selectPet {
+    width: 100%;
+    height: 50px;
+    font-size: 20x; 
+    margin-top: 5px;
+    margin-bottom: 10px;
   }
 
   #selectDateTimeDiv {
@@ -324,11 +329,18 @@
   }
   
   #listDisp {
-  	width: 100px;
-  	height: 600px;
+  	width: 120px;
+  	height: 500px;
   	margin-left: 10px;
-  	display: inline-block;
+  	margin-right: 15px;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: center;
   	overflow-y: auto;
+  }
+  
+  #listDisp > p {
+  	margin-bottom: 30px;
   }
   
   .reserInfo {
@@ -337,7 +349,10 @@
   }
 
    .btn {
-     margin-bottom: 2px;
+     margin-bottom: 0px;
+     width: 70%;
+     height: 200px;
+     font-size: 16px;
    }	
    	
    .btn.selected {
@@ -345,9 +360,14 @@
    }
    
    #guardianInfo {
-	    margin-top: 10px;
+   		/* box-sizing: border-box; 
+   		border: 1px solid gray; */
+   		padding: 3px;
 	    font-size: 16px;
-	    text-align: center;
+	    display: flex;
+	  	flex-direction: column;
+	  	text-align: center;
+	  	align-items: center;
 	    width: 100%; /* 너비를 100%로 설정하여 부모 요소에 맞추기 */
 	}
 	
@@ -358,41 +378,37 @@
 	
 	
 	#guardianInfo p {
-		 margin: 0;	
+		height: 30px;
+		width: 90%;
+		margin-bottom: 10px;
+		display: flex; /* Flexbox 레이아웃 설정 */
+    	justify-content: center; /* 수평 가운데 정렬 */
+    	align-items: center; /* 수직 가운데 정렬 */
 	}
    
    #guardian, #guardianPhone {
 	    margin-bottom: 5px;
-	    width: calc(100% - 20px); /* 입력 필드의 너비 설정 */
 	    padding: 5px; /* 내부 여백 설정 */
 	    box-sizing: border-box; /* 내부 여백과 테두리를 포함하여 요소의 크기 계산 */
 	    text-align: left; /* 입력 필드 내용 왼쪽 정렬 */
 	}
 	
+	#memo {
+		font-size: 15px;
+	}
+	
 	#reserButton {
+		margin-top: 25px;
+		height: 35px;
 		border: none;
 		border-radius: 10px;
 		background-color: #f0f1f1;
 		width: calc(100% - 20px);
+		font-size: 15px;
 	}
 	#reserButton:hover {
 	  box-shadow: 0 5px 20px rgba(0,0,0,0.25), 0 3px 5px rgba(0,0,0,0.22);
 	}
-  	
-  	.btn-secondary {
-  		background-color: #f0f1f1; opacity : 0.5;
-  		border-color: #f0f1f1;
-  	}
-  	.btn-outline-primary {
-		border-color: #B6E5FF;
-		color: black;
-  	}
-  	
-  	.btn-outline-primary:hover {
-  		border-color: #B6E5FF;
-		background-color: #B6E5FF;
-		color: black;
-  	}
   
 </style>
 </head>
@@ -405,16 +421,24 @@
 <%-- \${hospital } : ${hospital }<br>
 \${hosHoliday } : ${hosHoliday }<br> --%>
 
-  <div id="reserBody" class="container">
+  <div id="container">
 	<h1>진료 예약하기</h1>
+    
+    <div id="selectDateTimeDiv" class="container">
+    	<div id="calendar" class="reserInfo"></div>
+    	<div id="listDisp" class="reserInfo">
+    		<p id="timeListTitle">예약 가능 시간</p>
+	    </div>
+    </div>
+    
     <div id="selectPetDiv">
-      <select id="selectPet" class="custom-select">
+      <select id="selectPet">
         <option value="null">진료볼 마이펫을 선택하세요</option>
         <c:forEach var="myPet" items="${myPetList }">
           <option value="${myPet.petIdx}">${myPet.petName}</option>
         </c:forEach>
       </select>
-      
+      <hr>
       <div id="guardianInfo">
       	<p id="guardianInfoTitle">보호자 정보</p>
       	<form method="post">
@@ -437,16 +461,6 @@
       	
    	  </div>  
     </div>
-    
-    
-    
-    <div id="selectDateTimeDiv" class="container">
-    	<div id="calendar" class="reserInfo"></div>
-    	<div id="listDisp" class="reserInfo">
-    		<p id="timeListTitle">예약 가능 시간</p>
-	    </div>
-    </div>
-    
     
     
   </div>
