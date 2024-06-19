@@ -1,5 +1,7 @@
 package com.todoc.view.admin.stats;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,4 +99,29 @@ public class StatsController {
     public List<String> getUserEmails(@RequestParam("term") String term) {
     	return statsService.getUserEmails(term);
     }
+    
+    @RequestMapping(value = "/initMonthlyRevenue.do", method = RequestMethod.GET, 
+    		produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public Map<String, List<Map<String, String>>> initMonthlyRevenue() {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = endDate.minusYears(5);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        Map<String, String> params = new HashMap<>();
+        params.put("startDate", startDate.format(formatter));
+        params.put("endDate", endDate.format(formatter));
+        return statsService.getMonthlyRevenue(params);
+    }
+    
+    @RequestMapping(value = "/initMemberStats.do", method = RequestMethod.GET, 
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public Map<String, List<Map<String, String>>> initMemberStats() {
+    	Map<String, String> params = new HashMap<>();
+        params.put("searchType", "all");
+        params.put("dateValue", "");
+        return statsService.getMemberStats(params);
+    }
+    
 }

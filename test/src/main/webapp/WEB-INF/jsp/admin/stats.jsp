@@ -89,7 +89,7 @@
 		<div id="result">
 			<!-- 검색 결과 -->
 		</div>
-		
+		<p id="initAccount" style="display: none;">계정을 입력해주세요.</p>
 		<canvas id="revenueChart"></canvas>
 		<canvas id="statsChart"></canvas>
 	</div>

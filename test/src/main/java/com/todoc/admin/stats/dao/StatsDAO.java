@@ -15,4 +15,6 @@ public interface StatsDAO {
     List<Map<String, String>> getUserMemberStats(Map<String, String> params);
     List<String> getHosIds(String term);
     List<String> getUserEmails(String term);
+    Map<String, List<Map<String, String>>> getMonthlyRevenue(Map<String, String> params);
+    Map<String, List<Map<String, String>>> getMemberStats(Map<String, String> params);
 }
