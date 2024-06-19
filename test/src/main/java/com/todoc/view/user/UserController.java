@@ -71,41 +71,33 @@ public class UserController {
          model.addAttribute("msg", "로그인 성공");
          System.out.println(">>로그인 성공");
          
-         UserMembershipVO memvo = userService.getUserMembershipByIdx(user.getUserIdx());
-         
-         if (memvo == null) {
-             System.out.println("UserMembershipVO is null");
-             model.addAttribute("msg", "회원 기간 정보가 없습니다.");
-             return "redirect:login.do?msg=failure";
-         }
-
-         Date userStart = (Date) memvo.getMemstart();
-         Date userEnd = (Date) memvo.getMemend();
-
-         // Null 체크 추가
-         if (userStart == null || userEnd == null) {
-             System.out.println("hosStart 또는 hosEnd가 null입니다.");
-             model.addAttribute("msg", "회원 기간 정보가 없습니다.");
-             return "redirect:login.do?msg=failure";
-         }
-
-         Date currentDate = new Date(System.currentTimeMillis());
-
-         // 날짜 비교
-         if (currentDate.before(userStart) || currentDate.after(userEnd)) {
-             user.setCondition("결제전");
-             userService.updateUserCondition(user); 
-             System.out.println(">> 기간이 유효하지 않아 결제전으로 설정");
-         } else {
-        	 System.out.println(">> 멤버십 기간 유효");
-         }
-         
-         session.setAttribute("user", user);
-         if (user.getRole().equals("admin")) {
-            return "redirect:/index.jsp?msg=admin";
-         } else {
-            return "redirect:/index.jsp?msg=success";
-         }
+			/*
+			 * UserMembershipVO memvo =
+			 * userService.getUserMembershipByIdx(user.getUserIdx());
+			 * 
+			 * if (memvo == null) { System.out.println("UserMembershipVO is null");
+			 * model.addAttribute("msg", "회원 기간 정보가 없습니다."); return
+			 * "redirect:login.do?msg=failure"; }
+			 * 
+			 * Date userStart = (Date) memvo.getMemstart(); Date userEnd = (Date)
+			 * memvo.getMemend();
+			 * 
+			 * // Null 체크 추가 if (userStart == null || userEnd == null) {
+			 * System.out.println("hosStart 또는 hosEnd가 null입니다."); model.addAttribute("msg",
+			 * "회원 기간 정보가 없습니다."); return "redirect:login.do?msg=failure"; }
+			 * 
+			 * Date currentDate = new Date(System.currentTimeMillis());
+			 * 
+			 * // 날짜 비교 if (currentDate.before(userStart) || currentDate.after(userEnd)) {
+			 * user.setCondition("결제전"); userService.updateUserCondition(user);
+			 * System.out.println(">> 기간이 유효하지 않아 결제전으로 설정"); } else {
+			 * System.out.println(">> 멤버십 기간 유효"); }
+			 * 
+			 * session.setAttribute("user", user); if (user.getRole().equals("admin")) {
+			 * return "redirect:/index.jsp?msg=admin"; } else { return
+			 * "redirect:/index.jsp?msg=success"; }
+			 */
+         return "redirect:/index.jsp?msg=success";
 
          
       } else {

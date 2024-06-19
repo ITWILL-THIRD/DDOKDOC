@@ -428,7 +428,7 @@
 		      		<p>연락처 : <input type="text" id="guardianPhone" name="guardianPhone" placeholder="보호자연락처"></p>
 		    	</c:otherwise>
 		    </c:choose>
-		      <textarea rows="10" cols="30" id="memo" name="memo">메모를 남겨주세요</textarea>
+		      <textarea rows="10" cols="30" id="memo" name="memo" placeholder="메모를 남겨주세요"></textarea>
 		      <input type="button" value="예약하기" id="reserButton" onclick="insertReservation(this.form)">
 		      <input type="hidden" id="reserDate" name="reserDate">
 		      <input type="hidden" id="selectTime" name="selectTime">
