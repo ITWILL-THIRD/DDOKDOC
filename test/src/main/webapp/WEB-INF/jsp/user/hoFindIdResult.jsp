@@ -6,21 +6,32 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 아이디 찾기 결과</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/loginCss.jsp"/>
+<script>
+function hoLogin() {
+	location.href = "hoLogin.do";
+}
+function hoJoin() {
+	location.href = "hoJoin.do";
+}
+</script>
 </head>
 <body>
-<h1>병원 아이디 찾기 결과</h1>
-<p class="title">회원님이 가입한 아이디 입니다.</p>
-<div class="result-box">
+<div id="container">
+<h1>병원 아이디 찾기</h1>
+<p class="find">회원님의 아이디 찾기가 완료되었습니다.</p>
+
 	<c:choose>
 		<c:when test="${empty findHosId}">
 		<p class="inquiry">조회결과가 없습니다.</p>
-		<a href="hoJoin.do">병원회원가입 하러가기</a>
+		<input class="btnToLogin" type="button" value="병원 회원가입 하러가기" onclick="hoJoin()">
 		</c:when>
         <c:otherwise>
-            <p>${findHosId}</p>
+            <p class="result">아이디 : ${findHosId}</p>
+            <input class="btnToLogin" type="button" value="병원 로그인 하러가기" onclick="hoLogin()">
         </c:otherwise>
 	</c:choose>
 </div>
-<a href="hoLogin.do">병원로그인</a>
 </body>
 </html>

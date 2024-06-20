@@ -1,6 +1,7 @@
 package com.todoc.board.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.todoc.board.BoardVO;
 import com.todoc.board.CommentVO;
@@ -25,6 +26,12 @@ public interface BoardDAO {
 	
 	List<BoardVO> myPostList(int userIdx);
 	List<CommentVO> myCommentList(int userIdx);
+	
+	
+	int getTotCnt();
+	int getAjaxTotCnt(BoardVO vo);
+	List<BoardVO> getSearchPage(Map<String, Object> map);
+	List<BoardVO> getListPage(Map<String, Integer> map);
 }
 
 

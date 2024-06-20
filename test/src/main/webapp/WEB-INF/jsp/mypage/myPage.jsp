@@ -19,7 +19,7 @@
     /* 구분선 */
     hr {    
 		background-color:#B6E5FF;;
-    	height:1px;
+    	height:2px;
     	border:0;
 	}
 	
@@ -68,12 +68,12 @@ function userDelete_ok(frm) {
 		MEMBERSHIP ${umo.startformattedDate } ~ ${umo.endformattedDate }
 		</c:if>
 		
-		${user.condition }
+<%-- 		${user.condition } --%>
 			<form action="updateUser.do">
+			<input type="hidden" name="userIdx" value="${user.userIdx}">
 			<table>
 			<tr>
-				<td>프로필사진 </td>
-				<td>
+				<td colspan="2">
 				<c:if test="${not empty user.userImg}">
 					<img src="${user.userImg}" alt="${user.userIdx}의 이미지" style="max-width: 150px;">
 				</c:if>
@@ -104,13 +104,8 @@ function userDelete_ok(frm) {
 				<td>${user.phone}</td>
 			</tr>
 			<tr>
-				<td><input type="hidden" name="userIdx" value="${user.userIdx}"></td>
-			</tr>
-			<tr>
-			<td class="center">
+			<td colspan="2" class="center">
 				<input type="submit" value="내 정보 수정">
-			</td>
-			<td>
 				<input type="button" value="탈퇴하기" onclick="userDelete_ok(this.form)">
 			</td>
 			</tr>
@@ -119,56 +114,57 @@ function userDelete_ok(frm) {
 			
 			<hr>
 			<c:if test="${user.role == 'user'}">
-		    <h2>마이펫 정보</h2>
-		    <table class="myPetTable" border="1">
-		        <c:choose>
-		            <c:when test="${empty pets}">
-		                <tr>
-		                    <td colspan="2">등록된 펫 정보가 없습니다.</td>
-		                </tr>
-		            </c:when>
-		            <c:otherwise>
-		                <tr>
-		                    <c:forEach var="pet" items="${pets}">
-		                        <td>
-		                            <c:if test="${not empty pet.petImg}">
-		                                <img src="${pet.petImg}" alt="${pet.petName}의 이미지" style="max-width: 150px;">
-		                            </c:if>
-		                        </td>
-		                    </c:forEach>
-		                </tr>
-		                <tr>
-		                    <c:forEach var="pet" items="${pets}">
-		                        <td>동물분류: ${pet.animal}</td>
-		                    </c:forEach>
-		                </tr>
-		                <tr>
-		                    <c:forEach var="pet" items="${pets}">
-		                        <td>펫이름: ${pet.petName}</td>
-		                    </c:forEach>
-		                </tr>
-		                <tr>
-		                    <c:forEach var="pet" items="${pets}">
-		                        <td>펫나이: ${pet.petAge}살</td>
-		                    </c:forEach>
-		                </tr>
-		                <tr>
-		                    <c:forEach var="pet" items="${pets}">
-		                        <td>
-		                            <form action="updateMyPetView.do" method="get" style="display:inline;">
-		                                <input type="hidden" name="petIdx" value="${pet.petIdx}">
-		                                <button type="submit">수정</button>
-		                            </form>
-		                            <form action="deleteMyPet.do" method="post" onsubmit="return confirm('펫을 삭제하시겠습니까?')" style="display:inline;">
-		                                <input type="hidden" name="petIdx" value="${pet.petIdx}">
-		                                <button type="submit">삭제</button>
-		                            </form>
-		                        </td>
-		                    </c:forEach>
-		                </tr>
-		            </c:otherwise>
-		        </c:choose>
-		    </table>
+            <h2>마이펫 정보</h2>
+            
+            <table class="myPetTable" border="1">
+                <c:choose>
+                    <c:when test="${empty pets}">
+                        <tr>
+                            <td colspan="2">등록된 펫 정보가 없습니다.</td>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <tr>
+                            <c:forEach var="pet" items="${pets}">
+                                <td>
+                                    <c:if test="${not empty pet.petImg}">
+                                        <img src="${pet.petImg}" alt="${pet.petName}의 이미지" style="max-width: 150px;">
+                                    </c:if>
+                                </td>
+                            </c:forEach>
+                        </tr>
+                        <tr>
+                            <c:forEach var="pet" items="${pets}">
+                                <td>동물분류: ${pet.animal}</td>
+                            </c:forEach>
+                        </tr>
+                        <tr>
+                            <c:forEach var="pet" items="${pets}">
+                                <td>펫이름: ${pet.petName}</td>
+                            </c:forEach>
+                        </tr>
+                        <tr>
+                            <c:forEach var="pet" items="${pets}">
+                                <td>펫나이: ${pet.petAge}살</td>
+                            </c:forEach>
+                        </tr>
+                        <tr>
+                            <c:forEach var="pet" items="${pets}">
+                                <td>
+                                    <form action="updateMyPetView.do" method="get" style="display:inline;">
+                                        <input type="hidden" name="petIdx" value="${pet.petIdx}">
+                                        <button type="submit">수정</button>
+                                    </form>
+                                    <form action="deleteMyPet.do" method="post" onsubmit="return confirm('펫을 삭제하시겠습니까?')" style="display:inline;">
+                                        <input type="hidden" name="petIdx" value="${pet.petIdx}">
+                                        <button type="submit">삭제</button>
+                                    </form>
+                                </td>
+                            </c:forEach>
+                        </tr>
+                    </c:otherwise>
+                </c:choose>
+            </table>
 		    
 			<p><button class="btn" onclick="location.href='insertMyPetView.do'">마이펫 등록</button></p>
 			<p><a href="insertMyPetView.do">마이펫 등록</a></p>

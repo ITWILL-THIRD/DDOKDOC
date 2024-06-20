@@ -10,8 +10,8 @@
 	h1, h3, p { text-align: center; }
 	.center { text-align: center; }
 	.tb {
-	 margin-left:auto; 
-    margin-right:auto;
+		margin-left:auto; 
+		margin-right:auto;
 	}
 	.psTitle {
 		position: relative;
@@ -23,24 +23,20 @@
 		padding: 10px 12px;
 		font-size: 14px;
 	 }
-	 input::placeholder {
-  
-/*   font-size: 15px; */
- 
-}
+	 
 	 
 	 .loginBtn {
 		position: relative;
-border: 1px solid #bbb;
-	background-color: #2C307D;
-	border:  none;
-border-radius: 7px;
-	color: white;
-	 width: 375px;
-  height: 50px;
-  margin-top: 20px;
-  font-size: 16px;
-  font-weight: bold;
+		border: 1px solid #bbb;
+		background-color: #2C307D;
+		border:  none;
+		border-radius: 7px;
+		color: white;
+		width: 375px;
+		height: 50px;
+		margin-top: 20px;
+		font-size: 16px;
+		font-weight: bold;
 
 	 }
 	 .loginBtn:active{
@@ -49,34 +45,34 @@ border-radius: 7px;
 	}
 	
 	.loginBtn:disabled {
-    background-color: #cccccc; /* 비활성화된 상태의 색상 */
-    color: #FFFFFF;
+	    background-color: #cccccc; /* 비활성화된 상태의 색상 */
+	    color: #FFFFFF;
 	}
 	.loginBtn:disabled:active {
-	background-color: #E4E4E4; /* 비활성화된 상태의 색상 */
-    color: #FFFFFF;
+		background-color: #E4E4E4; /* 비활성화된 상태의 색상 */
+		color: #FFFFFF;
 	}
 	
 	 .joinBtn {
-	 color: #2E77AE;
-	 position: relative;
-	 border: 0;
-	  background-color: transparent;
-	font-size: 15px;
-    font-style: normal;
+		color: #2E77AE;
+		position: relative;
+		border: 0;
+		background-color: transparent;
+		font-size: 15px;
+	    font-style: normal;
 	 }
 	 .joinBtn:hover {color:#B6E5FF;}
 	 .s {
-	 color: #B5B5B5;
+	 	color: #B5B5B5;
 	 }
 	 .select {
-	 margin-top: 20px;
-	 margin-left:auto; 
-    margin-right:auto;
+		margin-top: 20px;
+		margin-left:auto; 
+	    margin-right:auto;
 	 }
 	.kakao-btn {
-	margin-top: 30px;
-	text-align: center;
+		margin-top: 30px;
+		text-align: center;
 	}
 
 	a {	
@@ -145,9 +141,70 @@ border-radius: 7px;
 		background-color: #4349B4;
         color: #FFFFFF; 
 	}
+	.selectBtn {
+		position: relative;
+		background-color: #B6E5FF;
+		border:  none;
+		border-radius: 7px;
+		color: black;
+		width: 200px;
+	    height: 150px;
+	    margin-top: 20px;
+	    font-size: 16px;
+	    font-weight: bold;
+	    margin-right: 10px;
+	}
+	.selectBtn:active {
+		background-color: #76CEFF;
+	}
+	.selectBtn2 {
+		position: relative;
+		background-color: #FFA217;
+		border:  none;
+		border-radius: 7px;
+		color: black;
+		width: 200px;
+		height: 150px;
+		margin-top: 20px;
+		font-size: 16px;
+		font-weight: bold;
+		margin-right: 10px;
+	}
+	.selectBtn2:active {
+		background-color: #FF8E2B;
+	}
+	.p {
+		color: #7E7E7E;
+		text-align: center;
+	}
+	.find {
+		font-size: 25px;
+		color: #2E77AE;
+	}
+	.result {
+		position: relative;
+		text-align: center;
+		border: 1px solid #C2C2C2;
+		width: 400px;
+	/* 	height: 100px;  */
+		margin-left: 146px;
+		padding-top: 50px;
+		padding-bottom: 50px;
+	}
+	.btnToLogin {
+		position: absolute;
+		border-radius: 5px;
+		margin-left: 270px;
+		width: 150px;
+		height: 30px;
+		border: none;
+		background-color: #2C307D;
+        color: #FFFFFF; 
+	}
 	
-
-	
+	.red {
+		color: red;
+	}
 </style>
 </head>
 <body>

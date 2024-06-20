@@ -64,7 +64,7 @@
 	<!-- 카테고리로 검색 -->
 	<select id="category" parameterType="BoardVO" resultType="BoardVO">
 		SELECT * FROM POST 
-		WHERE CATEGORY LIKE '%'||?||'%' 
+		WHERE CATEGORY LIKE '%'||#{category}||'%' 
 		ORDER BY POSTIDX DESC
 	</select>
 	
@@ -76,10 +76,128 @@
 	</update>
 	
 	<!-- 전체 게시글 수 조회-->
-<!-- <select id="totalPostCount" resultType="int">
+	<select id="getTotCnt" resultType="int">
 		SELECT COUNT(*) AS CNT FROM POST
 	</select>
- -->		
+	
+		<!-- 동적 처리(승인 상태/가입일자별) 병원 전체건수 cnt 조회 
+	<select id="getAjaxTotCnt" parameterType="BoardVO" resultType="int">
+		SELECT COUNT(*)
+		FROM POST
+		AND 1 = 1
+		<choose>
+        	<when test='searchCondition == "TITLE" and searchKeyword != "" '>
+				AND TITLE LIKE '%'|| #{searchKeyword} || '%' 
+			</when>
+			<when test='searchCondition == "CONTENT" and searchKeyword != "" '>
+				AND CONTENT LIKE '%'|| #{searchKeyword} || '%' 
+			</when>
+        	<when test="category != null">
+        		AND CATEGORY LIKE '%'||#{category}||'%' 
+        	</when>
+        </choose>
+        ORDER BY POSTIDX DESC
+	</select>-->
+	
+	<select id="getAjaxTotCnt" parameterType="BoardVO" resultType="int">
+	    SELECT COUNT(*)
+	    FROM POST
+	    WHERE 1 = 1
+	    <choose>
+	        <when test="searchCondition == 'all'">
+	            <!-- 아무 조건도 추가하지 않음 -->
+	        </when>
+	        <when test='searchCondition == "TITLE" and searchKeyword != ""'>
+	            AND TITLE LIKE '%' || #{searchKeyword} || '%'
+	        </when>
+	        <when test='searchCondition == "CONTENT" and searchKeyword != ""'>
+	            AND CONTENT LIKE '%' || #{searchKeyword} || '%'
+	        </when>
+	    </choose>
+	    <if test="category != null">
+	        AND CATEGORY LIKE '%' || #{category} || '%'
+	    </if>
+	    ORDER BY POSTIDX DESC
+	</select>
+	
+	<!-- 전체목록 + 페이징 처리 -->
+	<select id="getListPage" parameterType="map" resultType="BoardVO">
+		SELECT * 
+		FROM (
+		    SELECT ROWNUM AS R_NUM, P.*
+		    FROM (
+		        SELECT D.NICKNAME, O.*
+		        FROM POST O
+		        JOIN DDOKUSER D ON O.USERIDX = D.USERIDX
+		        ORDER BY O.POSTIDX DESC
+		    ) P
+		    <![CDATA[
+		    WHERE ROWNUM <= #{end}
+		) 
+		WHERE R_NUM >= #{begin}
+		]]>
+	</select>
+	
+		<!-- 동적 처리 & 페이징 처리
+	<select id="getSearchPage" parameterType="map" resultType="BoardVO">
+		SELECT * 
+		FROM (
+		    SELECT ROWNUM AS R_NUM, P.*
+		    FROM (
+		        SELECT D.NICKNAME, O.*
+		        FROM POST O
+		        JOIN DDOKUSER D ON O.USERIDX = D.USERIDX
+		        WHERE 1 = 1
+		        <choose>
+		        	<when test='searchCondition == "TITLE" and searchKeyword != "" '>
+						AND O.TITLE LIKE '%'|| #{searchKeyword} || '%' 
+					</when>
+					<when test='searchCondition == "CONTENT" and searchKeyword != "" '>
+						AND O.CONTENT LIKE '%'|| #{searchKeyword} || '%' 
+					</when>
+		        	<when test="category != null">
+		        		AND O.CATEGORY LIKE '%'||#{category}||'%' 
+		        	</when>
+		        </choose>
+		        ORDER BY O.POSTIDX DESC
+		    ) P
+		    <![CDATA[
+		    WHERE ROWNUM <= #{end}
+		) 
+		WHERE R_NUM >= #{begin}
+		]]>
+	</select>
+	 -->
+	<select id="getSearchPage" parameterType="map" resultType="BoardVO">
+	   SELECT * 
+	   FROM (
+	       SELECT ROWNUM AS R_NUM, P.*
+	       FROM (
+	           SELECT D.NICKNAME, O.*
+	           FROM POST O
+	           JOIN DDOKUSER D ON O.USERIDX = D.USERIDX
+	           WHERE 1 = 1
+	           <choose>
+	               <when test='searchCondition == "TITLE" and searchKeyword != "" '>
+	                   AND O.TITLE LIKE '%'|| #{searchKeyword} || '%' 
+	               </when>
+	               <when test='searchCondition == "CONTENT" and searchKeyword != "" '>
+	                   AND O.CONTENT LIKE '%'|| #{searchKeyword} || '%' 
+	               </when>
+	               <otherwise>
+	                   AND O.CATEGORY LIKE '%'||#{category}||'%'
+	               </otherwise>
+	           </choose>
+	           ORDER BY O.POSTIDX DESC
+	       ) P
+	       <![CDATA[
+	        WHERE ROWNUM <= #{end}
+	    ) 
+	    WHERE R_NUM >= #{begin}
+	    ]]>
+	</select>
+	
+		
 	<!-- 페이지에 해당하는 게시글 조회 -->
 <!--	<select id="BoardList" parameterType="map" resultType="boardVO">
 	<![CDATA[
