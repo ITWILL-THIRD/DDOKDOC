@@ -36,6 +36,14 @@
 		SET ADDRESSNAME = #{addressName}, ROADADDRESSNAME = #{roadAddressName}, DETAILADDRESS = #{detailAddress}
 		WHERE HOSIDX = #{hosIdx}
 	</update>
+	
+<!-- 	병원이미지 수정 -->
+	<update id="updateHosImg" parameterType="HospitalVO">
+		UPDATE HOSIMG
+		SET HOSIMG = #{hosImg}
+		WHERE HOSIDX = #{hosIdx}
+	</update>
+	
 
 	
 	<!-- 	비밀번호 수정 -->
@@ -337,6 +345,13 @@
 		SET CONDITION = #{condition}
 		WHERE HOSIDX = #{hosIdx}
 	</update>
+	
+	<select id="hosImg" parameterType="int" resultType="HosImgVO">
+		SELECT * 
+		FROM HOSPITAL, HOSIMG 
+		WHERE HOSPITAL.HOSIDX = HOSIMG.HOSIDX
+		AND HOSPITAL.HOSIDX = #{hosIdx}
+	</select>
 	
 </mapper>
 

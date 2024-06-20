@@ -6,4 +6,5 @@ import com.todoc.membership.HosMembershipVO;
 public interface HosMembershipDAO {
 	void insertHosMembership(HosMembershipVO vo);
 	void updateHosCondition(HospitalVO vo);
+	HosMembershipVO getHosMembership(HosMembershipVO hmo);
 }

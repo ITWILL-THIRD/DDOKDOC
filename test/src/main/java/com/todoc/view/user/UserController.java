@@ -400,6 +400,7 @@ public class UserController {
       System.out.println("validOpenTime : " + validOpenTime);
       
       try {
+
          System.out.println("timeMapper 실행 전, vo : " + vo);
          //hosTime 테이블 입력
          int cntHosTime = timeMapper.insertTime(insertHosIdx, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
@@ -419,6 +420,7 @@ public class UserController {
          e.printStackTrace();
          return"redirect:hoJoin.do?msg=fail";
       }
+
    }
    //유효성 검사 메소드(운영 시각 0~23만 사용 가능)
    private String validateAndCorrectTime(String timeStr) {

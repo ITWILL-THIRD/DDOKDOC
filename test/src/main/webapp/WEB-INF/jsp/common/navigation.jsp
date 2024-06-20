@@ -33,7 +33,7 @@
 	 	display: flex;
 	 	item-align: center;
 	 	border-style: none none solid none;
-	 	border-color: #B6E5FF;
+	 	border-color: #E0EAF5;
 	 	justify-content: space-between;
 	 	line-height: 30px;
 	}

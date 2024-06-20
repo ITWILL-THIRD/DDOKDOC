@@ -24,4 +24,8 @@ public class HosMembershipServiceImpl  implements HosMembershipService{
 	public void updateHosCondition(HospitalVO vo) {
 		hosMembershipMapper.updateHosCondition(vo);
 	}
+	@Override
+	public HosMembershipVO getHosMembership(HosMembershipVO hmo) {
+		return hosMembershipMapper.getHosMembership(hmo);
+	}
 }

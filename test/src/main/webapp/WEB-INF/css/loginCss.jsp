@@ -143,7 +143,7 @@
 	}
 	.selectBtn {
 		position: relative;
-		background-color: #B6E5FF;
+		background-color: #E0EAF5;
 		border:  none;
 		border-radius: 7px;
 		color: black;
@@ -155,7 +155,7 @@
 	    margin-right: 10px;
 	}
 	.selectBtn:active {
-		background-color: #76CEFF;
+		background-color: #9ECCFA;
 	}
 	.selectBtn2 {
 		position: relative;

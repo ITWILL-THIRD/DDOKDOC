@@ -81,6 +81,10 @@ public class HospitalServiceImpl implements HospitalService{
 	public void updateHosTime(HospitalVO vo) {
 		hospitalDAO.updateHosTime(vo);
 	}
+	//병원사진수정
+	public void updateHosImg(HospitalVO vo) {
+		hospitalDAO.updateHosImg(vo);
+	}
 	//병원 비번 변경
 	public void updateHoPwd(HospitalVO vo) {
 		hospitalDAO.updateHoPwd(vo);
@@ -88,6 +92,10 @@ public class HospitalServiceImpl implements HospitalService{
 	//병원탈퇴
 	public void deleteHos(int hosIdx) {
 		hospitalDAO.deleteHos(hosIdx);
+	}
+	//사진조회
+	public HosImgVO hosImg(int hosIdx) {
+		return hospitalDAO.hosImg(hosIdx);
 	}
 	//병원 리뷰 전체 조회
 	@Override
