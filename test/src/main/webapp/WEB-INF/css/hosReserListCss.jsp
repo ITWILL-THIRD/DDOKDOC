@@ -34,7 +34,7 @@
        background-color: lightblue;
    }
    
-   /* 예약된 시간 버튼 스타일 */
+/*    /* 예약된 시간 버튼 스타일 */
 	.reserved {
 	  background-color: #87CEEB; /* 하늘색 */
 	  color: white;
@@ -43,7 +43,7 @@
 	
 	.reserved:hover {
 	  background-color: #6495ED; /* 버튼에 마우스를 올리면 약간 더 어두운 색으로 변경 */
-	}
+	} */
 	.reserDate {
 	  color: #f9fafb;
 	  background-color: #3182f6;
@@ -81,7 +81,7 @@
 		border: none;
 	}
 
-	th { background-color: #B6E5FF; }
+	.table table-hove th { background-color: #B6E5FF; }
 
 	#reserBody {
 		margin: auto;

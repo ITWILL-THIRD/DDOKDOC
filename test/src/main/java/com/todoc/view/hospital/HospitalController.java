@@ -35,27 +35,22 @@ public class HospitalController {
 	//병원예약 페이지 onload되면 전체 목록 조회
 	@RequestMapping("/hosMain.do")
 	public String hosRevMain(HospitalVO vo, Model model) {
-		System.out.println(":: 병원 목록 전체보기");
-		
+
 		//DB 연동하여 selectList
 		List<HospitalVO> hosList = hospitalService.selectList();
-		System.out.println("hosList : " + hosList);
-		System.out.println("hosList.size() : " + hosList.size());
-		
+
 		model.addAttribute("hosList", hosList);
 		return "hospital/hosMain";
 	}
 	// 1개 병원 상세 조회
 	@RequestMapping("/hosDetail.do")
 	public String hosInfo(@ModelAttribute("hosIdx") int hosIdx, Model model, HttpSession session) {
-	    System.out.println(":: 병원 정보(예약,리뷰)");
-	    
 	    UserVO user = (UserVO) session.getAttribute("user");
 	    int userIdx = 0;
 	    if (user != null) {
 	        userIdx = user.getUserIdx();
 	    }
-	    System.out.println("detail id" + userIdx);
+	    
 	    ReservationVO reserVo = new ReservationVO();
 	    reserVo.setUserIdx(userIdx);
 	    reserVo.setHosIdx(hosIdx);
@@ -99,9 +94,7 @@ public class HospitalController {
 	        userIdx = user.getUserIdx();
 	        vo.setUserIdx(userIdx);
 	    }
-	    System.out.println("insert id" + userIdx);
-	    System.out.println("vo  : " + vo);
-	    
+
 	    model.addAttribute("hosIdx", hosIdx);
 	    model.addAttribute("userIdx", userIdx);
 	    
@@ -129,7 +122,7 @@ public class HospitalController {
 	// 리뷰 수정 
 	@RequestMapping("/updateReview.do")
 	public String updateReview(HosReviewVO vo, @RequestParam("hosIdx") int hosIdx, Model model, HttpSession session) {
-	    System.out.println(":: 병원 리뷰 수정");
+	   
 	    int userIdx = ((UserVO) session.getAttribute("user")).getUserIdx();
 	    vo.setUserIdx(userIdx);
 
