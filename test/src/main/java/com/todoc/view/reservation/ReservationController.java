@@ -27,6 +27,8 @@ import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.mypet.MyPetService;
 import com.todoc.mypet.MyPetVO;
+import com.todoc.notice.NoticeService;
+import com.todoc.notice.NoticeVO;
 import com.todoc.reservation.ReservationService;
 import com.todoc.reservation.ReservationVO;
 import com.todoc.user.UserService;
@@ -42,6 +44,8 @@ public class ReservationController {
 	private MyPetService myPetService;
 	@Autowired
 	private HospitalService hospitalService;
+	@Autowired
+	private NoticeService noticeService;
 	
 	//예약날짜,시간 선택화면
 	@RequestMapping("/reservation.do")
@@ -75,7 +79,16 @@ public class ReservationController {
 		List<Date> hosHoliday = hospitalService.hosHoliday(vo);
 		System.out.println("hosHoliday : " + hosHoliday);
 		
+		//공지사항
+		int hosIdx = vo.getHosIdx();
+		NoticeVO notice = null;
+		
+		if (noticeService.getNotice(hosIdx) != null) {
+			notice = noticeService.getNotice(hosIdx);
+		}
+		
 		model.addAttribute("reservationList", reservationList);
+		model.addAttribute("notice", notice);
 		model.addAttribute("myPetList", myPetList);
 		model.addAttribute("hosHoliday", hosHoliday);
 		

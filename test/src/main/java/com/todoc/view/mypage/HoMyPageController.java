@@ -252,16 +252,23 @@ public class HoMyPageController {
 	}
 	
 	
-	//병원 공지 리스트
-	@RequestMapping("/hosNoticeList.do")
-	public String hosNoticeList(Model model, HttpSession session) {
+	//병원 공지사항
+	@RequestMapping("/hosNotice.do")
+	public String hosNotice(Model model, HttpSession session) {
 		// 병원 로그인 정보 가져오기
 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
-		// 공지사항 리스트 가져오기
-		List<NoticeVO> hosNoticeList = noticeService.hosNoticeList(hoUser.getHosIdx());
-		model.addAttribute("hosNoticeList", hosNoticeList);
-
-		return "mypage/hosNoticeList";
+		
+		// 병원 인덱스
+		int hosIdx = hoUser.getHosIdx();
+		
+		NoticeVO notice = null;
+		// 공지사항 가져오기
+		if (noticeService.getNotice(hosIdx) != null) {
+			notice = noticeService.getNotice(hosIdx);
+		}
+		model.addAttribute("notice", notice);
+		
+		return "mypage/hosNotice";
 	}
 	//공지 상세
 	@RequestMapping("/hoNoticeDetail.do")

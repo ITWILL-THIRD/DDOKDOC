@@ -202,8 +202,8 @@
 	</p>
 	
 	<h4>공지사항</h4>
-	<div>
-<%-- 		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}" --%>
+	<%-- <div>
+		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}"
 <!-- 			onclick="insertNotice(this.dataset.hosIdx)"> -->
 		<table border="">
 			<tr>
@@ -221,7 +221,7 @@
 				</tr>
 			</c:forEach>
 		</table>
-	</div>
+	</div> --%>
 	
 	<h4>리뷰 목록</h4>
 	<div id="review">
@@ -342,9 +342,14 @@
 	// 로그인 유무 체크
 	function userCheck() {
 		const userCondition = '${user.condition}';
+		const hoUser = '${hoUser}';
 		console.log('userCondition:', userCondition);
 		if (userCondition === 'null' || userCondition === '') { // JSP에서 null인 경우 'null' 문자열로 전달될 수 있음
-            alert("로그인 후 예약이 가능합니다.");
+            if (hoUser != 'null') {
+            	alert("병원계정은 예약이 불가능합니다.");
+            	return false;
+            }
+			alert("로그인 후 예약이 가능합니다.");
             location.href="../user/login.do";
         } else if (userCondition === '결제전') {
             alert("멤버십 가입 후 예약이 가능합니다.");

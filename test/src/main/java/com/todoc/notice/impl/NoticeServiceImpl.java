@@ -20,8 +20,8 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public NoticeVO getNotice(int noticeIdx) {
-		return noticeDAO.getNotice(noticeIdx);
+	public NoticeVO getNotice(int hosIdx) {
+		return noticeDAO.getNotice(hosIdx);
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public void deleteNotice(NoticeVO vo) {
-		noticeDAO.deleteNotice(vo);
+	public void deleteNotice(int hosIdx) {
+		noticeDAO.deleteNotice(hosIdx);
 	}
 	
 	@Override
