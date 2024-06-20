@@ -6,8 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 변경</title>
+<jsp:include page="../../css/myPetCss.jsp" />
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../common/navigation.jsp"/>
 <script>
-
 	function check_pwd(frm) {
 		var pwd = frm.password.value;
 		var checkPwd = frm.pwdCheck.value;
@@ -28,34 +30,33 @@
 </script>
 </head>
 <body>
-<h2>비밀번호 변경</h2>
- <c:if test="${not empty error}">
-        <p style="color: red;">${error}</p>
-    </c:if>
-<form action="updatePwd.do" method="post">
-	<table>
-		<tr>
-			<td>현재 비밀번호</td>
-			 <td><input type="password" name="currentPassword"></td>
-		</tr>
-		<tr>
-			<td>변경할 비밀번호</td>
-			<td><input type="password" name="password" ></td>
-		</tr>
-		<tr>
-			<td>비밀번호 확인</td>
-			<td><input type="password" name="pwdCheck" onblur="check_pwd(this.form)"></td>
-		</tr>
-		<tr>
-			<td><input type="hidden" name="userIdx" value="${user.userIdx}"></td>
-		</tr>
-		<tr>
-			<td>
-			<input type="button" value="비밀번호 변경" onclick="pwdUpdate_ok(this.form)">
-			</td>
-		</tr>
-	</table>
-</form>
-
+	<div id="container">
+	<h1>비밀번호 변경</h1>
+	 <c:if test="${not empty error}">
+	        <p style="color: red;">${error}</p>
+	 </c:if>
+		<form action="updatePwd.do" method="post">
+		<input type="hidden" name="userIdx" value="${user.userIdx}">
+		<table>
+			<tr>
+				<th>현재 비밀번호</th>
+				 <td><input type="password" name="currentPassword"></td>
+			</tr>
+			<tr>
+				<th>변경할 비밀번호</th>
+				<td><input type="password" name="password" ></td>
+			</tr>
+			<tr>
+				<th>비밀번호 확인</th>
+				<td><input type="password" name="pwdCheck" onblur="check_pwd(this.form)"></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="center">
+				<input class="btn" type="button" value="비밀번호 변경" onclick="pwdUpdate_ok(this.form)">
+				</td>
+			</tr>
+		</table>
+		</form>
+	</div>
 </body>
 </html>
