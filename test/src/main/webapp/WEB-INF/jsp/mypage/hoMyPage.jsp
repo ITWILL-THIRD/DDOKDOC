@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 마이페이지</title>
+<jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script>
 function hosDelete_ok(frm) {
@@ -28,7 +29,14 @@ function hosDelete_ok(frm) {
 <h1>병원 마이페이지</h1>
 <hr>
 <h2>병원정보</h2>
+<c:if test="${hoUser.condition == '승인완료'}">
+		[멤버십 가입전]
+		</c:if>
+		<c:if test="${hoUser.condition == '결제완료'}">
+		[MEMBERSHIP] ${hmo.startformattedDate } ~ ${hmo.endformattedDate }
+		</c:if>
 \${hoUser} : ${hoUser}
+<%-- \${io } : ${io } --%>
 <form action="updateHoUser.do">
 	<table border="">
 		<tr>
@@ -44,6 +52,14 @@ function hosDelete_ok(frm) {
 			<th>병원 연락처</th>
 			<td colspan="2">${hoUser.hosPhone }</td>
 		</tr>
+<!-- 		<tr> -->
+<!-- 			<th>병원 외/내부사진</th> -->
+<!-- 			<td colspan="2"> -->
+<%-- 			<c:if test="${not empty hoUser.hosImg}"> --%>
+<%-- 			<img src="${hoUser.hosImg }" alt="${hoUser.imgIdx}의 이미지"> --%>
+<%-- 			</c:if> --%>
+<!-- 			</td> -->
+<!-- 		</tr> -->
 		<tr>
 			<th>분류</th>
 			<td colspan="2">${hoUser.animal }</td>

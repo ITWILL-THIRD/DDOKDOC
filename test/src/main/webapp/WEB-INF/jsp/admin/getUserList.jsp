@@ -30,25 +30,22 @@
 <div id="container">
 <!-- 검색 -->
 <form id="searchForm" action="getUserList.do" method="get">
-	<table>
-		<tr>
-			<td>
-				<select name="searchType">
+	
+		<div class="center">
+				<select class="select" name="searchType">
 				<c:forEach var="option" items="${conditionMap }">
 				<option value="${option.value }">${option.key }</option>
 				</c:forEach>
 				</select> 
-				<input type="text" name="searchKeyword" placeholder="회원검색" /> 
-				<input type="submit" value="검색" />
-			</td>
-			<td><input type="button" value="새로고침" onclick="resetForm()"></td>
-		</tr>
-	</table>
+				<input class="search" type="text" name="searchKeyword" placeholder="회원검색" /> 
+				<input class="searchBtn" type="submit" value="검색" />
+			<input class="resetBtn" type="button" value="새로고침" onclick="resetForm()">
+	</div>
 </form>
-
-<table>
+<hr>
+<table border frame=void>
  <tr>
-            <th width="7%">회원 번호</th>
+            <th width="7%" height="35px">회원 번호</th>
             <th width="7%">프로필</th>
             <th width="10%">이메일</th>
             <th width="7%">이름</th>
@@ -70,7 +67,7 @@
         <c:otherwise>
             <c:forEach var="user" items="${getUserList}">
                 <tr>
-                    <td>${user.userIdx}</td>
+                    <td height="30px">${user.userIdx}</td>
                     <td><img src="${user.userImg}" height="50px"></td>
                     <td><a href="userMypage.do?userIdx=${user.userIdx}">${user.email}</a></td>
                     <td>${user.name}</td>
@@ -89,45 +86,44 @@
    <tfoot>
 	<tr>
 		<td colspan="12">
-			<ol>
 				<!-- [이전]에 대한 사용여부 처리 -->
 				<c:if test="${pagingVO.nowPage == 1}">
-					<li class="disable">이전</li>
+					<span class="disable">이전</span>
 				</c:if>
 				<c:if test="${pagingVO.nowPage != 1}">
-					<li>
+					<span>
 						<a href="getUserList.do?cPage=${pagingVO.nowPage - 1}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">이전</a>
-					</li>
+					</span>
 				</c:if>
 
 				<!-- 블록내에 표시할 페이지 태그 작성(시작~끝) -->
 				<c:forEach var="pageNo" begin="${pagingVO.beginPage}" end="${pagingVO.endPage}">
 					<c:choose>
 						<c:when test="${pageNo == pagingVO.nowPage}">
-							<li class="now">${pageNo}</li>
+							<span class="now">${pageNo}</span>
 						</c:when>
 						<c:otherwise>
-							<li>
+							<span>
 								<a href="getUserList.do?cPage=${pageNo}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">${pageNo}</a>
-							</li>
+							</span>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 
 				<!-- [다음]에 대한 사용여부 처리 -->
 				<c:if test="${pagingVO.nowPage < pagingVO.totalPage}">
-					<li>
+					<span>
 						<a href="getUserList.do?cPage=${pagingVO.nowPage + 1}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">다음</a>
-					</li>
+					</span>
 				</c:if>
 				<c:if test="${pagingVO.nowPage >= pagingVO.totalPage}">
-					<li class="disable">다음</li>
+					<span class="disable">다음</span>
 				</c:if>
-			</ol>
 		</td>
 	</tr>
 </tfoot>
 </table>
+
 </div>
 </body>
 </html>

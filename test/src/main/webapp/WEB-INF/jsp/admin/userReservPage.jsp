@@ -6,32 +6,39 @@
 <head>
 <meta charset="UTF-8">
 <title>userReservPage</title>
+<jsp:include page="../../css/getUserListCss.jsp"/>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../common/navigation.jsp"/>
+<jsp:include page="statsScript.jsp"/>
 </head>
 <body>
-<h1>userReservPage</h1>
+<h1>회원 진료 예약내역</h1>
+<div id="container">
 <a href="getUserList.do">회원관리목록 가기</a>
-<hr>
-<h2>회원 진료 예약내역</h2>
-\${userReserList } : ${userReserList }<br>
-\${pagingVO} : ${pagingVO}<br>
-${condition }
+
+<%-- \${userReserList } : ${userReserList }<br> --%>
+<%-- \${pagingVO} : ${pagingVO}<br> --%>
+<%-- ${condition } --%>
 <%-- ${userIdx } --%>
 <!-- 카테고리별  -->
 <div id="condition">
-	<a href="userReservPage.do?userIdx=${userIdx}">전체</a>
-	<a href="userReservPage.do?userIdx=${userIdx}&condition=RESERVATION">예약완료</a>
-	<a href="userReservPage.do?userIdx=${userIdx}&condition=CANCLE">예약취소</a>
-	<a href="userReservPage.do?userIdx=${userIdx}&condition=FINISH">진료완료</a>
-	<a href="userReservPage.do?userIdx=${userIdx}&condition=REVIEW">리뷰작성</a>
+<div class="center">
+	<a class="btn" href="userReservPage.do?userIdx=${userIdx}">전체</a>
+	<a class="btn" href="userReservPage.do?userIdx=${userIdx}&condition=RESERVATION">예약완료</a>
+	<a class="btn" href="userReservPage.do?userIdx=${userIdx}&condition=CANCLE">예약취소</a>
+	<a class="btn" href="userReservPage.do?userIdx=${userIdx}&condition=FINISH">진료완료</a>
+	<a class="btn" href="userReservPage.do?userIdx=${userIdx}&condition=REVIEW">리뷰작성</a>
 </div>
-<table border>
+</div>
+<hr>
+<table border frame=void  style="width:100%">
 	<c:choose>
 		<c:when test="${empty userReserList}">
 			<p>내역이 없습니다.</p>
 		</c:when>
 		<c:otherwise>
 			<tr>
-				<th>병원이름</th>
+				<th height="35px">병원이름</th>
 				<th>마이펫</th>
 				<th>날짜</th>
 				<th>시간</th>
@@ -40,7 +47,7 @@ ${condition }
 			</tr>
 		<c:forEach var="reser" items="${userReserList }">
 			<tr>
-				<td>${reser.hosName }</td>
+				<td height="30px">${reser.hosName }</td>
 				<td>${reser.petName }</td>
 				<td>${reser.reserDate }</td>
 				<td>${reser.formattedTime }</td>
@@ -108,6 +115,6 @@ ${condition }
 			</tr>
 			</c:if>
 </table>
-
+</div>
 </body>
 </html>

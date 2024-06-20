@@ -400,25 +400,25 @@ public class UserController {
       System.out.println("validOpenTime : " + validOpenTime);
       
       try {
-         System.out.println("timeMapper 실행 전, vo : " + vo);
-         //hosTime 테이블 입력
-         int cntHosTime = timeMapper.insertTime(vo, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
-                        , validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
-                        , validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime
-                        , lunchOff, satLunchOff, sunDayOff, sunLunchOff);
-         System.out.println("timeMapper 실행 후, vo : " + vo);
-         System.out.println("cntHosTime : " + cntHosTime);
-         if (cntHosTime == 0) {
-            System.out.println(">> 회원가입 실패");
-            return "redirect:hoJoin.do?msg=fail";
-         }
-         System.out.println("HOSTIME vo : " + vo);
-         System.out.println(">> 회원가입 완료");
-         return "redirect:login.do?msg=success";
-      } catch (Exception e) {
-         e.printStackTrace();
-         return"redirect:hoJoin.do?msg=fail";
-      }
+          System.out.println("timeMapper 실행 전, vo : " + vo);
+          //hosTime 테이블 입력
+          int cntHosTime = timeMapper.insertTime(insertHosIdx, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
+                         , validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
+                         , validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime
+                         , lunchOff, satLunchOff, sunDayOff, sunLunchOff);
+          System.out.println("timeMapper 실행 후, vo : " + vo);
+          System.out.println("cntHosTime : " + cntHosTime);
+          if (cntHosTime == 0) {
+             System.out.println(">> 회원가입 실패");
+             return "redirect:hoJoin.do?msg=fail";
+          }
+          System.out.println("HOSTIME vo : " + vo);
+          System.out.println(">> 회원가입 완료");
+          return "redirect:hoLogin.do?msg=success";
+       } catch (Exception e) {
+          e.printStackTrace();
+          return"redirect:hoJoin.do?msg=fail";
+       }
    }
    //유효성 검사 메소드(운영 시각 0~23만 사용 가능)
    private String validateAndCorrectTime(String timeStr) {
