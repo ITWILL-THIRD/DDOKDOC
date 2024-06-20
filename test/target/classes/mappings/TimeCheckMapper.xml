@@ -20,24 +20,24 @@
 	
 		<!-- 	병원정보수정HOSTIME -->
 	<update id="updateHosTime" parameterType="HospitalVO">
-    UPDATE HOSTIME
-    SET OPENTIME = TO_DATE(SYSDATE || ' ' || #{validOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        CLOSETIME = TO_DATE(SYSDATE || ' ' || #{validCloseTime}, 'YYYY-MM-DD HH24:MI:SS'),
-        LUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        ENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
-        SATOPENTIME = TO_DATE(SYSDATE || ' ' || #{validSatOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        SATCLOSETIME = TO_DATE(SYSDATE || ' ' || #{validSatCloseTime}, 'YYYY-MM-DD HH24:MI:SS'),
-        SATLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSatLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        SATENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSatEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
-        SUNOPENTIME = TO_DATE(SYSDATE || ' ' || #{validSunOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        SUNCLOSETIME = TO_DATE(SYSDATE || ' ' || #{validSunCloseTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        SUNLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSunLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        SUNENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSunEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
-        LUNCHOFF = COALESCE(#{lunchOff}, 'N'), 
-        SATLUNCHOFF = COALESCE(#{satLunchOff}, 'N'), 
-        SUNDAYOFF = COALESCE(#{sunDayOff}, 'N'), 
-        SUNLUNCHOFF = COALESCE(#{sunLunchOff}, 'N')
-    WHERE HOSIDX = #{hosIdx}
-</update>
+	    UPDATE HOSTIME
+	    SET OPENTIME = TO_DATE(SYSDATE || ' ' || #{validOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+	        CLOSETIME = TO_DATE(SYSDATE || ' ' || #{validCloseTime}, 'YYYY-MM-DD HH24:MI:SS'),
+	        LUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+	        ENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
+	        SATOPENTIME = TO_DATE(SYSDATE || ' ' || #{validSatOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+	        SATCLOSETIME = TO_DATE(SYSDATE || ' ' || #{validSatCloseTime}, 'YYYY-MM-DD HH24:MI:SS'),
+	        SATLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSatLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+	        SATENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSatEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
+	        SUNOPENTIME = TO_DATE(SYSDATE || ' ' || #{validSunOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+	        SUNCLOSETIME = TO_DATE(SYSDATE || ' ' || #{validSunCloseTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+	        SUNLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSunLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+	        SUNENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSunEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
+	        LUNCHOFF = COALESCE(#{lunchOff}, 'N'), 
+	        SATLUNCHOFF = COALESCE(#{satLunchOff}, 'N'), 
+	        SUNDAYOFF = COALESCE(#{sunDayOff}, 'N'), 
+	        SUNLUNCHOFF = COALESCE(#{sunLunchOff}, 'N')
+	    WHERE HOSIDX = #{hosIdx}
+	</update>
 	
 </mapper>
