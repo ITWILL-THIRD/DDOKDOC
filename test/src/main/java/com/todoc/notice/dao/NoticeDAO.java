@@ -6,9 +6,9 @@ import com.todoc.notice.NoticeVO;
 
 public interface NoticeDAO {
 	List<NoticeVO> getNoticeList(int hosIdx);
-	NoticeVO getNotice(int noticeIdx);
+	NoticeVO getNotice(int hosIdx);
 	void insertNotice(NoticeVO vo);
 	void updateNotice(NoticeVO vo);
-	void deleteNotice(NoticeVO vo);
+	void deleteNotice(int hosIdx);
 	List<NoticeVO> hosNoticeList(int hosIdx);
 }
