@@ -68,7 +68,7 @@ function userDelete_ok(frm) {
 		MEMBERSHIP ${umo.startformattedDate } ~ ${umo.endformattedDate }
 		</c:if>
 		
-		${user.condition }
+<%-- 		${user.condition } --%>
 			<form action="updateUser.do">
 			<input type="hidden" name="userIdx" value="${user.userIdx}">
 			<table>

@@ -77,6 +77,7 @@ public class MyPageController {
 	    	} else {
 	    		vo.setUserImg(user.getUserImg()); // 기존 이미지 유지
 	    	}
+	    	vo.setCondition(user.getCondition());
             System.out.println("내 정보 수정");
             System.out.println("vo : " + vo);
             userService.updateUser(vo);
