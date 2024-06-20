@@ -11,8 +11,16 @@ public interface HospitalService {
 	
 	//병원 전체 조회
 	List<HospitalVO> selectList();
+	//결제완료 병원 cnt
+	int paymentCnt();
+	//병원 전체 조회 + 페이징
+	List<HospitalVO> selectListPage(HospitalVO vo, int begin, int end);
 	//병원 1개 조회
 	HospitalVO selectOne(int hosIdx);
+	//동적처리 + 결제완료된 병원 건수 cnt
+	int ajaxPaymentCnt(HospitalVO vo);
+	//병원 동적 검색 + 페이징
+	List<HospitalVO> getHosSearchPage(HospitalVO vo, int begin, int end);
 	//병원 동적 검색
 	List<HospitalVO> getHosSearch(HospitalVO vo);
 	// 사용자 예약 내역 조회

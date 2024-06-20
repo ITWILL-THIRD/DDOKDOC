@@ -2,6 +2,7 @@ package com.todoc.hospital.dao;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.todoc.hospital.HolidayInsertParams;
 import com.todoc.hospital.HosReviewVO;
@@ -15,10 +16,18 @@ public interface HospitalDAO {
 	//---------민지------------------------------
 	//병원 전체 목록 조회
 	List<HospitalVO> selectList();
+	//결제완료 병원 cnt
+	int paymentCnt();
+	//병원 전제 조회 + 페이징
+	List<HospitalVO> selectListPage(Map<String, Integer> map);
 	//병원 1개 조회
 	HospitalVO selectOne(int hosIdx);
-	//-----------------------------------------
+	//병원 동적 검색 + 결제완료된 병원 건수 cnt
+	int ajaxPaymentCnt(HospitalVO vo);
+	//병원 동적 검색 + 페이징
+	List<HospitalVO> getHosSearchPage(Map<String, Object> map);
 	//지수
+	//병원 동적 검색
 	List<HospitalVO> getHosSearch(HospitalVO vo);
 	List<HosReviewVO> getHosReview(int hosIdx);
 	// 사용자 예약 내역 조회

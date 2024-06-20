@@ -25,7 +25,10 @@
 		$.ajax("getHosSearch.do", { 
 	        type: 'GET',
 	        data: vo,
-	        success: function(data) {
+	        success: function(response) {
+	        	let data = response.hospitalList;
+                let pagingVO = response.pagingVO;
+                
 	        	$("#listDisp").empty();
  
 			    let dispHtml = "";
@@ -59,9 +62,35 @@
 			    }
 
 			    console.log('Final HTML:', dispHtml);
-
 			    
 			    $("#listDisp").html(dispHtml);
+			    
+			 // 페이징 처리
+             let pagingHtml = "";
+             //[이전]에 대한 사용여부 처리 
+             if (pagingVO.nowPage == 1) {
+                 pagingHtml += '<span class="disable">이전</span>';
+             } else {
+                 pagingHtml += '<span><a href="javascript:fetchData(\'' + category + '\', ' + (pagingVO.nowPage - 1) + ')">이전</a></span>';
+             }
+
+             for (let pageNo = pagingVO.beginPage; pageNo <= pagingVO.endPage; pageNo++) {
+                 if (pageNo == pagingVO.nowPage) {
+                     pagingHtml += '<span class="now">' + pageNo + '</span>';
+                 } else {
+                     pagingHtml += '<span><a href="javascript:fetchData(\'' + category + '\', ' + pageNo + ')">' + pageNo + '</a></span>';
+                 }
+             }
+
+             if (pagingVO.nowPage < pagingVO.totalPage) {
+                 pagingHtml += '<span><a href="javascript:fetchData(\'' + category + '\', ' + (pagingVO.nowPage + 1) + ')">다음</a></span>';
+             } else {
+                 pagingHtml += '<span class="disable">다음</span>';
+             }
+
+             $("#paging").html(pagingHtml);
+    
+			    
 	        },
 	        error: function() {
 	        	alert("실패");
@@ -78,6 +107,7 @@
 </head>
 <body>
 <%-- \${hosList} : ${hosList } --%>
+\${pagingVO} : ${pagingVO }
 	<div class="container">
 		
 		<h1>병원 검색</h1>
@@ -149,6 +179,48 @@
 				</tr>
 			</c:if>
 		</tbody>
+		
+		<tfoot id="paging">
+<!-- 		페이징 표시 없음 처리 -->
+			<tr>
+				<td colspan="6">
+					<!-- [이전]에 대한 사용여부 처리 -->
+					<c:if test="${pagingVO.nowPage == 1}">
+						<span class="disable">이전</span>
+					</c:if>
+					<c:if test="${pagingVO.nowPage != 1}">
+						<span>
+							<a href="hosMain.do?cPage=${pagingVO.nowPage - 1}">이전</a>
+						</span>
+					</c:if>
+						
+					<!-- 블록내에 표시할 페이지 태그 작성(시작~끝) -->
+					<c:forEach var="pageNo" begin="${pagingVO.beginPage}" end="${pagingVO.endPage}">
+					<c:choose>
+						<c:when test="${pageNo == pagingVO.nowPage}">
+							<span class="now">${pageNo}</span>
+						</c:when>
+						<c:otherwise>
+							<span>
+								<a href="hosMain.do?cPage=${pageNo}">${pageNo}</a>
+							</span>
+						</c:otherwise>
+					</c:choose>
+					</c:forEach>
+					
+					<!-- [다음]에 대한 사용여부 처리 -->
+					<c:if test="${pagingVO.nowPage < pagingVO.totalPage}">
+						<span>
+							<a href="hosMain.do?cPage=${pagingVO.nowPage + 1}">다음</a>
+						</span>
+					</c:if>
+					<c:if test="${pagingVO.nowPage >= pagingVO.totalPage}">
+						<span class="disable">다음</span>
+					</c:if>
+				</td>
+			</tr>
+			
+		</tfoot>
 	</table>
 	</div>
 </body>
