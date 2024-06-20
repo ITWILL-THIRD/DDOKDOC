@@ -6,10 +6,6 @@
 <html>
 <head>
 <meta charset='utf-8' />
-<jsp:include page="../common/navigation.jsp"/>
-<jsp:include page="../../css/commonCss.jsp"/>
-<jsp:include page="../../css/postListCss.jsp"/>
-
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/" ></script>
 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.css" rel="stylesheet">
@@ -18,6 +14,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@4.4.0/main.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<jsp:include page="../common/navigation.jsp"/>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/postListCss.jsp"/>
 <script>
 	//병원 일요일 휴무 체크
 	if (${hospital.sunDayOff == 'Y'}) {
@@ -248,7 +250,7 @@
         $("#listDisp").html(dispHtml);
 
         // 시간 선택 이벤트 리스너 설정
-        $(".time-btn").on("click", function() {
+        $(".btn").on("click", function() {
           if ($(this).hasClass("selected")) {
             $(this).removeClass("selected");
           } else {
@@ -268,7 +270,7 @@
   }
 
   function clearSelectedTime() {
-    $(".time-btn").removeClass("selected");
+    $(".btn").removeClass("selected");
     $("#selectTime").val("");
   }
   
