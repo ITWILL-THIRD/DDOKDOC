@@ -9,30 +9,30 @@
 						, SUNOPENTIME, SUNCLOSETIME, SUNLUNCHTIME, SUNENDLUNCHTIME
 						, LUNCHOFF, SATLUNCHOFF, SUNDAYOFF, SUNLUNCHOFF)
 		VALUES(#{hosIdx}
-				, TO_DATE('1970-01-01 ' || #{validOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
-				, TO_DATE('1970-01-01 ' || #{validLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
-				, TO_DATE('1970-01-01 ' || #{validSatOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validSatCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
-				, TO_DATE('1970-01-01 ' || #{validSatLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validSatEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
-				, TO_DATE('1970-01-01 ' || #{validSunOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validSunCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
-				, TO_DATE('1970-01-01 ' || #{validSunLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{validSunEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
+				, TO_DATE(SYSDATE || ' ' #{validOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{validCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
+				, TO_DATE(SYSDATE || ' ' #{validLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{validEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
+				, TO_DATE(SYSDATE || ' ' #{validSatOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{validSatCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
+				, TO_DATE(SYSDATE || ' ' #{validSatLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{validSatEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
+				, TO_DATE(SYSDATE || ' ' #{validSunOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{validSunCloseTime}, 'YYYY-MM-DD HH24:MI:SS')
+				, TO_DATE(SYSDATE || ' ' #{validSunLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{validSunEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS')
 				, COALESCE(#{lunchOff}, 'N'), COALESCE(#{satLunchOff}, 'N'), COALESCE(#{sunDayOff}, 'N'), COALESCE(#{sunLunchOff}, 'N'))
 	</insert>
 	
 		<!-- 	병원정보수정HOSTIME -->
 	<update id="updateHosTime" parameterType="HospitalVO">
     UPDATE HOSTIME
-    SET OPENTIME = TO_DATE('1970-01-01 ' || #{validOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        CLOSETIME = TO_DATE('1970-01-01 ' || #{validCloseTime}, 'YYYY-MM-DD HH24:MI:SS'),
-        LUNCHTIME = TO_DATE('1970-01-01 ' || #{validLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        ENDLUNCHTIME = TO_DATE('1970-01-01 ' || #{validEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
-        SATOPENTIME = TO_DATE('1970-01-01 ' || #{validSatOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        SATCLOSETIME = TO_DATE('1970-01-01 ' || #{validSatCloseTime}, 'YYYY-MM-DD HH24:MI:SS'),
-        SATLUNCHTIME = TO_DATE('1970-01-01 ' || #{validSatLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        SATENDLUNCHTIME = TO_DATE('1970-01-01 ' || #{validSatEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
-        SUNOPENTIME = TO_DATE('1970-01-01 ' || #{validSunOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        SUNCLOSETIME = TO_DATE('1970-01-01 ' || #{validSunCloseTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        SUNLUNCHTIME = TO_DATE('1970-01-01 ' || #{validSunLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
-        SUNENDLUNCHTIME = TO_DATE('1970-01-01 ' || #{validSunEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
+    SET OPENTIME = TO_DATE(SYSDATE || ' ' || #{validOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+        CLOSETIME = TO_DATE(SYSDATE || ' ' || #{validCloseTime}, 'YYYY-MM-DD HH24:MI:SS'),
+        LUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+        ENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
+        SATOPENTIME = TO_DATE(SYSDATE || ' ' || #{validSatOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+        SATCLOSETIME = TO_DATE(SYSDATE || ' ' || #{validSatCloseTime}, 'YYYY-MM-DD HH24:MI:SS'),
+        SATLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSatLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+        SATENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSatEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
+        SUNOPENTIME = TO_DATE(SYSDATE || ' ' || #{validSunOpenTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+        SUNCLOSETIME = TO_DATE(SYSDATE || ' ' || #{validSunCloseTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+        SUNLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSunLunchTime}, 'YYYY-MM-DD HH24:MI:SS'), 
+        SUNENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{validSunEndLunchTime}, 'YYYY-MM-DD HH24:MI:SS'),
         LUNCHOFF = COALESCE(#{lunchOff}, 'N'), 
         SATLUNCHOFF = COALESCE(#{satLunchOff}, 'N'), 
         SUNDAYOFF = COALESCE(#{sunDayOff}, 'N'), 

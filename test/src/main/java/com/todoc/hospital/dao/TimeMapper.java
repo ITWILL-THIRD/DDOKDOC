@@ -9,14 +9,14 @@ import com.todoc.hospital.HospitalVO;
 public interface TimeMapper {
 	 @Insert("INSERT INTO HOSTIME (HOSIDX, OPENTIME, CLOSETIME, LUNCHTIME, ENDLUNCHTIME, SATOPENTIME, SATCLOSETIME, SATLUNCHTIME, SATENDLUNCHTIME"
 			+ ", SUNOPENTIME, SUNCLOSETIME, SUNLUNCHTIME, SUNENDLUNCHTIME, LUNCHOFF, SATLUNCHOFF, SUNDAYOFF, SUNLUNCHOFF)"
-			+ "VALUES(#{hosIdx}, TO_DATE('1970-01-01 ' || #{openTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{closeTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
-			+ ", TO_DATE('1970-01-01 ' || #{lunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{endLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
-			+ ", TO_DATE('1970-01-01 ' || #{satOpenTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{satCloseTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
-			+ ", TO_DATE('1970-01-01 ' || #{satLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{satEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
-			+ ", TO_DATE('1970-01-01 ' || #{sunOpenTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{sunCloseTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
-			+ ", TO_DATE('1970-01-01 ' || #{sunLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('1970-01-01 ' || #{sunEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
+			+ "VALUES((SELECT MAX(NVL(HOSIDX, 0)) + 1 FROM HOSTIME), TO_DATE(SYSDATE || ' ' || #{openTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{closeTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
+			+ ", TO_DATE(SYSDATE || ' ' || #{lunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{endLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
+			+ ", TO_DATE(SYSDATE || ' ' || #{satOpenTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{satCloseTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
+			+ ", TO_DATE(SYSDATE || ' ' || #{satLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{satEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
+			+ ", TO_DATE(SYSDATE || ' ' || #{sunOpenTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{sunCloseTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
+			+ ", TO_DATE(SYSDATE || ' ' || #{sunLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(SYSDATE || ' ' || #{sunEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS')"
 			+ ", COALESCE(#{lunchOff}, 'N'), COALESCE(#{satLunchOff}, 'N'), COALESCE(#{sunDayOff}, 'N'), COALESCE(#{sunLunchOff}, 'N'))")
-	 int insertTime(HospitalVO vo
+	 int insertTime(int hosIdx
 			 , @Param("openTimeStr")String openTimeStr, @Param("closeTimeStr")String closeTimeStr
 			 , @Param("lunchTimeStr")String lunchTimeStr, @Param("endLunchTimeStr")String endLunchTimeStr
 			 , @Param("satOpenTimeStr")String satOpenTimeStr, @Param("satCloseTimeStr")String satCloseTimeStr
@@ -29,18 +29,18 @@ public interface TimeMapper {
 
 	
 	 @Update("UPDATE HOSTIME " +
-		        "SET OPENTIME = TO_DATE('1970-01-01 ' || #{openTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "CLOSETIME = TO_DATE('1970-01-01 ' || #{closeTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "LUNCHTIME = TO_DATE('1970-01-01 ' || #{lunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "ENDLUNCHTIME = TO_DATE('1970-01-01 ' || #{endLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "SATOPENTIME = TO_DATE('1970-01-01 ' || #{satOpenTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "SATCLOSETIME = TO_DATE('1970-01-01 ' || #{satCloseTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "SATLUNCHTIME = TO_DATE('1970-01-01 ' || #{satLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "SATENDLUNCHTIME = TO_DATE('1970-01-01 ' || #{satEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "SUNOPENTIME = TO_DATE('1970-01-01 ' || #{sunOpenTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "SUNCLOSETIME = TO_DATE('1970-01-01 ' || #{sunCloseTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "SUNLUNCHTIME = TO_DATE('1970-01-01 ' || #{sunLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
-		        "SUNENDLUNCHTIME = TO_DATE('1970-01-01 ' || #{sunEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "SET OPENTIME = TO_DATE(SYSDATE || ' ' || #{openTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "CLOSETIME = TO_DATE(SYSDATE || ' ' || #{closeTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "LUNCHTIME = TO_DATE(SYSDATE || ' ' || #{lunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "ENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{endLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "SATOPENTIME = TO_DATE(SYSDATE || ' ' || #{satOpenTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "SATCLOSETIME = TO_DATE(SYSDATE || ' ' || #{satCloseTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "SATLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{satLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "SATENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{satEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "SUNOPENTIME = TO_DATE(SYSDATE || ' ' || #{sunOpenTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "SUNCLOSETIME = TO_DATE(SYSDATE || ' ' || #{sunCloseTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "SUNLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{sunLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
+		        "SUNENDLUNCHTIME = TO_DATE(SYSDATE || ' ' || #{sunEndLunchTimeStr}, 'YYYY-MM-DD HH24:MI:SS'), " +
 		        "LUNCHOFF = COALESCE(#{lunchOff}, 'N'), " +
 		        "SATLUNCHOFF = COALESCE(#{satLunchOff}, 'N'), " +
 		        "SUNDAYOFF = COALESCE(#{sunDayOff}, 'N'), " +

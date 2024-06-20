@@ -19,9 +19,9 @@
 	
 	<!-- 공지 입력 -->
 	<insert id="insertNotice" parameterType="NoticeVO">
-		INSERT INTO NOTICE(NOTICEIDX, NOTICETITLE, NOTICECONTENT, NOTICEDATE, HIT, HOSIDX)
+		INSERT INTO NOTICE(NOTICEIDX, NOTICETITLE, NOTICECONTENT, NOTICEDATE, HOSIDX)
 		VALUES((SELECT NVL(MAX(NOTICEIDX), 0) + 1 FROM NOTICE), #{noticeTitle}, #{noticeContent},
-				SYSDATE, 0, #{hosIdx})
+				SYSDATE, #{hosIdx})
 	</insert>
 	
 	<!-- 공지 수정 -->

@@ -402,7 +402,7 @@ public class UserController {
       try {
          System.out.println("timeMapper 실행 전, vo : " + vo);
          //hosTime 테이블 입력
-         int cntHosTime = timeMapper.insertTime(vo, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
+         int cntHosTime = timeMapper.insertTime(insertHosIdx, validOpenTime, validCloseTime, validLunchTime, validEndLunchTime
                         , validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime
                         , validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime
                         , lunchOff, satLunchOff, sunDayOff, sunLunchOff);
