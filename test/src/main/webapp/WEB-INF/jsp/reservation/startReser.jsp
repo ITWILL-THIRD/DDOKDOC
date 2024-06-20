@@ -18,7 +18,18 @@
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@4.4.0/main.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+$(document).ready(function(){
+	const notice = '${notice}';
+	if (notice != "") {
+    	$('#exampleModal').modal('show');
+	}
+  });
+	
 	//병원 일요일 휴무 체크
 	if (${hospital.sunDayOff == 'Y'}) {
 		alert(${hospital.sunDayOff == 'Y'});
@@ -274,6 +285,15 @@
         alert("진료볼 마이펫을 선택하세요");
         return false; 
     }
+    if (selectedDate == "") {
+        alert("진료 날짜를 선택하세요");
+        return false; 
+    }
+    if (selectedTime == "") {
+        alert("진료 시간을 선택하세요");
+        return false; 
+    }
+    
     if (strGuardian == null || strGuardianPhone == null) {
     	alert("보호자 정보를 입력하세요");
     	return false;
@@ -420,6 +440,7 @@
 \${session.getAttribute } : ${userIdx }<br> --%>
 <%-- \${hospital } : ${hospital }<br>
 \${hosHoliday } : ${hosHoliday }<br> --%>
+\${notice } : ${notice }<br>
 
   <div id="container">
 	<h1>진료 예약하기</h1>
@@ -463,6 +484,25 @@
     </div>
     
     
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">공지사항</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+			${notice.noticeContent }          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>

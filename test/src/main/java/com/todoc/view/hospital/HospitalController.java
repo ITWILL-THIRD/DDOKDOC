@@ -79,8 +79,10 @@ public class HospitalController {
 	    model.addAttribute("reviewList", reviewList);
 	    
 	    // 공지사항 전체 조회
-	    List<NoticeVO> noticeList = noticeService.getNoticeList(hosIdx);
-	    model.addAttribute("noticeList", noticeList);
+		/*
+		 * List<NoticeVO> noticeList = noticeService.getNoticeList(hosIdx);
+		 * model.addAttribute("noticeList", noticeList);
+		 */
 	    
 	    // 병원 이미지 전체 조회
 	    List<HosImgVO> hosImgList = hospitalService.getHosImgList(hosIdx);
