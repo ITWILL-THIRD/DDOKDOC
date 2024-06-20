@@ -50,7 +50,7 @@ public class HospitalController {
 	    if (user != null) {
 	        userIdx = user.getUserIdx();
 	    }
-	    
+	     
 	    ReservationVO reserVo = new ReservationVO();
 	    reserVo.setUserIdx(userIdx);
 	    reserVo.setHosIdx(hosIdx);
@@ -73,12 +73,16 @@ public class HospitalController {
 	    List<HosReviewVO> reviewList = hospitalService.getHosReview(hosIdx);
 	    model.addAttribute("reviewList", reviewList);
 	    
-	    // 공지사항 전체 조회
-		/*
-		 * List<NoticeVO> noticeList = noticeService.getNoticeList(hosIdx);
-		 * model.addAttribute("noticeList", noticeList);
-		 */
-	    
+	    //공지사항
+	    HospitalVO vo = new HospitalVO();
+  		hosIdx = vo.getHosIdx();
+  		NoticeVO notice = null;
+  		
+  		if (noticeService.getNotice(hosIdx) != null) {
+  			notice = noticeService.getNotice(hosIdx);
+  		}
+  		model.addAttribute("notice", notice);
+  		
 	    // 병원 이미지 전체 조회
 	    List<HosImgVO> hosImgList = hospitalService.getHosImgList(hosIdx);
 	    model.addAttribute("imgList", hosImgList);

@@ -71,9 +71,30 @@
 		
 		// 선택된 진료 완료 상태 내역의 reserIdx를 hidden필드에 설정
 	    function updateHiddenField() {
-	        var selectBox = document.getElementById("finishSelect");
-	        var selectedValue = selectBox .options[selectBox.selectedIndex].value;
-	        document.getElementById("selectedReserIdx").value = selectedValue;
+	        var finishSelect = document.getElementById("finishSelect");
+	        var selectedReserIdx = document.getElementById("selectedReserIdx");
+	        selectedReserIdx.value = finishSelect.value;
+	    }
+	    function validateForm() {
+	        var finishSelect = document.getElementById("finishSelect");
+	        if (finishSelect.value === "") {
+	            alert("방문일을 선택해주세요.");
+	            return false; // 폼 제출을 막음
+	        }
+
+	        var ratingChecked = document.querySelector('input[name="score"]:checked');
+	        if (!ratingChecked) {
+	            alert("별점을 선택해주세요.");
+	            return false; // 폼 제출을 막음
+	        }
+
+	        var reviewContent = document.querySelector('input[name="content"]').value.trim();
+	        if (reviewContent === "") {
+	            alert("리뷰 내용을 작성해주세요.");
+	            return false; // 폼 제출을 막음
+	        }
+
+	        return true; // 폼 제출 허용
 	    }
 
 </script>

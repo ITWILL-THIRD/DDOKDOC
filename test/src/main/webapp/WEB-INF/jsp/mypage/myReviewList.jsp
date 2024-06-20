@@ -153,34 +153,35 @@
 			<tbody>
 				<c:forEach var="review" items="${myReviewList}">
 				    <tr id="view_${review.reviewIdx}">
-				    	<td>${review.hosName }</td>
-				        <td>${review.reserDate}</td>
-				        <td id="content_view_${review.reviewIdx}">${review.content}</td>
-				        <td id="score_view_${review.reviewIdx}">
-				            <c:choose>
-				                <c:when test="${review.score eq 1}">&#9733;</c:when>
-				                <c:when test="${review.score eq 2}">&#9733;&#9733;</c:when>
-				                <c:when test="${review.score eq 3}">&#9733;&#9733;&#9733;</c:when>
-				                <c:when test="${review.score eq 4}">&#9733;&#9733;&#9733;&#9733;</c:when>
-				                <c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
-				            </c:choose>
+				    <td>${review.hosName}</td>
+				    <td>${review.reserDate}</td>
+				    <td id="content_view_${review.reviewIdx}">${review.content}</td>
+				    <td id="score_view_${review.reviewIdx}">
+				        <c:choose>
+				            <c:when test="${review.score eq 1}">&#9733;</c:when>
+				            <c:when test="${review.score eq 2}">&#9733;&#9733;</c:when>
+				            <c:when test="${review.score eq 3}">&#9733;&#9733;&#9733;</c:when>
+				            <c:when test="${review.score eq 4}">&#9733;&#9733;&#9733;&#9733;</c:when>
+				            <c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
+				        </c:choose>
+				    </td>
+				    <td>${review.reviewDate}</td>
+				    <!-- 사용자 본인만 리뷰 수정,삭제 가능 -->
+				    <c:if test="${review.userIdx eq userIdx}">
+				        <td>
+				            <button class="editReview_btn" type="button" onclick="editReview(${review.reviewIdx})">수정</button>
 				        </td>
-				        <td>${review.reviewDate}</td>
-				        <!-- 사용자 본인만 리뷰 수정,삭제 가능 -->		        
-				        <c:if test="${review.userIdx eq userIdx}">	        
-					        <td><button class="editReview_btn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
-					    	<form id="deleteReviewForm_${review.reviewIdx }" action="myReviewDelete.do" action="POST">				    
-						        <td>				 
-						        	<input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
-							        <input type="hidden" name="hosIdx" value="${review.hosIdx}">			        	
-       						        <input type="hidden" name="reserIdx" value="${review.reserIdx}">			        	
-						        	<input type="submit" value="삭제" onClick="confirmDelete(${review.reviewIdx})">    
-						        </td> 
-						    </form>
-				        </c:if>
-				    </tr>
-				
-				
+				        <form id="deleteReviewForm_${review.reviewIdx}" action="myReviewDelete.do" method="POST" onsubmit="return confirmDelete(${review.reviewIdx})">
+				            <td>
+				                <input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
+				                <input type="hidden" name="hosIdx" value="${review.hosIdx}">
+				                <input type="hidden" name="reserIdx" value="${review.reserIdx}">
+				                <input type="submit" value="삭제">
+				            </td>
+				        </form>
+				    </c:if>
+				</tr>
+
 				    <tr id="edit_${review.reviewIdx}" class="hidden">
 					    <form action="myReviewUpdate.do" method="POST">      
 					        <td>
@@ -223,10 +224,20 @@
 	}
 	// 리뷰 삭제 버튼 클릭 이벤트
 	function confirmDelete(reviewIdx) {
-	    if (confirm("삭제하시겠습니까?")) {
+	    // 확인 창을 띄워서 삭제 여부를 사용자에게 묻습니다.
+	    const isConfirmed = confirm("삭제하시겠습니까?");
+	    if (isConfirmed) {
+	        // 확인 버튼을 누른 경우, 폼을 제출합니다.
 	        document.getElementById("deleteReviewForm_" + reviewIdx).submit();
+	    } else {
+	        // 취소 버튼을 누른 경우, 폼 제출을 막습니다.
+	        console.log("삭제가 취소되었습니다.");
 	    }
+	    // 항상 false를 반환하여 기본 폼 제출을 막습니다.
+	    return false;
 	}
+
+
 	// 리뷰 수정 취소 버튼 클릭 이벤트
 	function cancelEdit(reviewIdx) {
 	    console.log("cancelEdit Index: " + reviewIdx);

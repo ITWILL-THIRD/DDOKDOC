@@ -1,16 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <style>
+
 	#container {
 	    padding: 0;
 	    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	    font-size: 14px;
-	    width: 1200px;
+	    width: 1100px;
 	    display: flex;
 	    margin:0 auto;
 	}
-	h3, p { text-align: center; }
-	.center { text-align: center; }
+	
+	p { 
+		text-align: center; 
+	}
+	.center { 
+		text-align: center; 
+	}
 
 	table { 
 		border-collapse: collapse; 
@@ -21,8 +27,19 @@
 		margin: 0 auto;
 		padding: 5px;
 	}
-	h1 {margin-left: 20px;}
 	
+	h1 {
+		margin-left: 20px;
+	}
+	
+	select {
+		width: 230px;
+		height: 30px;
+	}
+	
+	option {
+		height: 40px;
+	}
 	
 	#reservation {
 		border: none;
@@ -30,15 +47,24 @@
 		height: 30px;
 		border-radius: 10px / 10px;
 		background-color: #B6E5FF;
+		pading-top: 20px;
 		float: right;
+		left: 200px;
+		top: 50px;
+	}
+	
+	#reservation:hover  {
+		color: #FFFFFF; 
+		background-color: #86CFF8;
+	}
+	
+	/* -----병원정보----- */
+	#hosContainer{
 		margin-top: 20px;
 	}
 	
-	#reservation:hover  {background-color: #C0E9FF;}
-	
-	/* -----병원정보----- */
 	#hospital {
-	    width: 500px; /* 필요에 따라 조정 */
+	    width: 400px;
 	    display: flex;
 	    align-items: center; /* 수직 중앙 정렬 */
 	    vertical-align: middle;
@@ -47,47 +73,67 @@
 	    margin-top: 50px
 	    margin-right: 20px;
 	}
-	#hospital table {
-		width: 400px;
-		height: 400px;
-		font-size: 14px;
-	}
-	
-	#hospital th {color: #B6E5FF;}
-	
-	#hospital td{text-align: left;}
 	
 	#hosDetailContainer{
-		margin: 20px;
-		width: 500px;
-		height: 400px;
+		margin: 10px;
+		padding: 20px;
+		width: 430px;
+		height: 800px;
 		border: 1px solid #B9B9B9;
-		border-radius: 40px / 40px;
+		border-radius: 40px 40px;
 	}
 	
-	#hosContainer{margin-top: 20px}
+	#hospital table {
+		width: 400px;
+		height: 300px;
+		font-size: 16px;
+	}
 	
-	.hosTime{height: 20px;}
+	#hospital th {
+		color: #B6E5FF;
+	}
+	
+	#hospital td {
+		text-align: left;
+	}
+
+	.hosTime{
+		height: 20px;
+	}
 	
 	/* -----submit 버튼-----  */
 	.sbtn {
 		border: none;
 		width:80px;
 		height: 30px;
-		border-radius: 10px / 10px;
+		border-radius: 10px 10px;
 		background-color: #B6E5FF;
 		margin: 10px;
 	}
-	.sbtn:hover  {background-color: #C0E9FF;}
+	.sbtn:hover  {
+		color: #FFFFFF; 
+		background-color: #86CFF8;
+	}
 	
+	.ubtn {
+		border: none;
+		width:40px;
+		height: 20px;
+		border-radius: 10px 10px;
+		background-color: #B6E5FF;
+		margin: 5px;
+	}
+	.ubtn:hover  {
+		color: #FFFFFF; 
+		background-color: #86CFF8;
+	}
 	
 	/* -----지도----- */
 	
 	#map {
-		margin: 50px 20px 20px 20px;
 	    width: 400px;
 	    height: 400px;
-	    top: 35px;
+	    top:20px;
 	    display: flex;
 	    align-items: center; /* 수직 중앙 정렬 */
 	    vertical-align: top;
@@ -98,14 +144,42 @@
 	/* -----사진----- */
 	#img {
 	    width: 100%; /* 필요에 따라 조정 */
-	    position : absolute
 	    vertical-align: middle;
 	}
+	.carousel-item {
+	    display: flex;
+	    justify-content: center; /* 이미지를 중앙 정렬 */
+	    align-items: center; /* 이미지를 수직으로 중앙 정렬 */
+	    width: 400px; /* 부모 요소의 너비 고정 */
+	    height: 400px; /* 부모 요소의 높이 고정 */
+	    overflow: hidden; /* 부모 요소를 벗어나는 이미지 부분 숨김 */
+	    margin: 0 auto; /* 부모 요소를 중앙에 배치 */
+	}
+	
+	.carousel-item img {
+	    width: 400px; /* 부모 요소의 너비에 맞추기 */
+	    height: 400px; /* 부모 요소의 높이에 맞추기 */
+	    object-fit: cover; /* 이미지가 요소를 채우도록 조정 */
+	    object-position: center; /* 이미지의 중심을 기준으로 조정 */
+	}
+
 	
 	/* -----공지사항-----  */
 	#post {
-		position : absolute
+		width: 300px;
+		height: 400px;
 	    vertical-align: middle;
+	    margin: 30px;
+	    
+	}
+	
+	#postContainer {
+		margin: 70px 20px 50px 20px;
+		top: 50px;
+		width: 590px;
+		height: 450px;
+		border: 1px solid #B9B9B9;
+		border-radius: 40px 40px;
 	}
 	
 /* 	.reviewContainer{
@@ -118,15 +192,25 @@
 	
 	/* -----리뷰----- */
 	#reviewContainer {
-		margin-top: 60px;
+    	margin: 20px;
 	}
 	
-	#review select {float: left;}
-	#review table {text-align: center;}
+	#review select {
+	    float: left;
+	}
+	
+	#review table {
+	    text-align: center;
+	}
+	
+	#review tr {
+	    border-top: 1px solid #f0f1f1;
+	    border-bottom: 1px solid #f0f1f1;
+	}
+
 	.hidden {
 	    display: none;
 	}
-	
 	
 	.star-rating {
 	  display:flex;
@@ -137,6 +221,7 @@
 	  padding:0 .2em;
 	  text-align:center;
 	  width:5em;
+	  margin-left: 10px;
 	}
 	
 	.star-rating input {
@@ -187,6 +272,17 @@
 	.holiday {
 		color: red;
 		font: bold;
+	}
+	
+	.form {
+		position: relative;
+		margin-top: 3px;
+		width: 350px;
+		height: 30px;
+		border: 1px solid #bbb;
+		border-radius: 7px;
+/* 		padding: 10px 12px; */
+		font-size: 14px;
 	}
 	
 	
