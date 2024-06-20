@@ -70,7 +70,7 @@
 	  color: #B6E5FF;
 	}
 	
-	.adminDropdown {
+	.adminDropdown, .userDropdown {
 		float:right;
 		position: relative;
 		display: inline-block;
@@ -83,10 +83,10 @@
  	  	top: 66px; /* 69px */
 		background-color: #f9f9f9;
    		min-width: 130px; /* 가로 */
-   		width: 0px; /* 세로 */
+   		width: 150px; /* 세로 */
   		z-index: 1;  
 	}
-	.adminDropdown:hover .dropdownList {
+	.adminDropdown:hover .dropdownList, .userDropdown:hover .dropdownList {
 		display: block;
 	}
 /* 	.dropdownList:active { */
@@ -135,7 +135,15 @@
 					</div>
 		    	</c:when>
 		    	<c:otherwise>
-					<a href="../mypage/myPage.do">마이페이지</a>
+		    		<div class="userDropdown">
+						<a href="../mypage/myPage.do">마이페이지</a>
+						<div class="dropdownList">
+							<a href="myReserList.do">진료예약내역</a>
+							<a href="myCancleReserList.do">취소예약내역</a>
+							<a href="myReviewList.do">지난예약내역</a>
+							<a href="myPostList.do">나의 게시물</a>
+						</div>	
+					</div>
 		    	</c:otherwise>
     		</c:choose>
     	</c:if>

@@ -45,7 +45,7 @@
 		color: #2C307D;
 		margin-right: 5px;
 	}
-	.btn:hover, .fileBtn:hover, #clearBtn:hover {
+	.btn:active, .fileBtn:active, #clearBtn:active {
 		background-color: #2C307D;
 		color: #FFFFFF;
 	}
@@ -69,7 +69,7 @@
 	}
 	
 	/* 입력필드 */
-	input[type="text"], input[type="number"], select {
+	input[type="text"], input[type="number"], input[type="password"], select {
 	    width: calc(100% - 20px);
 	    padding: 8px;
 	    margin: 8px 0;
@@ -77,6 +77,19 @@
 	    border-radius: 10px;
 	    box-sizing: border-box;
 	}
+	
+	/* 비밀번호 버튼 배치 */
+	.pwdField {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		border: none;
+	}
+	.pwdInput {
+	    margin-right: 5px;
+	}
+
+
 </style>
 </head>
 <body>
