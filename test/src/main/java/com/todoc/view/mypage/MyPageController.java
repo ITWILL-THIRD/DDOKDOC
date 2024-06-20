@@ -69,10 +69,14 @@ public class MyPageController {
 	@PostMapping("/updateUser.do")
 	public String updateUser(@RequestParam("file") MultipartFile file, @ModelAttribute("user") UserVO vo, HttpSession session) {
 	    try {
-	    	String userImg = gcsService.uploadFile(file);
-	    	vo.setUserImg(userImg);
 	    	UserVO user = (UserVO) session.getAttribute("user");
-            vo.setUserIdx(user.getUserIdx());
+	    	vo.setUserIdx(user.getUserIdx());
+	    	if (!file.isEmpty()) {
+	    		String userImg = gcsService.uploadFile(file);
+	    		vo.setUserImg(userImg);
+	    	} else {
+	    		vo.setUserImg(user.getUserImg()); // 기존 이미지 유지
+	    	}
             System.out.println("내 정보 수정");
             System.out.println("vo : " + vo);
             userService.updateUser(vo);
@@ -127,7 +131,7 @@ public class MyPageController {
 		return "redirect:/index.jsp";
 	}
 	
-	
+	//마이페이지
     @RequestMapping("/myPage.do")
     public String myPage(Model model, HttpSession session) {
     	UserVO user = (UserVO) session.getAttribute("user");
@@ -138,23 +142,25 @@ public class MyPageController {
 	    umo.setUserIdx(user.getUserIdx()); // 세션에서 가져온 user의 userIdx를 설정
 	    umo = userMembershipService.getMembership(umo);
 	    
+	    // 마이펫 조회
+	    List<MyPetVO> pets = myPetService.getMyPetList(user.getUserIdx());
+	    model.addAttribute("pets", pets);
+	    model.addAttribute("umo", umo);
+	    model.addAttribute("user", user);
+	    
 	    // 멤버십 정보가 없을 경우 처리
 	    if (umo == null) {
 	        return "mypage/myPage"; // 멤버십 정보가 없을 때의 페이지로 이동
 	    }
-	 // 날짜 변환
-        SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd ");
+	    // 날짜 변환
+	    SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+	    SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd ");
 
-        String startFormattedDate = targetFormat.format(umo.getMemstart());
-        String endFormattedDate = targetFormat.format(umo.getMemend());
-        umo.setStartformattedDate(startFormattedDate);
-        umo.setEndformattedDate(endFormattedDate);
-	    
-    	List<MyPetVO> pets = myPetService.getMyPetList(user.getUserIdx());
-    	model.addAttribute("pets", pets);
-    	model.addAttribute("umo", umo);
-    	System.out.println("umo : " + umo);
+	    String startFormattedDate = targetFormat.format(umo.getMemstart());
+	    String endFormattedDate = targetFormat.format(umo.getMemend());
+	    umo.setStartformattedDate(startFormattedDate);
+	    umo.setEndformattedDate(endFormattedDate);
+
         return "mypage/myPage";
     }
     
