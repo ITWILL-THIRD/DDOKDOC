@@ -150,6 +150,9 @@ public class HosApprovalController {
 		//2. 현재 페이지 번호 구하기
 		String cPage = request.getParameter("cPage");
 		if (cPage != null) {
+			if (cPage.equals("0")) {
+				cPage = "1";
+			}
 			p.setNowPage(Integer.parseInt(cPage));
 			if (p.getTotalPage() < Integer.parseInt(cPage)) {
 				System.out.println("p.getTotalPage() < cPage 경우");

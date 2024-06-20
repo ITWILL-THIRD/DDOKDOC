@@ -145,12 +145,14 @@
 				<th width="200">진료시간</th>
 				<th width="250">전화번호</th>
 				<th width="200">사업자 등록증</th>
-				<th width="150">승인 상태</th>
-				<th width="100">승인 관리</th>
+				<th width="150">상태</th>
+				<th width="150">승인 관리</th>
 			</tr>
 		</thead>
+		<c:set var="hasSearchHos" value="false" scope="page"/>
 		<tbody id="listDisp">
 		<c:forEach var="hospital" items="${hosList}">
+			<c:set var="hasSearchHos" value="true" scope="page"/>
 			<tr>
 				<td class="center">${hospital['hosIdx'] }</td>
 				<td class="center">${hospital.animal }</td>
@@ -176,8 +178,17 @@
 				</td>
 			</tr>
 		</c:forEach>
+		
+		<c:if test="${not hasSearchHos}">
+			<tr>
+				<td colspan="9">검색 결과가 없습니다.</td>
+			</tr>
+		</c:if>
 		</tbody>
+		
 		<tfoot>
+<!-- 		페이징 표시 없음 처리 -->
+<%-- 			<c:set var="hasPage" value="false" scope="page"/> --%>
 			<tr>
 				<td colspan="9">
 					<!-- [이전]에 대한 사용여부 처리 -->
@@ -308,6 +319,7 @@
 					</c:if>
 				</td>
 			</tr>
+			
 		</tfoot>
 	</table>
 	</form>
