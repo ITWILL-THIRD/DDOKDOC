@@ -6,9 +6,6 @@
 <html>
 <head>
 <meta charset='utf-8' />
-<jsp:include page="../common/navigation.jsp"/>
-<jsp:include page="../../css/commonCss.jsp"/>
-<jsp:include page="../../css/postListCss.jsp"/>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/" ></script>
@@ -19,9 +16,11 @@
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@4.4.0/main.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<jsp:include page="../common/navigation.jsp"/>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/postListCss.jsp"/>
 <script>
 $(document).ready(function(){
 	const notice = '${notice}';
@@ -50,7 +49,7 @@ $(document).ready(function(){
     
     // 휴무일 목록을 받아옴
     var closedDates = [
-	    <c:forEach var="date" items="${hosHoliday}">
+    	<c:forEach var="date" items="${hosHoliday}">
 	        '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
 	    </c:forEach>
 	];
@@ -164,96 +163,97 @@ $(document).ready(function(){
 
   
   function getJsonTimeData(selectedDate, selectedDay) {
-    alert("예약 가능한 시간");
-    alert("selectedDay : " + selectedDay)
-    var selectedTime = null; 
+	    alert("예약 가능한 시간");
+	    alert("selectedDay : " + selectedDay)
+	    var selectedTime = null; 
 
-    // 병원 ID 및 선택된 날짜를 포함하여 데이터 전송
-    let vo = {
-      hosIdx: ${hospital.hosIdx },
-      reserDate: selectedDate,
-      dayStr: selectedDay
-    };
-    console.log(vo);
-    console.log(JSON.stringify(vo));
+	    // 병원 ID 및 선택된 날짜를 포함하여 데이터 전송
+	    let vo = {
+	      hosIdx: ${hospital.hosIdx },
+	      reserDate: selectedDate,
+	      dayStr: selectedDay
+	    };
+	    console.log(vo);
+	    console.log(JSON.stringify(vo));
 
-    $.ajax("getAvailableTimes.do", {
-      type: "post",
-      data: JSON.stringify(vo),
-      contentType: "application/json",
-      dataType: "json",
-      success: function(response) {
-        alert("성공~~");
-        console.log(response);
-        
-        let dispHtml = `<p id="timeListTitle">예약 가능 시간</p>`;
-        
-        var currentTime = new Date();
-        var currentHour = currentTime.getHours();
-        var currentMinute = currentTime.getMinutes();
-        
-        for (let time of response.availableTimes) {
-          if (response.reservedTimes.includes(time)) {
-            dispHtml += `<button type="button" class="btn" data-time="${time}" disabled>`;
-          } else {
-        	  var timeComponents = time.split(":");
-              var hour = parseInt(timeComponents[0]);
-              var minute = parseInt(timeComponents[1]);
-              
-              var todayDate = new Date();
-              todayDate.setHours(0, 0, 0, 0); // 오늘 날짜와 시간 초기화
-              
-              var selectedDateObj = new Date(selectedDate + "T00:00:00"); // 문자열을 Date 객체로 변환
-              
-           	  console.log("비교 : " + (selectedDateObj.getTime() === todayDate.getTime()));
-              console.log(selectedDateObj.getTime());
-              console.log(todayDate.getTime());
-              
-              var today = new Date();
-              
-              if (selectedDateObj.getTime() === todayDate.getTime()) {// 날짜 비교
-            	  console.log("if문 내부 true");
-                  var currentHour = today.getHours();
-                  var currentMinute = today.getMinutes();
-                  
-                  console.log(currentHour);
-                  console.log(currentMinute);
-                  
-                  if (hour < currentHour || (hour === currentHour && minute < currentMinute)) {
-                      dispHtml += `<button type="button" class="btn" data-time="${time}" disabled>`;
-                  } else {
-                      dispHtml += `<button type="button" class="btn" data-time="${time}">`;
-                  }
-              } else {
-                  dispHtml += `<button type="button" class="btn" data-time="${time}">`;
-              }
-              
-              
-          }
-          dispHtml += time;
-          dispHtml += "</button><br>";
-        }
-        $("#listDisp").html(dispHtml); 
+	    $.ajax("getAvailableTimes.do", {
+	      type: "post",
+	      data: JSON.stringify(vo),
+	      contentType: "application/json",
+	      dataType: "json",
+	      success: function(response) {
+	        alert("성공~~");
+	        console.log(response);
+	        
+	        let dispHtml = `<p id="timeListTitle">예약 가능 시간</p>`;
+	        
+	        var currentTime = new Date();
+	        var currentHour = currentTime.getHours();
+	        var currentMinute = currentTime.getMinutes();
+	        
+	        for (let time of response.availableTimes) {
+	          if (response.reservedTimes.includes(time)) {
+	            dispHtml += `<button type="button" class="btn" data-time="${time}" disabled>`;
+	          } else {
+	        	  var timeComponents = time.split(":");
+	              var hour = parseInt(timeComponents[0]);
+	              var minute = parseInt(timeComponents[1]);
+	              
+	              var todayDate = new Date();
+	              todayDate.setHours(0, 0, 0, 0); // 오늘 날짜와 시간 초기화
+	              
+	              var selectedDateObj = new Date(selectedDate + "T00:00:00"); // 문자열을 Date 객체로 변환
+	              
+	           	  console.log("비교 : " + (selectedDateObj.getTime() === todayDate.getTime()));
+	              console.log(selectedDateObj.getTime());
+	              console.log(todayDate.getTime());
+	              
+	              var today = new Date();
+	              
+	              if (selectedDateObj.getTime() === todayDate.getTime()) {// 날짜 비교
+	            	  console.log("if문 내부 true");
+	                  var currentHour = today.getHours();
+	                  var currentMinute = today.getMinutes();
+	                  
+	                  console.log(currentHour);
+	                  console.log(currentMinute);
+	                  
+	                  if (hour < currentHour || (hour === currentHour && minute < currentMinute)) {
+	                      dispHtml += `<button type="button" class="btn" data-time="${time}" disabled>`;
+	                  } else {
+	                      dispHtml += `<button type="button" class="btn" data-time="${time}">`;
+	                  }
+	              } else {
+	                  dispHtml += `<button type="button" class="btn" data-time="${time}">`;
+	              }
+	              
+	              
+	          }
+	          dispHtml += time;
+	          dispHtml += "</button><br>";
+	        }
+	        $("#listDisp").html(dispHtml); 
 
-        // 시간 선택 이벤트 리스너 설정
-        $(".btn").on("click", function() {
-          if ($(this).hasClass("selected")) {
-            $(this).removeClass("selected");
-          } else {
-            clearSelectedTime();
-            $(this).addClass("selected");
-            let selectedTime = $(this).text();  // 선택된 시간 가져오기
-            $('#selectTime').val(selectedTime); // resertime에 선택된 시간 저장
-          }
-        });
+	        // 시간 선택 이벤트 리스너 설정
+	        $(".btn").on("click", function() {
+	          if ($(this).hasClass("selected")) {
+	            $(this).removeClass("selected");
+	          } else {
+	            clearSelectedTime();
+	            $(this).addClass("selected");
+	            let selectedTime = $(this).text();  // 선택된 시간 가져오기
+	            $('#selectTime').val(selectedTime); // resertime에 선택된 시간 저장
+	          }
+	        });
 
-      },
-      error: function() {
-        alert("실패~~");
-      }
-    });
+	      },
+	      error: function() {
+	        alert("실패~~");
+	      }
+	    });
 
-  }
+	  }
+
 
   function clearSelectedTime() {
     $(".btn").removeClass("selected");
@@ -310,6 +310,7 @@ $(document).ready(function(){
   
 </script>
 <style>
+	
    #selectPetDiv, #selectDateTimeDiv {
 	float: left;
     vertical-align: top;
@@ -430,6 +431,33 @@ $(document).ready(function(){
 	  box-shadow: 0 5px 20px rgba(0,0,0,0.25), 0 3px 5px rgba(0,0,0,0.22);
 	}
   
+    /* 모달의 스타일이 기존 CSS와 충돌하지 않도록 별도로 스타일링 */
+.modal-content {
+    background-color: white; /* 모달의 배경색을 흰색으로 설정 */
+    border-radius: 10px; /* 모달의 테두리를 둥글게 설정 */
+}
+
+.modal-header, .modal-footer {
+    border-bottom: 1px solid #e9ecef;
+    border-top: 1px solid #e9ecef;
+}
+
+.modal-title {
+    font-size: 20px;
+}
+
+.modal-body {
+    font-size: 16px;
+    text-align: left;
+}
+
+.modal-footer .btn {
+	width: 100px;
+	height: 30px;
+    font-size: 14px;
+}
+
+
 </style>
 </head>
 <body>
@@ -440,7 +468,7 @@ $(document).ready(function(){
 \${session.getAttribute } : ${userIdx }<br> --%>
 <%-- \${hospital } : ${hospital }<br>
 \${hosHoliday } : ${hosHoliday }<br> --%>
-\${notice } : ${notice }<br>
+<%-- \${notice } : ${notice }<br> --%>
 
   <div id="container">
 	<h1>진료 예약하기</h1>
