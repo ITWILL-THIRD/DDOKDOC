@@ -31,7 +31,7 @@ $(document).ready(function(){
 	
 	//병원 일요일 휴무 체크
 	if (${hospital.sunDayOff == 'Y'}) {
-		alert(${hospital.sunDayOff == 'Y'});
+		/* alert(${hospital.sunDayOff == 'Y'}); */
 	}
 
 	//마이펫 등록 여부 체크
@@ -53,7 +53,7 @@ $(document).ready(function(){
 	        '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
 	    </c:forEach>
 	];
- 	alert(closedDates);
+ 	/* alert(closedDates); */
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
@@ -61,7 +61,7 @@ $(document).ready(function(){
       header: {
         left: 'prevYear,prev,next,nextYear today',
         center: 'title',
-        right: 'dayGridMonth,dayGridWeek,dayGridDay'
+        right: 'dayGridMonth'
       },
       editable: false,
       eventLimit: true, // allow "more" link when too many events
@@ -88,7 +88,7 @@ $(document).ready(function(){
         }
       },
       dateClick: function(info) {
-        alert(info.dateStr);
+        /* alert(info.dateStr); */
         
         var today = new Date();
         today.setHours(0, 0, 0, 0); // 시간을 0으로 설정해야 오늘 날짜를 클릭 가능함.
@@ -163,8 +163,8 @@ $(document).ready(function(){
 
   
   function getJsonTimeData(selectedDate, selectedDay) {
-	    alert("예약 가능한 시간");
-	    alert("selectedDay : " + selectedDay)
+	    /* alert("예약 가능한 시간");
+	    alert("selectedDay : " + selectedDay) */
 	    var selectedTime = null; 
 
 	    // 병원 ID 및 선택된 날짜를 포함하여 데이터 전송
@@ -182,7 +182,7 @@ $(document).ready(function(){
 	      contentType: "application/json",
 	      dataType: "json",
 	      success: function(response) {
-	        alert("성공~~");
+	        /* alert("성공~~"); */
 	        console.log(response);
 	        
 	        let dispHtml = `<p id="timeListTitle">예약 가능 시간</p>`;
@@ -248,7 +248,7 @@ $(document).ready(function(){
 
 	      },
 	      error: function() {
-	        alert("실패~~");
+	        /* alert("실패~~"); */
 	      }
 	    });
 
@@ -267,7 +267,7 @@ $(document).ready(function(){
     $("#selectPet").change(function(){
       // Value값 가져오기
       var selectedPet = $("#selectPet :selected").val();
-      alert("selectPet: " + selectedPet);
+      /* alert("selectPet: " + selectedPet); */
 
       $("#petIdxStr").val(selectedPet);
     });
@@ -300,9 +300,9 @@ $(document).ready(function(){
     }
     
     
-    alert("selectedPet: " + selectedPet);
+    /* alert("selectedPet: " + selectedPet);
     alert("Selected Date: " + selectedDate);
-    alert("Select Time: " + selectedTime);
+    alert("Select Time: " + selectedTime); */
     
     frm.action = "insertReservation.do";
     frm.submit();
@@ -327,11 +327,13 @@ $(document).ready(function(){
   }
   
   #selectPet {
+  	border: 1px solid #bbb;
+  	border-radius: 10px;
     width: 100%;
     height: 50px;
     font-size: 20x; 
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   #selectDateTimeDiv {
@@ -361,6 +363,7 @@ $(document).ready(function(){
   }
   
   #listDisp > p {
+  	width: 100px;
   	margin-bottom: 30px;
   }
   
@@ -394,7 +397,7 @@ $(document).ready(function(){
 	
 	#guardianInfoTitle, #timeListTitle {
 		border-radius: 10px;
-		background-color: #B6E5FF;
+		background-color: #f0f1f1;
 	}
 	
 	
@@ -413,17 +416,28 @@ $(document).ready(function(){
 	    box-sizing: border-box; /* 내부 여백과 테두리를 포함하여 요소의 크기 계산 */
 	    text-align: left; /* 입력 필드 내용 왼쪽 정렬 */
 	}
+	/* 보호자 정보 입력폼 */
+	.psTitle {
+		position: relative;
+		margin-top: 3px;
+		height: 30px;
+		border: 1px solid #bbb;
+		border-radius: 10px;
+		padding: 10px 12px;
+		font-size: 14px;
+	 }
 	
 	#memo {
-		font-size: 15px;
+		border: 1px solid #bbb;
+		border-radius: 10px;
 	}
 	
 	#reserButton {
-		margin-top: 25px;
+		margin-top: 10px;
 		height: 35px;
 		border: none;
 		border-radius: 10px;
-		background-color: #f0f1f1;
+		background-color: #B6E5FF;
 		width: calc(100% - 20px);
 		font-size: 15px;
 	}
@@ -493,12 +507,16 @@ $(document).ready(function(){
       	<form method="post">
       		<c:choose>
 		    	<c:when test="${not empty user.name }">
-		    		<p>이름 : <input type="text" id="guardian" name="guardian" value="${user.name }"></p>
-		      		<p>연락처 : <input type="text" id="guardianPhone" name="guardianPhone" value="${user.phone }"></p>
+		    	<div>
+		    		이름 <input type="text" class="psTitle" id="guardian" name="guardian" value="${user.name }"><br>
+		      		연락처 <input type="text" class="psTitle" id="guardianPhone" name="guardianPhone" value="${user.phone }">
+		    	</div>
 		    	</c:when>
 		    	<c:otherwise>
+		    	<div>
 		    		<p>이름 : <input type="text" id="guardian" name="guardian" placeholder="보호자이름"></p>
 		      		<p>연락처 : <input type="text" id="guardianPhone" name="guardianPhone" placeholder="보호자연락처"></p>
+		    	</div>
 		    	</c:otherwise>
 		    </c:choose>
 		      <textarea rows="10" cols="30" id="memo" name="memo" placeholder="메모를 남겨주세요"></textarea>

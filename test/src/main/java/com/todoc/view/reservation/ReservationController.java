@@ -207,9 +207,18 @@ public class ReservationController {
 		//휴무일 리스트
 		List<Date> hosHoliday = hospitalService.hosHoliday(hvo);
 		
+		//공지사항
+		int hosIdx = vo.getHosIdx();
+		NoticeVO notice = null;
+		
+		if (noticeService.getNotice(hosIdx) != null) {
+			notice = noticeService.getNotice(hosIdx);
+		}
+		
 		model.addAttribute("reservationVO", reservationVO);
 		model.addAttribute("myPetList", myPetList);
 		model.addAttribute("hosHoliday", hosHoliday);
+		model.addAttribute("notice", notice);
 		
 		return "reservation/updateReservation";
 	}

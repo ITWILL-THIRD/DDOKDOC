@@ -21,9 +21,16 @@
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../../css/postListCss.jsp"/>
 <script>
+$(document).ready(function(){
+	const notice = '${notice}';
+	if (notice != "") {
+    	$('#exampleModal').modal('show');
+	}
+  });
+
 	//병원 일요일 휴무 체크
 	if (${hospital.sunDayOff == 'Y'}) {
-		alert(${hospital.sunDayOff == 'Y'});
+		/* alert(${hospital.sunDayOff == 'Y'}); */
 	}
  	
     document.addEventListener('DOMContentLoaded', function() {
@@ -41,7 +48,7 @@
   	        '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
   	    </c:forEach>
   	];
-   	alert(closedDates);
+   	/* alert(closedDates); */
       
       var calendar = new FullCalendar.Calendar(calendarEl, {
         googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
@@ -49,7 +56,7 @@
         header: {
           left: 'prevYear,prev,next,nextYear today',
           center: 'title',
-          right: 'dayGridMonth,dayGridWeek,dayGridDay'
+          right: 'dayGridMonth'
         },
         editable: false,
         eventLimit: true, // allow "more" link when too many events
@@ -76,7 +83,7 @@
           }
         },
         dateClick: function(info) {
-          alert(info.dateStr);
+          /* alert(info.dateStr); */
           
           var today = new Date();
           today.setHours(0, 0, 0, 0); // 시간을 0으로 설정해야 오늘 날짜를 클릭 가능함.
@@ -104,7 +111,7 @@
             selectedDate = null; // 선택 해제
             document.getElementById('reserDate').value = ''; // 숨겨진 필드 비움
             // 시간 리스트 숨김
-            $("#listDisp").html("예약가능시간");
+            $("#listDisp").html('<p id="timeListTitle">예약 가능 시간</p>');
             clearSelectedTime(); // 선택된 시간 초기화
           } else {
             // 다른 날짜를 클릭했을 때
@@ -172,7 +179,7 @@
 
 
   function getJsonTimeData(selectedDate, selectedDay, initialTime) {
-    alert("예약 가능한 시간");
+    /* alert("예약 가능한 시간"); */
     var selectedTime = null; 
 
     // 병원 ID 및 선택된 날짜를 포함하여 데이터 전송
@@ -190,7 +197,7 @@
       contentType: "application/json",
       dataType: "json",
       success: function(response) {
-        alert("성공~~");
+        /* alert("성공~~"); */
         console.log(response);
         
         //초기시간값 저장
@@ -263,7 +270,7 @@
 
       },
       error: function() {
-        alert("실패~~");
+        /* alert("실패~~"); */
       }
     });
 
@@ -281,7 +288,7 @@
     $("#selectPet").change(function(){
       // Value값 가져오기
       var selectedPet = $("#selectPet :selected").val();
-      alert("selectPet: " + selectedPet);
+      /* alert("selectPet: " + selectedPet); */
 
       $("#petIdxStr").val(selectedPet);
     });
@@ -298,9 +305,9 @@
         return false; 
     }
     
-    alert("selectedPet: " + selectedPet);
+    /* alert("selectedPet: " + selectedPet);
     alert("Selected Date: " + selectedDate);
-    alert("Select Time: " + selectedTime);
+    alert("Select Time: " + selectedTime); */
     
     frm.action = "updateReservation.do";
     frm.submit();
@@ -308,6 +315,7 @@
   
 </script>
 <style>
+	
    #petDiv, #selectDateTimeDiv {
 	float: left;
     vertical-align: top;
@@ -323,12 +331,14 @@
   	padding: 5px;
   }
   
-  #petDivTitle {
+  #selectPet {
+  	border: 1px solid #bbb;
+  	border-radius: 10px;
     width: 100%;
     height: 50px;
     font-size: 20x; 
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   #selectDateTimeDiv {
@@ -358,6 +368,7 @@
   }
   
   #listDisp > p {
+  	width: 100px;
   	margin-bottom: 30px;
   }
   
@@ -391,7 +402,7 @@
 	
 	#guardianInfoTitle, #timeListTitle {
 		border-radius: 10px;
-		background-color: #B6E5FF;
+		background-color: #f0f1f1;
 	}
 	
 	
@@ -406,33 +417,71 @@
    
    #guardian, #guardianPhone {
 	    margin-bottom: 5px;
-	    padding: 5px;
-	    box-sizing: border-box; 
-	    text-align: left; 
+	    padding: 5px; /* 내부 여백 설정 */
+	    box-sizing: border-box; /* 내부 여백과 테두리를 포함하여 요소의 크기 계산 */
+	    text-align: left; /* 입력 필드 내용 왼쪽 정렬 */
 	}
+	/* 보호자 정보 입력폼 */
+	.psTitle {
+		position: relative;
+		margin-top: 3px;
+		height: 30px;
+		border: 1px solid #bbb;
+		border-radius: 10px;
+		padding: 10px 12px;
+		font-size: 14px;
+	 }
 	
 	#memo {
-		font-size: 15px;
+		border: 1px solid #bbb;
+		border-radius: 10px;
 	}
 	
 	#reserButton {
-		margin-top: 25px;
+		margin-top: 10px;
 		height: 35px;
 		border: none;
 		border-radius: 10px;
-		background-color: #f0f1f1;
+		background-color: #B6E5FF;
 		width: calc(100% - 20px);
 		font-size: 15px;
 	}
 	#reserButton:hover {
 	  box-shadow: 0 5px 20px rgba(0,0,0,0.25), 0 3px 5px rgba(0,0,0,0.22);
 	}
-  	
+  
+    /* 모달의 스타일이 기존 CSS와 충돌하지 않도록 별도로 스타일링 */
+.modal-content {
+    background-color: white; /* 모달의 배경색을 흰색으로 설정 */
+    border-radius: 10px; /* 모달의 테두리를 둥글게 설정 */
+}
+
+.modal-header, .modal-footer {
+    border-bottom: 1px solid #e9ecef;
+    border-top: 1px solid #e9ecef;
+}
+
+.modal-title {
+    font-size: 20px;
+}
+
+.modal-body {
+    font-size: 16px;
+    text-align: left;
+}
+
+.modal-footer .btn {
+	width: 100px;
+	height: 30px;
+    font-size: 14px;
+}
+
+
 </style>
 </head>
 <body>
 <%-- \${hospital } : ${hospital } --%>
-\${reservationVO } : ${reservationVO }<br>
+<%-- \${reservationVO } : ${reservationVO }<br> --%>
 
   <div  id="container">
 	<h1>예약변경하기</h1>
@@ -454,11 +503,12 @@
         <div id="guardianInfo">
         	<p id="guardianInfoTitle">보호자 정보</p>
         	<form method="post">
-		      <p>이름 : <input type="text" id="guardian" name="guardian" value="${reservationVO.guardian }"></p>
-			  <p>연락처 : <input type="text" id="guardianPhone" name="guardianPhone" value="${reservationVO.guardianPhone }"></p>
-				    		
+			  <div>
+		    		이름 <input type="text" class="psTitle" id="guardian" name="guardian" value="${reservationVO.guardian }"><br>
+		      		연락처 <input type="text" class="psTitle" id="guardianPhone" name="guardianPhone" value="${reservationVO.guardianPhone }">
+		    	</div>	    		
 		      <textarea rows="10" cols="30" id="memo" name="memo">${reservationVO.memo }</textarea>
-		      <input type="button" value="예약 변경하기" onclick="updateReservation(this.form)">
+		      <input type="button" value="예약 변경하기" id="reserButton" onclick="updateReservation(this.form)">
 		      <input type="hidden" id="reserIdx" name="reserIdx" value="${reservationVO.reserIdx}">
 		      <input type="hidden" id="reserDate" name="reserDate">
 		      <input type="hidden" id="selectTime" name="selectTime">
@@ -466,8 +516,26 @@
 		    </form>
         </div>
     </div>
-    
-    
+  </div>
+
+	<!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">공지사항</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+			${notice.noticeContent }          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
