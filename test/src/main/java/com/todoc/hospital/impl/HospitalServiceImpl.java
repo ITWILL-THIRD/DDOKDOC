@@ -176,7 +176,7 @@ public class HospitalServiceImpl implements HospitalService{
 	}
 	//병원 회원가입 - 트랜잭션 처리
 	@Transactional
-	public int HosJoin(HospitalVO vo, 
+	public void HosJoin(HospitalVO vo, 
 			String openTimeStr, String closeTimeStr, String lunchTimeStr, String endLunchTimeStr,
 			String satOpenTimeStr, String satCloseTimeStr, String satLunchTimeStr, String satEndLunchTimeStr,
 			String sunOpenTimeStr, String sunCloseTimeStr, String sunLunchTimeStr, String sunEndLunchTimeStr,
@@ -190,7 +190,7 @@ public class HospitalServiceImpl implements HospitalService{
 			//병원 주소
 			hospitalDAO.insertHosAddress(vo);
 			//병원 시간
-			timeMapper.insertTime(vo, openTimeStr, closeTimeStr, lunchTimeStr, endLunchTimeStr
+			timeMapper.insertTime(vo.getHosIdx(), openTimeStr, closeTimeStr, lunchTimeStr, endLunchTimeStr
 					, satOpenTimeStr, satCloseTimeStr, satLunchTimeStr, satEndLunchTimeStr
 					, sunOpenTimeStr, sunCloseTimeStr, sunLunchTimeStr, sunEndLunchTimeStr
 					, lunchOff, satLunchOff, sunDayOff, sunLunchOff);
@@ -198,7 +198,6 @@ public class HospitalServiceImpl implements HospitalService{
 			// 에러 처리 로직
             throw new RuntimeException("데이터 삽입 중 에러 발생", e);
 		}
-		return 1;
 	}
 	//병원 정보 입력
 	@Override

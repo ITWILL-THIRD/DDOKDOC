@@ -100,10 +100,10 @@
 <!-- 병원 주소 입력 -->
 	<insert id="insertHosAddress" parameterType="HospitalVO">
 		INSERT INTO HOSADDRESS
-			(HOSIDX, ADDRESSNAME, ROADADDRESSNAME, DETAILADDRESS, ADDX
-			, ADDY, SIDO, SIGUNGU)
-		VALUES (#{hosIdx}, #{addressName}, #{roadAddressName}, #{detailAddress}, #{addx}
-			, #{addy}, #{sido}, #{sigungu})
+			(HOSIDX, ADDRESSNAME, ROADADDRESSNAME, DETAILADDRESS
+			, SIDO, SIGUNGU)
+		VALUES (#{hosIdx}, #{addressName}, #{roadAddressName}, #{detailAddress}
+			, #{sido}, #{sigungu})
 	</insert>
 	
 <!-- 안쓰는 매퍼인지 확인 후, 삭제 처리 -->	
