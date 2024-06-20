@@ -138,10 +138,10 @@
 		    		<div class="userDropdown">
 						<a href="../mypage/myPage.do">마이페이지</a>
 						<div class="dropdownList">
-							<a href="myReserList.do">진료예약내역</a>
-							<a href="myCancleReserList.do">취소예약내역</a>
-							<a href="myReviewList.do">지난예약내역</a>
-							<a href="myPostList.do">나의 게시물</a>
+							<a href="../mypage/myReserList.do">진료예약내역</a>
+							<a href="../mypage/myCancleReserList.do">취소예약내역</a>
+							<a href="../mypage/myReviewList.do">지난예약내역</a>
+							<a href="../mypage/myPostList.do">나의 게시물</a>
 						</div>	
 					</div>
 		    	</c:otherwise>
