@@ -52,10 +52,8 @@
 		
 	};
 	
-	
 		// 리뷰 수정 버튼 클릭 이벤트
 	    function editReview(reviewIdx) {
-    	 	console.log("editReview Index: " + reviewIdx);
 	 	    document.getElementById('view_' + reviewIdx).classList.add('hidden');
 	 	    document.getElementById('edit_' + reviewIdx).classList.remove('hidden');
 	    }
@@ -67,7 +65,6 @@
 		}
 		// 리뷰 수정 취소 버튼 클릭 이벤트
 		function cancelEdit(reviewIdx) {
-		    console.log("cancelEdit Index: " + reviewIdx);
 		    document.getElementById('view_' + reviewIdx).classList.remove('hidden');
 		    document.getElementById('edit_' + reviewIdx).classList.add('hidden');
 		}
@@ -77,7 +74,6 @@
 	        var selectBox = document.getElementById("finishSelect");
 	        var selectedValue = selectBox .options[selectBox.selectedIndex].value;
 	        document.getElementById("selectedReserIdx").value = selectedValue;
-	        console.log("Selected ReserIdx: " + selectedValue); // 확인용 로그
 	    }
 
 </script>

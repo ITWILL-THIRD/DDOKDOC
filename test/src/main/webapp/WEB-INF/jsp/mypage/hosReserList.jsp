@@ -8,7 +8,7 @@
 <meta charset='utf-8' />
 <jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/hosReserListCss.jsp"/>
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/" ></script>
 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.css" rel="stylesheet">
@@ -17,6 +17,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@4.4.0/main.min.js"></script>
+
 <script>
 	//병원 일요일 휴무 체크
 /* 	if (${hospital.sunDayOff == 'Y'}) {
@@ -288,7 +289,7 @@
 			<ul>
 				<li>예약 목록</li>
 			</ul>
-			   <table id="reserList">
+			   <table class="table table-hove" id="reserList">
 					<thead>
 				        <tr>
 				            <th width="60px">예약시간</th>

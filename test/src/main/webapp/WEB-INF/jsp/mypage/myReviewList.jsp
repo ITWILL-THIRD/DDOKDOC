@@ -15,6 +15,7 @@
 .hidden {
     display: none;
 }
+.center {text-align: center;}
 .star-rating {
   display:flex;
   flex-direction: row-reverse;
@@ -78,8 +79,8 @@
 \${myCancleReserList } : ${myCancleReserList }<br><br>
 \${reviewToWrite } : ${reviewToWrite }
 \${myReviewList } = ${myReviewList } --%>
-	<h2>리뷰 목록</h2>
-	<h3>작성 대기중인 목록</h3>
+	<h2 class="center">지난 예약 내역</h2>
+	<h3>리뷰 작성 대기중인 목록</h3>
 	<div id="review">
 		<!-- 예약 후 진료 완료 상태만 form 작성 가능 -->
 		<c:if test="${not empty reviewToWrite}">

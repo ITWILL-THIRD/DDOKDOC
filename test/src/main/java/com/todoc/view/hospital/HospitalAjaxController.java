@@ -18,8 +18,6 @@ public class HospitalAjaxController {
 	private HospitalService hospitalService;
 
 	public HospitalAjaxController(HospitalService hospitalService) {
-		System.out.println("===> HospitalSearchController(HospitalService) 객체 생성!!");
-		System.out.println(">> HospitalService hospitalService : " + hospitalService);
 		this.hospitalService = hospitalService;
 	}
 
@@ -35,7 +33,6 @@ public class HospitalAjaxController {
 	@RequestMapping(value = "hospital/getHosReview.do", method = RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<HosReviewVO> getHosReview(int hosIdx) {
-		System.out.println("==== HospitalSearchAjaxController.getHosReview() 실행");
 
 		List<HosReviewVO> reviewList = hospitalService.getHosReview(hosIdx);
 		return reviewList;
