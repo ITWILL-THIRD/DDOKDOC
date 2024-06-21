@@ -24,7 +24,7 @@ public class HosApprovalController {
 	@Autowired
 	HospitalService hospitalService;
 	
-	//병원 전체 조회
+	//병원 전체 조회 + 페이징
 	@RequestMapping("/getHosApprovalList.do")
 	public String approvalMain(HosApprovalVO vo, HttpServletRequest request, Model model
 					, @RequestParam(value = "beginDate", required = false) String beginDate
@@ -95,7 +95,7 @@ public class HosApprovalController {
 		return "admin/getHosApprovalList";
 	}
 	
-	//병원 동적 조회
+	//병원 동적 조회 + 페이징
 	@RequestMapping(value = "/getHosApprovalSearch.do")
 	public String getAjaxApprovalList(HosApprovalVO vo, HttpServletRequest request, Model model
 					, @RequestParam(value = "beginDate", required = false) String beginDate
@@ -150,6 +150,9 @@ public class HosApprovalController {
 		//2. 현재 페이지 번호 구하기
 		String cPage = request.getParameter("cPage");
 		if (cPage != null) {
+			if (cPage.equals("0")) {
+				cPage = "1";
+			}
 			p.setNowPage(Integer.parseInt(cPage));
 			if (p.getTotalPage() < Integer.parseInt(cPage)) {
 				System.out.println("p.getTotalPage() < cPage 경우");

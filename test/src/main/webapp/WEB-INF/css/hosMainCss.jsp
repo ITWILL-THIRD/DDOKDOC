@@ -9,7 +9,7 @@
 
 	#container { width: 700px; margin: auto; }
 	h1, h3, p { text-align: center; }
-	
+	.center {width: 700px; margin: auto;}
 	<%-- 목록 --%>
 	table { border-collapse: collapse; }
 	table, th, td {

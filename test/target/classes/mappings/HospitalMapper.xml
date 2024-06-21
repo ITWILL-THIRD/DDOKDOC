@@ -144,6 +144,40 @@
 		AND H.HOSIDX = HA.HOSIDX
 		AND H.HOSIDX = #{hosIdx}
 	</select>
+	<!-- 결제완료된 병원 건수 cnt -->
+	<select id="paymentCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM HOSPITAL H, HOSTIME HT, HOSADDRESS HA
+		WHERE H.HOSIDX = HT.HOSIDX
+		AND H.HOSIDX = HA.HOSIDX
+		AND H.CONDITION = '결제완료'
+		ORDER BY H.HOSIDX DESC
+	</select>
+	<!-- 병원 전체 조회 + 페이징 처리 -->
+	<select id="selectListPage" parameterType="map" resultType="HospitalVO">
+		SELECT * 
+		FROM (
+		    SELECT ROWNUM AS R_NUM, J.*
+		    FROM (
+		        SELECT  H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE
+		        		, H.ANIMAL, H.SCORE, H.CONDITION, H.CERTIFICATEIMG
+		        		, A.ADDRESSNAME, A.ROADADDRESSNAME, A.DETAILADDRESS
+		        		, T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME
+		        		, T.SATOPENTIME, T.SATCLOSETIME, T.SATLUNCHTIME, T.SATENDLUNCHTIME
+		        		, T.SUNOPENTIME, T.SUNCLOSETIME, T.SUNLUNCHTIME, T.SUNENDLUNCHTIME
+		        		, T.LUNCHOFF, T.SATLUNCHOFF, T.SUNDAYOFF, T.SUNLUNCHOFF
+		        FROM HOSPITAL H
+		        JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+		        JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+		        AND H.CONDITION = '결제완료'
+		        ORDER BY H.HOSIDX DESC
+		    ) J
+		    <![CDATA[
+		    WHERE ROWNUM <= #{end}
+		) 
+		WHERE R_NUM >= #{begin}
+		]]>
+	</select>
 	
 	<!-- 병원 전체 조회 -->
 	<select id="selectList" resultType="HospitalVO">
@@ -162,6 +196,275 @@
         AND H.RESERIDX = R.RESERIDX
 		AND H.HOSIDX = #{hosIdx}
 		ORDER BY H.HOSIDX DESC
+	</select>
+	
+		<!-- 동적처리 + 결제완료된 병원 건수 cnt -->
+	<select id="ajaxPaymentCnt" parameterType="HospitalVO" resultType="int">
+		SELECT COUNT(*)
+		FROM HOSPITAL H
+        JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+        JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+        <where>
+            <choose>
+                <when test='searchCondition == "all"'>
+					AND H.CONDITION = '결제완료'
+                </when>
+                <when test='searchCondition == "search" and searchKeyword != "" '>
+                	AND H.CONDITION = '결제완료'
+                    AND (
+                    H.HOSNAME LIKE '%' || #{searchKeyword} || '%'
+                    OR A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+                    OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+                    OR ANIMAL LIKE '%' || #{searchKeyword} || '%'
+                )
+                </when>
+                <when test='searchCondition == "address"'>
+                	AND H.CONDITION = '결제완료'
+					AND A.SIDO LIKE '%' || #{sido} || '%'
+					AND A.SIGUNGU LIKE '%' || #{sigungu} || '%'
+                </when>
+                <when test='searchCondition == "addressName" and searchKeyword != "" '>
+					AND H.CONDITION = '결제완료'
+					AND (A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+                    OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%')
+                </when>
+                <when test='searchCondition == "common"'>
+                	AND H.CONDITION = '결제완료'
+					AND ANIMAL = '일반'
+                </when>
+                <when test='searchCondition == "special"'>
+                	AND H.CONDITION = '결제완료'
+                    AND ANIMAL = '특수'
+                </when>
+                <when test='searchCondition == "night"'>
+                	AND H.CONDITION = '결제완료'
+                    <![CDATA[
+                    AND TO_CHAR(T.CLOSETIME, 'HH24:MI') > '18:00'
+                    AND TO_CHAR(T.CLOSETIME, 'HH24:MI') <= '23:59'
+                    AND TO_CHAR(T.OPENTIME, 'HH24:MI') != '00:00'
+                    ]]>
+                </when>
+                <when test='searchCondition == "24h"'>
+                	AND H.CONDITION = '결제완료'
+                    AND TO_CHAR(T.OPENTIME, 'HH24:MI') = '00:00'
+                    AND TO_CHAR(T.CLOSETIME, 'HH24:MI') = '23:59'
+                </when>
+            </choose>
+        </where>
+		ORDER BY H.HOSIDX DESC
+	</select>
+	
+<!-- 	병원 동적 검색 + 페이징 -->
+	<select id="getHosSearchPage" parameterType="HospitalVO" resultType="HospitalVO">
+		<choose>
+			<when test='searchCondition == "all"'>
+				SELECT * 
+				FROM (
+				    SELECT ROWNUM AS R_NUM, J.*
+				    FROM (
+					      SELECT  H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE
+					            , H.ANIMAL, H.SCORE, H.CONDITION, H.CERTIFICATEIMG
+					            , A.ADDRESSNAME, A.ROADADDRESSNAME, A.DETAILADDRESS
+					            , T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME
+					            , T.SATOPENTIME, T.SATCLOSETIME, T.SATLUNCHTIME, T.SATENDLUNCHTIME
+					            , T.SUNOPENTIME, T.SUNCLOSETIME, T.SUNLUNCHTIME, T.SUNENDLUNCHTIME
+					            , T.LUNCHOFF, T.SATLUNCHOFF, T.SUNDAYOFF, T.SUNLUNCHOFF
+					      FROM HOSPITAL H
+					      JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+					      JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+			        	  WHERE H.CONDITION = '결제완료'
+					      ORDER BY H.HOSIDX DESC
+					) J
+				    <![CDATA[
+				    WHERE ROWNUM <= #{end}
+				    ) 
+				WHERE R_NUM >= #{begin}
+				]]>
+			</when>
+			<when test='searchCondition == "search" and searchKeyword != "" '>
+				SELECT * 
+				FROM (
+				    SELECT ROWNUM AS R_NUM, J.*
+				    FROM (
+					      SELECT  H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE
+					            , H.ANIMAL, H.SCORE, H.CONDITION, H.CERTIFICATEIMG
+					            , A.ADDRESSNAME, A.ROADADDRESSNAME, A.DETAILADDRESS
+					            , T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME
+					            , T.SATOPENTIME, T.SATCLOSETIME, T.SATLUNCHTIME, T.SATENDLUNCHTIME
+					            , T.SUNOPENTIME, T.SUNCLOSETIME, T.SUNLUNCHTIME, T.SUNENDLUNCHTIME
+					            , T.LUNCHOFF, T.SATLUNCHOFF, T.SUNDAYOFF, T.SUNLUNCHOFF
+					      FROM HOSPITAL H
+					      JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+					      JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+			        	  WHERE H.CONDITION = '결제완료'
+			        	  AND (H.HOSNAME LIKE '%' || #{searchKeyword} || '%'
+				               OR A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+				               OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+				               OR ANIMAL LIKE '%' || #{searchKeyword} || '%')
+					      ORDER BY H.HOSIDX DESC
+					) J
+				    <![CDATA[
+				    WHERE ROWNUM <= #{end}
+				    ) 
+				WHERE R_NUM >= #{begin}
+				]]>			
+			</when>
+			<when test='searchCondition == "address"'>
+				SELECT * 
+				FROM (
+				    SELECT ROWNUM AS R_NUM, J.*
+				    FROM (
+					      SELECT  H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE
+					            , H.ANIMAL, H.SCORE, H.CONDITION, H.CERTIFICATEIMG
+					            , A.ADDRESSNAME, A.ROADADDRESSNAME, A.DETAILADDRESS
+					            , T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME
+					            , T.SATOPENTIME, T.SATCLOSETIME, T.SATLUNCHTIME, T.SATENDLUNCHTIME
+					            , T.SUNOPENTIME, T.SUNCLOSETIME, T.SUNLUNCHTIME, T.SUNENDLUNCHTIME
+					            , T.LUNCHOFF, T.SATLUNCHOFF, T.SUNDAYOFF, T.SUNLUNCHOFF
+					      FROM HOSPITAL H
+					      JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+					      JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+			        	  WHERE H.CONDITION = '결제완료'
+			              AND A.SIDO LIKE '%' || #{sido} || '%'
+			              AND A.SIGUNGU LIKE '%' || #{sigungu} || '%'
+					      ORDER BY H.HOSIDX DESC
+					) J
+				    <![CDATA[
+				    WHERE ROWNUM <= #{end}
+				    ) 
+				WHERE R_NUM >= #{begin}
+				]]>
+			</when>
+			<when test='searchCondition == "addressName" and searchKeyword != "" '>
+			    SELECT * 
+				FROM (
+				    SELECT ROWNUM AS R_NUM, J.*
+				    FROM (
+					      SELECT  H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE
+					            , H.ANIMAL, H.SCORE, H.CONDITION, H.CERTIFICATEIMG
+					            , A.ADDRESSNAME, A.ROADADDRESSNAME, A.DETAILADDRESS
+					            , T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME
+					            , T.SATOPENTIME, T.SATCLOSETIME, T.SATLUNCHTIME, T.SATENDLUNCHTIME
+					            , T.SUNOPENTIME, T.SUNCLOSETIME, T.SUNLUNCHTIME, T.SUNENDLUNCHTIME
+					            , T.LUNCHOFF, T.SATLUNCHOFF, T.SUNDAYOFF, T.SUNLUNCHOFF
+					      FROM HOSPITAL H
+					      JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+					      JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+			        	  WHERE H.CONDITION = '결제완료'
+			              AND (A.ADDRESSNAME LIKE '%' || #{searchKeyword} || '%'
+			              	   OR A.ROADADDRESSNAME LIKE '%' || #{searchKeyword} || '%')
+		              	  ORDER BY H.HOSIDX DESC
+					) J
+				    <![CDATA[
+				    WHERE ROWNUM <= #{end}
+				    ) 
+				WHERE R_NUM >= #{begin}
+				]]>       
+	        </when>
+			<when test='searchCondition == "common"'>
+				SELECT * 
+				FROM (
+				    SELECT ROWNUM AS R_NUM, J.*
+				    FROM (
+					      SELECT  H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE
+					            , H.ANIMAL, H.SCORE, H.CONDITION, H.CERTIFICATEIMG
+					            , A.ADDRESSNAME, A.ROADADDRESSNAME, A.DETAILADDRESS
+					            , T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME
+					            , T.SATOPENTIME, T.SATCLOSETIME, T.SATLUNCHTIME, T.SATENDLUNCHTIME
+					            , T.SUNOPENTIME, T.SUNCLOSETIME, T.SUNLUNCHTIME, T.SUNENDLUNCHTIME
+					            , T.LUNCHOFF, T.SATLUNCHOFF, T.SUNDAYOFF, T.SUNLUNCHOFF
+					      FROM HOSPITAL H
+					      JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+					      JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+			        	  WHERE H.CONDITION = '결제완료'
+			          	  AND ANIMAL = '일반'
+			          	  ORDER BY H.HOSIDX DESC
+					) J
+				    <![CDATA[
+				    WHERE ROWNUM <= #{end}
+				    ) 
+				WHERE R_NUM >= #{begin}
+				]]>
+	        </when>
+	        <when test='searchCondition == "special"'>
+				SELECT * 
+				FROM (
+				    SELECT ROWNUM AS R_NUM, J.*
+				    FROM (
+					      SELECT  H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE
+					            , H.ANIMAL, H.SCORE, H.CONDITION, H.CERTIFICATEIMG
+					            , A.ADDRESSNAME, A.ROADADDRESSNAME, A.DETAILADDRESS
+					            , T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME
+					            , T.SATOPENTIME, T.SATCLOSETIME, T.SATLUNCHTIME, T.SATENDLUNCHTIME
+					            , T.SUNOPENTIME, T.SUNCLOSETIME, T.SUNLUNCHTIME, T.SUNENDLUNCHTIME
+					            , T.LUNCHOFF, T.SATLUNCHOFF, T.SUNDAYOFF, T.SUNLUNCHOFF
+					      FROM HOSPITAL H
+					      JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+					      JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+			        	  WHERE H.CONDITION = '결제완료'
+			          	  AND ANIMAL = '특수'
+			          	  ORDER BY H.HOSIDX DESC
+					) J
+				    <![CDATA[
+				    WHERE ROWNUM <= #{end}
+				    ) 
+				WHERE R_NUM >= #{begin}
+				]]>
+	        </when>
+	        <when test='searchCondition == "night"'>
+				SELECT * 
+				FROM (
+				    SELECT ROWNUM AS R_NUM, J.*
+				    FROM (
+					      SELECT  H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE
+					            , H.ANIMAL, H.SCORE, H.CONDITION, H.CERTIFICATEIMG
+					            , A.ADDRESSNAME, A.ROADADDRESSNAME, A.DETAILADDRESS
+					            , T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME
+					            , T.SATOPENTIME, T.SATCLOSETIME, T.SATLUNCHTIME, T.SATENDLUNCHTIME
+					            , T.SUNOPENTIME, T.SUNCLOSETIME, T.SUNLUNCHTIME, T.SUNENDLUNCHTIME
+					            , T.LUNCHOFF, T.SATLUNCHOFF, T.SUNDAYOFF, T.SUNLUNCHOFF
+					      FROM HOSPITAL H
+					      JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+					      JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+			        	  WHERE H.CONDITION = '결제완료'
+			          	  <![CDATA[
+			           	  AND TO_CHAR(T.CLOSETIME, 'HH24:MI') > '18:00'
+			              AND TO_CHAR(T.CLOSETIME, 'HH24:MI') <= '23:59'
+			              AND TO_CHAR(T.OPENTIME, 'HH24:MI') != '00:00'
+			              ORDER BY H.HOSIDX DESC
+					) J
+				    WHERE ROWNUM <= #{end}
+				    ) 
+				WHERE R_NUM >= #{begin}
+				]]>
+	        </when>
+	        <when test='searchCondition == "24h"'>
+				SELECT * 
+				FROM (
+				    SELECT ROWNUM AS R_NUM, J.*
+				    FROM (
+					      SELECT  H.HOSIDX, H.HOSID, H.HOSPW, H.HOSNAME, H.HOSPHONE
+					            , H.ANIMAL, H.SCORE, H.CONDITION, H.CERTIFICATEIMG
+					            , A.ADDRESSNAME, A.ROADADDRESSNAME, A.DETAILADDRESS
+					            , T.OPENTIME, T.CLOSETIME, T.LUNCHTIME, T.ENDLUNCHTIME
+					            , T.SATOPENTIME, T.SATCLOSETIME, T.SATLUNCHTIME, T.SATENDLUNCHTIME
+					            , T.SUNOPENTIME, T.SUNCLOSETIME, T.SUNLUNCHTIME, T.SUNENDLUNCHTIME
+					            , T.LUNCHOFF, T.SATLUNCHOFF, T.SUNDAYOFF, T.SUNLUNCHOFF
+					      FROM HOSPITAL H
+					      JOIN HOSADDRESS A ON A.HOSIDX = H.HOSIDX
+					      JOIN HOSTIME T ON T.HOSIDX = H.HOSIDX
+			        	  WHERE H.CONDITION = '결제완료'
+			          	  AND TO_CHAR(T.OPENTIME, 'HH24:MI') = '00:00'
+			              AND TO_CHAR(T.CLOSETIME, 'HH24:MI') = '23:59'
+			              ORDER BY H.HOSIDX DESC
+					) J
+				    <![CDATA[
+				    WHERE ROWNUM <= #{end}
+				    ) 
+				WHERE R_NUM >= #{begin}
+				]]>
+	        </when>
+		</choose>
 	</select>
 	
   	<!-- 동적처리(병원 정보 조회) -->
@@ -354,4 +657,3 @@
 	</select>
 	
 </mapper>
-
