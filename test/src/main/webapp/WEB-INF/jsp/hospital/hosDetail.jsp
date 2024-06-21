@@ -184,24 +184,25 @@
 			<%-- 		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}" --%>
 			<!-- 			onclick="insertNotice(this.dataset.hosIdx)"> -->
 					<table>
-					    <tr>
+<!-- 					    <tr>
 					        <th>작성일</th>
 					        <th>제목</th>
-					    </tr>
+					    </tr> -->
 					    <c:choose>
-					        <c:when test="${empty noticeList}">
+					        <c:when test="${empty notice}">
 					            <tr>
 					                <td colspan="2" style="text-align: center;">등록된 공지사항이 없습니다.</td>
 					            </tr>
 					        </c:when>
 					        <c:otherwise>
-					            <c:forEach var="notice" items="${noticeList}">
+					            <c:if test="${not empty notice}">
 					                <tr>
-					                    <td>${notice.noticeDate}</td>
-					                    <td><a href="../notice/getNotice.do?hosIdx=${notice.hosIdx}&noticeIdx=${notice.noticeIdx}">${notice.noticeTitle}</a></td>
-					                    <td>${notice.hit}</td>
+					                    <td>${notice.noticeContent}</td><br>
 					                </tr>
-					            </c:forEach>
+					                <tr>
+					                    <td style="text-align: right;">${notice.noticeDate} 작성</td>
+					                </tr>
+					            </c:if>
 					        </c:otherwise>
 					    </c:choose>
 					</table>
