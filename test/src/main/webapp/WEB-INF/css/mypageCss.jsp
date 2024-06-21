@@ -8,8 +8,8 @@
 
 <style>
 
-	#container { width: 800px; margin: auto; }
-	
+	#container { width: 1100px; margin: auto;}
+	#container2 {  width: 800px; margin-left: 220px; }
 	
 	<%-- 목록 --%>
 	table {
@@ -196,10 +196,56 @@ height: 35px;
     margin-top: 30px;
      padding: 30px;
   }
- .name {
- 
- }
- 
+.img {
+	position: absolute;
+	top: 85px;
+	margin-left: -45px;
+}
+.date {
+	margin-left: 60px;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+
+li a:hover {
+background-color: #F3F3F3;
+  color: #FFA217;
+}
+.side {
+margin-top: 37px;
+ position: sticky;
+    float: left;
+    margin-left: 0;
+}
+.mypage {
+font-size: 20px;
+font-weight: bold;
+margin-left: 17px;
+margin-bottom: 10px;
+}
+.divBtn {
+margin-top: 15px;
+float: right;
+}
+</style>
+</head>
+<body>
     
 	
 </style>

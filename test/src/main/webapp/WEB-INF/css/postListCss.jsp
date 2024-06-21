@@ -7,11 +7,13 @@
 <title>postListCSS</title>
 <style>
 
-	#container { width: 1100px; margin: auto; }
+	#container { width: 800px; margin: auto; }
 	h1, h3, p { text-align: center; }
 	
 	<%-- 목록 --%>
-	table { border-collapse: collapse; text-align: center; margin: 0 auto;}
+	table { border-collapse: collapse; text-align: center; margin: 0 auto;
+	margin-top: 23px;}
+
 	th, td {
 		border: 1px solid #B9B9B9;
 		margin: 0 auto;
@@ -76,7 +78,11 @@
 	}
 	a:hover {color:#FFA217;}
 	
-	
+		
+	hr {
+  border: 1px solid #2C307D;
+  }
+
 </style>
 </head>
 <body>

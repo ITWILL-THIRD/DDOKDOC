@@ -6,13 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>내 작성 게시물</title>
+<jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/postListCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 </head>
 <body>
 <h1>나의 작성 게시물</h1>
+<div id="container">
+<hr>
 <%-- ${myPostList } --%>
-	<table>
+	<table border frame=void>
 		<thead>
 			<tr>
 				<th width="50">번호</th>
@@ -26,8 +29,8 @@
 		<tbody>
 		<c:forEach var="board" items="${myPostList }">
 			<tr>
-				<td class="center">${board.postidx }</td>
-				<td class="center">
+				<td>${board.postidx }</td>
+				<td >
 					<c:choose>
                         <c:when test="${board.category == 'free'}">자유</c:when>
                         <c:when test="${board.category == 'med'}">의료</c:when>
@@ -47,6 +50,6 @@
 		</tbody>
 	</table>
 
-
+</div>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>userPostDetail</title>
-<jsp:include page="../../css/getUserListCss.jsp"/>
+<jsp:include page="../../css/postCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 </head>

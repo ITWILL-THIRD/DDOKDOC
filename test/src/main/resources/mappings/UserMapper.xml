@@ -135,13 +135,13 @@
    
     <!-- 회원 예약 후 진료를 보지 않은 건수 -->
     <select id="getNoShowCount" resultType="int">
-        <![CDATA[
+<!--         <![CDATA[ -->
         SELECT COUNT(*)
         FROM RESERVATION
-        WHERE CONDITION = 'RESERVATION'
+        WHERE CONDITION = 'NOSHOW'
         AND USERIDX = #{userIdx}
-        AND RESERDATE < SYSDATE
-        ]]>
+<!--         AND RESERDATE < SYSDATE -->
+<!--         ]]> -->
     </select>
 
 <!--    회원리뷰건수 -->
