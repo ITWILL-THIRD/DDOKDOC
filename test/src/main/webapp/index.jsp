@@ -161,7 +161,6 @@
 						<div class="dropdownList">
 							<a href="admin/getHosApprovalList.do">병원 승인</a>
 						    <a href="admin/getUserList.do">개인 회원</a>
-						    <a href="admin/">예약 내역</a>
 							<a href="admin/statsPage.do">통계</a>
 						</div>
 					</div>
