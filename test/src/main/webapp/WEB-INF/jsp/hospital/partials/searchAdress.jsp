@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<select name="sido" onChange="cat1_change(this.value,sigungu)">
+<select class="select" name="sido" onChange="cat1_change(this.value,sigungu)">
 	<option>시/도</option>
 	<option value='1'>서울</option>
 	<option value='2'>부산</option>
@@ -19,7 +19,7 @@
 	<option value='15'>충남</option>
 	<option value='16'>충북</option>
 </select>
-<select name="sigungu">
+<select class="select" name="sigungu">
 	<option>시/군/구</option>
 </select>
 <script>
