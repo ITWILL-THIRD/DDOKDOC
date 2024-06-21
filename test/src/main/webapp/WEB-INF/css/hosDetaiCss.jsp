@@ -4,11 +4,11 @@
 
 	#container {
 	    padding: 0;
+	    margin:0 auto;
 	    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	    font-size: 14px;
 	    width: 1100px;
 	    display: flex;
-	    margin:0 auto;
 	}
 	
 	p { 
@@ -41,26 +41,12 @@
 		height: 40px;
 	}
 	
-	#reservation {
-		border: none;
-		width:80px;
-		height: 30px;
-		border-radius: 10px / 10px;
-		background-color: #B6E5FF;
-		pading-top: 20px;
-		float: right;
-		left: 200px;
-		top: 50px;
-	}
-	
-	#reservation:hover  {
-		color: #FFFFFF; 
-		background-color: #86CFF8;
-	}
-	
 	/* -----병원정보----- */
-	#hosContainer{
-		margin-top: 20px;
+	#leftContainer {
+	    margin-top: 20px;
+	    width: 500px;
+/* 	    height: 400px; /* 고정된 높이 추가 */ */
+	    overflow: hidden; /* 컨테이너 크기를 넘는 내용 숨김 */
 	}
 	
 	#hospital {
@@ -77,7 +63,7 @@
 	#hosDetailContainer{
 		margin: 10px;
 		padding: 20px;
-		width: 430px;
+		width: 440px;
 		height: 800px;
 		border: 1px solid #B9B9B9;
 		border-radius: 40px 40px;
@@ -98,7 +84,11 @@
 	}
 
 	.hosTime{
-		height: 20px;
+		height: 15px;
+	}
+	
+	.hosInfo{
+		height: 25px;
 	}
 	
 	/* -----submit 버튼-----  */
@@ -121,7 +111,6 @@
 		height: 20px;
 		border-radius: 10px 10px;
 		background-color: #B6E5FF;
-		margin: 5px;
 	}
 	.ubtn:hover  {
 		color: #FFFFFF; 
@@ -142,16 +131,19 @@
 	}
 	
 	/* -----사진----- */
-	#img {
-	    width: 100%; /* 필요에 따라 조정 */
-	    vertical-align: middle;
+	
+	#slide {
+	    width: 400px;
+	    height: 400px;
+	    margin: auto;
 	}
+	
 	.carousel-item {
 	    display: flex;
 	    justify-content: center; /* 이미지를 중앙 정렬 */
 	    align-items: center; /* 이미지를 수직으로 중앙 정렬 */
-	    width: 400px; /* 부모 요소의 너비 고정 */
-	    height: 400px; /* 부모 요소의 높이 고정 */
+	    width: 400px; /* 부모 요소의 너비에 맞추기 */
+	    height: 400px; /* 부모 요소의 높이에 맞추기 */
 	    overflow: hidden; /* 부모 요소를 벗어나는 이미지 부분 숨김 */
 	    margin: 0 auto; /* 부모 요소를 중앙에 배치 */
 	}
@@ -162,11 +154,38 @@
 	    object-fit: cover; /* 이미지가 요소를 채우도록 조정 */
 	    object-position: center; /* 이미지의 중심을 기준으로 조정 */
 	}
+	
+	.carousel-control-prev, .carousel-control-next {
+	    height: 100%; /* 컨트롤 버튼의 높이를 슬라이드 높이에 맞춤 */
+	}
 
 	
+	/* 예약 버튼 */	
+	#reservation {
+		border: none;
+		width:80px;
+		height: 30px;
+		border-radius: 10px / 10px;
+		background-color: #B6E5FF;
+		margin-top: 20px;
+		float: right;
+		margin-right: 30px;
+		top: 50px;
+	}
+	
+	#reservation:hover  {
+		color: #FFFFFF; 
+		background-color: #86CFF8;
+	}
+	
 	/* -----공지사항-----  */
+	#rightContainer {
+		width: 600px;
+		float: right;
+	}
+	
 	#post {
-		width: 300px;
+		width: 500px;
 		height: 400px;
 	    vertical-align: middle;
 	    margin: 30px;
@@ -174,9 +193,9 @@
 	}
 	
 	#postContainer {
-		margin: 70px 20px 50px 20px;
+		margin: 75px 50px 20px 20px;
 		top: 50px;
-		width: 590px;
+		width: 550px;
 		height: 450px;
 		border: 1px solid #B9B9B9;
 		border-radius: 40px 40px;

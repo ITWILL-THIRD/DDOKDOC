@@ -21,12 +21,12 @@
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38a906000cd6c18d4d8489d1eddaec85&libraries=services,clusterer,drawing"></script>
 <div id="container">
-	<div id="hosContainer">
+	<div id="leftContainer">
 		<h1>${hospital.hosName}</h1>
 		<div id="hosDetailContainer">
 			<div id="hospital">
 				<table>
-					<tr>
+					<tr class="hosInfo">
 						<th>
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
 	  						<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
@@ -122,7 +122,7 @@
 			                </c:choose>
 						</td>
 					</tr>
-					<tr>
+					<tr class="hosInfo">
 						<th>
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
 							  <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
@@ -130,7 +130,7 @@
 						</th>
 						<td colspan="2">${hospital.hosPhone}</td>
 					</tr>
-					<tr>
+					<tr  class="hosInfo">
 						<th>
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
 							  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -149,7 +149,7 @@
 			<div id="map"></div>
 		</div>
 		<!-- 이미지 슬라이더 -->
-		<div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+		<div class="carousel slide" id="slide" data-bs-ride="true">
 		    <div class="carousel-inner">
 		        <c:forEach var="img" items="${imgList}" varStatus="status">
 		            <c:if test="${status.index == 0}">
@@ -174,7 +174,7 @@
 		    </button>
 		</div>
 	</div>
-	<div>
+	<div id="rightContainer">
 		<button id="reservation" onclick="userCheck('${user}')">예약하기</button>
 		<div id="postContainer">
 			<div id="post">
@@ -261,7 +261,7 @@
 							<div class="reviewContainer">
 							    <tr id="view_${review.reviewIdx}">
 							        <td id="nickname_view_${review.reviewIdx}" width="50px">${review.nickname}</td>
-							        <td id="content_view_${review.reviewIdx}" width="200px">${review.content}</td>
+							        <td id="content_view_${review.reviewIdx}" width="220px">${review.content}</td>
 							        <td id="score_view_${review.reviewIdx}" width="50px">
 							            <c:choose>
 							                <c:when test="${review.score eq 1}">&#9733;</c:when>
@@ -274,16 +274,17 @@
 							        <td width="130px">${review.reserDate} 방문</td>
 							        <!-- 사용자 본인만 리뷰 수정,삭제 가능 -->		        
 							        <c:if test="${review.userIdx eq userIdx}">	        
-								        <td width="40px"><button class="ubtn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
-								    	<form id="deleteReviewForm_${review.reviewIdx }" action="deleteReview.do" action="POST">				    
+									    <td width="20px"><button class="ubtn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
+									    <form id="deleteReviewForm_${review.reviewIdx}" action="deleteReview.do" method="POST">				    
 									        <td width="20px">			 
-									        	<input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
-										        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
-			       						        <input type="hidden" name="reserIdx" value="${review.reserIdx}">			        	
-									        	<input type="submit" class="ubtn" value="삭제" onClick="confirmDelete(${review.reviewIdx})">    
+									            <input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
+									            <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
+									            <input type="hidden" name="reserIdx" value="${review.reserIdx}">			        	
+									            <input type="button" class="ubtn" value="삭제" onclick="confirmDelete(${review.reviewIdx}, ${hospital.hosIdx})">    
 									        </td> 
 									    </form>
-							        </c:if>
+									</c:if>
+
 							    </tr>
 <%-- 							    <tr>
 							        <td width="150px">${review.reviewDate} 작성</td>
