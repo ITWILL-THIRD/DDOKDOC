@@ -21,7 +21,6 @@
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38a906000cd6c18d4d8489d1eddaec85&libraries=services,clusterer,drawing"></script>
 <div id="container">
-\${notice } = ${notice }
 	<div id="hosContainer">
 		<h1>${hospital.hosName}</h1>
 		<div id="hosDetailContainer">
