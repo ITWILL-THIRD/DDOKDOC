@@ -56,7 +56,6 @@ public interface HospitalService {
 	int updateHosImg(HosImgVO io);
 	void updateHoPwd(HospitalVO vo);
 	void deleteHos(int hosIdx);
-	HosImgVO hosImg(int hosIdx);;
 	//관리자 리뷰리스트
 	List<HosReviewVO> myReviewList(int userIdx);
 	//기업(병원) 회원가입 시,

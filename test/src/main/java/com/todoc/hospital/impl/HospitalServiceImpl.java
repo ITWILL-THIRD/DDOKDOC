@@ -278,4 +278,5 @@ public class HospitalServiceImpl implements HospitalService{
 		return hospitalDAO.getHosMembershipByIdx(hosIdx);
 	}
 
+
 }
