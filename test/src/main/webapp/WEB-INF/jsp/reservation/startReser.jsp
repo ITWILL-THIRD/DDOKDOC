@@ -128,7 +128,7 @@ $(document).ready(function(){
             }
           }
           // 클릭한 날짜를 새로운 선택 날짜로 설정
-          info.dayEl.style.backgroundColor = '#B6E5FF'; // 선택된 색상 설정
+          info.dayEl.style.backgroundColor = '#E0EAF5'; // 선택된 색상 설정
           selectedDate = info.dateStr; // 선택된 날짜 업데이트
           selectedDay = info.date.getDay(); //선택된 날짜의 요일
           // 예약 가능한 시간 비동기처리
@@ -310,6 +310,20 @@ $(document).ready(function(){
   
 </script>
 <style>
+	@font-face {
+      font-family: 'Pretendard-Regular';
+      src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+  }
+
+  * {
+      font-family: 'Pretendard-Regular';
+  }
+
+	.fc-day-header {
+	  background-color: #E0EAF5;
+	}
 	
    #selectPetDiv, #selectDateTimeDiv {
 	float: left;
@@ -380,7 +394,7 @@ $(document).ready(function(){
    }	
    	
    .btn.selected {
-       background-color: #B6E5FF;
+       background-color: #E0EAF5;
    }
    
    #guardianInfo {
@@ -437,7 +451,7 @@ $(document).ready(function(){
 		height: 35px;
 		border: none;
 		border-radius: 10px;
-		background-color: #B6E5FF;
+		background-color: #E0EAF5;
 		width: calc(100% - 20px);
 		font-size: 15px;
 	}
@@ -471,7 +485,10 @@ $(document).ready(function(){
     font-size: 14px;
 }
 
-
+hr {
+  border: 1px solid #2C307D;
+  }
+  
 </style>
 </head>
 <body>
@@ -484,9 +501,9 @@ $(document).ready(function(){
 \${hosHoliday } : ${hosHoliday }<br> --%>
 <%-- \${notice } : ${notice }<br> --%>
 
-  <div id="container">
 	<h1>진료 예약하기</h1>
-    
+  <div id="container">
+    <hr>
     <div id="selectDateTimeDiv" class="container">
     	<div id="calendar" class="reserInfo"></div>
     	<div id="listDisp" class="reserInfo">

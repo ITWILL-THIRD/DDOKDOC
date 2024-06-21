@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 수정폼</title>
+<jsp:include page="../common/navigation.jsp"/>
 </head>
 <body>
 \${notice } : ${notice }

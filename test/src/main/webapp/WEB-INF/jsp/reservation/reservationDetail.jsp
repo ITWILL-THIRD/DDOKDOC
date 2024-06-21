@@ -11,11 +11,181 @@
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<style type="text/css">
-	#info {
-		color: gray;
-		font-style: italic;
+<style>
+	#container { width: 800px; margin: auto; }
+	h1, h3, p { text-align: center; }
+	
+	<%-- 목록 --%>
+	table {
+		width: 800px;
+		border-collapse: collapse;
+		margin-left:auto;margin-right:auto;
+		margin-top: 23px;
 	}
+	
+	table th, table td {
+		position: static;
+		text-align: center;
+		margin: auto;
+		padding: 5px;
+		border: 1px #B9B9B9 solid;
+		
+		border-collapse: collapse;
+	}
+	
+	table th:first-child,
+	table td:first-child {
+		border-left: 0;
+	}
+
+	table th:last-child,
+	table td:last-child {
+		border-right: 0;
+	}
+
+	th { 
+	
+	background-color: #E0EAF5;
+	 }
+	.center { text-align: center; }
+	.border-none, .border-none td { border: none; }
+	
+	<%-- 검색창 --%>
+	#category {
+		padding: 10px;
+	}
+	.selectTb {
+	border: none;
+	}
+	.select {
+width: 100px;
+height: 40px;
+ border: 1px solid #bbb;
+border-radius: 5px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.search {
+position: relative;
+	margin-top: 16px;
+  width: 200px;
+  height: 19px;
+  border: 1px solid #bbb;
+border-radius: 5px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.center {
+margin-bottom: 20px;
+}
+	<%-- 제목 링크 --%>
+	a {	
+		color: #2C307D;
+		text-decoration: none;	
+	}
+	a:hover {color:#FFA217;}
+	
+    .searchBtn {
+    width: 70px;
+  height: 40px;
+  border-radius: 5px;
+  border : none;
+  background-color: #2C307D;
+  font-size: 14px;
+  color: white;
+    }
+    .searchBtn:hover {
+    	background-color: #4349B4;
+    }
+    
+   .searchForm{
+    display: inline-block;
+          text-align: center;
+    }	
+    
+    .resetBtn{
+    width: 70px;
+  height: 40px;
+  border-radius: 5px;
+  border : 1px solid #2C307D;
+  background-color: white;
+  color: #2C307D;
+  font-size: 14px;
+ 
+    }
+    .resetBtn:hover {
+    	background-color: #EAEAEA;
+    	
+    }
+    
+    
+        /* 버튼 */
+    .btn {
+    	border-radius: 5px;
+    	background-color: #2C307D;
+    	padding: 7px 18px;
+    	border: none;
+    	cursor: pointer;
+    	color: #FFFFFF;
+    	text-decoration: none;
+    	 display: inline-block;
+    	 border: 1px solid #2C307D;
+    }
+    
+    .btn:hover {
+    	background-color: #FFFFFF;
+    	color: #2C307D;
+    	border: 1px solid #2C307D;
+    }
+    /* 버튼 배경색 변경 */
+    .btn.active {
+        background-color: #FFFFFF;
+        color: #2C307D;
+    	border: 1px solid #2C307D; 	
+    }
+	
+    
+	/* 버튼 정렬 */
+	.row, #searchDate {
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+		align-items: center;
+	}
+	.row {
+		padding: 10px 0;
+	}
+	#searchDate {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	
+    /* 버튼 배경색 변경 */
+    .btn.active, .dateBtn.active {
+        background-color: #2C307D;
+        color: #FFFFFF;   	
+    }
+	.dateBtn.active {
+        background-color: #2E77AE;
+	}
+
+  hr {
+ 
+  border: 1px solid #2C307D;
+  }
+  
+  #reserDetailBtn {
+  	border: none;
+  	background-color: white;
+  	color: #2C307D;
+  	text-decoration: none;
+  }
+  
+  #reserDetailBtn:hover {
+  	color:#FFA217;
+  }
+    
+	
 </style>
 </head>
 <body>
@@ -24,51 +194,53 @@
 \${myPet } : ${myPet }<br>
 \${user } : ${user }<br> --%>
 
-
-	<h3>${user.name } 님의 예약입니다</h3>
-	<table>
-		<tr>
-			<th>병원 이름</th>
-			<td><a href="../hospital/hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName }</a></td>
-		</tr>
-		<tr>
-			<th>예약일</th>
-			<td>${reservation.reserDate }</td>
-		</tr>
-		<tr>
-			<th>예약시간</th>
-			<td>${reservation.formattedTime }</td>
-		</tr>
-		<tr>
-			<th>진료볼동물</th>
-			<td>${myPet.petName }</td>
-		</tr>
-		<tr>
-			<th>메모</th>
-			<td>${reservation.memo }</td>
-		</tr>
-	</table>
+	<h1>예약 상세보기</h1>
+	<div id="container">
+		<%-- <h3>${user.name } 님의 예약입니다</h3> --%>
+		<table border frame=void>
+			<tr>
+				<th>병원 이름</th>
+				<td><a href="../hospital/hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName }</a></td>
+			</tr>
+			<tr>
+				<th>예약일</th>
+				<td>${reservation.reserDate }</td>
+			</tr>
+			<tr>
+				<th>예약시간</th>
+				<td>${reservation.formattedTime }</td>
+			</tr>
+			<tr>
+				<th>진료볼동물</th>
+				<td>${myPet.petName }</td>
+			</tr>
+			<tr>
+				<th>메모</th>
+				<td>${reservation.memo }</td>
+			</tr>
+		</table>
+		
+		<%-- 현재 날짜를 'yyyy-mm-dd' 형식으로 변환하고 세션에 저장 --%>
+	    <%
+	    java.text.SimpleDateFormat dateSdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+	    java.text.SimpleDateFormat timeSdf = new java.text.SimpleDateFormat("HH:mm");
+	    String currentDateStr = dateSdf.format(new java.util.Date());
+	    String currentTimeStr = timeSdf.format(new java.util.Date());
+	    session.setAttribute("currentDateStr", currentDateStr);
+	    session.setAttribute("currentTimeStr", currentTimeStr);
+	    %>
 	
-	<%-- 현재 날짜를 'yyyy-mm-dd' 형식으로 변환하고 세션에 저장 --%>
-    <%
-    java.text.SimpleDateFormat dateSdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-    java.text.SimpleDateFormat timeSdf = new java.text.SimpleDateFormat("HH:mm");
-    String currentDateStr = dateSdf.format(new java.util.Date());
-    String currentTimeStr = timeSdf.format(new java.util.Date());
-    session.setAttribute("currentDateStr", currentDateStr);
-    session.setAttribute("currentTimeStr", currentTimeStr);
-    %>
-
-    <%-- 예약 날짜와 현재 날짜 비교 --%>
-    <c:choose>
-        <c:when test="${reservation.reserDate == sessionScope.currentDateStr && reservation.formattedTime <= sessionScope.currentTimeStr}">
-            <p id="info">예약 시간이 지나 변경/취소가 불가능 합니다.</p>
-        </c:when>
-        <c:otherwise>
-            <button onclick="reserUpdate(${reservation.reserIdx})">예약 변경</button>
-            <button onclick="reserDelete(${reservation.reserIdx})">예약 취소</button>
-        </c:otherwise>
-    </c:choose>
+	    <%-- 예약 날짜와 현재 날짜 비교 --%>
+	    <c:choose>
+	        <c:when test="${reservation.reserDate == sessionScope.currentDateStr && reservation.formattedTime <= sessionScope.currentTimeStr}">
+	            <p id="info">예약 시간이 지나 변경/취소가 불가능 합니다.</p>
+	        </c:when>
+	        <c:otherwise>
+	            <button onclick="reserUpdate(${reservation.reserIdx})">예약 변경</button>
+	            <button onclick="reserDelete(${reservation.reserIdx})">예약 취소</button>
+	        </c:otherwise>
+	    </c:choose>
+	</div>
 
 	
 	<script>
