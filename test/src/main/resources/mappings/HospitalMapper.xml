@@ -638,9 +638,16 @@
 	
 	<!-- 병원 멤버십 상태 조회 및 변경 -->
 	<select id="getHosMembershipByIdx" parameterType="int" resultType="HosMembershipVO">
-		SELECT *
-		FROM HOSMEMBERSHIP
-		WHERE HOSIDX = #{hosIdx}
+		<![CDATA[
+        SELECT *
+        FROM (
+        	SELECT *
+            FROM USERMEMBERSHIP
+            WHERE USERIDX = #{userIdx}
+            ORDER BY MEMSTART DESC
+        )
+        WHERE ROWNUM = 1
+        ]]>
 	</select>
 	
 	<update id="updateHosCondition" parameterType="HospitalVO">

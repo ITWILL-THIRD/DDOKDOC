@@ -130,18 +130,18 @@
 					<a href="../mypage/myPostList.do">나의 게시물</a>
 				</div>	
 			</div>
-    		<a href="logout.do">로그아웃</a>
+    		<a href="../logout.do">로그아웃</a>
     	</c:if>
     	<c:if test="${sessionScope.user.role == 'admin'}">
     		<div class="adminDropdown">
 				<a>관리</a>
 				<div class="dropdownList">
-					<a href="admin/getHosApprovalList.do">병원 승인</a>
-				    <a href="admin/getUserList.do">개인 회원</a>
-					<a href="admin/statsPage.do">통계</a>
+					<a href="../admin/getHosApprovalList.do">병원 승인</a>
+				    <a href="../admin/getUserList.do">개인 회원</a>
+					<a href="../admin/statsPage.do">통계</a>
 				</div>
 			</div>
-			<a href="logout.do">로그아웃</a>
+			<a href="../logout.do">로그아웃</a>
     	</c:if>
     	
     </div>
