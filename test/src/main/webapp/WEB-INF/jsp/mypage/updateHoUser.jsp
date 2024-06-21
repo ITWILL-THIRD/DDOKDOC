@@ -183,7 +183,7 @@ function sample4_execDaumPostcode() {
 				<input type="text" name="hosPhone" value="${hoUser.hosPhone }">
 			</td>
 		</tr>
-<!-- 		<tr> -->
+		<tr>
 <!-- 		<td>병원 외/내부사진</td> -->
 <!-- 		</tr> -->
 <!-- 		<tr> -->

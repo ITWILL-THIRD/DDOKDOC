@@ -53,7 +53,7 @@ public interface HospitalService {
 	void updateHoUser(HospitalVO vo);
 	void updateHosAddress(HospitalVO vo);
 	void updateHosTime(HospitalVO vo);
-	void updateHosImg(HospitalVO vo);
+	int updateHosImg(HosImgVO io);
 	void updateHoPwd(HospitalVO vo);
 	void deleteHos(int hosIdx);
 	HosImgVO hosImg(int hosIdx);;
@@ -80,3 +80,4 @@ public interface HospitalService {
 	void updateHosCondition(HospitalVO vo);
 	HosMembershipVO getHosMembershipByIdx(int hosIdx);
 }
+

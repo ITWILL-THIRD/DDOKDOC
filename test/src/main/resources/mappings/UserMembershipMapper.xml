@@ -29,6 +29,4 @@
         AND SYSDATE BETWEEN MEMSTART AND MEMEND
 	</select>
 	
-	
-	
 </mapper>

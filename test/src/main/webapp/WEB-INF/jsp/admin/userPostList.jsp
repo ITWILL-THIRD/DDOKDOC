@@ -6,14 +6,18 @@
 <head>
 <meta charset="UTF-8">
 <title>유저의 작성게시물</title>
+<jsp:include page="../../css/getUserListCss.jsp"/>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../common/navigation.jsp"/>
 </head>
 <body>
 <h1>유저의 작성게시물</h1>
 <%-- \${userPostList } : ${userPostList } --%>
+<div id="container">
 <a href="getUserList.do">회원관리목록 가기</a>
-<table>
+<table border frame=void  style="width:100%">
 <tr>
-	<th>번호</th>
+	<th height="35px">번호</th>
 	<th>카테고리</th>
 	<th>제목</th>
 	<th>작성자</th>
@@ -23,8 +27,8 @@
 <tbody>
 		<c:forEach var="board" items="${userPostList }">
 			<tr>
-				<td class="center">${board.postidx }</td>
-				<td class="center">
+				<td height="30px" class="center">${board.postidx }</td>
+				<td >
 					<c:choose>
                         <c:when test="${board.category == 'free'}">자유</c:when>
                         <c:when test="${board.category == 'med'}">의료</c:when>
@@ -43,6 +47,6 @@
 		</c:forEach>
 		</tbody>
 </table>
-
+</div>
 </body>
 </html>

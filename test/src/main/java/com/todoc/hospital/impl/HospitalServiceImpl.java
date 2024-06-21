@@ -118,8 +118,9 @@ public class HospitalServiceImpl implements HospitalService{
 		hospitalDAO.updateHosTime(vo);
 	}
 	//병원사진수정
-	public void updateHosImg(HospitalVO vo) {
-		hospitalDAO.updateHosImg(vo);
+	public int updateHosImg(HosImgVO io) {
+		return hospitalDAO.updateHosImg(io);
+		
 	}
 	//병원 비번 변경
 	public void updateHoPwd(HospitalVO vo) {
@@ -129,10 +130,10 @@ public class HospitalServiceImpl implements HospitalService{
 	public void deleteHos(int hosIdx) {
 		hospitalDAO.deleteHos(hosIdx);
 	}
-	//사진조회
-	public HosImgVO hosImg(int hosIdx) {
-		return hospitalDAO.hosImg(hosIdx);
-	}
+//	//사진조회
+//	public HosImgVO hosImg(int hosIdx) {
+//		return hospitalDAO.hosImg(hosIdx);
+//	}
 	//병원 리뷰 전체 조회
 	@Override
 	public List<HosReviewVO> getHosReview(int hosIdx) {
@@ -276,4 +277,5 @@ public class HospitalServiceImpl implements HospitalService{
 	public HosMembershipVO getHosMembershipByIdx(int hosIdx) {
 		return hospitalDAO.getHosMembershipByIdx(hosIdx);
 	}
+
 }
