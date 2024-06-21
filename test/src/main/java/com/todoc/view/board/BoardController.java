@@ -295,30 +295,13 @@ public class BoardController {
 	
 	//@ModelAttribute("board") : @SessionAttributes 설정으로 존재하는 "board" 데이터 사용
 	@RequestMapping("/updateBoard.do")
-	public String updateBoard(@ModelAttribute("board") BoardVO vo, @RequestParam("file") MultipartFile file, Model model) {
+	public String updateBoard(@ModelAttribute("board") BoardVO vo, Model model) {
 		System.out.println(">> 게시글 수정");
 		System.out.println("vo : " + vo);
 		
-		try {
-
-			if (!file.isEmpty() && vo.getImg() != null) {
-	            gcsService.deleteFile(vo.getImg());
-	        }
-
-	        // 새 파일이 있는 경우 업로드 처리
-	        if (!file.isEmpty()) {
-	            String newImg = gcsService.uploadFile(file);
-	            vo.setImg(newImg);
-	        }
-			
-			System.out.println("updating : " + vo); // 값 설정 확인
-			boardService.updateBoard(vo);
-			return "redirect:getBoardList.do";
-		} catch (IOException e) {
-			e.printStackTrace();
-	        model.addAttribute("errorMessage", "파일 업로드 중 오류가 발생했습니다");
-	        return "redirect:updateBoard.do";
-		}
+		System.out.println("updating : " + vo); // 값 설정 확인
+		boardService.updateBoard(vo);
+		return "redirect:getBoardList.do";
 	}
 	
 	@RequestMapping("/deleteBoard.do")

@@ -67,7 +67,7 @@
 	}
 	
 	.topnav a:hover {
-	  color: #B6E5FF;
+	  color: #E0EAF5;
 	}
 	
 	.adminDropdown, .userDropdown {
@@ -115,38 +115,33 @@
     	
     	<c:if test="${not empty sessionScope.hoUser}">
     		<a href="../membership/checkout.do">멤버십</a>
-    		<a href="../logout.do">로그아웃</a>
 	        <a href="../mypage/hoMyPage.do">병원 마이페이지</a>
+	        <a href="../logout.do">로그아웃</a>    		
     	</c:if>
     	
-    	<c:if test="${not empty sessionScope.user}">
+    	<c:if test="${sessionScope.user.role == 'user'}">
     		<a href="../membership/usercheckout.do">멤버십</a>
-    		<a href="../logout.do">로그아웃</a>
-    		
-    		<c:choose>
-		    	<c:when test="${sessionScope.user.role == 'admin'}">
-		    		<a href="../mypage/myPage.do">관리자 마이페이지</a>
-					<div class="adminDropdown">
-						<a>관리</a>
-						<div class="dropdownList">
-							<a href="../admin/getHosApprovalList.do">병원 승인</a>
-						    <a href="../admin/getUserList.do">개인 회원</a>
-							<a href="../admin/statsPage.do">통계</a>
-						</div>
-					</div>
-		    	</c:when>
-		    	<c:otherwise>
-		    		<div class="userDropdown">
-						<a href="../mypage/myPage.do">마이페이지</a>
-						<div class="dropdownList">
-							<a href="../mypage/myReserList.do">진료예약내역</a>
-							<a href="../mypage/myCancleReserList.do">취소예약내역</a>
-							<a href="../mypage/myReviewList.do">지난예약내역</a>
-							<a href="../mypage/myPostList.do">나의 게시물</a>
-						</div>	
-					</div>
-		    	</c:otherwise>
-    		</c:choose>
+    		<div class="userDropdown">
+				<a href="../mypage/myPage.do">마이페이지</a>
+				<div class="dropdownList">
+					<a href="../mypage/myReserList.do">진료예약내역</a>
+					<a href="../mypage/myCancleReserList.do">취소예약내역</a>
+					<a href="../mypage/myReviewList.do">지난예약내역</a>
+					<a href="../mypage/myPostList.do">나의 게시물</a>
+				</div>	
+			</div>
+    		<a href="logout.do">로그아웃</a>
+    	</c:if>
+    	<c:if test="${sessionScope.user.role == 'admin'}">
+    		<div class="adminDropdown">
+				<a>관리</a>
+				<div class="dropdownList">
+					<a href="admin/getHosApprovalList.do">병원 승인</a>
+				    <a href="admin/getUserList.do">개인 회원</a>
+					<a href="admin/statsPage.do">통계</a>
+				</div>
+			</div>
+			<a href="logout.do">로그아웃</a>
     	</c:if>
     	
     </div>
