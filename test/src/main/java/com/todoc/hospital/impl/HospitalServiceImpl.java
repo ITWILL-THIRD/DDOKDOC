@@ -1,7 +1,9 @@
 package com.todoc.hospital.impl;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,10 +36,44 @@ public class HospitalServiceImpl implements HospitalService{
 	public List<HospitalVO> selectList() {
 		return hospitalDAO.selectList();
 	}
+	//결제완료 병원 cnt
+	public int paymentCnt() {
+		return hospitalDAO.paymentCnt();
+	}
+	//병원 전체 조회 + 페이징
+	@Override
+	public List<HospitalVO> selectListPage(HospitalVO vo, int begin, int end) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("begin", begin);
+		map.put("end", end);
+		System.out.println("map : " + map);
+		return hospitalDAO.selectListPage(map);
+	}
 	//병원 1개 조회
 	@Override
 	public HospitalVO selectOne(int hosIdx) {
 		return hospitalDAO.selectOne(hosIdx);
+	}
+	//동적처리 + 결제완료된 병원 건수 cnt
+	@Override
+	public int ajaxPaymentCnt(HospitalVO vo) {
+		return hospitalDAO.ajaxPaymentCnt(vo);
+	}
+	//병원 동적 검색 + 페이징
+	@Override
+	public List<HospitalVO> getHosSearchPage(HospitalVO vo, int begin, int end) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchCondition", vo.getSearchCondition());
+		map.put("searchKeyword", vo.getSearchKeyword());
+		map.put("sido", vo.getSido());
+		map.put("sigungu", vo.getSigungu());
+		map.put("sigungu", vo.getSigungu());
+		map.put("closeTime", vo.getCloseTime());
+		map.put("openTime", vo.getOpenTime());
+		map.put("begin", begin);
+		map.put("end", end);
+		System.out.println("map : " + map);
+		return hospitalDAO.getHosSearchPage(map);
 	}
 	//병원 동적 검색
 	@Override
@@ -240,5 +276,4 @@ public class HospitalServiceImpl implements HospitalService{
 	public HosMembershipVO getHosMembershipByIdx(int hosIdx) {
 		return hospitalDAO.getHosMembershipByIdx(hosIdx);
 	}
-
 }
