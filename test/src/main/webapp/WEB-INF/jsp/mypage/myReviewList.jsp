@@ -186,20 +186,30 @@ tr {
 		</svg>&nbsp;
 		리뷰 작성을 기다리고 있어요</h3>
 		<hr>
+	    <table>
+	        <thead>
+	            <tr>
+	            	<th width="160px">병원명</th>
+	                <th width="160px">방문일</th>
+	                <th width="160px">방문시간</th>
+	                <th width="160px">동물이름</th>
+	                <th width="160px"> </th>
+	            </tr>
+	        </thead>
+	        <c:if test="${empty reviewToWrite}">
+				<tr>
+					<td colspan="7">진료 내역이 없습니다.</td>
+				</tr>
+			</c:if>
 			<!-- 예약 후 진료 완료 상태만 form 작성 가능 -->
 			<c:if test="${not empty reviewToWrite}">
-		    <form id="reviewForm" action="myReviewInsert.do" method="post">
-			    <table>
-			        <thead>
-			            <tr>
-			            	<th width="160px">병원명</th>
-			                <th width="160px">방문일</th>
-			                <th width="160px">방문시간</th>
-			                <th width="160px">동물이름</th>
-			                <th width="160px"> </th>
-			            </tr>
-			        </thead>
 			        <tbody>
+			        	<c:if test="${empty reviewToWrite}">
+							<tr>
+								<td colspan="7">리뷰 내역이 없습니다.</td>
+							</tr>
+						</c:if>
+					    <form id="reviewForm" action="myReviewInsert.do" method="post">
 			            <c:forEach var="finish" items="${reviewToWrite}">
 						    <tr>
 						    	<td>${finish.hosName }</td>
@@ -210,38 +220,36 @@ tr {
 						        </td>
 						        <td>${finish.petName}</td>
 						        <td>
-				    <button type="button" class="ibtn" id="writeReviewBtn" onclick="showReviewForm('${finish.reserIdx}', '${finish.hosIdx}')">리뷰 작성</button>
-				</td>
-				<td id="reviewSection" style="display:none;">
-				    <form action="myReviewInsert" method="POST">
-				        <div class="star-rating">
-				            <input type="radio" id="5-stars" name="score" value="5" />
-				            <label for="5-stars" class="star">&#9733;</label>
-				            <input type="radio" id="4-stars" name="score" value="4" />
-				            <label for="4-stars" class="star">&#9733;</label>
-				            <input type="radio" id="3-stars" name="score" value="3" />
-				            <label for="3-stars" class="star">&#9733;</label>
-				            <input type="radio" id="2-stars" name="score" value="2" />
-				            <label for="2-stars" class="star">&#9733;</label>
-				            <input type="radio" id="1-star" name="score" value="1" />
-				            <label for="1-star" class="star">&#9733;</label>
-				        </div>
-				        <input type="text" class="form" name="content" placeholder="리뷰를 작성하세요.">
-				        <input type="hidden" id="selectedReserIdx" name="reserIdx" value="" />
-				        <input type="hidden" id="selectedHosIdx" name="hosIdx" value="" />
-				        <input type="submit" value="저장" class="sbtn">
-				        <button type="button" class="sbtn" onclick="hideReviewForm()">취소</button>
-				    </form>
-				</td>
+				    				<button type="button" class="ibtn" id="writeReviewBtn" onclick="showReviewForm('${finish.reserIdx}', '${finish.hosIdx}')">리뷰 작성</button>
+								</td>
+								<td id="reviewSection" style="display:none;">
+								    <form action="myReviewInsert" method="POST">
+								        <div class="star-rating">
+								            <input type="radio" id="5-stars" name="score" value="5" />
+								            <label for="5-stars" class="star">&#9733;</label>
+								            <input type="radio" id="4-stars" name="score" value="4" />
+								            <label for="4-stars" class="star">&#9733;</label>
+								            <input type="radio" id="3-stars" name="score" value="3" />
+								            <label for="3-stars" class="star">&#9733;</label>
+								            <input type="radio" id="2-stars" name="score" value="2" />
+								            <label for="2-stars" class="star">&#9733;</label>
+								            <input type="radio" id="1-star" name="score" value="1" />
+								            <label for="1-star" class="star">&#9733;</label>
+								        </div>
+								        <input type="text" class="form" name="content" placeholder="리뷰를 작성하세요.">
+								        <input type="hidden" id="selectedReserIdx" name="reserIdx" value="" />
+								        <input type="hidden" id="selectedHosIdx" name="hosIdx" value="" />
+								        <input type="submit" value="저장" class="sbtn">
+								        <button type="button" class="sbtn" onclick="hideReviewForm()">취소</button>
+								    </form>
+								</td>
 
 						    </tr>
 						</c:forEach>
+						</form>
 			        </tbody>
-			    </table>
-	    
-			</form>
-	
-			</c:if>
+				</c:if>
+		    </table>
 		</div>
 		<div id="review">
 		<h3 class="left">
@@ -261,6 +269,11 @@ tr {
 					<th width="50px"> </th>
 				</tr>
 				<tbody>
+					<c:if test="${empty myReviewList}">
+						<tr>
+							<td colspan="7">리뷰 내역이 없습니다.</td>
+						</tr>
+					</c:if>
 					<c:forEach var="review" items="${myReviewList}">
 					    <tr id="view_${review.reviewIdx}">
 					    <td>${review.hosName}</td>

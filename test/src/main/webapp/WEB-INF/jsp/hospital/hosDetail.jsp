@@ -148,7 +148,7 @@
 			</div>
 			<div id="map"></div>
 		</div>
-		<!-- 이미지 슬라이더 -->
+		<%-- <!-- 이미지 슬라이더 -->
 		<div class="carousel slide" id="slide" data-bs-ride="true">
 		    <div class="carousel-inner">
 		        <c:forEach var="img" items="${imgList}" varStatus="status">
@@ -172,7 +172,17 @@
 		        <span class="carousel-control-next-icon" aria-hidden="true"></span>
 		        <span class="visually-hidden">Next</span>
 		    </button>
+		</div> --%>
+		<!-- 이미지 갤러리 -->
+		<div class="image-gallery">
+		    <c:forEach var="img" items="${imgList}">
+		        <div class="image-item">
+		            <img src="${img.hosImg}" alt="병원 내부사진">
+		        </div>
+		    </c:forEach>
 		</div>
+
+		
 	</div>
 	<div id="rightContainer">
 		<button id="reservation" onclick="userCheck('${user}')">예약하기</button>

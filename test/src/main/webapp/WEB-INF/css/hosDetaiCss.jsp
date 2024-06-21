@@ -102,7 +102,7 @@
 	}
 	.sbtn:hover  {
 		color: #FFFFFF; 
-		background-color: #86CFF8;
+		background-color: #2C307D;
 	}
 	
 	.ubtn {
@@ -132,7 +132,7 @@
 	
 	/* -----사진----- */
 	
-	#slide {
+/* 	#slide {
 	    width: 400px;
 	    height: 400px;
 	    margin: auto;
@@ -156,8 +156,31 @@
 	}
 	
 	.carousel-control-prev, .carousel-control-next {
-	    height: 100%; /* 컨트롤 버튼의 높이를 슬라이드 높이에 맞춤 */
-	}
+	    */ height: 100%; /* 컨트롤 버튼의 높이를 슬라이드 높이에 맞춤 */
+	} */
+	.image-gallery {
+    display: flex;
+    flex-wrap: wrap; /* 줄바꿈을 처리 */
+    max-width: 500px; /* 컨테이너의 최대 너비 */
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+.image-item {
+    flex: 0 0 calc(33.333% - 10px); /* 3개의 이미지가 한 줄에 들어가도록 설정 */
+    box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 계산 */
+    margin-bottom: 10px; /* 이미지 간의 간격을 위한 마진 */
+}
+
+.image-item img {
+    width: 100%; /* 이미지 너비를 부모 요소에 맞춤 */
+    height: auto; /* 이미지 비율을 유지하면서 크기 조정 */
+    display: block;
+}
+
+
+	
+	
+	
 
 	
 	/* 예약 버튼 */	
@@ -175,7 +198,7 @@
 	
 	#reservation:hover  {
 		color: #FFFFFF; 
-		background-color: #86CFF8;
+		background-color: #2C307D;
 	}
 	
 	/* -----공지사항-----  */
@@ -186,19 +209,18 @@
 	
 	#post {
 		width: 500px;
-		height: 400px;
+		display: inline-block;
 	    vertical-align: middle;
-	    margin: 30px;
-	    
+	    margin: 30px; 
 	}
 	
 	#postContainer {
-		margin: 75px 50px 20px 20px;
+		margin: 30px 50px 20px 20px;
 		top: 50px;
 		width: 550px;
-		height: 450px;
 		border: 1px solid #B9B9B9;
 		border-radius: 40px 40px;
+		display: inline-block;
 	}
 	
 /* 	.reviewContainer{
