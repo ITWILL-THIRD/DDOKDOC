@@ -13,6 +13,7 @@ public class JDBCUtil {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
 			return DriverManager.getConnection(
+					/* "jdbc:oracle:thin:@192.168.18.22:1521:xe", */
 					"jdbc:oracle:thin:@localhost:1521:xe", 
 					"mystudy", "mystudypw");
 		} catch (ClassNotFoundException e) {

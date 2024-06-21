@@ -10,13 +10,7 @@
 <body>
 	<h2>공지사항 입력[insertNotice.jsp]</h2>
 	<form action="insertNotice.do" method="post">
-		<table>
-			<tr>
-				<th>제목</th>
-				<th>
-					<input type="text" name="noticeTitle">
-				</th>
-			</tr>
+		<table >
 			<tr>
 				<th>내용</th>
 				<th>

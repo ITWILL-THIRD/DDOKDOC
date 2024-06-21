@@ -82,7 +82,7 @@ public class NoticeController {
 		
 		noticeService.updateNotice(notice);
 		
-		String add = "redirect:../mypage/hosNotice.do?hosIdx=" + notice.getHosIdx() + "&noticeIdx=" + notice.getNoticeIdx();
+		String add = "redirect:../mypage/hosNotice.do?hosIdx=" + notice.getHosIdx();
 		
 		return add;
 	}

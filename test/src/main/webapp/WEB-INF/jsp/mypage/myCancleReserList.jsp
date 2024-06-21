@@ -192,7 +192,7 @@ margin-bottom: 20px;
 	<h1>취소한 예약 내역 보기</h1>
 	<div id="container">
 		<hr>
-		<table>
+		<table border frame=void>
 			<tr>
 				<th>번호</th>
 				<th>병원이름</th>

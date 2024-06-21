@@ -25,15 +25,14 @@
 	
 	<!-- 첫 공지 입력 -->
 	<insert id="insertNotice" parameterType="NoticeVO">
-		INSERT INTO NOTICE(NOTICETITLE, NOTICECONTENT, NOTICEDATE, HOSIDX)
-		VALUES(#{noticeTitle}, #{noticeContent},
-				SYSDATE, #{hosIdx})
+		INSERT INTO NOTICE(NOTICECONTENT, NOTICEDATE, HOSIDX)
+		VALUES(#{noticeContent}, SYSDATE, #{hosIdx})
 	</insert>
 	
 	<!-- 공지 수정 -->
 	<update id="updateNotice" parameterType="NoticeVO">
 		UPDATE NOTICE
-		SET NOTICETITLE = #{noticeTitle}, NOTICECONTENT = #{noticeContent}, NOTICEDATE = SYSDATE
+		SET NOTICECONTENT = #{noticeContent}, NOTICEDATE = SYSDATE
 		WHERE HOSIDX = #{hosIdx}
 	</update>
 	
