@@ -8,6 +8,8 @@
 <meta charset="UTF-8">
 <title>토닥토닥 메인</title>
 <jsp:include page="../common/navigation.jsp"/>
+<jsp:include page="../../css/hosMainCss.jsp"/>
+<jsp:include page="../../css/commonCss.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 	function fetchData(category) {
@@ -26,8 +28,8 @@
 	        type: 'GET',
 	        data: vo,
 	        success: function(response) {
-	        	let data = response.hospitalList;
-                let pagingVO = response.pagingVO;
+// 	        	let data = response.hospitalList;
+//              let pagingVO = response.pagingVO;
                 
 	        	$("#listDisp").empty();
  
@@ -43,57 +45,83 @@
 			        }
 			    }
 
-			    for (let hospital of data) {
-			        let openTimeFormatted = formatTime(hospital.openTime);
-			        let closeTimeFormatted = formatTime(hospital.closeTime);
-			        let detailAddressOri = hospital.detailAddress;
-			        if (detailAddressOri == null) {
-			        	detailAddressOri = "";
-			        } 
+// 			    for (let hospital of data) {
+// 			        let openTimeFormatted = formatTime(hospital.openTime);
+// 			        let closeTimeFormatted = formatTime(hospital.closeTime);
+// 			        let detailAddressOri = hospital.detailAddress;
+// 			        if (detailAddressOri == null) {
+// 			        	detailAddressOri = "";
+// 			        } 
 
-			        dispHtml += "<tr>";
-			        dispHtml += "<td>" + hospital.hosIdx + "</td>";
-			        dispHtml += "<td><a href='hosDetail.do?hosIdx=" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
-			        dispHtml += "<td>" + hospital.roadAddressName + " " + detailAddressOri + "</td>";
-			        dispHtml += "<td>" + openTimeFormatted + " - " + closeTimeFormatted + "</td>";
-			        dispHtml += "<td>" + hospital.hosPhone + "</td>";
-			        dispHtml += "<td>" + hospital.animal + "</td>";
-			        dispHtml += "</tr>";
-			    }
+// 			        dispHtml += "<tr>";
+// 			        dispHtml += "<td>" + hospital.hosIdx + "</td>";
+// 			        dispHtml += "<td><a href='hosDetail.do?hosIdx=" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
+// 			        dispHtml += "<td>" + hospital.roadAddressName + " " + detailAddressOri + "</td>";
+// 			        dispHtml += "<td>" + openTimeFormatted + " - " + closeTimeFormatted + "</td>";
+// 			        dispHtml += "<td>" + hospital.hosPhone + "</td>";
+// 			        dispHtml += "<td>" + hospital.animal + "</td>";
+// 			        dispHtml += "</tr>";
+// 			    }
 
-			    console.log('Final HTML:', dispHtml);
+// 			    console.log('Final HTML:', dispHtml);
 			    
-			    $("#listDisp").html(dispHtml);
+// 			    $("#listDisp").html(dispHtml);
 			    
-			 // 페이징 처리
-             let pagingHtml = "";
-             //[이전]에 대한 사용여부 처리 
-             if (pagingVO.nowPage == 1) {
-                 pagingHtml += '<span class="disable">이전</span>';
-             } else {
-                 pagingHtml += '<span><a href="javascript:fetchData(\'' + category + '\', ' + (pagingVO.nowPage - 1) + ')">이전</a></span>';
-             }
+// 			 // 페이징 처리
+//              let pagingHtml = "";
+//              //[이전]에 대한 사용여부 처리 
+//              if (pagingVO.nowPage == 1) {
+//                  pagingHtml += '<span class="disable">이전</span>';
+//              } else {
+//                  pagingHtml += '<span><a href="javascript:fetchData(\'' + category + '\', ' + (pagingVO.nowPage - 1) + ')">이전</a></span>';
+//              }
 
-             for (let pageNo = pagingVO.beginPage; pageNo <= pagingVO.endPage; pageNo++) {
-                 if (pageNo == pagingVO.nowPage) {
-                     pagingHtml += '<span class="now">' + pageNo + '</span>';
-                 } else {
-                     pagingHtml += '<span><a href="javascript:fetchData(\'' + category + '\', ' + pageNo + ')">' + pageNo + '</a></span>';
-                 }
-             }
+//              for (let pageNo = pagingVO.beginPage; pageNo <= pagingVO.endPage; pageNo++) {
+//                  if (pageNo == pagingVO.nowPage) {
+//                      pagingHtml += '<span class="now">' + pageNo + '</span>';
+//                  } else {
+//                      pagingHtml += '<span><a href="javascript:fetchData(\'' + category + '\', ' + pageNo + ')">' + pageNo + '</a></span>';
+//                  }
+//              }
 
-             if (pagingVO.nowPage < pagingVO.totalPage) {
-                 pagingHtml += '<span><a href="javascript:fetchData(\'' + category + '\', ' + (pagingVO.nowPage + 1) + ')">다음</a></span>';
-             } else {
-                 pagingHtml += '<span class="disable">다음</span>';
-             }
+//              if (pagingVO.nowPage < pagingVO.totalPage) {
+//                  pagingHtml += '<span><a href="javascript:fetchData(\'' + category + '\', ' + (pagingVO.nowPage + 1) + ')">다음</a></span>';
+//              } else {
+//                  pagingHtml += '<span class="disable">다음</span>';
+//              }
 
-             $("#paging").html(pagingHtml);
-    
+//              $("#paging").html(pagingHtml);
+          	 // 서버로부터 받은 데이터를 화면에 렌더링
+             renderHospitals(response.data);
+             renderPagination(response.pagingVO);
 			    
 	        },
 	        error: function() {
+	        	console.error('Error fetching hospitals:', error);
 	        	alert("실패");
+	        }
+	        
+	        function renderHospitals(data) {
+	            var html = '';
+	            data.forEach(function(hospital) {
+	                html += '<div>' + hospital.hosname + ' - ' + hospital.addressname + '</div>';
+	            });
+	            $('#searchResults').html(html);
+	        }
+
+	        function renderPagination(pagingVO) {
+	            var html = '';
+	            for (var i = 1; i <= pagingVO.totalPages; i++) {
+	                html += '<span class="page-link" data-page="' + i + '">' + i + '</span> ';
+	            }
+	            $('#pagination').html(html);
+
+	            $('.page-link').on('click', function() {
+	                var page = $(this).data('page');
+	                var begin = (page - 1) * pagingVO.pageSize + 1;
+	                var end = page * pagingVO.pageSize;
+	                fetchHospitals(begin, end);
+	            });
 	        }
 	    });
 	}
@@ -107,26 +135,28 @@
 </head>
 <body>
 <%-- \${hosList} : ${hosList } --%>
-\${pagingVO} : ${pagingVO }
-	<div class="container">
-		
-		<h1>병원 검색</h1>
-		<form id="getHosSearch" onsubmit="fetchData('search'); return false;">
-			<p>통합검색</p>
+<%-- \${pagingVO} : ${pagingVO } --%>
+<div class="container">
+	<div class="center">
+	<h1>병원 검색</h1>
+	<form id="getHosSearch" onsubmit="fetchData('search'); return false;">
+		<p>통합검색
 			<input type="text" name="searchKeyword" placeholder="Search">
 			<input type="submit" value="검색">
-		</form>
-		<form id="getAdSearch" onsubmit="fetchData('address'); return false;">
-			<jsp:include page="partials/searchAdress.jsp"></jsp:include> 
-			<input type="submit" value="검색">
-		</form>
-		<div>
-			<button class="tab" onclick="fetchData('all')">전체</button>
-			<button class="tab" onclick="fetchData('common')">일반병원</button>
-			<button class="tab" onclick="fetchData('special')">특수병원</button>
-			<button class="tab" onclick="fetchData('night')">야간진료</button>
-			<button class="tab" onclick="fetchData('24h')">24시</button>
-		</div>
+		</p>
+	</form>
+	<form id="getAdSearch" onsubmit="fetchData('address'); return false;">
+		<jsp:include page="partials/searchAdress.jsp"></jsp:include> 
+		<input type="submit" value="검색">
+	</form>
+	<div>
+		<button class="tab" onclick="fetchData('all')">전체</button>
+		<button class="tab" onclick="fetchData('common')">일반병원</button>
+		<button class="tab" onclick="fetchData('special')">특수병원</button>
+		<button class="tab" onclick="fetchData('night')">야간진료</button>
+		<button class="tab" onclick="fetchData('24h')">24시</button>
+	</div>
+	</div>	
 	<table class="table">
 		<thead>
 			<tr id="hosTitle">
@@ -140,7 +170,8 @@
 		</thead>
 		
 		<c:set var="hasCompletedPayment" value="false" scope="page" />
-		<tbody id="listDisp">
+<!-- 		<tbody id="listDisp"> -->
+		<tbody id="searchResults">
 			<c:forEach var="hospital" items="${hosList }">
 				<c:choose>
 					<c:when test="${hospital.condition == '결제완료'}">
@@ -180,8 +211,9 @@
 			</c:if>
 		</tbody>
 		
-		<tfoot id="paging">
+<!-- 		<tfoot id="paging"> -->
 <!-- 		페이징 표시 없음 처리 -->
+		<tfoot id="pagination">
 			<tr>
 				<td colspan="6">
 					<!-- [이전]에 대한 사용여부 처리 -->
@@ -222,6 +254,6 @@
 			
 		</tfoot>
 	</table>
-	</div>
+</div>
 </body>
 </html>

@@ -112,21 +112,21 @@
 <body>
 <div id="container">
 	<h1>병원 승인 관리 [getApprovalList.jsp]</h1> 
-\${pagingVO} : ${pagingVO}<br><hr>  
-\${beginDate} : ${beginDate}<br>  
-\${endDate} : ${endDate}<br>  
-\${searchCondition} : ${searchCondition}<br><hr> 	
+<%-- \${pagingVO} : ${pagingVO}<br><hr>   --%>
+<%-- \${beginDate} : ${beginDate}<br>   --%>
+<%-- \${endDate} : ${endDate}<br>   --%>
+<%-- \${searchCondition} : ${searchCondition}<br><hr> 	 --%>
 	<!-- 검색 -->
 	<form method="post">
-	<table class="border-none">
-		<tr><td>가입일자 : 
-			<input type="date" id="beginDate" name="beginDate"> ~
-			<input type="date" id="endDate" name="endDate">
-			<input type="hidden" id="cPage" name="cPage" value="${pagingVO.nowPage}">
-			<input type="hidden" id="pagingVO" name="pagingVO" value="${pagingVO}">
-			<input type="button" value="검색" class="searchBtn" onclick="dateSearch(this.form)">
-		</td></tr>
-	</table>
+<!-- 	<table class="border-none"> -->
+<!-- 		<tr><td>가입일자 :  -->
+<!-- 			<input type="date" id="beginDate" name="beginDate"> ~ -->
+<!-- 			<input type="date" id="endDate" name="endDate"> -->
+<%-- 			<input type="hidden" id="cPage" name="cPage" value="${pagingVO.nowPage}"> --%>
+<%-- 			<input type="hidden" id="pagingVO" name="pagingVO" value="${pagingVO}"> --%>
+<!-- 			<input type="button" value="검색" class="searchBtn" onclick="dateSearch(this.form)"> -->
+<!-- 		</td></tr> -->
+<!-- 	</table> -->
 	<div id="getConditionSearch" class="center">
 		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
 		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=before">승인전</a>
@@ -325,6 +325,6 @@
 	</form>
 </div>
 
-\${hosList} : ${hosList}<br>  
+<%-- \${hosList} : ${hosList}<br>   --%>
 </body>
 </html>
