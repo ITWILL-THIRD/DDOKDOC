@@ -74,6 +74,7 @@ margin-bottom: 20px;
 }
 	<%-- 제목 링크 --%>
 	a {	
+		font-weight: bold;
 		color: #2C307D;
 		text-decoration: none;	
 	}
@@ -125,6 +126,7 @@ margin-bottom: 20px;
     	 display: inline-block;
     	 border: 1px solid #2C307D;
     }
+    
     
     .btn:hover {
     	background-color: #FFFFFF;

@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>병원비번수정</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/loginCss.jsp"/>
 <script>
 
 	function check_pwd(frm) {
@@ -33,25 +35,31 @@
         <p style="color: red;">${error}</p>
     </c:if>
 <form action="updateHoPwd.do" method="post">
-	<table>
+	<table class="tb">
 		<tr>
-			<td>현재 비밀번호</td>
-			 <td><input type="password" name="currentPassword"></td>
+		<td>현재 비밀번호</td>
 		</tr>
 		<tr>
-			<td>변경할 비밀번호</td>
-			<td><input type="password" name="hosPw" ></td>
+			 <td><input class="text" type="password" name="currentPassword"></td>
 		</tr>
 		<tr>
-			<td>비밀번호 확인</td>
-			<td><input type="password" name="pwdCheck" onblur="check_pwd(this.form)"></td>
+		<td>변경할 비밀번호</td>
+		</tr>
+		<tr>
+			<td><input class="text" type="password" name="hosPw" ></td>
+		</tr>
+		<tr>
+		<td>비밀번호 확인</td>
+		</tr>
+		<tr>
+			<td><input class="text" type="password" name="pwdCheck" onblur="check_pwd(this.form)"></td>
 		</tr>
 		<tr>
 			<td><input type="hidden" name="hosIdx" value="${hoUser.hosIdx}"></td>
 		</tr>
 		<tr>
 			<td>
-			<input type="button" value="비밀번호 변경" onclick="pwdUpdate_ok(this.form)">
+			<input class="loginBtn" type="button" value="비밀번호 변경" onclick="pwdUpdate_ok(this.form)">
 			</td>
 		</tr>
 	</table>

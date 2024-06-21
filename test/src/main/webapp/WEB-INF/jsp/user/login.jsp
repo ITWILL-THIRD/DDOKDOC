@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../../css/loginCss.jsp"/>
 
@@ -60,7 +61,7 @@
 </head>
 <body>
 <div id="container">
-<h1>login</h1>
+<h1>개인 로그인</h1>
 <!-- <a href= "hoLogin.do">병원로그인</a> -->
 <form action="login.do" method="post">
 <table class="tb">

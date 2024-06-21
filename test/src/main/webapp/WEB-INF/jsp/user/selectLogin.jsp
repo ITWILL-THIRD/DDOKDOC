@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 선택</title>
+<jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../../css/loginCss.jsp"/>
 <script>
@@ -17,8 +18,6 @@ function hoLogin() {
 </script>
 </head>
 <body>
-로고
-<hr>
 <table class="tb">
 <tr>
 <td colspan=2><h1>TODOC 로그인</h1></td>

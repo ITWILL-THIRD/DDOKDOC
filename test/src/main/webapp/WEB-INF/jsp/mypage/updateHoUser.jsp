@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>병원정보수정</title>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../../css/loginCss.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- 카카오 주소 API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -155,66 +157,77 @@ function sample4_execDaumPostcode() {
 <h1>병원정보수정</h1>
 <%-- ${hoUser } --%>
 <form name="hoUserUpdateForm" action="updateHoUser.do" method="post">
-	<table>
+	<table class="tb">
 		<tr>
 			<td>병원아이디</td>
+		</tr>
+		<tr>
 			<td>
-				<input type="text" name="hosId" value="${hoUser.hosId }" readonly>
+				<input class="text" type="text" name="hosId" value="${hoUser.hosId }" readonly>
 			</td>
 		</tr>
 		<tr>
 			<td>병원비번</td>
+		</tr>
+		<tr>
 			<td>
-				<input type="password" name="hosPw" value="${hoUser.hosPw }" readonly>
+				<input class="text" type="password" name="hosPw" value="${hoUser.hosPw }" readonly>
 			</td>
 			<td>
-			<input type="button" value="비밀번호 변경" onclick="updatePwd(document.hoUserUpdateForm)">
+			<input class="btn" type="button" value="비밀번호 변경" onclick="updatePwd(document.hoUserUpdateForm)">
 			</td>
 		</tr>
 		<tr>
 			<td>병원이름</td>
+		</tr>
+		<tr>
 			<td>
-				<input type="text" name="hosName" value="${hoUser.hosName }">
+				<input class="text" type="text" name="hosName" value="${hoUser.hosName }">
 			</td>
 		</tr>
 		<tr>
 			<td>병원 연락처</td>
+		</tr>
+		<tr>
 			<td>
-				<input type="text" name="hosPhone" value="${hoUser.hosPhone }">
+				<input class="text" type="text" name="hosPhone" value="${hoUser.hosPhone }">
 			</td>
 		</tr>
 		<tr>
-<!-- 		<td>병원 외/내부사진</td> -->
-<!-- 		</tr> -->
-<!-- 		<tr> -->
-<%-- 			<td><input type="file" title="병원 사진" name="hosImgStr" multiple="multiple" value="${hoUser.hosImg }"></td> --%>
-<!-- 		</tr> -->
 		<tr>
 			<td>분류</td>
+		</tr>
+		<tr>
 			<td>
-				<input type="text" name="animal" value="${hoUser.animal }" readonly>
+				<input class="text" type="text" name="animal" value="${hoUser.animal }" readonly>
 			</td>
 		</tr>
 		<tr>
-			<td>평점</td>
+		<td>평점</td>
+		</tr>
+		<tr>
 			<td>
-				<input type="text" name="score" value="${hoUser.score }" readonly>
+				<input class="text" type="text" name="score" value="${hoUser.score }" readonly>
 			</td>
 		</tr>
 		<tr>
-		<th>주소</th>
+		<td>주소</td>
+		</tr>
+		<tr>
 		<td>
-			<input type="text" id="sample4_postcode" title="우편번호" placeholder="우편번호">
-			<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-			<input type="text" id="sample4_roadAddress" name="roadAddressName" title="도로명주소" placeholder="도로명주소" value="${hoUser.roadAddressName }">
-			<input type="text" id="sample4_jibunAddress" name="addressName" title="지번주소" placeholder="지번주소" value="${hoUser.addressName }"><br>
-			<input type="text" id="sample4_detailAddress" name="detailAddress" title="상세주소" placeholder="상세주소" value="${hoUser.detailAddress }">
-			<input type="text" id="sample4_extraAddress" title="참고항목" placeholder="참고항목">
+			<input class="sText" type="text" id="sample4_postcode" title="우편번호" placeholder="우편번호">
+			<input class="wBtn" type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
+			<input class="sText" type="text" id="sample4_roadAddress" name="roadAddressName" title="도로명주소" placeholder="도로명주소" value="${hoUser.roadAddressName }">
+			<input class="sText" type="text" id="sample4_jibunAddress" name="addressName" title="지번주소" placeholder="지번주소" value="${hoUser.addressName }"><br>
+			<input class="sText" type="text" id="sample4_detailAddress" name="detailAddress" title="상세주소" placeholder="상세주소" value="${hoUser.detailAddress }">
+			<input class="sText" type="text" id="sample4_extraAddress" title="참고항목" placeholder="참고항목">
 			<span id="guide" style="color:#999;display:none"></span>
 		</td>
 		</tr>
 		<tr>
-		<th rowspan="8">진료시간</th>
+		<td>진료시간</td>
+		</tr>
+		<tr>
 		<td>
 			평일 : <input type="checkbox" id="toggleWeekdayLunch" name="lunchOff" value="Y"
 			<c:if test="${hoUser.lunchOff == 'Y'}">checked</c:if>>점심 없음 <br>
@@ -222,14 +235,14 @@ function sample4_execDaumPostcode() {
 	</tr>
 	<tr>
 		<td>
-			진료 <input type="time" title="주중 시작시간" name="openTimeStr" value="${hoUser.openTime }"> 
-				~ <input type="time" title="주중 마감시간" name="closeTimeStr" value="${hoUser.closeTime }">
+			진료 <input class="tText" type="time" title="주중 시작시간" name="openTimeStr" value="${hoUser.openTime }"> 
+				~ <input class="tText" type="time" title="주중 마감시간" name="closeTimeStr" value="${hoUser.closeTime }">
 		</td>
 	</tr>
 	<tr>
 		<td id="tdWeekday">
-			점심 <input type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="${hoUser.lunchTime }"> 
-				~ <input type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="${hoUser.endLunchTime }">
+			점심 <input class="tText" type="time" title="주중 점심 시작시간" name="lunchTimeStr" value="${hoUser.lunchTime }"> 
+				~ <input class="tText" type="time" title="주중 점심 마감시간" name="endLunchTimeStr" value="${hoUser.endLunchTime }">
 		</td>
 	</tr>
 	<tr>
@@ -240,14 +253,14 @@ function sample4_execDaumPostcode() {
 	</tr>
 	<tr>
 		<td id="tdsatLunch">
-			진료 <input type="time" title="토요일 시작시간" name="satOpenTimeStr" value="${hoUser.satOpenTime }"> 
-				~ <input type="time" title="토요일 마감시간" name="satCloseTimeStr" value="${hoUser.satCloseTime }">
+			진료 <input class="tText" type="time" title="토요일 시작시간" name="satOpenTimeStr" value="${hoUser.satOpenTime }"> 
+				~ <input class="tText" type="time" title="토요일 마감시간" name="satCloseTimeStr" value="${hoUser.satCloseTime }">
 		</td>
 	</tr>
 	<tr>
 		<td>
-			점심 <input type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="${hoUser.satLunchTime }"> 
-				~ <input type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="${hoUser.satEndLunchTime }">
+			점심 <input class="tText" type="time" title="토요일 점심 시작시간" name="satLunchTimeStr" value="${hoUser.satLunchTime }"> 
+				~ <input class="tText" type="time" title="토요일 점심 마감시간" name="satEndLunchTimeStr" value="${hoUser.satEndLunchTime }">
 		</td>
 	</tr>
 	<tr>
@@ -260,10 +273,10 @@ function sample4_execDaumPostcode() {
 	</tr>
 	<tr>
 		<td id="sun">
-			진료 <input type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="${hoUser.sunOpenTime}"> 
+			진료 <input class="tText" type="time" title="일요일 시작시간" name="sunOpenTimeStr" value="${hoUser.sunOpenTime}"> 
 				~ <input type="time" title="일요일 마감시간" name="sunCloseTimeStr" value="${hoUser.sunCloseTime}"><br>
 			<span id="spanSunLunch">
-			점심 <input type="time" class="lunch" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="${hoUser.sunLunchTime}"> 
+			점심 <input class="tText" type="time" class="lunch" title="일요일 점심 시작시간" name="sunLunchTimeStr" value="${hoUser.sunLunchTime}"> 
 				~ <input type="time" class="lunch" title="일요일 점심 마감시간" name="sunEndLunchTimeStr" value="${hoUser.sunEndLunchTime}"><br>
 			</span>
 	</td>
@@ -273,7 +286,7 @@ function sample4_execDaumPostcode() {
 	</tr>
 	<tr>
 		<td>
-			<input type="submit" value="병원정보수정" onclick="hoUserUpdate_ok(this.form)">
+			<input class="loginBtn" type="submit" value="병원정보수정" onclick="hoUserUpdate_ok(this.form)">
 		</td>
 	</tr>
 		</table>

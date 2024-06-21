@@ -11,10 +11,11 @@
 <jsp:include page="../common/navigation.jsp"/>
 </head>
 <body>
-<h1>userReviewList</h1>
+<h1>회원 리뷰 목록</h1>
 <div id="container">
 <%-- \${userReviewList } : ${userReviewList } --%>
 <a href="getUserList.do">회원관리목록 가기</a>
+<hr>
 <table border frame=void  style="width:100%">
 <tr>
 <th>병원명</th>

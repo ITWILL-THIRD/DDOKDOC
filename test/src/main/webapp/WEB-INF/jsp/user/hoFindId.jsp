@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 아이디 찾기</title>
+<jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../../css/loginCss.jsp"/>
 </head>

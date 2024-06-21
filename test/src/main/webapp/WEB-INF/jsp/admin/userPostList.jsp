@@ -11,10 +11,11 @@
 <jsp:include page="../common/navigation.jsp"/>
 </head>
 <body>
-<h1>유저의 작성게시물</h1>
+<h1>회원 작성게시물</h1>
 <%-- \${userPostList } : ${userPostList } --%>
 <div id="container">
 <a href="getUserList.do">회원관리목록 가기</a>
+<hr>
 <table border frame=void  style="width:100%">
 <tr>
 	<th height="35px">번호</th>

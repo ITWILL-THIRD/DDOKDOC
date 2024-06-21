@@ -95,10 +95,10 @@
 	.btn {
 		position: absolute;
 		margin-top: -18px;
-		margin-left: -80px;
+		margin-left: -93px;
 		border-radius: 5px;
 		padding: 3px;
-		width: 70px;
+		width: 83px;
 		height: 30px;
 		border: none;
 		background-color: #2C307D;

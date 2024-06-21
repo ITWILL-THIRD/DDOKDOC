@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>개인회원가입</title>
+<jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../../css/loginCss.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

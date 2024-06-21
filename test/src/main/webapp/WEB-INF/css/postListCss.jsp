@@ -7,18 +7,29 @@
 <title>postListCSS</title>
 <style>
 
-	#container { width: 1100px; margin: auto; }
+	#container { width: 800px; margin: auto; }
 	h1, h3, p { text-align: center; }
 	
 	<%-- 목록 --%>
-	table { border-collapse: collapse; }
-	table, th, td {
+	table { border-collapse: collapse; text-align: center; margin: 0 auto;
+	margin-top: 23px;}
+	th, td {
 		border: 1px solid #B9B9B9;
 		margin: 0 auto;
 		padding: 5px;
 		text-align: center;
+		border-collapse: collapse;
 	}
 	th { background-color: #E0EAF5; }
+	
+	table th:first-child,
+	table td:first-child {
+		border-left: 0;
+	}
+	th:last-child,
+	td:last-child {
+		border-right: 0;
+	}
 	.center { text-align: center; }
 	.border-none, .border-none td { border: none; }
 	.top-margin {margin-top: 100px;}
@@ -44,7 +55,11 @@
 		color: black;	
 	}
 	a:hover {color:#E0EAF5;}
-	
+		
+	hr {
+ 
+  border: 1px solid #2C307D;
+  }
 	
 </style>
 </head>
