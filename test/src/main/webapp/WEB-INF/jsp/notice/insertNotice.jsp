@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 입력폼</title>
+<jsp:include page="../common/navigation.jsp"/>
 </head>
 <body>
 	<h2>공지사항 입력[insertNotice.jsp]</h2>
