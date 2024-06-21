@@ -137,27 +137,29 @@
 <%-- \${hosList} : ${hosList } --%>
 <%-- \${pagingVO} : ${pagingVO } --%>
 <div class="container">
-	<div class="center">
-	<h1>병원 검색</h1>
+<!-- 검색 -->
 	<form id="getHosSearch" onsubmit="fetchData('search'); return false;">
-		<p>통합검색
-			<input type="text" name="searchKeyword" placeholder="Search">
-			<input type="submit" value="검색">
-		</p>
+		<div class="center">
+		<h1>병원 검색</h1>
+			<input class="search" type="text" name="searchKeyword" placeholder="통합검색" style="width:300px">
+			<input class="searchBtn" type="submit" value="검색">
+		</div>	
 	</form>
 	<form id="getAdSearch" onsubmit="fetchData('address'); return false;">
-		<jsp:include page="partials/searchAdress.jsp"></jsp:include> 
-		<input type="submit" value="검색">
+		<div class="center">
+			<jsp:include page="partials/searchAdress.jsp"></jsp:include> 
+			<input class="searchBtn" type="submit" value="검색">
+		</div>
+		<div class="center">	
+			<button class="btn" onclick="fetchData('all')">전체</button>
+			<button class="btn" onclick="fetchData('common')">일반병원</button>
+			<button class="btn" onclick="fetchData('special')">특수병원</button>
+			<button class="btn" onclick="fetchData('night')">야간진료</button>
+			<button class="btn" onclick="fetchData('24h')">24시</button>
+		</div>	
+	<hr>
 	</form>
-	<div>
-		<button class="tab" onclick="fetchData('all')">전체</button>
-		<button class="tab" onclick="fetchData('common')">일반병원</button>
-		<button class="tab" onclick="fetchData('special')">특수병원</button>
-		<button class="tab" onclick="fetchData('night')">야간진료</button>
-		<button class="tab" onclick="fetchData('24h')">24시</button>
-	</div>
-	</div>	
-	<table class="table">
+	<table border frame=void>
 		<thead>
 			<tr id="hosTitle">
 				<th width="50">번호</th>
