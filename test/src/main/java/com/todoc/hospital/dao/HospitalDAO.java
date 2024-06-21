@@ -48,9 +48,10 @@ public interface HospitalDAO {
 	void updateHoUser(HospitalVO vo);
 	void updateHosAddress(HospitalVO vo);
 	void updateHosTime(HospitalVO vo);
+	void updateHosImg(HospitalVO vo);
 	void updateHoPwd(HospitalVO vo);
 	void deleteHos(int hosIdx);
-
+	HosImgVO hosImg(int hosIdx);
 	//관리자 리뷰리스트
 	List<HosReviewVO> myReviewList(int userIdx);
 	//----------------------

@@ -14,6 +14,14 @@
 <%-- \${pets } : ${pets } --%>
 <hr>
 	<h2>회원 정보</h2>
+	<c:if test="${user.condition == '결제전'}">
+		토탁플러스 가입 후 병원예약이 가능합니다. <a href="../membership/checkout.do">토탁플러스 가입하러가기</a>
+		</c:if>
+		<c:if test="${user.condition == '결제완료'}">
+		TODOCPLUS ${umo.startformattedDate } ~ ${umo.endformattedDate }
+		</c:if>
+		
+<%-- 		${user.condition } --%>
 	<table>
 	<tr>
 		<td>프로필사진 </td>

@@ -21,5 +21,12 @@
 		WHERE HOSIDX = #{hosIdx}
 	</update>
 	
+	<select id="getHosMembership" resultType="HosMembershipVO">
+		SELECT *
+		FROM HOSMEMBERSHIP M, HOSPITAL H
+		WHERE M.HOSIDX = H.HOSIDX
+        AND M.HOSIDX = #{hosIdx}
+	</select>
+	
 	
 </mapper>

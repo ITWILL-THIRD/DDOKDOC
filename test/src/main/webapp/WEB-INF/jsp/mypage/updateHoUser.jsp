@@ -183,6 +183,12 @@ function sample4_execDaumPostcode() {
 				<input type="text" name="hosPhone" value="${hoUser.hosPhone }">
 			</td>
 		</tr>
+<!-- 		<tr> -->
+<!-- 		<td>병원 외/내부사진</td> -->
+<!-- 		</tr> -->
+<!-- 		<tr> -->
+<%-- 			<td><input type="file" title="병원 사진" name="hosImgStr" multiple="multiple" value="${hoUser.hosImg }"></td> --%>
+<!-- 		</tr> -->
 		<tr>
 			<td>분류</td>
 			<td>

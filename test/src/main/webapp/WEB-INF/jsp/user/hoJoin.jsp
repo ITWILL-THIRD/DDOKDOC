@@ -351,7 +351,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td>전화번호</td>
+		<td>병원 연락처</td>
 	</tr>
 	<tr>
 		<td><input class="text" type="tel" title="전화번호" name="hosPhone" value="${hospitalVO.hosPhone }" oninput="oninputPhone(this)"></td>

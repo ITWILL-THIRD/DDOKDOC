@@ -1,5 +1,6 @@
 package com.todoc.view.mypage;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -16,6 +17,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.apache.ibatis.ognl.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,14 +28,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.todoc.googlecloudstorage.GCSService;
 import com.todoc.hospital.HolidayInsertParams;
+import com.todoc.hospital.HosImgVO;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.hospital.dao.TimeMapper;
+import com.todoc.membership.HosMembershipService;
+import com.todoc.membership.HosMembershipVO;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
 import com.todoc.user.UserVO;
@@ -55,10 +62,43 @@ public class HoMyPageController {
 	private NoticeService noticeService;
 	@Autowired
 	private ReservationService reservationService;
+	@Autowired
+	private HosMembershipService hosMembershipService;
+	@Autowired
+    @Qualifier("gcsService")
+    private GCSService gcsService;
 
 	// 병원 마이페이지로 이동
 	@RequestMapping("/hoMyPage.do")
-	public String myPage() {
+	public String myPage(Model model, HttpSession session) {
+		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+		HosImgVO io = new HosImgVO();
+		io.setHosIdx(hoUser.getHosIdx());
+		io = hospitalService.hosImg(hoUser.getHosIdx());
+		
+		model.addAttribute("io", io);
+		
+		HosMembershipVO hmo = new HosMembershipVO();
+		hmo.setHosIdx(hoUser.getHosIdx());
+		hmo = hosMembershipService.getHosMembership(hmo);
+		model.addAttribute("hmo", hmo);
+		
+	    if (io == null) {
+	        return "mypage/hoMyPage"; // 병원이미지와 멤버십 정보가 없을 때의 페이지로 이동
+	    }
+	    if (hmo == null) {
+	    	return "mypage/hoMyPage";
+	    }
+	 // 날짜 변환
+	    SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+	    SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd ");
+
+	    String startFormattedDate = targetFormat.format(hmo.getHosStart());
+	    String endFormattedDate = targetFormat.format(hmo.getHosEnd());
+	    hmo.setStartformattedDate(startFormattedDate);
+	    hmo.setEndformattedDate(endFormattedDate);
+	    
+	    
 		return "mypage/hoMyPage";
 	}
 
@@ -74,7 +114,7 @@ public class HoMyPageController {
 
 	// 병원정보 수정
 	@PostMapping("/updateHoUser.do")
-	public String updateHoUser(@ModelAttribute("hoUser") HospitalVO vo, HttpSession session, @RequestParam("hosIdx") int hosIdx,
+	public String updateHoUser(@ModelAttribute("hoUser") HospitalVO vo, HosImgVO io, HttpSession session, @RequestParam("hosIdx") int hosIdx,
 	                           @RequestParam(value = "openTimeStr", required = false) String openTimeStr,
 	                           @RequestParam(value = "closeTimeStr", required = false) String closeTimeStr,
 	                           @RequestParam(value = "lunchTimeStr", required = false) String lunchTimeStr,
@@ -90,10 +130,10 @@ public class HoMyPageController {
 	                           @RequestParam(value = "lunchOff", required = false) String lunchOff,
 	                           @RequestParam(value = "satLunchOff", required = false) String satLunchOff,
 	                           @RequestParam(value = "sunDayOff", required = false) String sunDayOff,
-	                           @RequestParam(value = "sunLunchOff", required = false) String sunLunchOff) throws java.text.ParseException, ParseException {
+	                           @RequestParam(value = "sunLunchOff", required = false) String sunLunchOff) throws java.text.ParseException, ParseException, IOException {
 	    HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
 	    vo.setHosIdx(hoUser.getHosIdx());
-
+	    
 	  
 	 // null 체크 및 기본값 설정
 	    if (closeTimeStr == null || closeTimeStr.equals("00:00")) {
@@ -181,6 +221,8 @@ public class HoMyPageController {
 	    vo.setSunCloseTime(sunCloseTime);
 	    vo.setSunLunchTime(sunLunchTime);
 	    vo.setSunEndLunchTime(sunEndLunchTime);
+	    
+	    vo.setCondition(hoUser.getCondition());
 	    System.out.println("병원정보 수정");
 	    System.out.println("vo : " + vo);
 	    hospitalService.updateHoUser(vo);
@@ -190,7 +232,7 @@ public class HoMyPageController {
 	                             validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime,
 	                             validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime,
 	                             lunchOff, satLunchOff, sunDayOff, sunLunchOff);
-
+	    hospitalService.updateHosImg(vo);
 	    
 	    System.out.println("vo.getTime : " + vo.getCloseTime());
 	    System.out.println("수정 후 vo : " + vo);

@@ -45,6 +45,7 @@
     	border: none;
     	cursor: pointer;
     	color: #2C307D;
+    	 
     }
     .dateBtn {
     	background-color: #E0EAF5;
