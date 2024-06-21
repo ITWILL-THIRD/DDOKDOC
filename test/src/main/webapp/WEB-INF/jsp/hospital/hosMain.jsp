@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>토닥토닥 메인</title>
 <jsp:include page="../common/navigation.jsp"/>
-<jsp:include page="../../css/hosMainCss.jsp"/>
+<jsp:include page="../../css/hosMainCss1.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
