@@ -123,7 +123,7 @@ $(document).ready(function(){
               }
             }
             // 클릭한 날짜를 새로운 선택 날짜로 설정
-            info.dayEl.style.backgroundColor = 'lightblue'; // 선택된 색상 설정
+            info.dayEl.style.backgroundColor = '#E0EAF5'; // 선택된 색상 설정
             selectedDate = info.dateStr; // 선택된 날짜 업데이트
             selectedDay = info.date.getDay(); //선택된 날짜의 요일
             // 예약 가능한 시간 비동기처리
@@ -169,7 +169,7 @@ $(document).ready(function(){
         
         var initialDayEl = document.querySelector('[data-date="' + initialDate + '"]');
         if (initialDayEl) {
-          initialDayEl.style.backgroundColor = 'lightblue'; // 선택된 색상 설정
+          initialDayEl.style.backgroundColor = '#E0EAF5'; // 선택된 색상 설정
           selectedDay = new Date(initialDate).getDay(); //선택된 날짜의 요일
           getJsonTimeData(initialDate, selectedDay, initialTime);
         }
@@ -315,6 +315,9 @@ $(document).ready(function(){
   
 </script>
 <style>
+	.fc-day-header {
+	  background-color: #E0EAF5;
+	}	
 	
    #petDiv, #selectDateTimeDiv {
 	float: left;
@@ -385,7 +388,7 @@ $(document).ready(function(){
    }	
    	
    .btn.selected {
-       background-color: #B6E5FF;
+       background-color: #E0EAF5;
    }
    
    #guardianInfo {
@@ -442,7 +445,7 @@ $(document).ready(function(){
 		height: 35px;
 		border: none;
 		border-radius: 10px;
-		background-color: #B6E5FF;
+		background-color: #E0EAF5;
 		width: calc(100% - 20px);
 		font-size: 15px;
 	}
@@ -475,7 +478,9 @@ $(document).ready(function(){
 	height: 30px;
     font-size: 14px;
 }
-
+hr {
+  border: 1px solid #2C307D;
+  }
 
 </style>
 </head>
@@ -483,9 +488,9 @@ $(document).ready(function(){
 <%-- \${hospital } : ${hospital } --%>
 <%-- \${reservationVO } : ${reservationVO }<br> --%>
 
-  <div  id="container">
 	<h1>예약변경하기</h1>
-	
+  <div  id="container">
+	<hr>	
 	<div id="selectDateTimeDiv" class="container">
 		<div id="calendar" class="reserInfo"></div>
     	<div id="listDisp" class="reserInfo">
