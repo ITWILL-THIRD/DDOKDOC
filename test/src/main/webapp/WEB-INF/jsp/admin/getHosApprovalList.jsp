@@ -11,20 +11,6 @@
 <jsp:include page="../../css/hosApprovalListCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
-<style>
-        .condition-payment {
-            background-color: green;
-            color: white;
-        }
-        .condition-before {
-            background-color: yellow;
-            color: black;
-        }
-        .condition-after {
-            background-color: red;
-            color: white;
-        }
-    </style>
 <script>
 	$(document).ready(function() {
 	    // 모든 approvalBtn 버튼에 대해
@@ -111,7 +97,7 @@
 </head>
 <body>
 <div id="container">
-	<h1>병원 승인 관리 [getApprovalList.jsp]</h1> 
+	<h1>병원 승인 관리</h1> 
 <%-- \${pagingVO} : ${pagingVO}<br><hr>   --%>
 <%-- \${beginDate} : ${beginDate}<br>   --%>
 <%-- \${endDate} : ${endDate}<br>   --%>
@@ -135,7 +121,7 @@
 	</div>
 	
 	<!-- 데이터 표시 -->
-	<table>
+	<table border frame=void >
 		<thead>
 			<tr>
 				<th width="70">번호</th>

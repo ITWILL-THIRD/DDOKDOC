@@ -7,24 +7,30 @@
 <title>approvalListCSS</title>
 <style>
 
-	#container { width: 1000px; margin: auto; }
+	#container { width: 1100px; margin: auto; }
 	h1, h3, p { text-align: center; }
 	
 	<%-- 목록 --%>
 	table { 
 		border-collapse: collapse;
+		margin-left:auto;margin-right:auto;
+		margin-top: 23px;
 	}
-	table, th, td {
+	table th, table td {
 		position: static;
-		
-		border: 1px solid #B9B9B9;
+		text-align: center;
 		margin: auto;
 		padding: 5px;
-		text-align: center;
+		border: 1px #B9B9B9 solid;
+		border-collapse: collapse;
 	}
 	th { background-color: #B6E5FF; }
 	.center { text-align: center; }
 	.border-none, .border-none td { border: none; }
+	tfoot {
+		margin-top: 50px;
+		border-top-style: hidden;
+	}
 	
 	<%-- 검색창 --%>
 	#category {
@@ -65,7 +71,18 @@
 		width: 50px;
 		border: none;
 	}
-	
+	.condition-payment {
+	    background-color: green;
+	    color: white;
+	}
+	.condition-before {
+	    background-color: yellow;
+	    color: black;
+	}
+	.condition-after {
+	    background-color: red;
+	    color: white;
+	}
 </style>
 </head>
 <body>
