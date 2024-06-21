@@ -379,7 +379,7 @@
 		</tfoot>
 	</table>
 </div>
-\${hosList} : ${hosList }<br><br>
-\${pagingVO} : ${pagingVO }
+<%-- \${hosList} : ${hosList }<br><br> --%>
+<%-- \${pagingVO} : ${pagingVO } --%>
 </body>
 </html>
