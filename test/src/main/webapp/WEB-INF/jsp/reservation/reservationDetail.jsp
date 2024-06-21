@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>예약 상세보기</title>
-<jsp:include page="../../css/postCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -44,80 +43,26 @@
 	}
 
 	th { 
+		background-color: #E0EAF5;
+	}
 	
-	background-color: #E0EAF5;
-	 }
 	.center { text-align: center; }
 	.border-none, .border-none td { border: none; }
 	
-	<%-- 검색창 --%>
-	#category {
-		padding: 10px;
+	.center {
+		margin-bottom: 20px;
 	}
-	.selectTb {
-	border: none;
-	}
-	.select {
-width: 100px;
-height: 40px;
- border: 1px solid #bbb;
-border-radius: 5px;
-  padding: 10px 12px;
-  font-size: 14px;
-}
-.search {
-position: relative;
-	margin-top: 16px;
-  width: 200px;
-  height: 19px;
-  border: 1px solid #bbb;
-border-radius: 5px;
-  padding: 10px 12px;
-  font-size: 14px;
-}
-.center {
-margin-bottom: 20px;
-}
 	<%-- 제목 링크 --%>
 	a {	
+		font-weight: bold;
 		color: #2C307D;
 		text-decoration: none;	
 	}
-	a:hover {color:#FFA217;}
 	
-    .searchBtn {
-    width: 70px;
-  height: 40px;
-  border-radius: 5px;
-  border : none;
-  background-color: #2C307D;
-  font-size: 14px;
-  color: white;
-    }
-    .searchBtn:hover {
-    	background-color: #4349B4;
-    }
-    
-   .searchForm{
-    display: inline-block;
-          text-align: center;
-    }	
-    
-    .resetBtn{
-    width: 70px;
-  height: 40px;
-  border-radius: 5px;
-  border : 1px solid #2C307D;
-  background-color: white;
-  color: #2C307D;
-  font-size: 14px;
- 
-    }
-    .resetBtn:hover {
-    	background-color: #EAEAEA;
-    	
-    }
-    
+	a:hover {
+		color:#FFA217;
+	}
+	
     
         /* 버튼 */
     .btn {
@@ -128,8 +73,8 @@ margin-bottom: 20px;
     	cursor: pointer;
     	color: #FFFFFF;
     	text-decoration: none;
-    	 display: inline-block;
-    	 border: 1px solid #2C307D;
+    	display: inline-block;
+    	border: 1px solid #2C307D;
     }
     
     .btn:hover {
@@ -137,55 +82,11 @@ margin-bottom: 20px;
     	color: #2C307D;
     	border: 1px solid #2C307D;
     }
-    /* 버튼 배경색 변경 */
-    .btn.active {
-        background-color: #FFFFFF;
-        color: #2C307D;
-    	border: 1px solid #2C307D; 	
-    }
 	
-    
-	/* 버튼 정렬 */
-	.row, #searchDate {
-		display: flex;
-		gap: 10px;
-		justify-content: center;
-		align-items: center;
-	}
-	.row {
-		padding: 10px 0;
-	}
-	#searchDate {
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
-	
-    /* 버튼 배경색 변경 */
-    .btn.active, .dateBtn.active {
-        background-color: #2C307D;
-        color: #FFFFFF;   	
-    }
-	.dateBtn.active {
-        background-color: #2E77AE;
-	}
 
   hr {
- 
-  border: 1px solid #2C307D;
+  	border: 1px solid #2C307D;
   }
-  
-  #reserDetailBtn {
-  	border: none;
-  	background-color: white;
-  	color: #2C307D;
-  	text-decoration: none;
-  }
-  
-  #reserDetailBtn:hover {
-  	color:#FFA217;
-  }
-    
-	
 </style>
 </head>
 <body>
@@ -196,6 +97,7 @@ margin-bottom: 20px;
 
 	<h1>예약 상세보기</h1>
 	<div id="container">
+		<hr>
 		<%-- <h3>${user.name } 님의 예약입니다</h3> --%>
 		<table border frame=void>
 			<tr>
@@ -236,8 +138,8 @@ margin-bottom: 20px;
 	            <p id="info">예약 시간이 지나 변경/취소가 불가능 합니다.</p>
 	        </c:when>
 	        <c:otherwise>
-	            <button onclick="reserUpdate(${reservation.reserIdx})">예약 변경</button>
-	            <button onclick="reserDelete(${reservation.reserIdx})">예약 취소</button>
+	            <button class="btn" onclick="reserUpdate(${reservation.reserIdx})">예약 변경</button>
+	            <button class="btn" onclick="reserDelete(${reservation.reserIdx})">예약 취소</button>
 	        </c:otherwise>
 	    </c:choose>
 	</div>
