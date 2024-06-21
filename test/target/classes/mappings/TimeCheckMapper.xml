@@ -4,6 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoc.hospital.dao.TimeCheckMapper">
 	<insert id="insertTime">
+
 		INSERT INTO HOSTIME(HOSIDX, OPENTIME, CLOSETIME, LUNCHTIME, ENDLUNCHTIME
 						, SATOPENTIME, SATCLOSETIME, SATLUNCHTIME, SATENDLUNCHTIME
 						, SUNOPENTIME, SUNCLOSETIME, SUNLUNCHTIME, SUNENDLUNCHTIME
