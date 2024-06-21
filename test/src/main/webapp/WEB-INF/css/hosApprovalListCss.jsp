@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>approvalListCSS</title>
 <style>
 
 	#container { width: 1100px; margin: auto; }
@@ -84,8 +79,3 @@
 	    color: white;
 	}
 </style>
-</head>
-<body>
-
-</body>
-</html>
