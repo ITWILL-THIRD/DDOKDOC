@@ -16,8 +16,7 @@
 	margin-left:auto;margin-right:auto;
 	margin-top: 23px;
 	}
-	table th,
-table td {
+	table th, table td {
 	position: static;
 	text-align: center;
 	margin: auto;
@@ -25,15 +24,17 @@ table td {
 	border: 1px #B9B9B9 solid;
 	
 	border-collapse: collapse;
-}
-table th:first-child,
-table td:first-child {
-	border-left: 0;
-}
-table th:last-child,
-table td:last-child {
-	border-right: 0;
-}
+	}
+	
+	table th:first-child,
+	table td:first-child {
+		border-left: 0;
+	}
+	
+	table th:last-child,
+	table td:last-child {
+		border-right: 0;
+	}
 
 	th { 
 	

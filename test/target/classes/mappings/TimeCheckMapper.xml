@@ -39,5 +39,5 @@
 	        SUNLUNCHOFF = COALESCE(#{sunLunchOff}, 'N')
 	    WHERE HOSIDX = #{hosIdx}
 	</update>
-	
+
 </mapper>

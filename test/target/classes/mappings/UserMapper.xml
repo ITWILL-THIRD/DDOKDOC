@@ -172,7 +172,8 @@
 <!--    카테고리 별 건수 -->
    <select id="getTotalCountByCondition" parameterType="map" resultType="int">
        SELECT COUNT(*) FROM DDOKUSER
-       WHERE 1=1
+       WHERE  role != 'admin'
+       AND 1=1
        <if test="searchType != null and searchKeyword != null">
            <choose>
                <when test="searchType == 'EMAIL'">
@@ -208,4 +209,3 @@
 		WHERE USERIDX = #{userIdx}
 	</update>
 </mapper>
-
