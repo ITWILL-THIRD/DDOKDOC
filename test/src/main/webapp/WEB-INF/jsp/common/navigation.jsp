@@ -102,7 +102,7 @@
 <div class="nav">
     <div class="logo">
         <a href="../index.jsp">
-        	<img src="" alt="로고">
+        	<img src="../img/2.png" alt="로고">
     	</a>    
     </div>
     
