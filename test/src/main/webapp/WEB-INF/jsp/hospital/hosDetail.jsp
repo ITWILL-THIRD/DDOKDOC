@@ -8,25 +8,25 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 상세 보기</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/hosDetaiCss.jsp"/>
-
-</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script></head>
 <body>
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38a906000cd6c18d4d8489d1eddaec85&libraries=services,clusterer,drawing"></script>
 <div id="container">
-	<div id="hosContainer">
+	<div id="leftContainer">
 		<h1>${hospital.hosName}</h1>
 		<div id="hosDetailContainer">
 			<div id="hospital">
 				<table>
-					<tr>
+					<tr class="hosInfo">
 						<th>
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
 	  						<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
@@ -122,7 +122,7 @@
 			                </c:choose>
 						</td>
 					</tr>
-					<tr>
+					<tr class="hosInfo">
 						<th>
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
 							  <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
@@ -130,7 +130,7 @@
 						</th>
 						<td colspan="2">${hospital.hosPhone}</td>
 					</tr>
-					<tr>
+					<tr  class="hosInfo">
 						<th>
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
 							  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -146,59 +146,78 @@
 					</tr>
 				</table>
 			</div>
+			<div id="map"></div>
 		</div>
-		<div id="img">	
-			<p>
-				<!-- CSS 사진 이동 처리 -->
-				<c:forEach var="img" items="${imgList}">
-					<img src="${img.hosImg}" alt="병원 내부사진" width="300px">
-				</c:forEach> 
-			</p>
-		</div>
-		<div id="post">
-			<h4>공지사항</h4>
-			<div>
-		<%-- 		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}" --%>
-		<!-- 			onclick="insertNotice(this.dataset.hosIdx)"> -->
-				<table>
-				    <tr>
-				        <th>작성일</th>
-				        <th>제목</th>
-				    </tr>
-				    <c:choose>
-				        <c:when test="${empty noticeList}">
-				            <tr>
-				                <td colspan="2" style="text-align: center;">등록된 공지사항이 없습니다.</td>
-				            </tr>
-				        </c:when>
-				        <c:otherwise>
-				            <c:forEach var="notice" items="${noticeList}">
-				                <tr>
-				                    <td>${notice.noticeDate}</td>
-				                    <td><a href="../notice/getNotice.do?hosIdx=${notice.hosIdx}&noticeIdx=${notice.noticeIdx}">${notice.noticeTitle}</a></td>
-				                    <td>${notice.hit}</td>
-				                </tr>
-				            </c:forEach>
-				        </c:otherwise>
-				    </c:choose>
-				</table>
-			</div>
+		<!-- 이미지 슬라이더 -->
+		<div class="carousel slide" id="slide" data-bs-ride="true">
+		    <div class="carousel-inner">
+		        <c:forEach var="img" items="${imgList}" varStatus="status">
+		            <c:if test="${status.index == 0}">
+		                <div class="carousel-item active">
+		                    <img src="${img.hosImg}" alt="병원 내부사진">
+		                </div>
+		            </c:if>
+		            <c:if test="${status.index != 0}">
+		                <div class="carousel-item">
+		                    <img src="${img.hosImg}" alt="병원 내부사진">
+		                </div>
+		            </c:if>
+		        </c:forEach>
+		    </div>
+		    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+		        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		        <span class="visually-hidden">Previous</span>
+		    </button>
+		    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+		        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		        <span class="visually-hidden">Next</span>
+		    </button>
 		</div>
 	</div>
-	
-	<div>
+	<div id="rightContainer">
 		<button id="reservation" onclick="userCheck('${user}')">예약하기</button>
-		<div id="map"></div>
+		<div id="postContainer">
+			<div id="post">
+				<h3>공지사항</h3>
+				<div>
+			<%-- 		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}" --%>
+			<!-- 			onclick="insertNotice(this.dataset.hosIdx)"> -->
+					<table>
+<!-- 					    <tr>
+					        <th>작성일</th>
+					        <th>제목</th>
+					    </tr> -->
+					    <c:choose>
+					        <c:when test="${empty notice}">
+					            <tr>
+					                <td colspan="2" style="text-align: center;">등록된 공지사항이 없습니다.</td>
+					            </tr>
+					        </c:when>
+					        <c:otherwise>
+					            <c:if test="${not empty notice}">
+					                <tr>
+					                    <td>${notice.noticeContent}</td><br>
+					                </tr>
+					                <tr>
+					                    <td style="text-align: right;">${notice.noticeDate} 작성</td>
+					                </tr>
+					            </c:if>
+					        </c:otherwise>
+					    </c:choose>
+					</table>
+				</div>
+			</div>
+		</div>
 		<div id="reviewContainer">
-			<h4>리뷰</h4>
+			<h3>리뷰</h3>
 			<div id="review">
 				<!-- 예약 후 진료 완료 상태인 사용자만 form 작성 가능 -->
 				<c:if test="${not empty finishList}">
-				    <form id="reviewForm"  action="insertReview.do" method="post">
-				    	<!-- <span>방문일</span> -->
-				    	<!-- 진료 완료 상태인 내역 선택 -->
+				    <form id="reviewForm" action="insertReview.do" method="post" onsubmit="return validateForm()">
+				        <!-- <span>방문일</span> -->
+				        <!-- 진료 완료 상태인 내역 선택 -->
 				        <select id="finishSelect" onchange="updateHiddenField()">
-				        	<option>리뷰를 작성할 방문일을 선택하세요.</option>
+				            <option value="">리뷰를 작성할 방문일을 선택하세요.</option>
 				            <c:forEach var="finish" items="${finishList}">
 				                <option value="${finish.reserIdx}">
 				                    <!-- openTime과 closeTime을 HH:MM 형식으로 변환 -->
@@ -209,25 +228,24 @@
 				        </select>
 				        <!-- 선택된 내역의 리뷰 작성 -->
 				        <div class="star-rating">
-				            <input type="radio" id="5-stars" name="score" value="5" />
-				            <label for="5-stars" class="star">&#9733;</label>
-				            <input type="radio" id="4-stars" name="score" value="4" />
-				            <label for="4-stars" class="star">&#9733;</label>
-				            <input type="radio" id="3-stars" name="score" value="3" />
-				            <label for="3-stars" class="star">&#9733;</label>
-				            <input type="radio" id="2-stars" name="score" value="2" />
-				            <label for="2-stars" class="star">&#9733;</label>
-				            <input type="radio" id="1-star" name="score" value="1" />
-				            <label for= "1-star" class="star">&#9733;</label>
-				        </div>
-				        <input type="text" name="content" placeholder="리뷰를 작성하세요.">
+							<input type="radio" id="5-stars" name="score" value="5" />
+							<label for="5-stars" class="star">★</label>
+							<input type="radio" id="4-stars" name="score" value="4" />
+							<label for="4-stars" class="star">★</label>
+							<input type="radio" id="3-stars" name="score" value="3" />
+							<label for="3-stars" class="star">★</label>
+							<input type="radio" id="2-stars" name="score" value="2" />
+							<label for="2-stars" class="star">★</label>
+							<input type="radio" id="1-star" name="score" value="1" />
+							<label for= "1-star" class="star">★</label>
+						</div>
+				        <input type="text" class="form" name="content" placeholder="리뷰를 작성하세요.">
 				        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">
 				        <input type="hidden" id="selectedReserIdx" name="reserIdx" value="" />
 				        <input type="submit" class="sbtn" value="리뷰 작성">
 				    </form>
 				</c:if>
-				
-				<table class="table">
+				<table>
 <!-- 					<tr>
 						<th width="50px">닉네임</th>
 						<th width="200px">내용</th>
@@ -238,11 +256,12 @@
 						<th width="50px">삭제</th>
 					</tr> -->
 					<tbody>
+						<c:if test="${empty reviewList}"><tr colspan="7">작성된 리뷰가 없습니다.</tr></c:if>
 						<c:forEach var="review" items="${reviewList}">
 							<div class="reviewContainer">
 							    <tr id="view_${review.reviewIdx}">
 							        <td id="nickname_view_${review.reviewIdx}" width="50px">${review.nickname}</td>
-							        <td id="content_view_${review.reviewIdx}" width="200px">${review.content}</td>
+							        <td id="content_view_${review.reviewIdx}" width="220px">${review.content}</td>
 							        <td id="score_view_${review.reviewIdx}" width="50px">
 							            <c:choose>
 							                <c:when test="${review.score eq 1}">&#9733;</c:when>
@@ -252,21 +271,24 @@
 							                <c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
 							            </c:choose>
 							        </td>
-							        <td width="150px">${review.reserDate} 방문</td>
-							        <td width="150px">${review.reviewDate} 작성</td>
+							        <td width="130px">${review.reserDate} 방문</td>
 							        <!-- 사용자 본인만 리뷰 수정,삭제 가능 -->		        
 							        <c:if test="${review.userIdx eq userIdx}">	        
-								        <td width="30px"><button class="sbtn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
-								    	<form id="deleteReviewForm_${review.reviewIdx }" action="deleteReview.do" action="POST">				    
-									        <td width="30px">			 
-									        	<input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
-										        <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
-			       						        <input type="hidden" name="reserIdx" value="${review.reserIdx}">			        	
-									        	<input type="submit" class="sbtn" value="삭제" onClick="confirmDelete(${review.reviewIdx})">    
+									    <td width="20px"><button class="ubtn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
+									    <form id="deleteReviewForm_${review.reviewIdx}" action="deleteReview.do" method="POST">				    
+									        <td width="20px">			 
+									            <input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
+									            <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
+									            <input type="hidden" name="reserIdx" value="${review.reserIdx}">			        	
+									            <input type="button" class="ubtn" value="삭제" onclick="confirmDelete(${review.reviewIdx}, ${hospital.hosIdx})">    
 									        </td> 
 									    </form>
-							        </c:if>
+									</c:if>
+
 							    </tr>
+<%-- 							    <tr>
+							        <td width="150px">${review.reviewDate} 작성</td>
+							    </tr> --%>
 							    <tr id="edit_${review.reviewIdx}" class="hidden">
 								    <form action="updateReview.do" method="POST">
 								        <td>${review.nickname}</td>	        

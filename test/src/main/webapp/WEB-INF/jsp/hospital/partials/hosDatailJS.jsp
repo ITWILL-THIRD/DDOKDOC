@@ -58,11 +58,15 @@
 	 	    document.getElementById('edit_' + reviewIdx).classList.remove('hidden');
 	    }
 		// 리뷰 삭제 버튼 클릭 이벤트
-		function confirmDelete(reviewIdx) {
+		function confirmDelete(reviewIdx, hosIdx) {
 		    if (confirm("삭제하시겠습니까?")) {
 		        document.getElementById("deleteReviewForm_" + reviewIdx).submit();
+		    } else {
+		        // 취소 버튼을 눌렀을 때 상세 페이지로 이동
+		        window.location.href = "hosDetail.do?hosIdx=" + hosIdx;
 		    }
 		}
+
 		// 리뷰 수정 취소 버튼 클릭 이벤트
 		function cancelEdit(reviewIdx) {
 		    document.getElementById('view_' + reviewIdx).classList.remove('hidden');
@@ -71,9 +75,31 @@
 		
 		// 선택된 진료 완료 상태 내역의 reserIdx를 hidden필드에 설정
 	    function updateHiddenField() {
-	        var selectBox = document.getElementById("finishSelect");
-	        var selectedValue = selectBox .options[selectBox.selectedIndex].value;
-	        document.getElementById("selectedReserIdx").value = selectedValue;
+	        var finishSelect = document.getElementById("finishSelect");
+	        var selectedReserIdx = document.getElementById("selectedReserIdx");
+	        selectedReserIdx.value = finishSelect.value;
+	    }
+		
+	    function validateForm() {
+	        var finishSelect = document.getElementById("finishSelect");
+	        if (finishSelect.value === "") {
+	            alert("방문일을 선택해주세요.");
+	            return false; 
+	        }
+
+	        var ratingChecked = document.querySelector('input[name="score"]:checked');
+	        if (!ratingChecked) {
+	            alert("별점을 선택해주세요.");
+	            return false;
+	        }
+
+	        var reviewContent = document.querySelector('input[name="content"]').value.trim();
+	        if (reviewContent === "") {
+	            alert("리뷰 내용을 작성해주세요.");
+	            return false; 
+	        }
+
+	        return true; 
 	    }
 
 </script>

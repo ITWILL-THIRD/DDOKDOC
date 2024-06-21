@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.todoc.board.BoardService;
 import com.todoc.board.BoardVO;
 import com.todoc.board.CommentVO;
+import com.todoc.common.Paging;
 import com.todoc.googlecloudstorage.GCSService;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
@@ -299,10 +301,81 @@ public class MyPageController {
 		//작성한 리뷰 목록
 		List<HosReviewVO> myReviewList = hospitalService.getReviewList(userIdx);
 		model.addAttribute("myReviewList", myReviewList);
-
 		
 		return "mypage/myReviewList";
  	}
+ 	
+ 	// (개인)리뷰 목록 조회 페이징 처리할 것
+// 	@RequestMapping("/myReviewList.do")
+//	public String getBoardList(HttpSession session, HttpServletRequest request, Model model) {
+// 		System.out.println("::마이페이지-리뷰리스트");
+//		UserVO user = (UserVO) session.getAttribute("user");
+//		
+//		int userIdx = 0;
+//		if (user != null) {
+//		    userIdx = user.getUserIdx();
+//		}
+//		model.addAttribute("userIdx", userIdx);
+//		
+//		//페이징 처리를 위한 객체(Paging)생성 - numPerPage=10, pagePerBlock=10 세팅
+//		Paging pvo = new Paging();
+//
+//		//1. 전체 게시물 수량 구하기
+////		System.out.println("전체 게시물 수량 전 vo : " + vo);
+////		pvo.setTotalRecord(boardService.getAjaxTotCnt(vo));
+////		pvo.setTotalPage();
+////		System.out.println("> 전체 게시글 수 : " + p.getTotalRecord());
+////		System.out.println("> 전체 페이지 수 : " + p.getTotalPage());
+////		
+//		//2. 현재 페이지 번호 구하기
+//		String cPage = request.getParameter("cPage");
+//		if (cPage != null) {
+//			pvo.setNowPage(Integer.parseInt(cPage));
+//		}
+//		System.out.println("> cPage : " + cPage);
+//		System.out.println("> Paging nowPage : " + pvo.getNowPage());
+//		
+//		//3. 현재 페이지에 표시할 게시글 시작번호(begin), 끝번호(end) 구하기
+//		pvo.setEnd(pvo.getNowPage() * pvo.getNumPerPage());
+//		pvo.setBegin(pvo.getEnd() - pvo.getNumPerPage() + 1);
+//		System.out.println(">> 시작번호(begin) : " + pvo.getBegin());
+//		System.out.println(">> 끝번호(end) : " + pvo.getEnd());
+//		int begin = pvo.getBegin();
+//		int end = pvo.getEnd();
+//		
+//		//4. 블록(block) 계산하기
+//		//블록 시작페이지(beginPage), 끝페이지(endPage) - 현재페이지 번호 사용
+//		int nowBlock = (pvo.getNowPage() - 1) / pvo.getPagePerBlock() + 1;
+//		pvo.setNowBlock(nowBlock);
+//		pvo.setEndPage(nowBlock * pvo.getPagePerBlock());
+//		pvo.setBeginPage(pvo.getEndPage() - pvo.getPagePerBlock() + 1);
+//		System.out.println(">> nowBlock : " + pvo.getNowBlock());
+//		System.out.println(">> beginPage : " + pvo.getBeginPage());
+//		System.out.println(">> endPage : " + pvo.getEndPage());
+//		
+//		// 끝페이지(endPage)가 전체페이지 수(totalPage) 보다 크면
+//		// 끝페이지를 전체페이지 수로 변경 처리
+//		if (pvo.getEndPage() > pvo.getTotalPage()) {
+//			pvo.setEndPage(pvo.getTotalPage());
+//			System.out.println(">> 정정 후 endPage : " + pvo.getEndPage());
+//		}
+//        
+//		//List<BoardVO> boardList = boardService.getBoardList(vo);
+//		List<BoardVO> boardList = boardService.getListPage(vo, begin, end);
+//		
+////		SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MM dd HH:mm:ss z yyyy");
+////	    SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+////	    
+////	    for (BoardVO board : boardList) {
+////	        String formattedDate = targetFormat.format(board.getPostdate());
+////	        board.setFormattedDate(formattedDate);
+////	    }
+//	   
+//		model.addAttribute("boardList", boardList); // Model에 데이터 저장
+//		model.addAttribute("pagingVO", pvo);
+//
+//		return "board/getBoardList";
+//	}
  	
  	// (개인)리뷰 입력
  	@RequestMapping("/myReviewInsert.do")

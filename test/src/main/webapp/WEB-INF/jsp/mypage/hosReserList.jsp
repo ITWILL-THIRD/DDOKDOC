@@ -286,24 +286,22 @@
 	<div id="reserBody">
 	    <div id="calendar" class="reserInfo"></div>
 	    <div>    
-			<ul>
-				<li>예약 목록</li>
-			</ul>
-			   <table class="table table-hove" id="reserList">
-					<thead>
-				        <tr>
-				            <th width="60px">예약시간</th>
-				            <th width="80px">보호자</th>
-				            <th width="150px">연락처</th>
-				            <th width="60px">펫이름</th>
-				            <th width="60px">종류</th>
-				            <th width="60px">나이</th>
-				            <th width="60px"></th>
-				        </tr>
-			    	</thead>
-				    <tbody id="listDisp">
-				    </tbody>
-				</table>
+			<h2>병원 예약 현황</h2>
+		   <table class="table table-hove" id="reserList">
+				<thead>
+			        <tr>
+			            <th width="60px">예약시간</th>
+			            <th width="80px">보호자</th>
+			            <th width="150px">연락처</th>
+			            <th width="60px">펫이름</th>
+			            <th width="60px">종류</th>
+			            <th width="60px">나이</th>
+			            <th width="60px"></th>
+			        </tr>
+		    	</thead>
+			    <tbody id="listDisp">
+			    </tbody>
+			</table>
 	    </div>
 	</div>
 </body>
