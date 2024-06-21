@@ -6,10 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>userPostDetail</title>
+<jsp:include page="../../css/getUserListCss.jsp"/>
+<jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../common/navigation.jsp"/>
 </head>
 <body>
 <h1>글상세</h1>
-	<table border>
+<div id="container">
+<a href="getUserList.do">회원관리목록 가기</a>
+	<table border frame=void  style="width:100%">
 		<tr>
 			<th>카테고리</th>
 			<td colspan="2">
@@ -52,9 +57,7 @@
 			</td>
 		</tr>
 	</table>
-	<p>
-		<a href="userPostList.do?userIdx=${board.useridx}"> 게시물 리스트</a>
-		<a href="userCommentList.do?userIdx=${board.useridx}"> 댓글 리스트</a>
-	</p>
+	
+	</div>
 </body>
 </html>

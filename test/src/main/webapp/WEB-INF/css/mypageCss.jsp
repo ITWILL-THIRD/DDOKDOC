@@ -4,12 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>postListCSS</title>
+<title>mypageCSS</title>
 
 <style>
 
-	#container { width: 1100px; margin: auto; }
-	h1, h3, p { text-align: center; }
+	#container { width: 800px; margin: auto; }
+	
 	
 	<%-- 목록 --%>
 	table {
@@ -34,6 +34,9 @@ table td:first-child {
 table th:last-child,
 table td:last-child {
 	border-right: 0;
+}
+table tr {
+height: 35px;
 }
 
 	th { 
@@ -110,6 +113,22 @@ margin-bottom: 20px;
     	background-color: #EAEAEA;
     	
     }
+    .delBtn {
+    border-radius: 5px;
+    	background-color: #FFFFFF;
+    	padding: 7px 18px;
+    	border: none;
+    	cursor: pointer;
+    	color: #2C307D;
+    	border: 1px solid #2C307D;
+    	text-decoration: none;
+    	 display: inline-block;
+    	
+    }
+    .delBtn:hover {
+    background-color: #EAEAEA;
+    
+    }
     
     
         /* 버튼 */
@@ -126,16 +145,11 @@ margin-bottom: 20px;
     }
     
     .btn:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
-    	border: 1px solid #2C307D;
+    	background-color: #4349B4;
+        color: #FFFFFF; 
+    	border: 1px solid #4349B4;
     }
-    /* 버튼 배경색 변경 */
-    .btn.active {
-        background-color: #FFFFFF;
-        color: #2C307D;
-    	border: 1px solid #2C307D; 	
-    }
+    
 	
     
 	/* 버튼 정렬 */
@@ -166,6 +180,19 @@ margin-bottom: 20px;
  
   border: 1px solid #2C307D;
   }
+  .box {
+  background-color: #F3F3F3;
+  width: auto;
+    height: 70px;
+    display: block;
+    border-radius: 10px; 
+    margin-top: 30px;
+     padding: 30px;
+  }
+ .name {
+ 
+ }
+ 
     
 	
 </style>

@@ -145,7 +145,7 @@ public class UserController {
          
          
          HosMembershipVO memvo = hospitalService.getHosMembershipByIdx(user.getHosIdx());
-         
+         System.out.println("memvo : " + memvo);
          if (memvo == null) {
              System.out.println("HosMembershipVO is null");
              return "redirect:/index.jsp?msg=hosuccess";
@@ -415,7 +415,7 @@ public class UserController {
          }
          System.out.println("HOSTIME vo : " + vo);
          System.out.println(">> 회원가입 완료");
-         return "redirect:login.do?msg=success";
+         return "redirect:hoLogin.do?msg=success";
       } catch (Exception e) {
          e.printStackTrace();
          return"redirect:hoJoin.do?msg=fail";

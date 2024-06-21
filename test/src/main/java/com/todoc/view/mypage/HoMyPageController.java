@@ -72,20 +72,20 @@ public class HoMyPageController {
 	@RequestMapping("/hoMyPage.do")
 	public String myPage(Model model, HttpSession session) {
 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
-		HosImgVO io = new HosImgVO();
-		io.setHosIdx(hoUser.getHosIdx());
-		io = hospitalService.hosImg(hoUser.getHosIdx());
-		
-		model.addAttribute("io", io);
+//		HosImgVO io = new HosImgVO();
+//		io.setHosIdx(hoUser.getHosIdx());
+//		io = hospitalService.hosImg(hoUser.getHosIdx());
+//		
+//		model.addAttribute("io", io);
 		
 		HosMembershipVO hmo = new HosMembershipVO();
 		hmo.setHosIdx(hoUser.getHosIdx());
 		hmo = hosMembershipService.getHosMembership(hmo);
 		model.addAttribute("hmo", hmo);
 		
-	    if (io == null) {
-	        return "mypage/hoMyPage"; // 병원이미지와 멤버십 정보가 없을 때의 페이지로 이동
-	    }
+//	    if (io == null) {
+//	        return "mypage/hoMyPage"; // 병원이미지와 멤버십 정보가 없을 때의 페이지로 이동
+//	    }
 	    if (hmo == null) {
 	    	return "mypage/hoMyPage";
 	    }
@@ -97,7 +97,7 @@ public class HoMyPageController {
 	    String endFormattedDate = targetFormat.format(hmo.getHosEnd());
 	    hmo.setStartformattedDate(startFormattedDate);
 	    hmo.setEndformattedDate(endFormattedDate);
-	    
+	    System.out.println("hmo : " + hmo);
 	    
 		return "mypage/hoMyPage";
 	}
@@ -232,7 +232,7 @@ public class HoMyPageController {
 	                             validSatOpenTime, validSatCloseTime, validSatLunchTime, validSatEndLunchTime,
 	                             validSunOpenTime, validSunCloseTime, validSunLunchTime, validSunEndLunchTime,
 	                             lunchOff, satLunchOff, sunDayOff, sunLunchOff);
-	    hospitalService.updateHosImg(vo);
+	    
 	    
 	    System.out.println("vo.getTime : " + vo.getCloseTime());
 	    System.out.println("수정 후 vo : " + vo);

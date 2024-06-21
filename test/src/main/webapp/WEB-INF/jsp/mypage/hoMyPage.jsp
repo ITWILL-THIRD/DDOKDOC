@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 마이페이지</title>
+<jsp:include page="../../css/mypageCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script>
@@ -26,19 +27,31 @@ function hosDelete_ok(frm) {
 </style>
 </head>
 <body>
-<h1>병원 마이페이지</h1>
-<hr>
-<h2>병원정보</h2>
+<!-- <h1>병원 마이페이지</h1> -->
+<div id="container">
+<div class="box">
+<div class="name">
+<h1 class="h1" style="display:inline">${hoUser.hosName }</h1>
+<p style="display:inline; font-size:28px;">님</p>
+<br><br>
 <c:if test="${hoUser.condition == '승인완료'}">
-		[멤버십 가입전]
+		[토닥플러스 가입 후 병원등록이 가능합니다]
+		<a href="../membership/checkout.do">토탁플러스 가입 하러가기</a>
 		</c:if>
 		<c:if test="${hoUser.condition == '결제완료'}">
-		[MEMBERSHIP] ${hmo.startformattedDate } ~ ${hmo.endformattedDate }
+		[TODOCPLUS] ${hmo.startformattedDate } ~ ${hmo.endformattedDate }
 		</c:if>
-\${hoUser} : ${hoUser}
+</div>
+</div>
+
+<h2>병원정보</h2>
+<hr>
+
+<%-- 		\${hmo } : ${hmo } --%>
+<%-- \${hoUser} : ${hoUser} --%>
 <%-- \${io } : ${io } --%>
 <form action="updateHoUser.do">
-	<table border="">
+	<table  border frame=void style="width:100%; height: 35px;">
 		<tr>
 			<th>병원아이디</th>
 			<td colspan="2">${hoUser.hosId }</td>
@@ -55,8 +68,10 @@ function hosDelete_ok(frm) {
 <!-- 		<tr> -->
 <!-- 			<th>병원 외/내부사진</th> -->
 <!-- 			<td colspan="2"> -->
-<%-- 			<c:if test="${not empty hoUser.hosImg}"> --%>
-<%-- 			<img src="${hoUser.hosImg }" alt="${hoUser.imgIdx}의 이미지"> --%>
+<%-- 			<c:if test="${not empty hosImg.hosImg}"> --%>
+<%-- 			<c:forEach var="img" items="${hosImg}"> --%>
+<%-- 			<img src="${img.hosImg }" alt="${img.imgIdx}의 이미지"> --%>
+<%-- 			</c:forEach> --%>
 <%-- 			</c:if> --%>
 <!-- 			</td> -->
 <!-- 		</tr> -->
@@ -185,8 +200,8 @@ function hosDelete_ok(frm) {
 		<tr>
 			<td colspan="3">
 				<input type="hidden" name="hosIdx" value="${hoUser.hosIdx }">
-				<input type="submit" value="병원정보수정">
-				<input type="button" value="탈퇴하기" onclick="hosDelete_ok(this.form)">
+				<input class="btn" type="submit" value="병원정보수정">
+				<input class="delBtn" type="button" value="탈퇴하기" onclick="hosDelete_ok(this.form)">
 			</td>
 		</tr>
 	</table>
@@ -198,5 +213,6 @@ function hosDelete_ok(frm) {
 <p><a href="hosReviewList.do">리뷰 목록 조회</a></p>
 	<!-- 병원 휴무일 등록 페이지 -->
 	<a href="insertHosHoliday.do">휴무일 등록하기</a>
+	</div>
 </body>
 </html>
