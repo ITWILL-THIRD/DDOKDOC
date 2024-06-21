@@ -2,6 +2,7 @@ package com.todoc.view.hospital;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.todoc.common.Paging;
 import com.todoc.hospital.HosImgVO;
 import com.todoc.hospital.HosReviewVO;
 import com.todoc.hospital.HospitalService;
@@ -32,14 +34,62 @@ public class HospitalController {
 	@Autowired
 	private NoticeService noticeService;
 	
-	//병원예약 페이지 onload되면 전체 목록 조회
+	//병원예약 페이지 onload되면 전체 목록 조회 + 페이징
 	@RequestMapping("/hosMain.do")
-	public String hosRevMain(HospitalVO vo, Model model) {
-
+	public String hosRevMain(HospitalVO vo, Model model, HttpServletRequest request) {
+		System.out.println(":: 병원 목록 전체보기");
+		
+		//페이징 처리를 위한 객체(Paging)생성 - numPerPage=10, pagePerBlock=10 세팅
+		Paging p = new Paging();
+		
+		//1. 전체 게시물 수량 구하기
+		System.out.println("전체 게시물 수량 전 vo : " + vo);
+		p.setTotalRecord(hospitalService.paymentCnt());
+		p.setTotalPage();
+		System.out.println("> 전체 게시글 수 : " + p.getTotalRecord());
+		System.out.println("> 전체 페이지 수 : " + p.getTotalPage());
+		
+		//2. 현재 페이지 번호 구하기
+		String cPage = request.getParameter("cPage");
+		if (cPage != null) {
+			p.setNowPage(Integer.parseInt(cPage));
+		}
+		System.out.println("> cPage : " + cPage);
+		System.out.println("> Paging nowPage : " + p.getNowPage());
+		
+		//3. 현재 페이지에 표시할 게시글 시작번호(begin), 끝번호(end) 구하기
+		p.setEnd(p.getNowPage() * p.getNumPerPage());
+		p.setBegin(p.getEnd() - p.getNumPerPage() + 1);
+		System.out.println(">> 시작번호(begin) : " + p.getBegin());
+		System.out.println(">> 끝번호(end) : " + p.getEnd());
+		int begin = p.getBegin();
+		int end = p.getEnd();
+		
+		//4. 블록(block) 계산하기
+		//블록 시작페이지(beginPage), 끝페이지(endPage) - 현재페이지 번호 사용
+		int nowBlock = (p.getNowPage() - 1) / p.getPagePerBlock() + 1;
+		p.setNowBlock(nowBlock);
+		p.setEndPage(nowBlock * p.getPagePerBlock());
+		p.setBeginPage(p.getEndPage() - p.getPagePerBlock() + 1);
+		System.out.println(">> nowBlock : " + p.getNowBlock());
+		System.out.println(">> beginPage : " + p.getBeginPage());
+		System.out.println(">> endPage : " + p.getEndPage());
+		
+		// 끝페이지(endPage)가 전체페이지 수(totalPage) 보다 크면
+		// 끝페이지를 전체페이지 수로 변경 처리
+		if (p.getEndPage() > p.getTotalPage()) {
+			p.setEndPage(p.getTotalPage());
+			System.out.println(">> 정정 후 endPage : " + p.getEndPage());
+		}
+		
 		//DB 연동하여 selectList
-		List<HospitalVO> hosList = hospitalService.selectList();
-
+		List<HospitalVO> hosList = hospitalService.selectListPage(vo, begin, end);
+		System.out.println("hosList : " + hosList);
+		System.out.println("hosList.size() : " + hosList.size());
+		System.out.println("pagingVO : " + p);
+		
 		model.addAttribute("hosList", hosList);
+		model.addAttribute("pagingVO", p);
 		return "hospital/hosMain";
 	}
 	// 1개 병원 상세 조회
