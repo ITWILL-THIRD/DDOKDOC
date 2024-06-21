@@ -27,14 +27,17 @@ table td {
 	
 	border-collapse: collapse;
 }
+
 table th:first-child,
 table td:first-child {
 	border-left: 0;
 }
+
 table th:last-child,
 table td:last-child {
 	border-right: 0;
 }
+
 table tr {
 height: 35px;
 }
@@ -50,30 +53,34 @@ height: 35px;
 	#category {
 		padding: 10px;
 	}
+	
 	.selectTb {
 	border: none;
 	}
+	
 	.select {
-width: 100px;
-height: 40px;
- border: 1px solid #bbb;
-border-radius: 5px;
-  padding: 10px 12px;
-  font-size: 14px;
-}
-.search {
-position: relative;
-	margin-top: 16px;
-  width: 200px;
-  height: 19px;
-  border: 1px solid #bbb;
-border-radius: 5px;
-  padding: 10px 12px;
-  font-size: 14px;
-}
-.center {
-margin-bottom: 20px;
-}
+		width: 100px;
+		height: 40px;
+ 		border: 1px solid #bbb;
+		border-radius: 5px;
+  		padding: 10px 12px;
+  		font-size: 14px;
+	}
+	
+	.search {
+		position: relative;
+		margin-top: 16px;
+		width: 200px;
+		height: 19px;
+		border: 1px solid #bbb;
+		border-radius: 5px;
+		padding: 10px 12px;
+		font-size: 14px;
+	}
+	
+	.center {
+	margin-bottom: 20px;
+	}
 	<%-- 제목 링크 --%>
 	a {	
 		color: #2C307D;

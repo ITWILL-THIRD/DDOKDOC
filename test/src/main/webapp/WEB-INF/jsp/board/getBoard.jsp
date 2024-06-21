@@ -82,10 +82,13 @@ function deleteComment(commentIdx) {
 <div id="container">
 	<form action="updateBoard.do" method="get">
 		<input type="hidden" name="postIdx" value="${board.postidx }">
-	<table class="getBoard top-margin">
+		<hr  class="top-margin hr">
+		<h1>${board.title }</h1>
+		<hr class="hr">
+	<table class="getBoard" border frame=void>
 		<tr>
 			<th>카테고리</th>
-			<td colspan="2">
+			<td>
 				<c:choose>
                         <c:when test="${board.category == 'free'}">자유</c:when>
                         <c:when test="${board.category == 'med'}">의료</c:when>
@@ -94,14 +97,12 @@ function deleteComment(commentIdx) {
                         <c:otherwise>자유</c:otherwise>
                 </c:choose>
 			</td>
-			<th>제목</th>
-			<td colspan="2">
-				${board.title }
+			<th>작성자</th>
+			<td>
+				${board.nickname}
 			</td>
 		</tr>
 		<tr>
-			<th>작성자</th>
-			<td>${board.nickname}</td>
 			<th>조회수</th>
 			<td>${board.hit }</td>
 			<th>작성일</th>
@@ -111,8 +112,7 @@ function deleteComment(commentIdx) {
 			
 		</tr>
 		<tr>
-			<th>내용</th>
-			<td  style="white-space:pre-line" colspan="5" class="content">
+			<td  style="white-space:pre-line" colspan="6" class="content">
 				${board.content}
 				<c:if test="${not empty board.img}">
 				<c:forEach var="board.img" items="${board.img}">

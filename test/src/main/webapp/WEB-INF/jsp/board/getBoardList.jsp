@@ -12,12 +12,13 @@
 </head>
 <body>
 <div id="container">
+	<h1>정보나눔</h1>
 	<!-- 검색 -->
 	<form action="getBoardList.do" method="get">
-	<table class="border-none top-margin">
+	<table class="border-none">
 		<tr>
 			<td>
-				<select name="searchCondition">
+				<select name="searchCondition" class="select">
 				<c:forEach var="option" items="${conditionMap }">
 					<option value="${option.value}">${option.key }</option>
 				</c:forEach>
@@ -37,7 +38,7 @@
 	</form>
 	
 	<!-- 데이터 표시영역 -->
-	<table>
+	<table border frame=void>
 		<thead>
 			<tr>
 				<th width="50">번호</th>
