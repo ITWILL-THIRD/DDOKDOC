@@ -18,7 +18,7 @@
 		margin-left:auto;margin-right:auto;
 		margin-top: 23px;
 	}
-	table, th, td {
+	table th, table td {
 		position: static;
 		text-align: center;
 		margin: auto;
@@ -120,8 +120,8 @@
   	}
 	<%-- 제목 링크 --%>
 	a {	
-  		color: #2C307D;
-  		font-weight: bold;  
+		color: #FFA217;
+		color: #2C307D;
 		text-decoration: none;	
 	}
 	a:hover {color:#FFA217;}

@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>관리자 - 병원 승인 페이지 [approvalPage.jsp]</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<jsp:include page="../../css/hosApprovalListCss.jsp"/>
+<%-- <jsp:include page="../../css/hosApprovalListCss.jsp"/> --%>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script>
@@ -23,7 +23,7 @@
 	        	$(this).val('결제완료');
 	        } else if (condition === '승인전') {
 	            $(this).addClass('condition-before');
-	            $(this).val('승인');
+	            $(this).val('승인수락');
 	        } else if (condition === '승인완료') {
 	            $(this).addClass('condition-after');
 	            $(this).val('승인취소');
@@ -45,55 +45,140 @@
 			}
 		}
 	}
-	
-	function dateSearch(frm) {
-		//가입날짜 검색할 때, 페이징 처리?
-		var beginDate = $('#beginDate').val();
-		var endDate = $('#endDate').val();
-		var cPage = $('#cPage').val();
-		var pagingVO = $('#pagingVO').val();
-		console.log("beginDate : " + beginDate + ", endDate : " + endDate);
-		console.log("cPage : " + cPage);
-		console.log("pagingVO : " + pagingVO);
-		
-		
-// 		$(document).ready(function() {
-//             $('.searchBtn').click(function() {
-//                 var hoListValue = $('#hoList').val();
-                
-//                 // 리스트의 각 객체를 추출하기 위해 배열로 분리
-//                 var hosListArray = hoListValue.match(/HosApprovalVO \[.*?\]/g);
-                
-//                 hosListArray.forEach(function(item, index) {
-//                     // 각 객체의 속성 값 추출
-//                     var hosIdx = item.match(/hosIdx=([^,]*)/)[1];
-//                     var animal = item.match(/animal=([^,]*)/)[1];
-//                     var hosName = item.match(/hosName=([^,]*)/)[1];
-//                     var roadAddressName = item.match(/roadAddressName=([^,]*)/)[1];
-//                     var detailAddress = item.match(/detailAddress=([^,]*)/)[1];
-//                     var openTime = item.match(/openTime=([^,]*)/)[1];
-//                     var closeTime = item.match(/closeTime=([^,]*)/)[1];
-//                     var hosPhone = item.match(/hosPhone=([^,]*)/)[1];
-//                     var certificateImg = item.match(/certificateImg=([^,]*)/)[1];
-//                     var condition = item.match(/condition=([^,]*)/)[1];
-//                     var beginDate = item.match(/beginDate=([^,]*)/)[1];
-//                     var endDate = item.match(/endDate=([^,]*)/)[1];
-//                     var searchCondition = item.match(/searchCondition=([^,]*)/)[1];
-
-//                     // 객체별로 추출된 속성 값 출력
-//                     console.log("Object " + (index + 1));
-//                     console.log("hosIdx: " + hosIdx);
-//                     console.log("animal: " + animal);
-//                     console.log("hosName: " + hosName);
-//                     console.log("roadAddressName: " + roadAddressName);
-//                     console.log("condition: " + condition);
-//                 });
-//                 alert.log("hosListArray : " + hosListArray);
-//             });
-//         });
-		location.href = "getHosApprovalSearch.do?cPage=" + cPage + "&beginDate=" + beginDate + "&endDate=" + endDate;
-	}
 </script>
+<style>
+	#container { width: 1100px; margin: auto; }
+	h1, h3, p { text-align: center; }
+	<%-- 목록 --%>
+	table {
+		border-collapse: collapse;
+		margin-left:auto;margin-right:auto;
+		margin-top: 23px;
+	}
+	table th, table td {
+		position: static;
+		text-align: center;
+		margin: auto;
+		padding: 5px;
+		border: 1px #B9B9B9 solid;
+		border-collapse: collapse;
+	}
+	
+	table th:first-child,
+	table td:first-child {
+		border-left: 0;
+	}
+	
+	table th:last-child,
+	table td:last-child {
+		border-right: 0;
+	}
+	th { 
+		background-color: #E0EAF5;
+	}
+	.center { text-align: center; }
+	.border-none, .border-none td { border: none; }
+	
+	<%-- 버튼 --%>
+    .btn {
+    	border-radius: 5px;
+    	background-color: #2C307D;
+    	padding: 7px 18px;
+    	border: none;
+    	cursor: pointer;
+    	color: #FFFFFF;
+    	text-decoration: none;
+    	display: inline-block;
+    	border: 1px solid #2C307D;
+    }
+    .btn:hover {
+    	background-color: #FFFFFF;
+    	color: #2C307D;
+    	border: 1px solid #2C307D;
+    }
+    /* 버튼 정렬 */
+	.row, #searchDate {
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+		align-items: center;
+	}
+	.row {
+		padding: 10px 0;
+	}
+	<%-- 버튼 배경색 변경 --%>
+    .btn.active {
+        background-color: #FFFFFF;
+        color: #2C307D;
+    	border: 1px solid #2C307D; 	
+    }
+	hr {
+  		border: 1px solid #2C307D;
+  	}
+	<%-- 제목 링크 --%>
+	a {	
+		color: #2C307D;
+		font-weight: bold;
+		text-decoration: none;	
+	}
+	a:hover {color:#FFA217;}
+	.paging {border-top-style: hidden; }
+	.paging a {
+		color: #2C307D;
+		font-weight: normal;
+	}
+	.paging a:hover {color:#FFA217;}
+	
+	<%-- 승인버튼 동적 작용 --%>
+	.condition-payment {
+		border-radius: 5px;
+    	background-color: #2C307D;
+    	padding: 7px 18px;
+    	border: none;
+    	cursor: pointer;
+    	color: #FFFFFF;
+    	text-decoration: none;
+    	display: inline-block;
+    	border: 1px solid #2C307D;
+    }
+    .condition-payment:hover {
+    	background-color: #FFFFFF;
+    	color: #2C307D;
+    	border: 1px solid #2C307D;
+    }
+    .condition-before {
+    	border-radius: 5px;
+    	background-color: #FFA217;
+    	padding: 7px 18px;
+    	border: none;
+    	cursor: pointer;
+    	color: #FFFFFF;
+    	text-decoration: none;
+    	display: inline-block;
+    	border: 1px solid #FFA217;
+    }
+    .condition-before:hover {
+    	background-color: #FFFFFF;
+    	color: #2C307D;
+    	border: 1px solid #2C307D;
+    }
+    .condition-after {
+        border-radius: 5px;
+    	background-color: #B8DAFF;
+    	padding: 7px 18px;
+    	border: none;
+    	cursor: pointer;
+    	color: #FFFFFF;
+    	text-decoration: none;
+    	display: inline-block;
+    	border: 1px solid #B8DAFF;
+    }
+    .condition-after:hover {
+    	background-color: #FFFFFF;
+    	color: #2C307D;
+    	border: 1px solid #2C307D;
+    }
+</style>
 </head>
 <body>
 <div id="container">
@@ -104,22 +189,13 @@
 <%-- \${searchCondition} : ${searchCondition}<br><hr> 	 --%>
 	<!-- 검색 -->
 	<form method="post">
-<!-- 	<table class="border-none"> -->
-<!-- 		<tr><td>가입일자 :  -->
-<!-- 			<input type="date" id="beginDate" name="beginDate"> ~ -->
-<!-- 			<input type="date" id="endDate" name="endDate"> -->
-<%-- 			<input type="hidden" id="cPage" name="cPage" value="${pagingVO.nowPage}"> --%>
-<%-- 			<input type="hidden" id="pagingVO" name="pagingVO" value="${pagingVO}"> --%>
-<!-- 			<input type="button" value="검색" class="searchBtn" onclick="dateSearch(this.form)"> -->
-<!-- 		</td></tr> -->
-<!-- 	</table> -->
 	<div id="getConditionSearch" class="center">
-		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
-		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=before">승인전</a>
-		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=after">승인완료</a>
-		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=payment">결제완료</a>
+		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
+		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=before">승인전</a>
+		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=after">승인완료</a>
+		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=payment">결제완료</a>
 	</div>
-	
+	<hr>
 	<!-- 데이터 표시 -->
 	<table border frame=void >
 		<thead>
@@ -172,7 +248,7 @@
 		</c:if>
 		</tbody>
 		
-		<tfoot>
+		<tfoot class="paging">
 <!-- 		페이징 표시 없음 처리 -->
 <%-- 			<c:set var="hasPage" value="false" scope="page"/> --%>
 			<tr>
