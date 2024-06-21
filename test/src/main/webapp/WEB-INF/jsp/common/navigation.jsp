@@ -101,7 +101,9 @@
 </div>
 <div class="nav">
     <div class="logo">
-        <img src="" alt="로고">
+        <a href="../index.jsp">
+        	<img src="" alt="로고">
+    	</a>    
     </div>
     
     <div class="topnav">
