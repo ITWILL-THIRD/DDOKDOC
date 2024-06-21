@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>시작페이지 [main.jsp]</title>
+<title>토닥토닥[main.jsp]</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 <script>
@@ -31,6 +31,13 @@
             } else if (msg === "deleteHos") {
             	alert("병원탈퇴가 완료되었습니다.")
             }
+        }
+        
+        function login() {
+        	location.href = "user/login.do";
+        }
+        function hoLogin() {
+        	location.href = "user/hoLogin.do";
         }
 
 </script>
@@ -61,7 +68,7 @@
 	 	display: flex;
 	 	item-align: center;
 	 	border-style: none none solid none;
-	 	border-color: #B6E5FF;
+	 	border-color: #E0EAF5;
 	 	justify-content: space-between;
 	 	line-height: 30px;
 	}
@@ -95,7 +102,7 @@
 	}
 	
 	.topnav a:hover {
-	  color: #B6E5FF;
+	  color: #E0EAF5;
 	}
 	
 	.adminDropdown {
@@ -122,6 +129,148 @@
 /* 		font: bold; */
 /* 		text-decoration: underline; */
 /* 	} */
+
+	#container { width: 80%; height:800px; margin: auto; margin-top: 30px;}
+	.abcd {width:100%; height:50%;}
+	
+	.a {
+		border-radius: 15px;
+		background-color: #2C307D;
+		width: 60%;
+		height: 95%;
+		margin:10px;
+		display: inline-block;
+		position: relative;
+	}
+	.todocImg {width: 300px; margin: 20px; position: absolute; right:0;}
+	.a > .txt {
+		font-size: 3rem;
+		position: absolute;
+		left: 20%;
+		  top: 50%;
+		  /*요소의 높이의 반(50%) 만큼 위로 이동*/
+		  transform: translateY(-50%);
+		color:#fff;
+	}
+	
+	.b {
+		border-radius: 15px;
+		background-color: #F3F3F3;
+		width: 30%;
+		height: 95%;
+		margin:10px;
+		display: inline-block;
+		position: relative;
+		text-align: center;
+	}
+	.userLogin {
+		border-radius: 15px;
+		background-color: #E0EAF5;
+		width:43%;
+		height:40%;
+		position: absolute;
+		left: 5%;
+		top: 50%;
+		/*요소의 높이의 반(50%) 만큼 위로 이동*/
+		transform: translateY(-50%);
+		text-align: center;
+		line-height: 150px;
+		border:none;
+		font-size: 1rem;
+		font-weight: 600;
+	}
+	.userLogin:hover {background-color: #B8DAFF;}
+	.hosLogin {
+		border-radius: 15px;
+		background-color: #FFA217;
+		width:43%;
+		height:40%;
+		position: absolute;
+		right: 5%;
+		top: 50%;
+		/*요소의 높이의 반(50%) 만큼 위로 이동*/
+		transform: translateY(-50%);
+		text-align: center;
+		line-height: 150px;
+		border:none;
+		font-size: 1rem;
+		font-weight: 600;
+	}
+	.hosLogin:hover {background-color: #FF8E2B;}
+	.b > .txt {
+		font-size: 2rem;
+		position: absolute;
+		top: 50%;
+		/*요소의 높이의 반(50%) 만큼 위로 이동*/
+		transform: translateY(-50%);
+	}
+	.profileImg{
+		position: absolute;
+		top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+		max-width: 150px;
+		border-radius: 50%;
+		justify-content: center;
+	}
+	.nickname {
+		position: absolute;
+		top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+		text-align: center;
+		aligns-item: center;
+		justify-content: center;
+		font-size: 1.3rem;
+		font-weight: 600;
+	}
+	
+	.c {
+		border-radius: 15px;
+		background-color: #F3F3F3;
+		width: 45%;
+		height: 95%;
+		margin:10px;
+		display: inline-block;
+		position: relative;
+	}
+	.catImg {width: 300px; margin: 20px; position: absolute; left:10;}
+	.c > .txt {
+		font-size: 2rem;
+		position: absolute;
+		right: 20%;
+		  top: 50%;
+		  /*요소의 높이의 반(50%) 만큼 위로 이동*/
+		  transform: translateY(-50%);
+	}
+	
+	.d {
+		border-radius: 15px;
+		background-color: #E0EAF5;
+		width: 45%;
+		height: 95%;
+		margin:10px;
+		display: inline-block;
+		position: relative;
+	}
+	.dogImg {width: 300px; margin-top: 50px; position: absolute; right:0;}
+	.d > .txt {
+		font-size: 2rem;
+		position: absolute;
+		left: 10%;
+		  top: 50%;
+		  /*요소의 높이의 반(50%) 만큼 위로 이동*/
+		  transform: translateY(-50%);
+	}
+	
+	span {color: #FFA217;}
+
+	.txt {
+		font-weight:600;
+		display: inline;
+	}
+	
+	
 </style>
 
 </head>
@@ -131,7 +280,9 @@
 </div>
 <div class="nav">
     <div class="logo">
-        <img src="" alt="로고">
+    	<a href="index.jsp">
+        	<img src="" alt="로고">
+    	</a>    
     </div>
     
     <div class="topnav">
@@ -173,8 +324,46 @@
     	
     </div>
 </div>
-
-	<h1>TODOC</h1>
+	<div id="container">
+		<div class="abcd">
+			<div class="a">
+				<div class="txt">토닥토닥</div>
+				<img src="https://i.ibb.co/1scnHR7/casual-life-3d-female-veterinarian-with-dog.png" alt="todoc" class="todocImg">
+			</div>
+			
+			<div class="b">
+			<c:choose>
+				<c:when test="${sessionScope.user.role == 'admin'}">
+					<img src="https://i.ibb.co/9GGQYgD/admin.png" alt="administrator의 이미지" class="profileImg">
+					<div class="nickname">Admin</div>
+				</c:when>
+				<c:when test="${not empty sessionScope.user}">
+					<img src="${user.userImg}" alt="${user.userIdx}의 이미지" class="profileImg">
+					<div class="nickname">${sessionScope.user.nickname }</div>
+				</c:when>
+				<c:when test="${not empty sessionScope.hoUser}">
+					<img src="https://i.ibb.co/qnKFVpL/hospital.png" alt="${hoUser.hosIdx}의 이미지" class="profileImg">
+					<div class="nickname">${sessionScope.hoUser.hosName }</div>
+				</c:when>
+				<c:otherwise>
+					<input class="userLogin" type="button" value="개인 로그인 / 회원가입" onclick="login()">
+					<input class="hosLogin" type="button" value="병원 로그인 / 회원가입" onclick="hoLogin()">
+			    </c:otherwise>
+			</c:choose>
+			</div>	
+		</div>
+		<div class="abcd">
+			<div class="c">				
+				<img src="https://i.ibb.co/j8Bs1kN/casual-life-3d-top-view-of-cat-lying-on-back.png" alt="cat" class="catImg">
+				<div class="txt">내 펫을 <span>등록</span>하고 </br> 병원을 <span>예약</span>하세요!</div>
+			</div>
+			<div class="d">
+				<div class="txt">다양한 주제로 </br>  이야기를 나눠요</div>
+				<img src="https://i.ibb.co/5cczVHP/casual-life-3d-front-view-of-a-beagle-dog.png" alt="dog" class="dogImg">
+			</div>
+		</div>
+	</div>
+	
 
 </body>
 </html>

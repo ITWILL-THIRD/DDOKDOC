@@ -22,7 +22,7 @@
 		text-align: center;
 	}
 	
-	th { background-color: #B6E5FF; }
+	th { background-color: #E0EAF5; }
 
 	.border-none, .border-none td { border: none; }
 	
@@ -45,7 +45,7 @@
 	
 	.btn {
 		border-radius: 10px;
-		background-color: #B6E5FF;
+		background-color: #E0EAF5;
 		padding: 3px;
 		width: 50px;
 		border: none;
@@ -53,7 +53,7 @@
 	
 	.btnWhite {
 		border-radius: 10px;
-		border-color: #B6E5FF;
+		border-color: #E0EAF5;
 		background-color: #FFF;
 		padding: 3px;
 		width: 50px;
@@ -65,7 +65,7 @@
 		border-radius: 10px;
 		padding: 3px;
 		width: 45px;
-		border: 1px solid #B6E5FF;	
+		border: 1px solid #E0EAF5;	
 		display: inline-block;
 		font-size: 13px;
 	}
@@ -76,12 +76,12 @@
 		text-decoration: none;
 		color: black;	
 	}
-	a:hover {color:#B6E5FF;}
+	a:hover {color:#E0EAF5;}
 	
 	<%-- 댓글 작성, 댓글 구분 --%>
 	
 	hr {    
-		background-color:#B6E5FF;;
+		background-color:#E0EAF5;
     	height:1px;
     	border:0;
 	}
@@ -100,7 +100,7 @@
 	
 	.commentInput {
 		border-radius: 5px;
-		border: 1px solid #B6E5FF;
+		border: 1px solid #E0EAF5;
 		align-items: center;
 	}
 	

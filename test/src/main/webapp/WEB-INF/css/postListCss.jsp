@@ -18,7 +18,7 @@
 		padding: 5px;
 		text-align: center;
 	}
-	th { background-color: #B6E5FF; }
+	th { background-color: #E0EAF5; }
 	.center { text-align: center; }
 	.border-none, .border-none td { border: none; }
 	.top-margin {margin-top: 100px;}
@@ -32,7 +32,7 @@
 	}
 	.searchBtn {
 		border-radius: 10px;
-		background-color: #B6E5FF;
+		background-color: #E0EAF5;
 		padding: 3px;
 		width: 50px;
 		border: none;
@@ -43,7 +43,7 @@
 		text-decoration: none;
 		color: black;	
 	}
-	a:hover {color:#B6E5FF;}
+	a:hover {color:#E0EAF5;}
 	
 	
 </style>
