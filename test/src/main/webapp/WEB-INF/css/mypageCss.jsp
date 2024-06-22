@@ -121,7 +121,7 @@ height: 35px;
     	
     }
     .delBtn {
-    border-radius: 5px;
+    	border-radius: 5px;
     	background-color: #FFFFFF;
     	padding: 7px 18px;
     	border: none;
@@ -129,12 +129,11 @@ height: 35px;
     	color: #2C307D;
     	border: 1px solid #2C307D;
     	text-decoration: none;
-    	 display: inline-block;
+    	display: inline-block;
     	
     }
     .delBtn:hover {
-    background-color: #EAEAEA;
-    
+   		background-color: #EAEAEA;
     }
     
     

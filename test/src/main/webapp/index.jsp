@@ -296,13 +296,13 @@
     	</c:if>
     	
     	<c:if test="${not empty sessionScope.hoUser}">
-    		<a href="membership/checkout.do">멤버십</a>
+    		<a href="membership/checkout.do">토닥+</a>
 	        <a href="mypage/hoMyPage.do">병원 마이페이지</a>
 	        <a href="logout.do">로그아웃</a>
     	</c:if>
     	
     	<c:if test="${sessionScope.user.role == 'user'}">
-    		<a href="membership/usercheckout.do">멤버십</a>
+    		<a href="membership/usercheckout.do">토닥+</a>
     		<a href="mypage/myPage.do">마이페이지</a>
     		<a href="logout.do">로그아웃</a>
     	</c:if>

@@ -34,7 +34,7 @@ function hosDelete_ok(frm) {
 <ul>
 <li class="mypage">마이페이지</li>
   <li><a href="hosReserList.do">병원예약 현황</a></li>
-  <li><a href="hosNotice.do">공지사항 작성</a></li>
+  <li><a href="hosNotice.do">공지사항 등록</a></li>
   <li><a href="hosReviewList.do">리뷰목록 조회</a></li>
   <li><a href="insertHosHoliday.do">휴무일 등록</a></li>
 </ul>
@@ -210,12 +210,10 @@ function hosDelete_ok(frm) {
 		
 	</table>
 	<div class="divBtn">
-			
-				<input type="hidden" name="hosIdx" value="${hoUser.hosIdx }">
-				<input class="btn" type="submit" value="병원정보수정">
-				<input class="delBtn" type="button" value="탈퇴하기" onclick="hosDelete_ok(this.form)">
-			
-		</div>
+		<input type="hidden" name="hosIdx" value="${hoUser.hosIdx }">
+		<input class="btn" type="submit" value="병원정보수정">
+		<input class="delBtn" type="button" value="탈퇴하기" onclick="hosDelete_ok(this.form)">
+	</div>
 	<br><br><br>
 	<hr>
 	
