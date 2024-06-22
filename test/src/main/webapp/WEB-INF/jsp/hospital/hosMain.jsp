@@ -8,160 +8,9 @@
 <meta charset="UTF-8">
 <title>토닥토닥 메인</title>
 <jsp:include page="../common/navigation.jsp"/>
-<%-- <jsp:include page="../../css/hosMainCss.jsp"/> --%>
+<jsp:include page="../../css/hosMainCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<style>
-	#container { width: 1100px; margin: auto; }
-	h1, h3, p { text-align: center; }
-  	.center {width: 700px; margin: auto; padding:2px; text-align: center;}
- 	button { 
- 		margin:1px; 
- 	}  
-	<%-- 목록 --%>
-	table {
-		border-collapse: collapse;
-		margin-left:auto;margin-right:auto;
-		margin-top: 23px;
-	}
-	
-	table th, table td {
-		position: static;
-		text-align: center;
-		margin: auto;
-		padding: 5px;
-		border: 1px #B9B9B9 solid;
-		border-collapse: collapse;
-	}
-	
-	table th:first-child,
-	table td:first-child {
-		border-left: 0;
-	}
-	
-	table th:last-child,
-	table td:last-child {
-		border-right: 0;
-	}
-	th { 
-		background-color: #E0EAF5;
-	}
-	.border-none, .border-none td { border: none; }
-	
-	<%-- 검색창 --%>
-	#category {
-		padding: 10px;
-	}
-	.select {
-		width: 100px;
-		height: 40px;
-		border: 1px solid #bbb;
-		border-radius: 5px;
-		padding: 10px 12px;
-		font-size: 14px;
-	}
-	.search {
-		position: relative;
-		margin-top: 16px;
-	    width: 200px;
-	    height: 19px;
-	    border: 1px solid #bbb;
-		border-radius: 5px;
-	    padding: 10px 12px;
-	    font-size: 14px;
-	}
-	.searchBtn {
-		width: 70px;
-		height: 40px;
-		border-radius: 5px;
-		border : none;
-		background-color: #2C307D;
-		font-size: 14px;
-		color: white;
-    }
-    .searchBtn:hover {
-    	background-color: #4349B4;
-    }
-    #getAdSearch {
-    	margin: 0 120px 0 0;
-    }
-    #getHosSearch {
-    	margin: -10px 0 5px 0;
-    }
-    
-	<%-- 버튼 --%>
-    .btn {
-    	border-radius: 5px;
-    	background-color: #2C307D;
-    	padding: 7px 18px;
-    	border: none;
-    	cursor: pointer;
-    	color: #FFFFFF;
-    	text-decoration: none;
-    	 display: inline-block;
-    	 border: 1px solid #2C307D;
-    }
-    .btn:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
-    	border: 1px solid #2C307D;
-    }
-    .searchBtn {
-		width: 70px;
-		height: 40px;
-		border-radius: 5px;
-		border : none;
-		background-color: #2C307D;
-		font-size: 14px;
-		color: white;
-    }
-    .searchBtn:hover {
-    	background-color: #4349B4;
-    }
-    .getAdSearch{
-    	display: inline-block;
-        text-align: center;
-    }
-    /* 버튼 정렬 */
-	.row, #searchDate {
-		display: flex;
-		gap: 10px;
-		justify-content: center;
-		align-items: center;
-	}
-	.row {
-		padding: 10px 0;
-	}
-	#searchDate {
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
-    <%-- 버튼 배경색 변경 --%>
-    .btn.active {
-        background-color: #FFFFFF;
-        color: #2C307D;
-    	border: 1px solid #2C307D; 	
-    }
-	hr {
-  		border: 1px solid #2C307D;
-  		max-width: initial;
-  		margin-bottom: -10px;
-  	}
-	<%-- 제목 링크 --%>
-	tbody {border-bottom-style: hidden; }
-	
-	tfoot a {
-		color: #2C307D;
-		font-weight: normal;
-	}
-	tfoot a:hover {color:#FFA217;}
-	a {	
-  		color: #2C307D;
-  		font-weight: bold;  
-		text-decoration: none;	
-	}
-	a:hover {color:#FFA217;}
-</style>
 <script>
 	function fetchData(category) {
 		let intSido = document.querySelector("select[name='sido']").value;
@@ -195,23 +44,36 @@
 			            return time; // 예상치 못한 형식인 경우 그대로 반환
 			        }
 			    }
+			    function formatOperatingHours(openTime, closeTime) {
+		            if (openTime === "00:00:00" && closeTime === "23:59:00") {
+		                return "24시간";
+		            } else {
+		                return formatTime(openTime) + " - " + formatTime(closeTime);
+		            }
+		        }
 			    if (data.length === 0) {
 	                // 검색 결과가 없을 경우
 	                dispHtml = "<tr><td colspan='6'>검색 결과가 없습니다</td></tr>";
 	            } else {
 				    for (let hospital of data) {
-				        let openTimeFormatted = formatTime(hospital.openTime);
-				        let closeTimeFormatted = formatTime(hospital.closeTime);
-				        let detailAddressOri = hospital.detailAddress;
-				        if (detailAddressOri == null) {
-				        	detailAddressOri = "";
-				        } 
+				    	let operatingHours = formatOperatingHours(hospital.openTime, hospital.closeTime);
+		                let detailAddressOri = hospital.detailAddress;
+		                if (detailAddressOri == null) {
+		                    detailAddressOri = "";
+		                } 
+// 				    	let openTimeFormatted = formatTime(hospital.openTime);
+// 				        let closeTimeFormatted = formatTime(hospital.closeTime);
+// 				        let detailAddressOri = hospital.detailAddress;
+// 				        if (detailAddressOri == null) {
+// 				        	detailAddressOri = "";
+// 				        } 
 	
 				        dispHtml += "<tr>";
 				        dispHtml += "<td>" + hospital.hosIdx + "</td>";
 				        dispHtml += "<td><a href='hosDetail.do?hosIdx=" + hospital.hosIdx + "'>" + hospital.hosName + "</a></td>";
 				        dispHtml += "<td>" + hospital.roadAddressName + " " + detailAddressOri + "</td>";
-				        dispHtml += "<td>" + openTimeFormatted + " - " + closeTimeFormatted + "</td>";
+				        dispHtml += "<td>" + operatingHours  + "</td>";
+// 				        dispHtml += "<td>" + openTimeFormatted + " - " + closeTimeFormatted + "</td>";
 				        dispHtml += "<td>" + hospital.hosPhone + "</td>";
 				        dispHtml += "<td>" + hospital.animal + "</td>";
 				        dispHtml += "</tr>";
@@ -264,7 +126,7 @@
 	<h1>병원 검색</h1>
 	<!-- 검색 -->
 	<form id="getAdSearch" onsubmit="fetchData('address'); return false;">
-		<div class="center">
+		<div class="right">
 			<jsp:include page="partials/searchAdress.jsp"></jsp:include> 
 			<input class="searchBtn" type="submit" value="검색">
 		</div>
@@ -277,12 +139,16 @@
 	</form>
 	<div class="center">	
 		<button class="btn" onclick="fetchData('all')">전체</button>
+		<button class="none">|</button>
 		<button class="btn" onclick="fetchData('common')">일반병원</button>
+		<button class="none">|</button>
 		<button class="btn" onclick="fetchData('special')">특수병원</button>
+		<button class="none">|</button>
 		<button class="btn" onclick="fetchData('night')">야간진료</button>
+		<button class="none">|</button>
 		<button class="btn" onclick="fetchData('24h')">24시</button>
-	<hr>
 	</div>	
+	<hr>
 	<!-- 데이터 표시 -->
 	<table border frame=void>
 		<thead>
@@ -298,7 +164,7 @@
 		
 		<c:set var="hasCompletedPayment" value="false" scope="page" />
 		<tbody id="searchResults">
-			<c:forEach var="hospital" items="${hosList }">
+			<c:forEach var="hospital" items="${hosList }" varStatus="status">
 				<c:choose>
 					<c:when test="${hospital.condition == '결제완료'}">
 						<c:set var="hasCompletedPayment" value="true" scope="page"/>
@@ -379,7 +245,7 @@
 		</tfoot>
 	</table>
 </div>
-\${hosList} : ${hosList }<br><br>
-\${pagingVO} : ${pagingVO }
+<%-- \${hosList} : ${hosList }<br><br> --%>
+<%-- \${pagingVO} : ${pagingVO } --%>
 </body>
 </html>

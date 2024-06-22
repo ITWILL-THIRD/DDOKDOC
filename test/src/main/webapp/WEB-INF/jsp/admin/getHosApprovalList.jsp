@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>관리자 - 병원 승인 페이지 [approvalPage.jsp]</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<%-- <jsp:include page="../../css/hosApprovalListCss.jsp"/> --%>
+<jsp:include page="../../css/hosApprovalListCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script>
@@ -47,137 +47,154 @@
 	}
 </script>
 <style>
-	#container { width: 1100px; margin: auto; }
-	h1, h3, p { text-align: center; }
-	<%-- 목록 --%>
-	table {
-		border-collapse: collapse;
-		margin-left:auto;margin-right:auto;
-		margin-top: 23px;
-	}
-	table th, table td {
-		position: static;
-		text-align: center;
-		margin: auto;
-		padding: 5px;
-		border: 1px #B9B9B9 solid;
-		border-collapse: collapse;
-	}
+/* 	#container { width: 1100px; margin: auto; } */
+/* 	h1, h3, p { text-align: center; } */
+<%-- 	<%-- 목록 --%> --%>
+/* 	table { */
+/* 		border-collapse: collapse; */
+/* 		margin-left:auto;margin-right:auto; */
+/* 		margin-top: 23px; */
+/* 	} */
+/* 	table th, table td { */
+/* 		position: static; */
+/* 		text-align: center; */
+/* 		margin: auto; */
+/* 		padding: 5px; */
+/* 		border: 1px #B9B9B9 solid; */
+/* 		border-collapse: collapse; */
+/* 	} */
 	
-	table th:first-child,
-	table td:first-child {
-		border-left: 0;
-	}
+/* 	table th:first-child, */
+/* 	table td:first-child { */
+/* 		border-left: 0; */
+/* 	} */
 	
-	table th:last-child,
-	table td:last-child {
-		border-right: 0;
-	}
-	th { 
-		background-color: #E0EAF5;
-	}
-	.center { text-align: center; }
-	.border-none, .border-none td { border: none; }
+/* 	table th:last-child, */
+/* 	table td:last-child { */
+/* 		border-right: 0; */
+/* 	} */
+/* 	th {  */
+/* 		background-color: #E0EAF5; */
+/* 	} */
+/* 	tbody {border-bottom-style: hidden; } */
+/* 	.center { text-align: center; } */
+/* 	.border-none, .border-none td { border: none; } */
 	
-	<%-- 버튼 --%>
-    .btn {
-    	border-radius: 5px;
-    	background-color: #2C307D;
-    	padding: 7px 18px;
-    	border: none;
-    	cursor: pointer;
-    	color: #FFFFFF;
-    	text-decoration: none;
-    	display: inline-block;
-    	border: 1px solid #2C307D;
-    }
-    .btn:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
-    	border: 1px solid #2C307D;
-    }
-    /* 버튼 정렬 */
-	.row, #searchDate {
-		display: flex;
-		gap: 10px;
-		justify-content: center;
-		align-items: center;
-	}
-	.row {
-		padding: 10px 0;
-	}
-	<%-- 버튼 배경색 변경 --%>
-    .btn.active {
-        background-color: #FFFFFF;
-        color: #2C307D;
-    	border: 1px solid #2C307D; 	
-    }
-	hr {
-  		border: 1px solid #2C307D;
-  	}
-	<%-- 제목 링크 --%>
-	a {	
-		color: #2C307D;
-		font-weight: bold;
-		text-decoration: none;	
-	}
-	a:hover {color:#FFA217;}
-	.paging {border-top-style: hidden; }
-	.paging a {
-		color: #2C307D;
-		font-weight: normal;
-	}
-	.paging a:hover {color:#FFA217;}
-	
-	<%-- 승인버튼 동적 작용 --%>
-	.condition-payment {
-		border-radius: 5px;
-    	background-color: #2C307D;
-    	padding: 7px 18px;
-    	border: none;
-    	cursor: pointer;
-    	color: #FFFFFF;
-    	text-decoration: none;
-    	display: inline-block;
-    	border: 1px solid #2C307D;
-    }
-    .condition-payment:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
-    	border: 1px solid #2C307D;
-    }
-    .condition-before {
-    	border-radius: 5px;
-    	background-color: #FFA217;
-    	padding: 7px 18px;
-    	border: none;
-    	cursor: pointer;
-    	color: #FFFFFF;
-    	text-decoration: none;
-    	display: inline-block;
-    	border: 1px solid #FFA217;
-    }
-    .condition-before:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
-    	border: 1px solid #2C307D;
-    }
-    .condition-after {
-        border-radius: 5px;
-    	background-color: #B8DAFF;
-    	padding: 7px 18px;
-    	border: none;
-    	cursor: pointer;
-    	color: #FFFFFF;
-    	text-decoration: none;
-    	display: inline-block;
-    	border: 1px solid #B8DAFF;
-    }
-    .condition-after:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
-    	border: 1px solid #2C307D;
-    }
+<%-- 	<%-- 버튼 --%> --%>
+/*     .btn { */
+/*     	border-radius: 5px; */
+/*     	background-color: #2C307D; */
+/*     	padding: 7px 18px; */
+/*     	border: none; */
+/*     	cursor: pointer; */
+/*     	color: #FFFFFF; */
+/*     	text-decoration: none; */
+/*     	display: inline-block; */
+/*     	border: 1px solid #2C307D; */
+/*     } */
+/*     .btn:hover { */
+/*     	background-color: #FFFFFF; */
+/*     	color: #2C307D; */
+/*     	border: 1px solid #2C307D; */
+/*     } */
+/*     /* 버튼 정렬 */ */
+/* 	.row, #searchDate { */
+/* 		display: flex; */
+/* 		gap: 10px; */
+/* 		justify-content: center; */
+/* 		align-items: center; */
+/* 	} */
+/* 	.row { */
+/* 		padding: 10px 0; */
+/* 	} */
+<%-- 	<%-- 버튼 배경색 변경 --%> --%>
+/*     .btn.active { */
+/*         background-color: #FFFFFF; */
+/*         color: #2C307D; */
+/*     	border: 1px solid #2C307D; 	 */
+/*     } */
+/* 	hr { */
+/*   		border: 1px solid #2C307D; */
+/*   	} */
+<%-- 	<%-- 제목 링크 --%> --%>
+/* 	a {	 */
+/* 		color: #2C307D; */
+/* 		font-weight: bold; */
+/* 		text-decoration: none; */
+/* 	} */
+/* 	a[href^="getHosApprovalSearch.do"] { */
+/* 		margin: 0 10px 0 10px; */
+/* 		font-size:  1rem;  */
+/* 	} */
+/* 	a:hover {color:#FFA217;} */
+/* 	.paging {border-top-style: hidden; } */
+/* 	.paging a { */
+/* 		color: #2C307D; */
+/* 		font-weight: normal; */
+/* 	} */
+/* 	.paging a:hover {color:#FFA217;} */
+/* 	a.none { */
+/*     	color: #2C307D; */
+/*     } */
+/* 	#getConditionSearch { */
+/* 		padding-bottom : 5px; */
+/* 	} */
+<%-- 	<%-- 승인버튼 동적 작용 --%> --%>
+/* 	.condition-payment { */
+/* 		border-radius: 5px; */
+/*     	background-color: #2C307D; */
+/*     	padding: 7px 18px; */
+/*     	border: none; */
+/*     	cursor: pointer; */
+/*     	color: #FFFFFF; */
+/*     	text-decoration: none; */
+/*     	display: inline-block; */
+/*     	border: 1px solid #2C307D; */
+/*     } */
+/*     .condition-payment:hover { */
+/*     	background-color: #FFFFFF; */
+/*     	color: #2C307D; */
+/*     	border: 1px solid #2C307D; */
+/*     } */
+/*     .condition-before { */
+/*     	border-radius: 5px; */
+/*     	background-color: #FFA217; */
+/*     	padding: 7px 18px; */
+/*     	border: none; */
+/*     	cursor: pointer; */
+/*     	color: #FFFFFF; */
+/*     	text-decoration: none; */
+/*     	display: inline-block; */
+/*     	border: 1px solid #FFA217; */
+/*     } */
+/*     .condition-before:hover { */
+/*     	background-color: #FFFFFF; */
+/*     	color: #2C307D; */
+/*     	border: 1px solid #2C307D; */
+/*     } */
+/*     .condition-after { */
+/*         border-radius: 5px; */
+/*     	background-color: #B8DAFF; */
+/*     	padding: 7px 18px; */
+/*     	border: none; */
+/*     	cursor: pointer; */
+/*     	color: #FFFFFF; */
+/*     	text-decoration: none; */
+/*     	display: inline-block; */
+/*     	border: 1px solid #B8DAFF; */
+/*     } */
+/*     .condition-after:hover { */
+/*     	background-color: #FFFFFF; */
+/*     	color: #2C307D; */
+/*     	border: 1px solid #2C307D; */
+/*     } */
+/*     /* 	페이징 */ */
+/* 	#paging td { */
+/* 		padding-top: 15px; */
+/* 	} */
+/* 	#paging span{ */
+/* 		margin: 0 20px 0 20px; */
+/* 	} */
 </style>
 </head>
 <body>
@@ -190,10 +207,13 @@
 	<!-- 검색 -->
 	<form method="post">
 	<div id="getConditionSearch" class="center">
-		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
-		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=before">승인전</a>
-		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=after">승인완료</a>
-		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=payment">결제완료</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
+		<a class="none">|</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=before">승인전</a>
+		<a class="none">|</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=after">승인완료</a>
+		<a class="none">|</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=payment">결제완료</a>
 	</div>
 	<hr>
 	<!-- 데이터 표시 -->
@@ -248,7 +268,7 @@
 		</c:if>
 		</tbody>
 		
-		<tfoot class="paging">
+		<tfoot id="paging">
 <!-- 		페이징 표시 없음 처리 -->
 <%-- 			<c:set var="hasPage" value="false" scope="page"/> --%>
 			<tr>

@@ -49,7 +49,12 @@
 						<c:set var="endLunchTime" value="${hospital.endLunchTime}"/>
 						<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
 						<td>
-							평일 ${openTimeSub} - ${closeTimeSub}
+						<c:if test="${openTimeSub == '00:00' and closeTimeSub == '23:59'}">
+							평 일 24시간
+						</c:if>
+						<c:if test="!${openTimeSub == '00:00' and closeTimeSub == '23:59'}">
+							평 일 ${openTimeSub} - ${closeTimeSub}
+						</c:if>
 						</td>
 						<td>
 							<c:choose>
@@ -74,7 +79,12 @@
 						<c:set var="satEndLunchTime" value="${hospital.satEndLunchTime}"/>
 						<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
 						<td>
+						<c:if test="${satOpenTimeSub == '00:00' and satCloseTimeSub == '23:59'}">
+							토요일 24시간
+						</c:if>
+						<c:if test="!${satOpenTimeSub == '00:00' and satCloseTimeSub == '23:59'}">
 							토요일 ${satOpenTimeSub} - ${satCloseTimeSub}
+						</c:if>
 						</td>
 						<td>
 							<c:choose>
@@ -106,7 +116,12 @@
 			                      	<span class="holiday">휴무</span>
 			                    </c:when>
 								<c:otherwise>
-									 ${sunOpenTimeSub} - ${sunCloseTimeSub}
+									<c:if test="${sunOpenTimeSub == '00:00' and sunCloseTimeSub == '23:59'}">
+										24시간
+									</c:if>
+									<c:if test="!${sunOpenTimeSub == '00:00' and sunCloseTimeSub == '23:59'}">
+										${sunOpenTimeSub} - ${sunCloseTimeSub}
+									</c:if>
 								</c:otherwise>
 							</c:choose>
 						</td>
