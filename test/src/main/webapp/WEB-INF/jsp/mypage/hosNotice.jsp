@@ -181,8 +181,54 @@ margin-bottom: 20px;
   #reserDetailBtn:hover {
   	color:#FFA217;
   }
-    
-	
+    /* 버튼 */
+	.btn {
+    	border-radius: 5px;
+    	background-color: #2C307D;
+    	padding: 7px 18px;
+    	border: none;
+    	cursor: pointer;
+    	color: #FFFFFF;
+    	text-decoration: none;
+    	display: inline-block;
+    	border: 1px solid #2C307D;
+    }
+    .btn:hover {
+    	background-color: #4349B4;
+        color: #FFFFFF; 
+    	border: 1px solid #4349B4;
+    }  
+	.delBtn {
+    	border-radius: 5px;
+    	background-color: #FFFFFF;
+    	padding: 7px 18px;
+    	border: none;
+    	cursor: pointer;
+    	color: #2C307D;
+    	border: 1px solid #2C307D;
+    	text-decoration: none;
+    	display: inline-block;
+    }
+    .delBtn:hover {
+    	background-color: #EAEAEA;
+    }
+    #container div {
+    	position: relative;
+    }
+    #container div .btn {
+    	position: absolute;
+    	top : -15px;
+    	right: 0px;
+    }
+    #container div .delBtn {
+    	position: absolute;
+    	top : -15px;
+    	right: 100px;
+    }
+    #container div + div {
+    	position: absolute;
+		top: 180px;    	
+    }
 </style>
 <script>
 function insertNotice(hosIdx){
@@ -197,11 +243,12 @@ function updateNotice(hosIdx){
 	location.href = "../notice/updateProNotice.do?hosIdx=${hoUser.hosIdx}";
 	//location.href = "../notice/insertProNotice.do?hosIdx=" + hosIdx;
 }
-function deleteNotice(frm){
+function deleteNotice(frm, hosIdx){
 	if (confirm("공지사항을 삭제하시겠습니까?")) {
   	  //휴무 취소 함수 실행시키기
-  	  alert("공지사항 삭제");
-	  frm.submit();
+  		alert("공지사항 삭제");
+//   		location.href = "../notice/deleteNotice.do?hosIdx=${hoUser.hosIdx}";
+		frm.submit();
 	} else {
         return;
     }
@@ -225,25 +272,26 @@ function deleteNotice(frm){
 		<div>
 			<c:choose>
 				<c:when test="${not empty notice}">
-					<input type="button" value="공지 수정" data-hos-idx="${hosIdx}"
+					<input type="button" class="btn" value="공지 수정" data-hos-idx="${hosIdx}"
 						onclick="updateNotice(this.dataset.hosIdx)">
 					<form action="../notice/deleteNotice.do" method="post">
 						<input type="hidden" name="hosIdx" value="${hoUser.hosIdx}">
-						<input type="button" value="공지 삭제" data-hos-idx="${hosIdx}"
-							onclick="deleteNotice(this.form)">		
+						<input type="button" class="delBtn" value="공지 삭제" data-hos-idx="${hosIdx}"
+							onclick="deleteNotice(this.form, this.dataset.hosIdx)">		
 					</form>
 				</c:when>
 				<c:otherwise>
-					<input type="button" value="공지 등록" data-hos-idx="${hosIdx}"
+					<input type="button" class="btn" value="공지 등록" data-hos-idx="${hosIdx}"
 						onclick="insertNotice(this.dataset.hosIdx)">
 				</c:otherwise>
 			</c:choose>
-			
+		</div>
+		<div>	
 			<table border="">
 			<c:choose>
 				<c:when test="${not empty notice}">
 					<tr>
-						<th>작성일</th>
+						<th width="10%">작성일</th>
 						<td>${notice.noticeDate }</td>
 					</tr>
 					<tr>
@@ -260,7 +308,7 @@ function deleteNotice(frm){
 				
 	<%-- 				<a href="../notice/insertProNotice.do?hosIdx=${hoUser.hosIdx}">공지 등록</a> --%>
 			</table>
-	</div>
+		</div>
 	</div>
 </body>
 </html>

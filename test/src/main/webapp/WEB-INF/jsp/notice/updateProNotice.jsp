@@ -28,8 +28,8 @@
 		<input type="hidden" name="noticeIdx" value="${notice.noticeIdx}">  
 		<input type="hidden" name="hosIdx" value="${notice.hosIdx}">
 		  
-		<input type="submit" value="수정">
-		<input type="button" value="뒤로가기" 
+		<input type="submit" class="btn" value="수정">
+		<input type="button" class="delBtn" value="뒤로가기" 
 			onclick="javascript:location.href='getNotice.do?noticeIdx=${notice.noticeIdx}&hosIdx=${notice.hosIdx}'">
 	</form>
 </body>

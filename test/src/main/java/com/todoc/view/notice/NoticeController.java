@@ -95,7 +95,6 @@ public class NoticeController {
 		int hosIdxInt = Integer.parseInt(hosIdx);
 		
 		noticeService.deleteNotice(hosIdxInt);
-		
 		String add = "redirect:../mypage/hosNotice.do?hosIdx=" + hosIdxInt;
 		return add;
 	}
