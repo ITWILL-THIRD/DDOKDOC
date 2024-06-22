@@ -15,27 +15,24 @@
 		if (errorMessage){
 			alert(errorMessage);
 		}
-	}
 	
-	function fileName() {
-		var input = document.getElementById('fileUpload');
-		var fileName = document.getElementById('fileName');
-		var clearBtn = document.getElementById('clearBtn');
-		
-	    if (input.files.length > 0) {
-	        fileName.textContent = input.files[0].name;
-	        clearBtn.style.display = 'inline';
-	    } else {
-	        fileName.textContent = '선택된 파일이 없습니다.';
-	        clearBtn.style.display = 'none';
-	    }
+		var fileInput = document.getElementById("file");
+		var clearBtn = document.getElementById("clearBtn");
+	
+		fileInput.addEventListener("change", function() {
+			if (fileInput.value) {
+				clearBtn.style.display = "inline-block";
+			} else {
+				clearBtn.style.display = "none";
+			}
+		});
 	}
 	
 	function clearFileInput() {
-	    var fileInput = document.getElementById("fileUpload");
+	    var fileInput = document.getElementById("file");
 	    fileInput.value = "";
-	    document.getElementById('fileName').textContent = '선택된 파일이 없습니다';
-	    clearBtn.style.display = 'none';
+	    var clearBtn = document.getElementById("clearBtn");
+	    clearBtn.style.display = "none"; // 파일 삭제 시 버튼 숨기기
 	}
 </script>
 </head>
@@ -45,22 +42,31 @@
 			<form action="updateMyPet.do" method="post" enctype="multipart/form-data">
 			    <input type="hidden" name="petIdx" value="${pet.petIdx}" />
 			    <input type="hidden" id="errorMessage" value="${errorMessage}" />
-			    <table>
+			    <table class="tb">
 			        <tr>
-			            <th>펫종류</th>
-			            <td><input type="text" name="petName" value="${pet.animal}" disabled></td>
+			            <td>펫종류</td>
 			        </tr>	
 			        <tr>
-			            <th>펫이름</th>
-			            <td><input type="text" name="petName" value="${pet.petName}"></td>
+			            <td><input class="text" type="text" name="petName" value="${pet.animal}" disabled></td>
+			        </tr>	
+			        <tr>
+			            <td>펫이름</td>
+			        </tr>	
+			        <tr>    
+			            <td><input class="text" type="text" name="petName" value="${pet.petName}"></td>
 			        </tr>
 			        <tr>
-			            <th>펫나이</th>
-			            <td><input type="number" name="petAge" value="${pet.petAge}" min="0"></td>
+			            <td>펫나이</td>
+			        </tr>	
+			        <tr>    
+			            <td><input class="text" type="number" name="petAge" value="${pet.petAge}" min="0"></td>
 			        </tr>
 	                <tr>
-	                    <th>현재 펫사진</th>
+	                    <td>현재 펫사진</td>
+	                </tr>	
+			        <tr>    
 	                    <td>
+	                    	<div class="imageContainer">
 							<c:choose>
 	                            <c:when test="${not empty pet.petImg}">
 	                                <img src="${pet.petImg}" alt="${pet.petName}의 이미지" style="max-width: 150px;">
@@ -69,20 +75,24 @@
 	                                <p>등록된 펫 사진이 없습니다.</p>
 	                            </c:otherwise>
 	                        </c:choose>
+	                        </div>
 	                    </td>
 	                </tr>
 	                <tr>
-	                    <th>새 펫사진</th>
-	                    <td>
-	                    	<label for="fileUpload" class="fileBtn">파일 선택</label>
-	                    	<input id="fileUpload" type="file" name="file" onchange="fileName()">
-	                    	<span id="fileName">선택된 파일이 없습니다.</span>
-	                    	<button id="clearBtn" type="button" class="btn" onclick="clearFileInput()" style="display: none;">삭제</button>
-	                    </td>
+	                    <td>새 펫사진</td>
+	                </tr>	
+			        <tr>    
+                    <td>
+                    	<div class="fileContainer">
+	                    	<input class="text" id="file" type="file" name="file">
+	                    	<button class="clearBtn" id="clearBtn" type="button" onclick="clearFileInput()" style="display: none">삭제</button>
+	                    </div>
+                    </td>
 	                </tr>
 			        <tr>
-			            <td class="center" colspan="2"><input type="submit" value="수정" onclick="alert('펫 정보 수정이 완료되었습니다.')" />
-			            <button type="button" onclick="window.location.href='myPage.do'">취소</button>
+			            <td class="center" colspan="2">
+			            <input class="btn" type="submit" value="수정" onclick="alert('펫 정보 수정이 완료되었습니다.')" />
+			            <button class="btn" type="button" onclick="window.location.href='myPage.do'">취소</button>
 			            </td>
 			        </tr>
 			    </table>
