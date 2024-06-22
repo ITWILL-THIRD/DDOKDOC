@@ -282,7 +282,7 @@
 <div class="nav">
     <div class="logo">
     	<a href="index.jsp">
-        	<img src="" alt="로고">
+        	<img src="https://i.ibb.co/7zMj5XR/2.png" alt="토닥토닥로고">
     	</a>    
     </div>
     

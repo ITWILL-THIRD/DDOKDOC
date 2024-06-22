@@ -101,5 +101,23 @@
 
 	        return true; 
 	    }
+	    
+	    function openPopup(imgElement) {
+            const popup = document.getElementById('popup');
+            const popupImg = document.getElementById('popup-img');
+            const overlay = document.querySelector('.overlay');
+
+            popupImg.src = imgElement.src;
+            popup.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            const overlay = document.querySelector('.overlay');
+
+            popup.classList.remove('active');
+            overlay.classList.remove('active');
+        }
 
 </script>
