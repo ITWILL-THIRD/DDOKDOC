@@ -189,7 +189,7 @@ margin-bottom: 20px;
 <%-- \${myReserList } : ${myReserList }<br><br>
 \${myOldReserList } : ${myOldReserList }<br><br>
 \${myCancleReserList } : ${myCancleReserList }<br><br> --%>
-	<h1>취소한 예약 내역 보기</h1>
+	<h1>예약취소내역</h1>
 	<div id="container">
 		<hr>
 		<table border frame=void>

@@ -73,7 +73,8 @@ border-radius: 5px;
 margin-bottom: 20px;
 }
 	<%-- 제목 링크 --%>
-	a {	
+	a {text-decoration: none;} 
+	a[href^="user"] {	
 		font-weight: bold;
 		color: #2C307D;
 		text-decoration: none;	
@@ -169,7 +170,22 @@ margin-bottom: 20px;
  
   border: 1px solid #2C307D;
   }
-  
+	tbody {border-bottom-style: hidden; }
+	/* 	페이징 */
+	tfoot a {
+		color: #2C307D;
+		font-weight: normal;
+	}
+	tfoot a:hover {color:#FFA217;}
+	#paging td {
+		padding-top: 15px;
+	}
+	#paging span{
+		margin: 0 20px 0 20px;
+	}
+	#paging a {
+		text-decoration: none;
+	}
 	
 </style>
 </head>

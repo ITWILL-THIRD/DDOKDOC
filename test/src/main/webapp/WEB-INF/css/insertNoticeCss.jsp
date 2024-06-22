@@ -65,8 +65,8 @@
     }
     
     .btn:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
+    	background-color: #4349B4;
+    	color: #FFFFFF;
     	border: 1px solid #2C307D;
     }
 	.delBtn {

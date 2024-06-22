@@ -6,14 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>글수정</title>
-<jsp:include page="../../css/postCss.jsp"/>
+<jsp:include page="../../css/updateBoard.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
+<jsp:include page="../common/navigation.jsp"/>
 </head>
 <body>
 
 <div id="container">
-	<h1>글수정 [updateBoard.jsp]</h1>
-	
+	<h2>글 수정</h2>
+	<hr>
 	<form action="updateBoard.do" method="post" enctype="multipart/form-data">
 	<table class="insertBoard">
 		<tr>
@@ -57,15 +58,19 @@
 				<input type="file" name="file">
 			</td>
 		</tr>--%>
-		<tr>
-			<td colspan="2" class="center">
-				<input type="submit" value="수정" class="btn">
-				<div class="aBtn">
-				<a href="getBoard.do?postidx=${board.postidx }">취소</a>
-				</div>
-			</td>
-		</tr>
+<!-- 		<tr> -->
+<!-- 			<td colspan="2" class="center"> -->
+<!-- 				<input type="submit" value="수정" class="btn"> -->
+<!-- 				<div class="resetBtn"> -->
+<%-- 				<a href="getBoard.do?postidx=${board.postidx }">취소</a> --%>
+<!-- 				</div> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
 	</table>
+	<input type="submit" class="btn" value="수정">
+	<input type="reset" class="resetBtn" value="초기화">
+	<input type="button" class="resetBtn" value="취소"
+	onclick="javascript:location.href='../board/getBoardList.do'">
 	</form>
 </div>
 

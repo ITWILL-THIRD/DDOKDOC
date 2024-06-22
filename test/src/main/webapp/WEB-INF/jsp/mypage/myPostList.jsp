@@ -11,7 +11,7 @@
 <jsp:include page="../../css/commonCss.jsp"/>
 </head>
 <body>
-<h1>나의 작성 게시물</h1>
+<h1>나의 게시물</h1>
 <div id="container">
 <hr>
 <%-- ${myPostList } --%>
