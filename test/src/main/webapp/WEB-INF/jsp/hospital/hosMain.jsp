@@ -126,7 +126,7 @@
 	<h1>병원 검색</h1>
 	<!-- 검색 -->
 	<form id="getAdSearch" onsubmit="fetchData('address'); return false;">
-		<div class="right">
+		<div class="center">
 			<jsp:include page="partials/searchAdress.jsp"></jsp:include> 
 			<input class="searchBtn" type="submit" value="검색">
 		</div>
@@ -181,7 +181,7 @@
 								<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
 								<c:choose>
 						            <c:when test="${openTimeSub == '00:00' and closeTimeSub == '23:59'}">
-						                24시
+						                24시간
 						            </c:when>
 						            <c:otherwise>
 						                ${openTimeSub} - ${closeTimeSub}

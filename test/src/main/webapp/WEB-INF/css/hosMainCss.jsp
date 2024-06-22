@@ -7,7 +7,6 @@
 	}
 	h1, h3, p { text-align: center; }
   	.center {width: 700px; margin: auto; padding:2px; text-align: center;}
-  	.right {width: 700px; margin-left: 408px; padding:2px; text-align: center;}
  	button { 
  		margin:1px; 
  	}  
@@ -75,12 +74,12 @@
     .searchBtn:hover {
     	background-color: #4349B4;
     }
-    #getAdSearch {
-    	margin: 0 120px 0 0;
-    }
-    #getHosSearch {
-    	margin: -10px 0 5px 0;
-    }
+     #getAdSearch { 
+     	margin-bottom: -15px; 
+     } 
+     #getHosSearch { 
+     	margin-bottom: 5px; 
+     } 
     
 	<%-- 버튼 --%>
     .btn {
