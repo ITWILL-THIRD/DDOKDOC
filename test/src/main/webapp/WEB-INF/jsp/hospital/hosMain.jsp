@@ -126,7 +126,7 @@
 	<h1>병원 검색</h1>
 	<!-- 검색 -->
 	<form id="getAdSearch" onsubmit="fetchData('address'); return false;">
-		<div class="right">
+		<div class="center">
 			<jsp:include page="partials/searchAdress.jsp"></jsp:include> 
 			<input class="searchBtn" type="submit" value="검색">
 		</div>
