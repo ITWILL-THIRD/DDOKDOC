@@ -181,7 +181,7 @@
 								<c:set var="closeTimeSub" value="${fn:substring(closeTime, 0, 5)}"/>
 								<c:choose>
 						            <c:when test="${openTimeSub == '00:00' and closeTimeSub == '23:59'}">
-						                24시
+						                24시간
 						            </c:when>
 						            <c:otherwise>
 						                ${openTimeSub} - ${closeTimeSub}
