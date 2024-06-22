@@ -70,17 +70,23 @@
 		background-color: #2C307D;
 		font-size: 14px;
 		color: white;
-    }
-    .searchBtn:hover {
-    	background-color: #4349B4;
-    }
-     #getAdSearch { 
-     	margin-bottom: -15px; 
-     } 
-     #getHosSearch { 
-     	margin-bottom: 5px; 
-     } 
-    
+	}
+	.searchBtn:hover {
+		background-color: #4349B4;
+	}
+	#getAdSearch { 
+		margin-bottom: -15px; 
+	} 
+	#getHosSearch { 
+		margin-bottom: 5px; 
+	}
+	<%-- 카테고리 버튼 활성화 --%>
+	.btn.active {
+        color: #FFA217;
+		text-decoration: none;	
+  		font-size:  1rem; 
+		font-weight: bold;
+	}
 	<%-- 버튼 --%>
     .btn {
     	color: #2C307D;
@@ -114,24 +120,9 @@
     	display: inline-block;
         text-align: center;
     }
-    /* 버튼 정렬 */
-	.row, #searchDate {
-		display: flex;
-		gap: 10px;
-		justify-content: center;
-		align-items: center;
-	}
-	.row {
-		padding: 10px 0;
-	}
-	#searchDate {
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
 	hr {
   		border: 1px solid #2C307D;
   		width: 895px;
-/*   		margin-bottom: -10px; */
   	}
 	<%-- 제목 링크 --%>
 	a {text-decoration: none;} 

@@ -15,6 +15,7 @@
 .hidden {
     display: none;
 }
+h1 { text-align: center; }
 #container {
     padding: 0;
     margin:0 auto;
@@ -231,8 +232,9 @@ tr {
 </style>
 </head>
 <body>
+	<h1>나의 리뷰</h1>
 	<div id="container">
-		<h2 class="left">지난 예약 내역</h2>
+<!-- 		<h2 class="left">지난 예약 내역</h2> -->
 		
 		<!-- 마이페이지로 돌아가기 -->
 		<span>

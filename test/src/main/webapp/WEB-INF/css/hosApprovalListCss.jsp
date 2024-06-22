@@ -51,16 +51,6 @@
     	color: #2C307D;
     	border: 1px solid #2C307D;
     }
-    /* 버튼 정렬 */
-	.row, #searchDate {
-		display: flex;
-		gap: 10px;
-		justify-content: center;
-		align-items: center;
-	}
-	.row {
-		padding: 10px 0;
-	}
 	<%-- 버튼 배경색 변경 --%>
     .btn.active {
         background-color: #FFFFFF;
@@ -81,6 +71,14 @@
 		font-weight: bold;
 	}
 	a:hover {color:#FFA217;}
+	<%-- 카테고리 버튼 활성화 --%>
+	a[href^="getHosApprovalSearch.do"].active {
+        color: #FFA217;
+		text-decoration: none;	
+		margin: 0 10px 0 10px;
+		font-weight: bold;
+	}
+	<%-- 페이징 a 스타일 일괄 미적용 --%>
 	#paging a {
 		color: #2C307D;
 		text-decoration: none;
@@ -89,6 +87,10 @@
 	#paging a:hover {color:#FFA217;}
 	#getConditionSearch {
 		padding-bottom : 5px;
+	}
+	a.none {
+		color: #2C307D;
+		font-weight: bold;
 	}
 	<%-- 승인버튼 동적 작용 --%>
 	.condition-payment {
@@ -129,7 +131,8 @@
     	padding: 7px 18px;
     	border: none;
     	cursor: pointer;
-    	color: #FFFFFF;
+    	color: #2C307D;
+/*     	color: #FFFFFF; */
     	text-decoration: none;
     	display: inline-block;
     	border: 1px solid #B8DAFF;

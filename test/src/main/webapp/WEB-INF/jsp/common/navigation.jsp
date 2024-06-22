@@ -37,7 +37,6 @@
 	 	justify-content: space-between;
 	 	line-height: 30px;
 	}
-	
 	.logo {
 		font-weight: 600;
 		font-size: 1.5rem;
@@ -45,16 +44,13 @@
 		margin-left: 20px;
 
 	}
-	
 	.logo img {
 		height: 30px;
 	}
-	
 	.topnav {
 	  overflow: hidden;
 	  background-color: #fff;
 	}
-	
 	.topnav a {
 	  float: left;
 	  display: block;
@@ -65,11 +61,16 @@
 	  margin-left: 10px;
 	  margin-right: 20px;
 	}
-	
 	.topnav a:hover {
 	  color: #E0EAF5;
 	}
-	
+	/* 현재 페이지의 네비게이션 링크 활성화 */
+/*	
+	.topnav a.active {
+ 		color: #FFA217; 
+		font-weight: bold; 
+	}
+*/	
 	.adminDropdown, .userDropdown {
 		float:right;
 		position: relative;
@@ -110,7 +111,7 @@
     	<a href="../hospital/hosMain.do">병원예약</a>
         <a href="../board/getBoardList.do">정보나눔</a>
     	<c:if test="${empty sessionScope.hoUser and empty sessionScope.user}">
-    		<a href="../user/login.do">로그인 /회원가입</a>
+    		<a href="../user/selectLogin.do">로그인 /회원가입</a>
     	</c:if>
     	
     	<c:if test="${not empty sessionScope.hoUser}">
@@ -125,8 +126,8 @@
 				<a href="../mypage/myPage.do">마이페이지</a>
 				<div class="dropdownList">
 					<a href="../mypage/myReserList.do">진료예약내역</a>
-					<a href="../mypage/myCancleReserList.do">취소예약내역</a>
-					<a href="../mypage/myReviewList.do">지난예약내역</a>
+					<a href="../mypage/myCancleReserList.do">예약취소내역</a>
+					<a href="../mypage/myReviewList.do">나의 리뷰</a>
 					<a href="../mypage/myPostList.do">나의 게시물</a>
 				</div>	
 			</div>
@@ -143,8 +144,27 @@
 			</div>
 			<a href="../logout.do">로그아웃</a>
     	</c:if>
-    	
     </div>
+    
+<!--     <script> -->
+<!--  	    // 모든 네비게이션 링크 선택 -->
+<!--  	    const navLinks = document.querySelectorAll('.topnav a'); -->
+	
+<!--  	    // 각 링크에 클릭 이벤트 리스너 추가 -->
+<!--  	    navLinks.forEach(link => { -->
+<!--  	    	link.addEventListener('click', () => { -->
+<!--  	    		alert('link : ' + link); -->
+<!--  	    		// 이전에 활성화된 링크의 active 클래스 제거 -->
+<!--  	    	    const activeLink = document.querySelector('.topnav a.active'); -->
+<!--  	    	    if (activeLink) { -->
+<!--  	    	    	activeLink.classList.remove('active'); -->
+<!--  	    	    } -->
+<!--  	    	    // 현재 클릭된 링크에 active 클래스 추가 -->
+<!--  	    	    link.classList.add('active'); -->
+<!--      	    }); -->
+<!--  	    }); -->
+<!--     </script> -->
+    
 </div>
 
 </body>

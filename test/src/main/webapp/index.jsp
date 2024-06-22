@@ -72,7 +72,6 @@
 	 	justify-content: space-between;
 	 	line-height: 30px;
 	}
-	
 	.logo {
 		font-weight: 600;
 		font-size: 1.5rem;
@@ -80,11 +79,9 @@
 		margin-left: 20px;
 
 	}
-	
 	.logo img {
 		height: 30px;
 	}
-	
 	.topnav {
 	  overflow: hidden;
 	  background-color: #fff;
@@ -104,7 +101,13 @@
 	.topnav a:hover {
 	  color: #E0EAF5;
 	}
-	
+	/* 현재 페이지의 네비게이션 링크 활성화 */
+/*	
+	.topnav a.active {
+ 		color: #FFA217; 
+		font-weight: bold; 
+	}
+*/
 	.adminDropdown {
 		float:right;
 		position: relative;
@@ -125,11 +128,6 @@
 		
 		display: block;
 	}
-/* 	.dropdownList:active { */
-/* 		font: bold; */
-/* 		text-decoration: underline; */
-/* 	} */
-
 	#container { width: 80%; height:800px; margin: auto; margin-top: 30px;}
 	.abcd {width:100%; height:50%;}
 	
@@ -270,8 +268,6 @@
 		display: inline;
 	}
 	
-	
-	
 </style>
 
 </head>
@@ -317,8 +313,27 @@
 			</div>
 			<a href="logout.do">로그아웃</a>
     	</c:if>
-    	
     </div>
+    
+<!--     <script> -->
+<!--  	    // 모든 네비게이션 링크 선택 -->
+<!--  	    const navLinks = document.querySelectorAll('.topnav a'); -->
+	
+<!--  	    // 각 링크에 클릭 이벤트 리스너 추가 -->
+<!--  	    navLinks.forEach(link => { -->
+<!--  	    	link.addEventListener('click', () => { -->
+<!--  	    		alert('link : ' + link); -->
+<!--  	    		// 이전에 활성화된 링크의 active 클래스 제거 -->
+<!--  	    	    const activeLink = document.querySelector('.topnav a.active'); -->
+<!--  	    	    if (activeLink) { -->
+<!--  	    	    	activeLink.classList.remove('active'); -->
+<!--  	    	    } -->
+<!-- 	    	    // 현재 클릭된 링크에 active 클래스 추가 -->
+<!--  	    	    link.classList.add('active'); -->
+<!--      	    }); -->
+<!--  	    }); -->
+<!--     </script> -->
+    
 </div>
 	<div id="container">
 		<div class="abcd">
@@ -360,7 +375,6 @@
 		</div>
 	</div>
 	
-
 </body>
 </html>
 
