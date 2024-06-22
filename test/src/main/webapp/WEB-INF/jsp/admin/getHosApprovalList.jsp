@@ -55,6 +55,7 @@
 <%-- \${endDate} : ${endDate}<br>   --%>
 <%-- \${searchCondition} : ${searchCondition}<br><hr> 	 --%>
 	<!-- 검색 -->
+	<br>
 	<form method="post">
 	<div id="getConditionSearch" class="center">
 		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
@@ -124,7 +125,7 @@
 				<th width="250">전화번호</th>
 				<th width="200">사업자 등록증</th>
 				<th width="150">상태</th>
-				<th width="150">승인 관리</th>
+				<th width="150">관리</th>
 			</tr>
 		</thead>
 		<c:set var="hasSearchHos" value="false" scope="page"/>
