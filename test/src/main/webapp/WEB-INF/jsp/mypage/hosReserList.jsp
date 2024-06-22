@@ -139,26 +139,7 @@
 	        contentType: "application/json",
 	        dataType: "json",
 	        success: function(response) {
- 				getReservData(response);
-	            	/* let currentTime = new Date();
-	                let currentDateString = currentTime.toISOString().split('T')[0]; // YYYY-MM-DD 형식의 현재 날짜
-	                let currentHours = currentTime.getHours().toString().padStart(2, '0');
-	                let currentMinutes = currentTime.getMinutes().toString().padStart(2, '0');
-	                let currentTimeStr = currentHours + ':' + currentMinutes;
-
-	                let reservationTime = $(this).attr('data-reservationTime');
-	                let reservationDateStr = $(this).attr('data-reserDate');    
-	                let reservationDate = new Date(reservationDateStr); // 문자열을 Date 객체로 변환
-	                let reservationDateString = reservationDate.toISOString().split('T')[0]; // YYYY-MM-DD 형식의 예약 날짜
-	               
-	                console.log("reservationDateString :" + reservationDateString + typeof reservationDateString);
-	                //let reservationDateString = reservationDate.toISOString().split('T')[0]; // YYYY-MM-DD 형식의 예약 날짜
-	                
-	                console.log("reservationTime : " + reservationTime + typeof reservationTime);
-
-	                if (reservationTime > currentTimeStr && reservationDateString > currentDateString) {
-	                    alert("진료 시간이 아닙니다.");
-	                } else {  */
+ 				getReservData(response);	
  				
 	            // 진료 완료 버튼 클릭 이벤트
 	            $('#listDisp').on('click', '.complete-btn', function() {
@@ -273,30 +254,32 @@
    		}
         $("#listDisp").html(dispHtml);
 	}
-
-/* 	 //선택된 시간을 form 시간값에 저장
-    $('form').on('submit', function() {
-        let selectedTime = $('.time-btn.reserved').data('time');
-        $('#selectTime').val(selectedTime);
-    }); */
   
 </script>
 </head>
 <body>
-	<div id="reserBody">
-	    <div id="calendar" class="reserInfo"></div>
-	    <div>    
-			<h2>병원 예약 현황</h2>
-		   <table class="table table-hove" id="reserList">
+	<div id="container">
+		<div class="side">
+			<ul>
+				<li><a href="hoMyPage.do">마이페이지</a></li>
+				<li class="reservNow">병원예약현황</li>
+			  	<li><a href="hosNotice.do">공지사항 작성</a></li>
+			  	<li><a href="hosReviewList.do">리뷰목록 조회</a></li>
+			  	<li><a href="insertHosHoliday.do">휴무일 등록</a></li>
+			</ul>
+		</div>
+	    <div id="container2">    
+	    	<div id="calendar" class="reserInfo"></div>
+	   		<table id="reservation">
 				<thead>
 			        <tr>
-			            <th width="60px">예약시간</th>
-			            <th width="80px">보호자</th>
-			            <th width="150px">연락처</th>
-			            <th width="60px">펫이름</th>
-			            <th width="60px">종류</th>
-			            <th width="60px">나이</th>
-			            <th width="60px"></th>
+			            <th width="15%">예약시간</th>
+			            <th width="20%">보호자</th>
+			            <th width="40%">연락처</th>
+			            <th width="10%">펫이름</th>
+			            <th width="5%">종류</th>
+			            <th width="5%">나이</th>
+			            <th width="5%"></th>
 			        </tr>
 		    	</thead>
 			    <tbody id="listDisp">

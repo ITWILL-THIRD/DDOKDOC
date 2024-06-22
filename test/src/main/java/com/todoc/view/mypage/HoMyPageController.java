@@ -350,7 +350,6 @@ public class HoMyPageController {
 	// 병원 리뷰 목록 조회
   	@RequestMapping("/hosReviewList.do")
   	public String hosReviewList(Model model, HttpSession session) {
- 		System.out.println("::마이페이지-리뷰리스트");
  		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
  		int hosIdx = 0;
  		if (hoUser != null) {

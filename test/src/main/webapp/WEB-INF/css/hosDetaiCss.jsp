@@ -1,7 +1,57 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <style>
-
+	 .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            width: 500px;
+        }
+        .image-item {
+            width: calc(33.333% - 10px);
+            margin: 5px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .image-item img {
+            width: 100%;
+            height: 100px; /* 이미지 크기를 통일 */
+            object-fit: cover; /* 이미지 비율을 유지하며 크기를 조정 */
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .image-item img:hover {
+            opacity: 0.7;
+            background-color: rgba(135, 206, 250, 0.2);
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            z-index: 1000;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .popup img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .overlay.active, .popup.active {
+            display: block;
+        }
 	#container {
 	    padding: 0;
 	    margin:0 auto;
@@ -45,8 +95,7 @@
 	#leftContainer {
 	    margin-top: 20px;
 	    width: 500px;
-/* 	    height: 400px; /* 고정된 높이 추가 */ */
-	    overflow: hidden; /* 컨테이너 크기를 넘는 내용 숨김 */
+	    overflow: hidden;
 	}
 	
 	#hospital {
@@ -132,56 +181,24 @@
 	
 	/* -----사진----- */
 	
-/* 	#slide {
-	    width: 400px;
-	    height: 400px;
-	    margin: auto;
-	}
-	
-	.carousel-item {
-	    display: flex;
-	    justify-content: center; /* 이미지를 중앙 정렬 */
-	    align-items: center; /* 이미지를 수직으로 중앙 정렬 */
-	    width: 400px; /* 부모 요소의 너비에 맞추기 */
-	    height: 400px; /* 부모 요소의 높이에 맞추기 */
-	    overflow: hidden; /* 부모 요소를 벗어나는 이미지 부분 숨김 */
-	    margin: 0 auto; /* 부모 요소를 중앙에 배치 */
-	}
-	
-	.carousel-item img {
-	    width: 400px; /* 부모 요소의 너비에 맞추기 */
-	    height: 400px; /* 부모 요소의 높이에 맞추기 */
-	    object-fit: cover; /* 이미지가 요소를 채우도록 조정 */
-	    object-position: center; /* 이미지의 중심을 기준으로 조정 */
-	}
-	
-	.carousel-control-prev, .carousel-control-next {
-	    */ height: 100%; /* 컨트롤 버튼의 높이를 슬라이드 높이에 맞춤 */
-	} */
 	.image-gallery {
-    display: flex;
-    flex-wrap: wrap; /* 줄바꿈을 처리 */
-    max-width: 500px; /* 컨테이너의 최대 너비 */
-    margin: 0 auto; /* 중앙 정렬 */
-}
-
-.image-item {
-    flex: 0 0 calc(33.333% - 10px); /* 3개의 이미지가 한 줄에 들어가도록 설정 */
-    box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 계산 */
-    margin-bottom: 10px; /* 이미지 간의 간격을 위한 마진 */
-}
-
-.image-item img {
-    width: 100%; /* 이미지 너비를 부모 요소에 맞춤 */
-    height: auto; /* 이미지 비율을 유지하면서 크기 조정 */
-    display: block;
-}
-
-
+	    display: flex;
+	    flex-wrap: wrap; /* 줄바꿈 처리 */
+	    max-width: 500px; 
+	    margin: 0 auto;
+	}
 	
-	
-	
+	.image-item {
+	    flex: 0 0 calc(33.333% - 10px);
+	    box-sizing: border-box; 
+	    margin-bottom: 10px;
+	}
 
+	.image-item img {
+	    width: 100%; /* 이미지 너비를 부모 요소에 맞춤 */
+	    height: auto; /* 이미지 비율을 유지하면서 크기 조정 */
+	    display: block;
+	}
 	
 	/* 예약 버튼 */	
 	#reservation {
@@ -215,7 +232,9 @@
 	}
 	
 	#postContainer {
-		margin: 30px 50px 20px 20px;
+		margin-top: 30px;
+		margin-left: 20px;
+		/* margin: 30px 50px 20px 20px; */
 		top: 50px;
 		width: 550px;
 		border: 1px solid #B9B9B9;
@@ -242,6 +261,7 @@
 	
 	#review table {
 	    text-align: center;
+	    width: 500px;
 	}
 	
 	#review tr {

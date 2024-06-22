@@ -602,7 +602,7 @@
 	
 	<!-- (병원)마이페이지 - 작성된 리뷰 목록 -->
 	<select id="getHosReviewList" parameterType="int" resultType="HosReviewVO">
-		SELECT H.*, U.NICKNAME AS NICKNAME, R.RESERDATE
+		SELECT H.*, U.NICKNAME, R.RESERDATE
 		FROM HOSREVIEW H, DDOKUSER U, RESERVATION R
 		WHERE H.USERIDX = U.USERIDX
         AND H.RESERIDX = R.RESERIDX
