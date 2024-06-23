@@ -94,6 +94,7 @@
 	<h1>예약취소내역</h1>
 	<div id="container">
 		<hr>
+		<a href="myPage.do">마이페이지 가기</a>
 		<table border frame=void>
 			<tr>
 				<th>번호</th>
