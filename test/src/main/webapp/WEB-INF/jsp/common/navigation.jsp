@@ -133,7 +133,7 @@
 				<div class="dropdownList">
 					<a href="../admin/getHosApprovalList.do">병원 승인</a>
 				    <a href="../admin/getUserList.do">개인 회원</a>
-					<a href="../admin/statsPage.do">통계</a>
+					<a href="../admin/statsPage.do">멤버십 통계</a>
 				</div>
 			</div>
 			<a href="../logout.do">로그아웃</a>
