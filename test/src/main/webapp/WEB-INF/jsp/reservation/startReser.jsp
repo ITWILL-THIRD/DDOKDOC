@@ -20,7 +20,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
-<jsp:include page="../../css/postListCss.jsp"/>
 <script>
 $(document).ready(function(){
 	const notice = '${notice}';
@@ -310,17 +309,14 @@ $(document).ready(function(){
   
 </script>
 <style>
-	@font-face {
-      font-family: 'Pretendard-Regular';
-      src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
-  }
+	#container { width: 1100px; margin: auto; }
 
-  * {
-      font-family: 'Pretendard-Regular';
-  }
-
+	#pageTitle{ 
+		margin-top: 20px;
+		text-align: center; 
+		font-weight: bold;
+	}
+	
 	.fc-day-header {
 	  background-color: #E0EAF5;
 	}
@@ -501,7 +497,7 @@ hr {
 \${hosHoliday } : ${hosHoliday }<br> --%>
 <%-- \${notice } : ${notice }<br> --%>
 
-	<h1>진료 예약하기</h1>
+	<h2 id="pageTitle">진료 예약하기</h2>
   <div id="container">
     <hr>
     <div id="selectDateTimeDiv" class="container">
