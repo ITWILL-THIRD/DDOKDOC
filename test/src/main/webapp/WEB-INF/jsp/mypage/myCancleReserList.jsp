@@ -51,13 +51,13 @@
 		margin-bottom: 20px;
 	}
 	<%-- 제목 링크 --%>
-	#hosNameLink {	
+	.hosNameLink {	
 		font-weight: bold;
 		color: #2C307D;
 		text-decoration: none;	
 	}
 	
-	#hosNameLink:hover {
+	.hosNameLink:hover {
 		color:#FFA217;
 	}
 	
@@ -94,7 +94,7 @@
 	<h1>예약취소내역</h1>
 	<div id="container">
 		<hr>
-		<a href="myPage.do">마이페이지 가기</a>
+		<a class="hosNameLink" href="myPage.do">마이페이지 가기</a>
 		<table border frame=void>
 			<tr>
 				<th>번호</th>
@@ -107,7 +107,7 @@
 		<c:forEach var="reser" items="${myCancleReserList }">
 			<tr>
 				<td>${reser.rownum }</td>
-				<td><a id="hosNameLink" href="../hospital/hosDetail.do?hosIdx=${reser.hosIdx}">${reser.hosName }</a></td>
+				<td><a class="hosNameLink" href="../hospital/hosDetail.do?hosIdx=${reser.hosIdx}">${reser.hosName }</a></td>
 				<td>${reser.petName }</td>
 				<td>${reser.reserDate }</td>
 				<td>${reser.formattedTime }</td>

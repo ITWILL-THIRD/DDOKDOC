@@ -73,6 +73,8 @@
     	text-decoration: none;
     	display: inline-block;
     	border: 1px solid #2C307D;
+    	margin-left: 5px;
+    	margin-bottom: 5px;
     	float: right;
     }
     

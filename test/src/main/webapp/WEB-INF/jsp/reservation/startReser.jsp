@@ -158,6 +158,7 @@ $(document).ready(function(){
     });
 
     calendar.render();
+    
   });
 
   
@@ -484,6 +485,30 @@ $(document).ready(function(){
 hr {
   border: 1px solid #2C307D;
   }
+  
+ /*  .fc-prev-button,
+	.fc-next-button,
+	.fc-today-button,
+	.fc-prevYear-button,
+	.fc-nextYear-button,
+	.fc-dayGridMonth-button {
+	    background-color: #2C307D; /* 원하는 배경 색상으로 변경 */
+	    color: white; /* 버튼 텍스트 색상 */
+	    border-color: #2C307D; /* 버튼 테두리 색상 */
+	}
+	
+	/* 버튼 호버 효과 추가 */
+	.fc-prev-button:hover,
+	.fc-next-button:hover,
+	.fc-today-button:hover,
+	.fc-prevYear-button:hover,
+	.fc-nextYear-button:hover,
+	.fc-dayGridMonth-button {
+	    background-color: #FFFFFF;
+    	color: #2C307D;
+    	border: 1px solid #2C307D;
+	} */
+  
   
 </style>
 </head>

@@ -71,6 +71,8 @@
     	text-decoration: none;
     	display: inline-block;
     	border: 1px solid #2C307D;
+    	float: right;
+    	margin-left: 5px;
     }
     
     .btn:hover {
@@ -83,6 +85,10 @@
   hr {
   	border: 1px solid #2C307D;
   }
+  
+  #noticeTable {
+  	margin-bottom: 10px;
+  }
 </style>
 </head>
 <body>
@@ -90,7 +96,7 @@
 	<div id="container">
 	<hr>
 		<form action="insertNotice.do" method="post">
-		<table border frame=void >
+		<table id="noticeTable" border frame=void >
 			<tr>
 				<th>내용</th>
 				<th>
