@@ -7,124 +7,51 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+<jsp:include page="../../css/mypageCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <style>
-	
-	/* 컨테이너 */
-	#container {
-		width: 800px;
-		margin: auto;
-	}
-	h1, h2, p {
-		text-align: center;
-	}
-	h2 {
-		margin: 20px 0;
-		color: #425587;
-	}
-	
-	/* 테이블 */
-	table {
-		width: 100%;
-		margin: 20px 0;
-		border-radius: 10px;
-		border-collapse: collapse; 
-		
-	}
-	table, th, td {
-		border: none;
-		padding: 10px 15px;
-		text-align: center;
-	}
-	th, td {
-		border-bottom: 1px solid #589DE1;
-	}
-	th {
-		width: 150px;
-        background-color: #589DE1;
-        color: #FFFFFF;
-    }
-	td {
-        text-align: left;
-        color: #425587;
-    }
-	
-	/* 버튼 */
-	.btn {
-		display: inline-block;
-		background-color: #589DE1;
-		color: #FFFFFF;
-		padding: 10px 20px;
-		border: none;
-		cursor: pointer;
-		text-align: center;
-		margin: 5px;
-		border-radius: 5px;
-	}
-	.btn:active {
-		background-color: #1F526B;
-		color: #FFFFFF;
-	}
-	
-    /* 구분선 */
-    hr {    
-		background-color:#B6E5FF;;
-    	height:2px;
-    	border:0;
-    	margin: 20px 0 40px 0;
-	}
-	
-	.center {
-		text-align: center;
-	}
-	
-	/* 프로필 이미지 */
 	.profileImg {
+		text-align: center;
 		max-width: 150px;
 		border-radius: 50%;
-	}	
-	
-	/* 마이펫 정보 */
+		object-fit: cover;
+		width: 150px;
+		height: 150px;
+		display: block;
+		margin: 0 auto;	
+	}
 	.myPetContainer {
 		display: flex;
 		flex-wrap: wrap;
+		gap: 20px;
 		justify-content: center;
-		text-align: center;
+		margin-top: 20px;
 	}
 	.myPet {
-		display: inline-block;
-		width: calc(30% - 10px);
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-		box-sizing: border-box;
+		width: 150px;
 		border-radius: 10px;
-		margin: 10px;
 		padding: 20px;
+		box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+		text-align: center;
 	}
-	.myPet img, .noImg {
-		display: block;
-		max-width: 100%;
-		max-height: 50%;
-		min-width: 150px;
-		min-height: 200px;
+	.myPet img {
 		border-radius: 10px;
-		line-height: 150px;
+		width: 150px;
+		height: 150px;
+        margin-bottom: 10px;		
+	}
+	.myPet h3 {
+		margin: 5px 0;
+		color: #2C307D;
 	}
 	.noImg {
+		width: 150px;
+		height: 150px;
 		background-color: #E0EAF5;
+		border-radius: 10px;
+        margin-bottom: 20px;	
 	}
-	.myPet button {
-        background-color: #FFFFFF;
-        border: 1px solid #1F526B;
-        border-radius: 5px;
-        padding: 10px 20px;
-        cursor: pointer;
-    }
-    .myPet button:active {
-        background-color: #1F526B;
-        color: #FFFFFF;
-    }
-    
 </style>
 <script>
 function userDelete_ok(frm) {
@@ -137,30 +64,51 @@ function userDelete_ok(frm) {
 </script>
 </head>
 <body>
-<h1>마이페이지</h1>
-	<div id="container">
-		<!-- <a href="index.do">메인가기</a> -->
+<!-- <h1>마이페이지</h1> -->
+<div id="container">
+<div class="side">
+<ul>
+<li class="mypage">마이페이지</li>
+  <li><a href="../mypage/myReserList.do">진료예약내역</a></li>
+  <li><a href="../mypage/myCancleReserList.do">취소예약내역</a></li>
+  <li><a href="../mypage/myReviewList.do">지난예약내역</a></li>
+  <li><a href="../mypage/myPostList.do">나의 게시물</a></li>
+</ul>
+</div>
+<div id="container2">
+<div class="box">
+<div class="name">
+<h1 class="h1" style="display:inline">${user.name }</h1>
+<p style="display:inline; font-size:28px;">님</p>
 		
-		<hr>
-		<h2>내 정보</h2>
+<br><br>
 		<c:if test="${user.condition == '결제전'}">
-		[토탁플러스 가입 후 병원예약이 가능합니다.] <a href="../membership/usercheckout.do">토탁플러스 가입 하러가기</a>
+		[토탁플러스 가입 후 병원예약이 가능합니다.] 
+		<a href="../membership/checkout.do">토탁플러스 가입 하러가기</a>
 		</c:if>
 		<c:if test="${user.condition == '결제완료'}">
-		[TODOCPLUS] ${umo.startformattedDate } ~ ${umo.endformattedDate }
+		<div class="img">
+		<img src="../img/3.png" width="300">
+		</div>
+		<div class="date">
+		${umo.startformattedDate } ~ ${umo.endformattedDate }
+		</div>
 		</c:if>
+</div>
+
+</div>		
+<h2>내 정보</h2>
+<hr>
 		
 <%-- 		${user.condition } --%>
-			<form action="updateUser.do">
-			<input type="hidden" name="userIdx" value="${user.userIdx}">
-			<table>
-			<tr>
-				<td colspan="2" class="center">
+		<form action="updateUser.do">
+		<input type="hidden" name="userIdx" value="${user.userIdx}">
+			<p>
 				<c:if test="${not empty user.userImg}">
 					<img src="${user.userImg}" alt="${user.userIdx}의 이미지" style="max-width: 150px;" class="profileImg">
 				</c:if>
-				</td>
-			</tr>
+			</p>
+			<table border frame=void style="width:100%; height: 35px;">
 			<tr>
 				<th>이메일 </th>
 				<td>${user.email}</td>
@@ -186,16 +134,16 @@ function userDelete_ok(frm) {
 				<td>${user.phone}</td>
 			</tr>
 			</table>
-			<p>
-				<input type="submit" value="내 정보 수정" class="btn">
-				<input type="button" value="탈퇴하기" class="btn" onclick="userDelete_ok(this.form)">
-			</p>
+			<div class="divBtn">
+				<input class="btn" type="submit" value="내 정보 수정" class="btn">
+				<input class="delBtn" type="button" value="탈퇴하기" class="btn" onclick="userDelete_ok(this.form)">
+			</div>
 			</form>
-			
-        <hr>
+		<br><br><br>	
+        
         <c:if test="${user.role == 'user'}">
             <h2>마이펫 정보</h2>
-            
+            <hr>
             <div class="myPetContainer">
                 <c:choose>
                     <c:when test="${empty pets}">
@@ -215,21 +163,22 @@ function userDelete_ok(frm) {
                                 <p>펫나이: ${pet.petAge}살</p>
                                 <form action="updateMyPetView.do" method="get" style="display:inline;">
                                     <input type="hidden" name="petIdx" value="${pet.petIdx}">
-                                    <button type="submit">수정</button>
+                                    <button class="btn" type="submit">수정</button>
                                 </form>
                                 <form action="deleteMyPet.do" method="post" onsubmit="return confirm('펫을 삭제하시겠습니까?')" style="display:inline;">
                                     <input type="hidden" name="petIdx" value="${pet.petIdx}">
-                                    <button type="submit">삭제</button>
+                                    <button class="delBtn" type="submit">삭제</button>
                                 </form>
                             </div>
                         </c:forEach>
                     </c:otherwise>
                 </c:choose>
             </div>
-		    
-			<p><button class="btn" onclick="location.href='insertMyPetView.do'">마이펫 등록</button></p>
+		    <div class="divBtn">
+                <button class="btn" onclick="location.href='insertMyPetView.do'">마이펫 등록</button>
+            </div>
 			</c:if>
-
+	</div>
 	</div>
 </body>
 </html>
