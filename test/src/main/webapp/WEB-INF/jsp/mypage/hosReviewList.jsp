@@ -65,32 +65,37 @@
 		margin-left: 17px;
 		margin-bottom: 10px;
 	}
-	table th,
-	table td {
+	table {
+		border-collapse: collapse;
+		margin-left:auto;margin-right:auto;
+		margin-top: 23px;
+	}
+	
+	table th, table td {
 		position: static;
 		text-align: center;
 		margin: auto;
 		padding: 5px;
 		border: 1px #B9B9B9 solid;
-		
 		border-collapse: collapse;
 	}
+	
 	table th:first-child,
 	table td:first-child {
 		border-left: 0;
 	}
+	
 	table th:last-child,
 	table td:last-child {
 		border-right: 0;
 	}
-	table tr {
-	height: 35px;
-	}
-
 	th { 
-	
-	background-color: #E0EAF5;
- 	}
+		background-color: #E0EAF5;
+	}
+	tbody {
+		border-bottom-style: hidden;
+		border-top-style: hidden; 
+	}
 .hidden {
     display: none;
 }
@@ -174,17 +179,17 @@
 				</svg> ${hospital.score }
 			</p>
 			<table>
-				<tr>
-					<th width="10%">닉네임</th>
-					<th width="10%">평점</th>
-					<th width="50%">내용</th>
-					<th width="15%">방문일</th>
-					<th width="15%">등록일</th>
-				</tr>
 				<tbody>
+					<tr>
+						<th width="10%">닉네임</th>
+						<th width="10%">평점</th>
+						<th width="50%">내용</th>
+						<th width="15%">방문일</th>
+						<th width="15%">등록일</th>
+					</tr>
 					<c:if test="${empty hosReviewList}">
 						<tr>
-							<td colspan="4">
+							<td colspan="5">
 								작성된 리뷰가 없습니다.
 							</td>
 						</tr>

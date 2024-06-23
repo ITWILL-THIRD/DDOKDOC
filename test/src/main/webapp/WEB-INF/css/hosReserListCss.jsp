@@ -8,12 +8,17 @@
     width: 1100px; 
     margin: auto; 
   }
-	#container2 {  
-		width: 800px; 
-		margin-left: 220px;
-		margin-top: 37px;
-		foat: left;
+
+	#calendar {
+	    margin: 0 auto;
+	    max-width: 500px;
+	    display: inline-block;
 	}
+	
+	.reserInfo {
+	    display: inline-block;
+	}
+
 	
 	#reservation { 
 		margin-top: 40px;
@@ -52,14 +57,21 @@
 	background-color: #F3F3F3;
 	  color: #FFA217;
 	}
+	#container2 {  
+	    width: 800px; 
+	    margin-left: auto;  /* margin-left 값을 auto로 변경 */
+	    margin-right: auto; /* margin-right 값을 추가 */
+	    margin-top: 37px;
+	    float: left;
+	}
 	
   #calendar {
+  	margin-left: 150px;
     max-width: 500px;
     /* margin-left: 100px; */
     /* margin-right: 100px; */
     display: inline-block;
   }
-  
   .reserInfo {
     display: inline-block;
   }
@@ -121,32 +133,46 @@
 		border: none;
 	}
 	
-	#reservation table th,
-	table td {
+	
+	
+	#reservation table {
+		border-collapse: collapse;
+		margin-left:auto;margin-right:auto;
+		margin-top: 23px;
+	}
+	
+	#reservation table th, table td {
 		position: static;
 		text-align: center;
 		margin: auto;
 		padding: 5px;
 		border: 1px #B9B9B9 solid;
-		
 		border-collapse: collapse;
 	}
+	
 	#reservation table th:first-child,
 	table td:first-child {
 		border-left: 0;
 	}
+	
 	#reservation table th:last-child,
 	table td:last-child {
 		border-right: 0;
 	}
-	#reservation table tr {
-	height: 35px;
-	}
-
 	#reservation th { 
-	
-	background-color: #E0EAF5;
- 	}
+		background-color: #E0EAF5;
+	}
+/* 	#reservation tbody {
+		border-bottom-style: hidden;
+		border-top-style: hidden; 
+	}
+	 */
+	 #border-top-none {
+	 	border-top-style: hidden; 
+	 }
+	#listDisp {
+		border-bottom-style: hidden;
+	}
 
 /* 	#reserBody {
 		margin: auto;
