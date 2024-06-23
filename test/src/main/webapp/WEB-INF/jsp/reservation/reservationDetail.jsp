@@ -53,13 +53,13 @@
 		margin-bottom: 20px;
 	}
 	<%-- 제목 링크 --%>
-	a {	
+	#hosNameLink {	
 		font-weight: bold;
 		color: #2C307D;
 		text-decoration: none;	
 	}
 	
-	a:hover {
+	#hosNameLink:hover {
 		color:#FFA217;
 	}
 	
@@ -102,7 +102,7 @@
 		<table border frame=void>
 			<tr>
 				<th>병원 이름</th>
-				<td><a href="../hospital/hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName }</a></td>
+				<td><a id="hosNameLink" href="../hospital/hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName }</a></td>
 			</tr>
 			<tr>
 				<th>예약일</th>

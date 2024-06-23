@@ -51,13 +51,13 @@
 		margin-bottom: 20px;
 	}
 	<%-- 제목 링크 --%>
-	a {	
+	#hosNameLink {	
 		font-weight: bold;
 		color: #2C307D;
 		text-decoration: none;	
 	}
 	
-	a:hover {
+	#hosNameLink:hover {
 		color:#FFA217;
 	}
 	
@@ -106,7 +106,7 @@
 		<c:forEach var="reser" items="${myReserList }">
 			<tr>
 				<td>${reser.rownum }</td>
-				<td><a href="../hospital/hosDetail.do?hosIdx=${reser.hosIdx}">${reser.hosName }</a></td>
+				<td><a id="hosNameLink" href="../hospital/hosDetail.do?hosIdx=${reser.hosIdx}">${reser.hosName }</a></td>
 				<td>${reser.petName }</td>
 				<td>${reser.reserDate }</td>
 				<td>${reser.formattedTime }</td>

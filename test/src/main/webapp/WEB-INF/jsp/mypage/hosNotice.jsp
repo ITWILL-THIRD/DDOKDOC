@@ -51,13 +51,13 @@
 		margin-bottom: 20px;
 	}
 	<%-- 제목 링크 --%>
-	a {	
+	#linkTag {	
 		font-weight: bold;
 		color: #2C307D;
 		text-decoration: none;	
 	}
 	
-	a:hover {
+	#linkTag:hover {
 		color:#FFA217;
 	}
 	
@@ -100,18 +100,13 @@ function updateNotice(hosIdx){
 	location.href = "../notice/updateProNotice.do?hosIdx=${hoUser.hosIdx}";
 	//location.href = "../notice/insertProNotice.do?hosIdx=" + hosIdx;
 }
-function deleteNotice(frm){
-	if (confirm("공지사항을 삭제하시겠습니까?")) {
-  	  //휴무 취소 함수 실행시키기
-  	  alert("공지사항 삭제");
-	  frm.submit();
-	} else {
-        return;
-    }
+function deleteNotice(hosIdx){
 	//병원(기업)계정만 공지 작성
 	//해당 병원 계정 일치 여부 확인 후, 공지 입력
+	location.href = "../notice/deleteNotice.do";
 	//location.href = "../notice/insertProNotice.do?hosIdx=" + hosIdx;
 }
+
 
 
 </script>
@@ -124,17 +119,15 @@ function deleteNotice(frm){
 <%-- \${hoUser.hosIdx } : ${hoUser.hosIdx } --%>
 	<div id="container">
 		<hr>
-		<a href="hoMyPage.do">병원 마이페이지 가기</a>
+		<a id="linkTag" href="hoMyPage.do">병원 마이페이지 가기</a>
 		<div>
 			<c:choose>
 				<c:when test="${not empty notice}">
 					<input class="btn" type="button" value="공지 수정" data-hos-idx="${hosIdx}"
 						onclick="updateNotice(this.dataset.hosIdx)">
-					<form action="../notice/deleteNotice.do" method="post">
-						<input type="hidden" name="hosIdx" value="${hoUser.hosIdx}">
-						<input class="btn" type="button" value="공지 삭제" data-hos-idx="${hosIdx}"
-							onclick="deleteNotice(this.form)">		
-					</form>
+					<input class="btn" type="button" value="공지 삭제" data-hos-idx="${hosIdx}"
+						onclick="deleteNotice(this.dataset.hosIdx)">
+					
 				</c:when>
 				<c:otherwise>
 					<input class="btn" type="button" value="공지 등록" data-hos-idx="${hosIdx}"
