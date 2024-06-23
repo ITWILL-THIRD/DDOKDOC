@@ -122,9 +122,7 @@
     	
     	<c:if test="${sessionScope.user.role == 'user'}">
     		<a href="../membership/usercheckout.do">토닥+</a>
-    		<div class="userDropdown">
-				<a href="../mypage/myPage.do">마이페이지</a>
-			</div>
+			<a href="../mypage/myPage.do">마이페이지</a>
     		<a href="../logout.do">로그아웃</a>
     	</c:if>
     	<c:if test="${sessionScope.user.role == 'admin'}">
