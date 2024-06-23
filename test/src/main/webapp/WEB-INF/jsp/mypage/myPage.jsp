@@ -52,6 +52,17 @@
 		border-radius: 10px;
         margin-bottom: 20px;	
 	}
+    .myPetH2 {
+        display: flex;
+        align-items: center;
+    }
+    .myPetH2 h2 {
+        margin-right: 20px;
+    }
+    .myPetBtn {
+        margin-top: 0;
+        float: none;
+    }
 </style>
 <script>
 function userDelete_ok(frm) {
@@ -71,7 +82,7 @@ function userDelete_ok(frm) {
 <li class="mypage">마이페이지</li>
   <li><a href="../mypage/myReserList.do">진료예약내역</a></li>
   <li><a href="../mypage/myCancleReserList.do">취소예약내역</a></li>
-  <li><a href="../mypage/myReviewList.do">지난예약내역</a></li>
+  <li><a href="../mypage/myReviewList.do">나의 리뷰</a></li>
   <li><a href="../mypage/myPostList.do">나의 게시물</a></li>
 </ul>
 </div>
@@ -142,12 +153,17 @@ function userDelete_ok(frm) {
 		<br><br><br>	
         
         <c:if test="${user.role == 'user'}">
-            <h2>마이펫 정보</h2>
+            <div class="myPetH2">
+                <h2>마이펫</h2>
+                <div class="divBtn myPetBtn">
+                    <button class="btn" onclick="location.href='insertMyPetView.do'">마이펫 등록</button>
+                </div>
+            </div>	
             <hr>
             <div class="myPetContainer">
                 <c:choose>
                     <c:when test="${empty pets}">
-                        <div>등록된 펫 정보가 없습니다.</div>
+                        <div>등록된 마이펫이 없습니다.</div>
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="pet" items="${pets}">
@@ -173,9 +189,6 @@ function userDelete_ok(frm) {
                         </c:forEach>
                     </c:otherwise>
                 </c:choose>
-            </div>
-		    <div class="divBtn">
-                <button class="btn" onclick="location.href='insertMyPetView.do'">마이펫 등록</button>
             </div>
 			</c:if>
 	</div>
