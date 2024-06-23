@@ -120,7 +120,9 @@
 				<th width="70">번호</th>
 				<th width="70">분류</th>
 				<th width="300">병원명</th>
-				<th width="500">주소</th>
+				<th width="250">아이디</th>
+				<th width="250">비밀번호</th>
+<!-- 				<th width="500">주소</th> -->
 				<th width="200">진료시간</th>
 				<th width="250">전화번호</th>
 				<th width="200">사업자 등록증</th>
@@ -136,7 +138,9 @@
 				<td class="center">${hospital['hosIdx'] }</td>
 				<td class="center">${hospital.animal }</td>
 				<td class="center"><a href="../hospital/hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName }</a></td>
-				<td class="center">${hospital.roadAddressName} ${hospital.detailAddress}</td>
+				<td class="center">${hospital.hosId}</td>
+				<td class="center">${hospital.hosPw}</td>
+<%-- 				<td class="center">${hospital.roadAddressName} ${hospital.detailAddress}</td> --%>
 				<c:set var="openTime" value="${hospital.openTime}"/>
 				<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
 				<c:set var="closeTime" value="${hospital.closeTime}"/>
@@ -169,7 +173,8 @@
 <!-- 		페이징 표시 없음 처리 -->
 <%-- 			<c:set var="hasPage" value="false" scope="page"/> --%>
 			<tr>
-				<td colspan="9">
+				<td colspan="10">
+<!-- 				<td colspan="9"> -->
 					<!-- [이전]에 대한 사용여부 처리 -->
 					<c:if test="${pagingVO.nowPage == 1}">
 						<span class="disable">이전</span>
