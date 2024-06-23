@@ -7,10 +7,7 @@
 <meta charset="UTF-8">
 <title>계정별 결제내역</title>
 <style>
-	.total-row {
-		background-color: #B6E5FF;
-		font-weight: bold;
-	}
+
 </style>
 </head>
 <body>
@@ -19,7 +16,7 @@
 			<p>입력한 계정에 대한 결제 내역이 없습니다.</p>
 		</c:when>
 		<c:otherwise>
-				<table>
+				<table border frame=void >
 					<tr>
 						<th>계정</th>
 						<th>이름</th>

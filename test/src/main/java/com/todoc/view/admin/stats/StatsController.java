@@ -105,7 +105,7 @@ public class StatsController {
     @ResponseBody
     public Map<String, List<Map<String, String>>> initMonthlyRevenue() {
         LocalDate endDate = LocalDate.now();
-        LocalDate startDate = endDate.minusYears(5);
+        LocalDate startDate = endDate.minusYears(3);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         Map<String, String> params = new HashMap<>();

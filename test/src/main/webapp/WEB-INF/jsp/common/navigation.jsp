@@ -87,7 +87,7 @@
    		width: 150px; /* 세로 */
   		z-index: 1;  
 	}
-	.adminDropdown:hover .dropdownList, .userDropdown:hover .dropdownList {
+	.adminDropdown:hover .dropdownList {
 		display: block;
 	}
 /* 	.dropdownList:active { */
@@ -124,12 +124,6 @@
     		<a href="../membership/usercheckout.do">토닥+</a>
     		<div class="userDropdown">
 				<a href="../mypage/myPage.do">마이페이지</a>
-				<div class="dropdownList">
-					<a href="../mypage/myReserList.do">진료예약내역</a>
-					<a href="../mypage/myCancleReserList.do">예약취소내역</a>
-					<a href="../mypage/myReviewList.do">나의 리뷰</a>
-					<a href="../mypage/myPostList.do">나의 게시물</a>
-				</div>	
 			</div>
     		<a href="../logout.do">로그아웃</a>
     	</c:if>
