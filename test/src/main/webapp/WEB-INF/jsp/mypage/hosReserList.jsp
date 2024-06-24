@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset='utf-8' />
+<title>병원 예약 현황</title>
 <jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/hosReserListCss.jsp"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -232,17 +233,20 @@
                     let reserCondition = reservation.condition;
                     let reserIdx = reservation.reserIdx;
 				
-					if (reserIdx == null) {
-                		dispHtml += '<tr><td colspan="7">진료 내역이 없습니다</td></tr>';
-                		console.log( );
-            		}
+                    if (reserIdx == null) {
+                        dispHtml += '<tr><td colspan="7">진료 내역이 없습니다</td></tr>';
+                        console.log();
+                    }
+
                     let completBtn = "";
                     if (reservation.condition === "RESERVATION") {
                         completBtn += '<button class="complete-btn" data-reserIdx="';
                         completBtn += reservation.reserIdx;
-                        completBtn += '" data- data-reservationTime="' + reservationTime + '" data-reserDate="' + reservationDate + '">진료 완료</button>';
-                    } else {
-                        completBtn = "";
+                        completBtn += '" data-reservationTime="' + reservationTime + '" data-reserDate="' + reservationDate + '">진료 완료</button>';
+                    } else if (reservation.condition === "CANCLE") {
+                        completBtn = '<span class="status-cancel">취소</span>';
+                    } else if (reservation.condition === "FINISH" || reservation.condition === "REVIEW") {
+                        completBtn = '<span class="status-finish">이용 완료</span>';
                     }
                     if (isDisabled) {
                         dispHtml += 'disabled ';
@@ -259,6 +263,7 @@
                     dispHtml += '<td>' + reserPetAge + '살</td>';
                     dispHtml += '<td>' + completBtn + '</td>';
                     dispHtml += '</tr>';
+
                 }
             }
    		}
@@ -269,30 +274,22 @@
 </head>
 <body>
 <h2 class="title">병원예약 현황</h2>
-<!-- 	<div id="container"> -->
-<!-- 		<div class="side"> -->
-<!-- 			<ul> -->
-<!-- 				<li><a href="hoMyPage.do">마이페이지</a></li> -->
-<!-- 				<li class="reservNow">병원예약현황</li> -->
-<!-- 			  	<li><a href="hosNotice.do">공지사항 작성</a></li> -->
-<!-- 			  	<li><a href="hosReviewList.do">리뷰목록 조회</a></li> -->
-<!-- 			  	<li><a href="insertHosHoliday.do">휴무일 등록</a></li> -->
-<!-- 			</ul> -->
-<!-- 		</div> -->
-	    <div id="container">  
-		<a id="linkTag" href="hoMyPage.do">병원 마이페이지 가기</a>  
-	    <hr>
+	    <div id="container">
+	    <div>
+			<a id="linkTag" href="hoMyPage.do">병원 마이페이지 가기</a>  
+		    <hr id="hr">
+	    </div>
 	    	<div id="calendar" class="reserInfo"></div>
 	   		<table id="reservation">
 				<thead>
 			        <tr>
 			            <th id="border-top-none" width="15%">예약시간</th>
 			            <th width="20%">보호자</th>
-			            <th width="40%">연락처</th>
+			            <th width="30%">연락처</th>
 			            <th width="10%">펫이름</th>
 			            <th width="5%">종류</th>
 			            <th width="5%">나이</th>
-			            <th id="border-bottom-none" width="5%"></th>
+			            <th id="border-bottom-none" width="15%">상태</th>
 			        </tr>
 		    	</thead>
 			    <tbody id="listDisp">

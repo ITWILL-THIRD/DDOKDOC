@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>토닥토닥[main.jsp]</title>
+<title>토닥토닥</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 <script>
@@ -339,7 +339,7 @@
 	<div id="container">
 		<div class="abcd">
 			<div class="a">
-				<div class="txt">토닥토닥</div>
+				<div class="txt"><img src="https://i.ibb.co/cJ8ZmPh/1.png" alt="토닥토닥" width="250px"></div>
 				<img src="https://i.ibb.co/1scnHR7/casual-life-3d-female-veterinarian-with-dog.png" alt="todoc" class="todocImg">
 			</div>
 			

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>hoNoticeDetail</title>
+<title>공지사항 상세보기</title>
 <style>
 	#container {
 		width: 700px;

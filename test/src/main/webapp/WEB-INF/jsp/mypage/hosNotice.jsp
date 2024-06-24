@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>병원 공지사항</title>
+<title>공지사항 등록</title>
 <jsp:include page="../common/navigation.jsp"/>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>

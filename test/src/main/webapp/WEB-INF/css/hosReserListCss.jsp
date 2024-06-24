@@ -1,17 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <style>
-/*   #container { */
-/*     padding: 0; */
-/*     font-family: Arial, Helvetica Neue, Helvetica, sans-serif; */
-/*     font-size: 14px; */
-/*     width: 1100px;  */
-/*     margin: auto;  */
-/*   } */
-
+    .status-cancel {
+        color: #FFA217;
+    }
+    .status-finish {
+        color: #2C307D;
+    }
+	
 	#calendar {
 	    margin: 0 auto;
-	    max-width: 500px;
+	    max-width: 600px;
 	    display: inline-block;
 	}
 	
@@ -64,10 +63,8 @@
 	}
 	
   #calendar {
-  	margin-left: 150px;
-    max-width: 500px;
-    /* margin-left: 100px; */
-    /* margin-right: 100px; */
+  	margin-left: 100px;
+    max-width: 600px;
     display: inline-block;
   }
   .reserInfo {
@@ -176,25 +173,12 @@
 	    border-right: 0;
 	}
 
-
-/* 	#reservation tbody {
-		border-bottom-style: hidden;
-		border-top-style: hidden; 
-	}
-	 */
 	 #border-top-none {
 	 	border-top-style: hidden; 
 	 }
 	#listDisp {
 		border-bottom-style: hidden;
 	}
-
-/* 	#reserBody {
-		margin: auto;
-		padding: 10px;
-		display: flex;
-		justify-content: center;
-	} */
 	
 	.reserTime {
 		color: blue;
@@ -206,9 +190,9 @@
 		border:  none;
 		border-radius: 7px;
 		color: white;
-		width: 50px;
-		height: 20px;
-		font-size: 10px;
+		width: 70px;
+		height: 25px;
+		font-size: 14px;
 	}
 	.complete-btn:hover {
 		background-color: #3940C8;
@@ -220,16 +204,17 @@
 		margin-left: 17px;
 		margin-bottom: 10px;
 	}
-/* 	li { font-size: 16px; } */
+
 	.title {
-	font-weight: bold;
-	text-align: center;
-	margin-top: 20px;
+		font-weight: bold;
+		text-align: center;
+		margin-top: 20px;
 	}
-	hr {
-  	border: 1px solid #2C307D;
-  }
 	
+    #hr {
+	    border: 1px solid #2C307D !important;
+	}
+
 	#linkTag {	
 		font-weight: bold;
 		color: #2C307D;
