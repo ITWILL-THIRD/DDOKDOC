@@ -297,6 +297,7 @@ public class HoMyPageController {
 	//병원 공지사항
 	@RequestMapping("/hosNotice.do")
 	public String hosNotice(Model model, HttpSession session) {
+		System.out.println("병원 공지사항");
 		// 병원 로그인 정보 가져오기
 		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
 		
@@ -308,19 +309,23 @@ public class HoMyPageController {
 		if (noticeService.getNotice(hosIdx) != null) {
 			notice = noticeService.getNotice(hosIdx);
 		}
+		
+		System.out.println("notice : " + notice);
 		model.addAttribute("notice", notice);
 		
 		return "mypage/hosNotice";
 	}
-	//공지 상세
-	@RequestMapping("/hoNoticeDetail.do")
-	public String hoNoticeDetail(@ModelAttribute("noticeIdx") int noticeIdx, Model model) {
-		NoticeVO notice = noticeService.getNotice(noticeIdx);
-		System.out.println("notice : " + notice);
-		model.addAttribute("notice", notice);
-		
-		return "mypage/hoNoticeDetail";
-	}
+	/*
+	 * //공지 상세
+	 * 
+	 * @RequestMapping("/hoNoticeDetail.do") public String
+	 * hoNoticeDetail(@ModelAttribute("noticeIdx") int noticeIdx, Model model) {
+	 * NoticeVO notice = noticeService.getNotice(noticeIdx);
+	 * System.out.println("notice : " + notice); model.addAttribute("notice",
+	 * notice);
+	 * 
+	 * return "mypage/hoNoticeDetail"; }
+	 */
 
 	// 병원 휴무일 등록 페이지
 	@RequestMapping("/insertHosHoliday.do")
@@ -350,7 +355,6 @@ public class HoMyPageController {
 	// 병원 리뷰 목록 조회
   	@RequestMapping("/hosReviewList.do")
   	public String hosReviewList(Model model, HttpSession session) {
- 		System.out.println("::마이페이지-리뷰리스트");
  		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
  		int hosIdx = 0;
  		if (hoUser != null) {

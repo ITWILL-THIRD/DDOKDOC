@@ -20,10 +20,9 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
-<jsp:include page="../../css/postListCss.jsp"/>
 <script>
 $(document).ready(function(){
-	const notice = '${notice}';
+	const notice = '${notice.hosIdx}';
 	if (notice != "") {
     	$('#exampleModal').modal('show');
 	}
@@ -159,6 +158,7 @@ $(document).ready(function(){
     });
 
     calendar.render();
+    
   });
 
   
@@ -310,17 +310,14 @@ $(document).ready(function(){
   
 </script>
 <style>
-	@font-face {
-      font-family: 'Pretendard-Regular';
-      src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
-  }
+	#container { width: 1100px; margin: auto; }
 
-  * {
-      font-family: 'Pretendard-Regular';
-  }
-
+	#pageTitle{ 
+		margin-top: 20px;
+		text-align: center; 
+		font-weight: bold;
+	}
+	
 	.fc-day-header {
 	  background-color: #E0EAF5;
 	}
@@ -489,6 +486,30 @@ hr {
   border: 1px solid #2C307D;
   }
   
+ /*  .fc-prev-button,
+	.fc-next-button,
+	.fc-today-button,
+	.fc-prevYear-button,
+	.fc-nextYear-button,
+	.fc-dayGridMonth-button {
+	    background-color: #2C307D; /* 원하는 배경 색상으로 변경 */
+	    color: white; /* 버튼 텍스트 색상 */
+	    border-color: #2C307D; /* 버튼 테두리 색상 */
+	}
+	
+	/* 버튼 호버 효과 추가 */
+	.fc-prev-button:hover,
+	.fc-next-button:hover,
+	.fc-today-button:hover,
+	.fc-prevYear-button:hover,
+	.fc-nextYear-button:hover,
+	.fc-dayGridMonth-button {
+	    background-color: #FFFFFF;
+    	color: #2C307D;
+    	border: 1px solid #2C307D;
+	} */
+  
+  
 </style>
 </head>
 <body>
@@ -501,7 +522,7 @@ hr {
 \${hosHoliday } : ${hosHoliday }<br> --%>
 <%-- \${notice } : ${notice }<br> --%>
 
-	<h1>진료 예약하기</h1>
+	<h2 id="pageTitle">진료 예약하기</h2>
   <div id="container">
     <hr>
     <div id="selectDateTimeDiv" class="container">

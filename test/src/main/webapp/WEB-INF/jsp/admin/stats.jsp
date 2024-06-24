@@ -27,16 +27,16 @@
         <div id="searchDate" style="display:none;">
             <div class="row">
                 <label for="type">가입구분</label>
-                <select id="type" name="type">
+                <select class="select" id="type" name="type">
                     <option value="user">개인</option>
                     <option value="hospital">병원</option>
                 </select>
                 
                 <label for="startDate">가입일</label>
-                <input type="date" id="startDate" name="startDate">
+                <input class="searchInput" type="date" id="startDate" name="startDate">
 
                 <label for="endDate">종료일</label>
-                <input type="date" id="endDate" name="endDate">
+                <input class="searchInput" type="date" id="endDate" name="endDate">
                 
                 <div id="userButtons">
                     <button class="dateBtn" id="monthBtn">1개월</button>
@@ -55,7 +55,7 @@
 		<div id="searchAccount" style="display:none;">
 			<div class="row">
 				<label for="accountType">가입구분</label>
-				<select id="accountType" name="type">
+				<select class="select" id="accountType" name="type">
 					<option value="user">개인</option>
 					<option value="hospital">병원</option>
 				</select>
@@ -68,19 +68,19 @@
 		<div id="searchStats" style="display: none;">
 			<div class="row">
 				<label for="statsType">가입구분</label>
-				<select id="statsType" name="type">
+				<select class="select" id="statsType" name="type">
 					<option value="user">개인</option>
 					<option value="hospital">병원</option>
 				</select>
 				<label for="searchType">기간선택</label>	
-				<select id="searchType" name="searchType">
+				<select class="select" id="searchType" name="searchType">
 					<option value="all">전체</option>
 					<option value="year">연도별</option>
 					<option value="month">월별</option>
 				</select>
 				<div id="dateInput" style="display: none;">
 					<label for="dateValue">날짜</label>
-					<select id="dateValue" name="dateValue"></select>
+					<select class="select" id="dateValue" name="dateValue"></select>
 				</div>
 				<button class="searchBtn" id="statsSearchBtn">검색</button>
 			</div>	

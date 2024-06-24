@@ -83,12 +83,11 @@
 					console.log(htmlObj);
 					if (htmlObj.getAttribute("title") == "상세주소") continue;
 					if (htmlObj.getAttribute("title") == "참고항목") continue;
-					if (htmlObj.getAttribute("title") == "병원 사진") continue;
 					if (htmlObj.getAttribute("name") == "lunchOff") continue;
 					if (htmlObj.getAttribute("name") == "satLunchOff") continue;
 					if (htmlObj.getAttribute("name") == "sunDayOff") continue;
 					if (htmlObj.getAttribute("name") == "sunLunchOff") continue;
-					if(htmlObj.title == "사업자 등록증") {
+					if(htmlObj.title == "사업자 등록증" || htmlObj.title == "병원 사진") {
 						alert(htmlObj.title + " 업로드 하세요");
 						htmlObj.focus();
 					} else {

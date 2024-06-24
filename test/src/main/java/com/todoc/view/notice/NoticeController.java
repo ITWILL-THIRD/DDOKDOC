@@ -1,5 +1,7 @@
 package com.todoc.view.notice;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,15 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.todoc.hospital.HospitalVO;
 import com.todoc.notice.NoticeService;
 import com.todoc.notice.NoticeVO;
+import com.todoc.view.mypage.HoMyPageController;
 
-@SessionAttributes(value = {"notice"})
 @Controller
 @RequestMapping("/notice")
 public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
+	
 	
 	//병원 공지사항 목록 조회
 	/*
@@ -55,7 +59,7 @@ public class NoticeController {
 		System.out.println("vo.getHosIdx() : " + vo.getHosIdx());
 		
 		//String add = "redirect:../hospital/hosDetail.do?hosIdx=" + vo.getHosIdx();
-		String add = "redirect:../mypage/hosNotice.do?hosIdx=" + vo.getHosIdx();
+		String add = "redirect:../mypage/hosNotice.do";
 		
 		return add;
 		//return "mypage/hosNoticeList";
@@ -82,21 +86,30 @@ public class NoticeController {
 		
 		noticeService.updateNotice(notice);
 		
-		String add = "redirect:../mypage/hosNotice.do?hosIdx=" + notice.getHosIdx();
+		String add = "redirect:../mypage/hosNotice.do";
 		
 		return add;
 	}
 	
 	//공지 삭제
-	@PostMapping("/deleteNotice.do")
-	public String deleteNotice(String hosIdx) {
+	@RequestMapping("/deleteNotice.do")
+	public String deleteNotice(HttpSession session) {
 		System.out.println(">> deleteNotice(vo) 메소드 실행");
+		
+		// 병원 로그인 정보 가져오기
+		HospitalVO hoUser = (HospitalVO) session.getAttribute("hoUser");
+		
+		// 병원 인덱스
+		int hosIdx = hoUser.getHosIdx();
 		System.out.println("삭제 할 hosIdx : " + hosIdx);
-		int hosIdxInt = Integer.parseInt(hosIdx);
 		
-		noticeService.deleteNotice(hosIdxInt);
+		noticeService.deleteNotice(hosIdx);
+//		String add = "redirect:../mypage/hosNotice.do";
 		
-		String add = "redirect:../mypage/hosNotice.do?hosIdx=" + hosIdxInt;
+		session.removeAttribute("notice");
+		
+		System.out.println("경로 수정");
+		String add = "redirect:../mypage/hosNotice.do";
 		return add;
 	}
 	

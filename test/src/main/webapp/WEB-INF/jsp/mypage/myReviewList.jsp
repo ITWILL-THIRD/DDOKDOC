@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>작성한 리뷰</title>
+<title>지난 예약 내역</title>
 <%-- <jsp:include page="../../css/postCss.jsp"/> --%>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
@@ -15,6 +15,7 @@
 .hidden {
     display: none;
 }
+h1 { text-align: center; }
 #container {
     padding: 0;
     margin:0 auto;
@@ -164,11 +165,76 @@ tr {
 	font-size: 14px;
 } 
 
+	/* 모달 배경 */
+.modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+/* 모달 */
+.modal-content {
+    background-color: #fefefe;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+}
+
+/* 닫기 버튼 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.modal-data {
+    text-align: left; 
+}
+.modal-content p {
+    margin: 0; 
+    padding: 5px 0; 
+}
+.inline-group {
+    display: flex;
+}
+.inline-group p {
+    margin-right: 10px;
+    margin-left: 8px;
+}
+#modalHosName {
+	font-size: 16px;
+	font-weight: bold;
+}
+	
+.inline-container {
+    display: inline-flex;
+    align-items: center; /* 아이콘과 텍스트를 수직으로 중앙 정렬 */
+}
+.inline-container svg {
+    margin-right: 8px; /* 아이콘과 텍스트 사이의 간격 조정 */
+}
 </style>
 </head>
 <body>
+	<h1>나의 리뷰</h1>
 	<div id="container">
-		<h2 class="left">지난 예약 내역</h2>
+<!-- 		<h2 class="left">지난 예약 내역</h2> -->
 		
 		<!-- 마이페이지로 돌아가기 -->
 		<span>
@@ -186,62 +252,93 @@ tr {
 		</svg>&nbsp;
 		리뷰 작성을 기다리고 있어요</h3>
 		<hr>
+	    <table>
+	        <thead>
+	            <tr>
+	            	<th width="160px">병원명</th>
+	                <th width="160px">방문일</th>
+	                <th width="160px">방문시간</th>
+	                <th width="160px">동물이름</th>
+	                <th width="160px"> </th>
+	            </tr>
+	        </thead>
+	        <c:if test="${empty reviewToWrite}">
+				<tr>
+					<td colspan="7">진료 내역이 없습니다.</td>
+				</tr>
+			</c:if>
 			<!-- 예약 후 진료 완료 상태만 form 작성 가능 -->
 			<c:if test="${not empty reviewToWrite}">
-		    <form id="reviewForm" action="myReviewInsert.do" method="post">
-			    <table>
-			        <thead>
+			    <tbody>
+			        <c:if test="${empty reviewToWrite}">
 			            <tr>
-			            	<th width="160px">병원명</th>
-			                <th width="160px">방문일</th>
-			                <th width="160px">방문시간</th>
-			                <th width="160px">동물이름</th>
-			                <th width="160px"> </th>
+			                <td colspan="7">리뷰 내역이 없습니다.</td>
 			            </tr>
-			        </thead>
-			        <tbody>
+			        </c:if>
+			        <form id="reviewForm" action="myReviewInsert.do" method="post">
 			            <c:forEach var="finish" items="${reviewToWrite}">
-						    <tr>
-						    	<td>${finish.hosName }</td>
-						        <td>${finish.reserDate}</td>
-						        <td>
-						            <fmt:formatDate value="${finish.reserTime}" pattern="HH:mm" var="reserTime" />
-						            ${reserTime}
-						        </td>
-						        <td>${finish.petName}</td>
-						        <td>
-				    <button type="button" class="ibtn" id="writeReviewBtn" onclick="showReviewForm('${finish.reserIdx}', '${finish.hosIdx}')">리뷰 작성</button>
-				</td>
-				<td id="reviewSection" style="display:none;">
-				    <form action="myReviewInsert" method="POST">
-				        <div class="star-rating">
-				            <input type="radio" id="5-stars" name="score" value="5" />
-				            <label for="5-stars" class="star">&#9733;</label>
-				            <input type="radio" id="4-stars" name="score" value="4" />
-				            <label for="4-stars" class="star">&#9733;</label>
-				            <input type="radio" id="3-stars" name="score" value="3" />
-				            <label for="3-stars" class="star">&#9733;</label>
-				            <input type="radio" id="2-stars" name="score" value="2" />
-				            <label for="2-stars" class="star">&#9733;</label>
-				            <input type="radio" id="1-star" name="score" value="1" />
-				            <label for="1-star" class="star">&#9733;</label>
-				        </div>
-				        <input type="text" class="form" name="content" placeholder="리뷰를 작성하세요.">
-				        <input type="hidden" id="selectedReserIdx" name="reserIdx" value="" />
-				        <input type="hidden" id="selectedHosIdx" name="hosIdx" value="" />
-				        <input type="submit" value="저장" class="sbtn">
-				        <button type="button" class="sbtn" onclick="hideReviewForm()">취소</button>
-				    </form>
-				</td>
-
-						    </tr>
-						</c:forEach>
-			        </tbody>
-			    </table>
-	    
-			</form>
-	
+			                <tr>
+			                    <td>${finish.hosName}</td>
+			                    <td>${finish.reserDate}</td>
+			                    <td>
+			                        <fmt:formatDate value="${finish.reserTime}" pattern="HH:mm" var="reserTime"/>
+			                        ${reserTime}
+			                    </td>
+			                    <td>${finish.petName}</td>
+			                    <td>
+								    <button type="button" class="ibtn" onclick="showReviewForm('${finish.reserIdx}', '${finish.hosIdx}', '${finish.reserDate}', '${reserTime}', '${finish.hosName}', '${finish.petName}')">리뷰 작성</button>
+								</td>
+			                </tr>
+			            </c:forEach>
+			        </form>
+			    </tbody>
 			</c:if>
+			
+				<!-- 리뷰 작성 모달 -->
+				<div id="reviewModal" class="modal">
+				    <div class="modal-content">
+				        <span class="close" onclick="hideReviewForm()">&times;</span>
+				        <form action="myReviewInsert.do" method="POST">
+				            <div class="modal-data">
+				            	<span class="inline-container">
+					            	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
+									  <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+									  <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
+									</svg>&nbsp; 
+							        <p id="modalHosName"></p>
+				            	</span>
+						        <div class="inline-group">
+						        	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+									  <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+									  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+									</svg>&nbsp; 
+						            <p id="modalReserDate"></p>
+						            <p id="modalReserTime"></p>
+						            <p id="modalPetName"></p>
+						        </div>
+						    </div>
+				            <div class="star-rating">
+				                <input type="radio" id="5-stars" name="score" value="5"/>
+				                <label for="5-stars" class="star">&#9733;</label>
+				                <input type="radio" id="4-stars" name="score" value="4"/>
+				                <label for="4-stars" class="star">&#9733;</label>
+				                <input type="radio" id="3-stars" name="score" value="3"/>
+				                <label for="3-stars" class="star">&#9733;</label>
+				                <input type="radio" id="2-stars" name="score" value="2"/>
+				                <label for="2-stars" class="star">&#9733;</label>
+				                <input type="radio" id="1-star" name="score" value="1"/>
+				                <label for="1-star" class="star">&#9733;</label>
+				            </div>
+				            <input type="text" class="form" name="content" placeholder="리뷰를 작성하세요.">
+				            <input type="hidden" id="selectedReserIdx" name="reserIdx" value=""/>
+				            <input type="hidden" id="selectedHosIdx" name="hosIdx" value=""/>
+				            <input type="submit" value="저장" class="sbtn">
+				            <button type="button" class="sbtn" onclick="hideReviewForm()">취소</button>
+				        </form>
+				    </div>
+				</div>
+
+		    </table>
 		</div>
 		<div id="review">
 		<h3 class="left">
@@ -261,6 +358,11 @@ tr {
 					<th width="50px"> </th>
 				</tr>
 				<tbody>
+					<c:if test="${empty myReviewList}">
+						<tr>
+							<td colspan="7">리뷰 내역이 없습니다.</td>
+						</tr>
+					</c:if>
 					<c:forEach var="review" items="${myReviewList}">
 					    <tr id="view_${review.reviewIdx}">
 					    <td>${review.hosName}</td>
@@ -315,12 +417,12 @@ tr {
 						        </td>
 					        	<td>${review.reviewDate}</td>
 						        <td>
-							        <input type="hidden" class="sbtn" name="hosIdx" value="${review.hosIdx}">
-							        <input type="hidden" class="sbtn" name="reviewIdx" value="${review.reviewIdx}">
-						        	<input type="submit" value="저장">
+							        <input type="hidden" name="hosIdx" value="${review.hosIdx}">
+							        <input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
+						        	<input type="submit" class="sbtn" value="저장">
 						        </td>
 						    </form>
-						    <td><button class="cancelEdit_btn" type="button" onClick="cancelEdit(${review.reviewIdx})">취소</button></td>
+						    <td><button class="sbtn" type="button" onClick="cancelEdit(${review.reviewIdx})">취소</button></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -361,15 +463,31 @@ tr {
 	    console.log("Selected ReserIdx: " + selectedValue); // 확인용 로그
 	}
 	
-    function showReviewForm(reserIdx, hosIdx) {
-        document.getElementById('selectedReserIdx').value = reserIdx;
-        document.getElementById('selectedHosIdx').value = hosIdx;
-        document.getElementById('reviewSection').style.display = 'block';
-    }
+	function showReviewForm(reserIdx, hosIdx, reserDate, reserTime, hosName, petName) {
+	    document.getElementById('selectedReserIdx').value = reserIdx;
+	    document.getElementById('selectedHosIdx').value = hosIdx;
+	    
+	    // 예약 정보를 모달창에 표시
+	    document.getElementById('modalHosName').innerText = hosName;
+	    document.getElementById('modalReserDate').innerText = reserDate;
+	    document.getElementById('modalReserTime').innerText = reserTime;
+	    document.getElementById('modalPetName').innerText = petName;
 
-    function hideReviewForm() {
-        document.getElementById('reviewSection').style.display = 'none';
-    }
+	    document.getElementById('reviewModal').style.display = 'block';
+	}
+
+	function hideReviewForm() {
+	    document.getElementById('reviewModal').style.display = 'none';
+	}
+
+	// 모달 창 외부를 클릭했을 때 모달을 닫는 기능
+	window.onclick = function(event) {
+	    var modal = document.getElementById('reviewModal');
+	    if (event.target == modal) {
+	        modal.style.display = 'none';
+	    }
+	}
+
 	function goMypage() {
 		window.location.href = 'mypage.do';
 	}

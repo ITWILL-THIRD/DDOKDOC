@@ -29,14 +29,63 @@
 		</tr>
 	</table>
 	<div id="category" class="center">
-		<a href="getBoardList.do">전체</a> |
-		<a href="getBoardList.do?category=free">자유</a> |
-		<a href="getBoardList.do?category=med">의료</a> |
-		<a href="getBoardList.do?category=feed">사료/간식</a> |
+		<a href="getBoardList.do">전체</a>
+		<a class="none">|</a>
+		<a href="getBoardList.do?category=free">자유</a>
+		<a class="none">|</a>
+		<a href="getBoardList.do?category=med">의료</a>
+		<a class="none">|</a>
+		<a href="getBoardList.do?category=feed">사료/간식</a>
+		<a class="none">|</a>
 		<a href="getBoardList.do?category=goods">용품</a>
 	</div>
 	</form>
+	<script>
+		document.addEventListener('DOMContentLoaded', (event) => {
+	        // 현재 URL에서 searchCondition 값을 가져옵니다.
+	        const params = new URLSearchParams(window.location.search);
+	        const category = params.get('category');
+	        
+	        // 모든 링크 요소를 가져옵니다.
+	        const links = document.querySelectorAll('#category a');
+	        
+	        // 각 링크의 href 속성을 확인하여 searchCondition에 해당하는 경우 active 클래스를 추가합니다.
+	        links.forEach(link => {
+	            const url = new URL(link.href, window.location.origin);
+	            if (url.searchParams.get('category') === category) {
+	                link.classList.add('active');
+	            }
 	
+	            // 링크 클릭 시 이벤트를 가로채서 기본 동작을 방지합니다.
+	            link.addEventListener('click', (event) => {
+	                event.preventDefault();
+	                //alert(url.href); // 클릭한 링크의 URL을 출력합니다.
+	                
+	                const text = url.href;
+	                const searchString = "todoc";
+
+
+	                const result = extractStringAfter(text, searchString);
+	                console.log(result);
+	                
+	                function extractStringAfter(text, searchString) {
+	                    const index = text.indexOf(searchString);
+	                    if (index === -1) {
+	                        // searchString이 text에 없는 경우
+	                        return null;
+	                    }
+	                    // 검색된 문자열의 끝 인덱스 이후의 문자열을 추출
+	                    return text.slice(index + searchString.length);
+	                }
+	                // 여기서 원하는 동작을 수행
+	                const locRef = ".." + result;
+					location.href = locRef;
+	            });
+	        });
+	    });
+	</script>
+	
+	<hr>
 	<!-- 데이터 표시영역 -->
 	<table border frame=void>
 		<thead>
@@ -71,7 +120,7 @@
 			</tr>
 		</c:forEach>
 		</tbody>
-		<tfoot>
+		<tfoot id="paging">
 			<tr>
 				<td colspan="9">
 					<!-- [이전]에 대한 사용여부 처리 -->

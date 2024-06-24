@@ -26,19 +26,24 @@
 	
 	//달력 띄우기 
 	document.addEventListener('DOMContentLoaded', function() {
+	    // 페이지 로드 시 선택된 날짜 초기화
+	    if (localStorage.getItem('selectedDate')) {
+	        localStorage.removeItem('selectedDate');
+	    }
+	
 	    var calendarEl = document.getElementById('calendar');
 	    var selectedDate = localStorage.getItem('selectedDate') || null;
 	    var selectedDay = selectedDate ? new Date(selectedDate).getDay() : null;
-
+	
 	    var hospitalSundayOff = ${hospital.sunDayOff == 'Y'};
-
+	
+	    // 휴무일 목록을 받아옴
 	    var closedDates = [
 	        <c:forEach var="date" items="${hosHoliday}">
 	            '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
 	        </c:forEach>
 	    ];
-	    closedDates.pop();
-
+	
 	    var calendar = new FullCalendar.Calendar(calendarEl, {
 	        googleCalendarApiKey: 'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
 	        plugins: ['interaction', 'dayGrid', 'googleCalendar'],
@@ -73,7 +78,7 @@
 	            var today = new Date();
 	            today.setHours(0, 0, 0, 0);
 	            var clickedDate = new Date(info.dateStr);
-
+	
 	            if (closedDates.includes(info.dateStr)) {
 	                alert(info.dateStr + "은 휴무입니다:)");
 	                return;
@@ -105,27 +110,49 @@
 	        datesRender: function(info) {
 	            var today = new Date();
 	            today.setHours(0, 0, 0, 0);
-
+	
 	            var allDayEls = document.querySelectorAll('.fc-day');
-
+	
 	            allDayEls.forEach(function(dayEl) {
 	                var dateStr = dayEl.getAttribute('data-date');
 	                var date = new Date(dateStr);
-
+	
 	                if (closedDates.includes(dateStr) || (hospitalSundayOff && date.getDay() === 0)) {
 	                    dayEl.style.backgroundColor = '#f0f1f1';
 	                }
+	
+	                // 오늘 날짜를 노란색으로 표시
+	                if (dateStr === today.toISOString().split('T')[0]) {
+	                    dayEl.style.backgroundColor = '#FEFFB8';
+	                }
 	            });
+	
+	            // 오늘 날짜에 대한 리스트 출력
+	            var todayStr = today.toISOString().split('T')[0];
+	            if (todayStr === info.view.currentStart.toISOString().split('T')[0]) {
+	                getJsonTimeData(todayStr, today.getDay());
+	            }
 	        }
 	    });
-
+	
 	    calendar.render();
-	    
+	
 	    if (selectedDate) {
-	    	getJsonTimeData(selectedDate, selectedDay);
+	        getJsonTimeData(selectedDate, selectedDay);
+	    } else {
+	        // 페이지 로드 시 오늘 날짜에 대한 리스트 출력
+	        var today = new Date();
+	        today.setHours(0, 0, 0, 0);
+	        var todayStr = today.toISOString().split('T')[0];
+	        getJsonTimeData(todayStr, today.getDay());
 	    }
 	});
 
+
+
+	window.addEventListener('beforeunload', function() {
+	    localStorage.removeItem('selectedDate');
+	});
 
   function getJsonTimeData(selectedDate, selectedDay) {
 	    let vo = {
@@ -139,26 +166,7 @@
 	        contentType: "application/json",
 	        dataType: "json",
 	        success: function(response) {
- 				getReservData(response);
-	            	/* let currentTime = new Date();
-	                let currentDateString = currentTime.toISOString().split('T')[0]; // YYYY-MM-DD 형식의 현재 날짜
-	                let currentHours = currentTime.getHours().toString().padStart(2, '0');
-	                let currentMinutes = currentTime.getMinutes().toString().padStart(2, '0');
-	                let currentTimeStr = currentHours + ':' + currentMinutes;
-
-	                let reservationTime = $(this).attr('data-reservationTime');
-	                let reservationDateStr = $(this).attr('data-reserDate');    
-	                let reservationDate = new Date(reservationDateStr); // 문자열을 Date 객체로 변환
-	                let reservationDateString = reservationDate.toISOString().split('T')[0]; // YYYY-MM-DD 형식의 예약 날짜
-	               
-	                console.log("reservationDateString :" + reservationDateString + typeof reservationDateString);
-	                //let reservationDateString = reservationDate.toISOString().split('T')[0]; // YYYY-MM-DD 형식의 예약 날짜
-	                
-	                console.log("reservationTime : " + reservationTime + typeof reservationTime);
-
-	                if (reservationTime > currentTimeStr && reservationDateString > currentDateString) {
-	                    alert("진료 시간이 아닙니다.");
-	                } else {  */
+ 				getReservData(response);	
  				
 	            // 진료 완료 버튼 클릭 이벤트
 	            $('#listDisp').on('click', '.complete-btn', function() {
@@ -242,7 +250,7 @@
                     let reserIdx = reservation.reserIdx;
 				
 					if (reserIdx == null) {
-                		dispHtml += '<tr><td colspan="6">진료 내역이 없습니다</td></tr>';
+                		dispHtml += '<tr><td colspan="7">진료 내역이 없습니다</td></tr>';
                 		console.log( );
             		}
                     let completBtn = "";
@@ -273,30 +281,32 @@
    		}
         $("#listDisp").html(dispHtml);
 	}
-
-/* 	 //선택된 시간을 form 시간값에 저장
-    $('form').on('submit', function() {
-        let selectedTime = $('.time-btn.reserved').data('time');
-        $('#selectTime').val(selectedTime);
-    }); */
   
 </script>
 </head>
 <body>
-	<div id="reserBody">
-	    <div id="calendar" class="reserInfo"></div>
-	    <div>    
-			<h2>병원 예약 현황</h2>
-		   <table class="table table-hove" id="reserList">
+	<div id="container">
+		<div class="side">
+			<ul>
+				<li><a href="hoMyPage.do">마이페이지</a></li>
+				<li class="reservNow">병원예약현황</li>
+			  	<li><a href="hosNotice.do">공지사항 작성</a></li>
+			  	<li><a href="hosReviewList.do">리뷰목록 조회</a></li>
+			  	<li><a href="insertHosHoliday.do">휴무일 등록</a></li>
+			</ul>
+		</div>
+	    <div id="container2">    
+	    	<div id="calendar" class="reserInfo"></div>
+	   		<table id="reservation">
 				<thead>
 			        <tr>
-			            <th width="60px">예약시간</th>
-			            <th width="80px">보호자</th>
-			            <th width="150px">연락처</th>
-			            <th width="60px">펫이름</th>
-			            <th width="60px">종류</th>
-			            <th width="60px">나이</th>
-			            <th width="60px"></th>
+			            <th id="border-top-none" width="15%">예약시간</th>
+			            <th width="20%">보호자</th>
+			            <th width="40%">연락처</th>
+			            <th width="10%">펫이름</th>
+			            <th width="5%">종류</th>
+			            <th width="5%">나이</th>
+			            <th id="border-bottom-none" width="5%"></th>
 			        </tr>
 		    	</thead>
 			    <tbody id="listDisp">

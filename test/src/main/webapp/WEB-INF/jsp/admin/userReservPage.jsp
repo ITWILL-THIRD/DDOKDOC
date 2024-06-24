@@ -12,7 +12,7 @@
 <jsp:include page="statsScript.jsp"/>
 </head>
 <body>
-<h1>회원 진료 예약내역</h1>
+<h1>회원 예약현황</h1>
 <div id="container">
 <a href="getUserList.do">회원관리목록 가기</a>
 
@@ -76,6 +76,7 @@
 		</c:otherwise>
 	</c:choose>
 	<c:if test="${not empty userReserList}">
+	<tfoot id="paging">
 	<tr>
 	 <td colspan="6">
             <!-- [이전]에 대한 사용여부 처리 -->
@@ -113,7 +114,8 @@
             </c:if>
         </td>
 			</tr>
-			</c:if>
+	<tfoot>
+	</c:if>
 </table>
 </div>
 </body>

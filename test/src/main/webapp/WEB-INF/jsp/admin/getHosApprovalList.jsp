@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>관리자 - 병원 승인 페이지 [approvalPage.jsp]</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<%-- <jsp:include page="../../css/hosApprovalListCss.jsp"/> --%>
+<jsp:include page="../../css/hosApprovalListCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script>
@@ -27,6 +27,9 @@
 	        } else if (condition === '승인완료') {
 	            $(this).addClass('condition-after');
 	            $(this).val('승인취소');
+	        } else {
+	        	$(this).addClass('condition-none');
+	            $(this).val('');
 	        }
 	    });
 	});
@@ -46,139 +49,6 @@
 		}
 	}
 </script>
-<style>
-	#container { width: 1100px; margin: auto; }
-	h1, h3, p { text-align: center; }
-	<%-- 목록 --%>
-	table {
-		border-collapse: collapse;
-		margin-left:auto;margin-right:auto;
-		margin-top: 23px;
-	}
-	table th, table td {
-		position: static;
-		text-align: center;
-		margin: auto;
-		padding: 5px;
-		border: 1px #B9B9B9 solid;
-		border-collapse: collapse;
-	}
-	
-	table th:first-child,
-	table td:first-child {
-		border-left: 0;
-	}
-	
-	table th:last-child,
-	table td:last-child {
-		border-right: 0;
-	}
-	th { 
-		background-color: #E0EAF5;
-	}
-	.center { text-align: center; }
-	.border-none, .border-none td { border: none; }
-	
-	<%-- 버튼 --%>
-    .btn {
-    	border-radius: 5px;
-    	background-color: #2C307D;
-    	padding: 7px 18px;
-    	border: none;
-    	cursor: pointer;
-    	color: #FFFFFF;
-    	text-decoration: none;
-    	display: inline-block;
-    	border: 1px solid #2C307D;
-    }
-    .btn:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
-    	border: 1px solid #2C307D;
-    }
-    /* 버튼 정렬 */
-	.row, #searchDate {
-		display: flex;
-		gap: 10px;
-		justify-content: center;
-		align-items: center;
-	}
-	.row {
-		padding: 10px 0;
-	}
-	<%-- 버튼 배경색 변경 --%>
-    .btn.active {
-        background-color: #FFFFFF;
-        color: #2C307D;
-    	border: 1px solid #2C307D; 	
-    }
-	hr {
-  		border: 1px solid #2C307D;
-  	}
-	<%-- 제목 링크 --%>
-	a {	
-		color: #2C307D;
-		font-weight: bold;
-		text-decoration: none;	
-	}
-	a:hover {color:#FFA217;}
-	.paging {border-top-style: hidden; }
-	.paging a {
-		color: #2C307D;
-		font-weight: normal;
-	}
-	.paging a:hover {color:#FFA217;}
-	
-	<%-- 승인버튼 동적 작용 --%>
-	.condition-payment {
-		border-radius: 5px;
-    	background-color: #2C307D;
-    	padding: 7px 18px;
-    	border: none;
-    	cursor: pointer;
-    	color: #FFFFFF;
-    	text-decoration: none;
-    	display: inline-block;
-    	border: 1px solid #2C307D;
-    }
-    .condition-payment:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
-    	border: 1px solid #2C307D;
-    }
-    .condition-before {
-    	border-radius: 5px;
-    	background-color: #FFA217;
-    	padding: 7px 18px;
-    	border: none;
-    	cursor: pointer;
-    	color: #FFFFFF;
-    	text-decoration: none;
-    	display: inline-block;
-    	border: 1px solid #FFA217;
-    }
-    .condition-before:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
-    	border: 1px solid #2C307D;
-    }
-    .condition-after {
-        border-radius: 5px;
-    	background-color: #B8DAFF;
-    	padding: 7px 18px;
-    	border: none;
-    	cursor: pointer;
-    	color: #FFFFFF;
-    	text-decoration: none;
-    	display: inline-block;
-    	border: 1px solid #B8DAFF;
-    }
-    .condition-after:hover {
-    	background-color: #FFFFFF;
-    	color: #2C307D;
-    	border: 1px solid #2C307D;
-    }
-</style>
 </head>
 <body>
 <div id="container">
@@ -188,13 +58,63 @@
 <%-- \${endDate} : ${endDate}<br>   --%>
 <%-- \${searchCondition} : ${searchCondition}<br><hr> 	 --%>
 	<!-- 검색 -->
+	<br>
 	<form method="post">
 	<div id="getConditionSearch" class="center">
-		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
-		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=before">승인전</a>
-		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=after">승인완료</a>
-		<a class="btn" href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=payment">결제완료</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=all">전체</a>
+		<a class="none">|</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=before">승인전</a>
+		<a class="none">|</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=after">승인완료</a>
+		<a class="none">|</a>
+		<a href="getHosApprovalSearch.do?cPage=${pagingVO.nowPage}&searchCondition=payment">결제완료</a>
 	</div>
+	
+	<script>
+		document.addEventListener('DOMContentLoaded', (event) => {
+	        // 현재 URL에서 searchCondition 값을 가져옵니다.
+	        const params = new URLSearchParams(window.location.search);
+	        const searchCondition = params.get('searchCondition') || 'all';
+	        
+	        // 모든 링크 요소를 가져옵니다.
+	        const links = document.querySelectorAll('#getConditionSearch a');
+	        
+	        // 각 링크의 href 속성을 확인하여 searchCondition에 해당하는 경우 active 클래스를 추가합니다.
+	        links.forEach(link => {
+	            const url = new URL(link.href, window.location.origin);
+	            if (url.searchParams.get('searchCondition') === searchCondition) {
+	                link.classList.add('active');
+	            }
+	
+	            // 링크 클릭 시 이벤트를 가로채서 기본 동작을 방지합니다.
+	            link.addEventListener('click', (event) => {
+	                event.preventDefault();
+	                //alert(url.href); // 클릭한 링크의 URL을 출력합니다.
+	                
+	                const text = url.href;
+	                const searchString = "todoc";
+
+
+	                const result = extractStringAfter(text, searchString);
+	                console.log(result);
+	                
+	                function extractStringAfter(text, searchString) {
+	                    const index = text.indexOf(searchString);
+	                    if (index === -1) {
+	                        // searchString이 text에 없는 경우
+	                        return null;
+	                    }
+	                    // 검색된 문자열의 끝 인덱스 이후의 문자열을 추출
+	                    return text.slice(index + searchString.length);
+	                }
+	                // 여기서 원하는 동작을 수행
+	                const locRef = ".." + result;
+					location.href = locRef;
+	            });
+	        });
+	    });
+	</script>
+	
 	<hr>
 	<!-- 데이터 표시 -->
 	<table border frame=void >
@@ -203,12 +123,14 @@
 				<th width="70">번호</th>
 				<th width="70">분류</th>
 				<th width="300">병원명</th>
-				<th width="500">주소</th>
+				<th width="250">아이디</th>
+				<th width="250">비밀번호</th>
+<!-- 				<th width="500">주소</th> -->
 				<th width="200">진료시간</th>
 				<th width="250">전화번호</th>
 				<th width="200">사업자 등록증</th>
 				<th width="150">상태</th>
-				<th width="150">승인 관리</th>
+				<th width="150">관리</th>
 			</tr>
 		</thead>
 		<c:set var="hasSearchHos" value="false" scope="page"/>
@@ -219,7 +141,9 @@
 				<td class="center">${hospital['hosIdx'] }</td>
 				<td class="center">${hospital.animal }</td>
 				<td class="center"><a href="../hospital/hosDetail.do?hosIdx=${hospital.hosIdx}">${hospital.hosName }</a></td>
-				<td class="center">${hospital.roadAddressName} ${hospital.detailAddress}</td>
+				<td class="center">${hospital.hosId}</td>
+				<td class="center">${hospital.hosPw}</td>
+<%-- 				<td class="center">${hospital.roadAddressName} ${hospital.detailAddress}</td> --%>
 				<c:set var="openTime" value="${hospital.openTime}"/>
 				<c:set var="openTimeSub" value="${fn:substring(openTime, 0, 5)}"/>
 				<c:set var="closeTime" value="${hospital.closeTime}"/>
@@ -248,11 +172,12 @@
 		</c:if>
 		</tbody>
 		
-		<tfoot class="paging">
+		<tfoot id="paging">
 <!-- 		페이징 표시 없음 처리 -->
 <%-- 			<c:set var="hasPage" value="false" scope="page"/> --%>
 			<tr>
-				<td colspan="9">
+				<td colspan="10">
+<!-- 				<td colspan="9"> -->
 					<!-- [이전]에 대한 사용여부 처리 -->
 					<c:if test="${pagingVO.nowPage == 1}">
 						<span class="disable">이전</span>

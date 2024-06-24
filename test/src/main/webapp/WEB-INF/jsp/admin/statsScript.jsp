@@ -41,6 +41,7 @@
                     $("#searchDate").data("type", "monthlyRevenue"); // 검색 데이터 타입 설정
                     $("#result").empty(); // 검색 결과 초기화
                     initMonthlyRevenue(); // 초기 데이터 로드
+                    $(this).addClass("active");
                 });
                 
                 // 가입구분 버튼 표시
@@ -528,6 +529,6 @@
                         }
                     });
                 }
-                initMonthlyRevenue(); // 페이지 로드 후 차트표시
+                $("#monthlyRevenueBtn").trigger("click"); //페이지 로드 시 수익통계 화면 보이기
 			});
 		</script>

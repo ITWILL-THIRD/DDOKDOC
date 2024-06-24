@@ -1,23 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>postListCSS</title>
 <style>
-	#container { width: 1100px; margin: auto; }
+	#container {
+		width: 1100px;
+		margin: auto;
+	}
 	h1, h3, p { text-align: center; }
-	.center {width: 700px; margin: auto; padding:2px;}
-	button {
-		margin:1px;
-	} 
+  	.center {width: 700px; margin: auto; padding:2px; text-align: center;}
+ 	button { 
+ 		margin:1px; 
+ 	}  
 	<%-- 목록 --%>
 	table {
 		border-collapse: collapse;
 		margin-left:auto;margin-right:auto;
 		margin-top: 23px;
 	}
+	
 	table th, table td {
 		position: static;
 		text-align: center;
@@ -39,7 +38,6 @@
 	th { 
 		background-color: #E0EAF5;
 	}
-	.center { text-align: center; }
 	.border-none, .border-none td { border: none; }
 	
 	<%-- 검색창 --%>
@@ -47,7 +45,7 @@
 		padding: 10px;
 	}
 	.select {
-		width: 100px;
+		width: 160px;
 		height: 40px;
 		border: 1px solid #bbb;
 		border-radius: 5px;
@@ -72,61 +70,40 @@
 		background-color: #2C307D;
 		font-size: 14px;
 		color: white;
-    }
-    .searchBtn:hover {
-    	background-color: #4349B4;
-    }
-    
+	}
+	.searchBtn:hover {
+		background-color: #4349B4;
+	}
+	#getAdSearch { 
+		margin-bottom: -15px; 
+	} 
+	#getHosSearch { 
+		margin-bottom: 5px; 
+	}
+	<%-- 카테고리 버튼 활성화 --%>
+	.btn.active {
+        color: #FFA217;
+		text-decoration: none;	
+  		font-size:  1rem; 
+		font-weight: bold;
+	}
 	<%-- 버튼 --%>
     .btn {
-    	border-radius: 5px;
-    	background-color: #2C307D;
-    	padding: 7px 18px;
-    	border: none;
-    	cursor: pointer;
-    	color: #FFFFFF;
-    	text-decoration: none;
-    	 display: inline-block;
-    	 border: 1px solid #2C307D;
-    }
-    
-    .btn:hover {
-    	background-color: #FFFFFF;
     	color: #2C307D;
-    	border: 1px solid #2C307D;
+  		font-weight: bold;
+  		font-size:  1rem; 
+		border-style: none;
+     	background-color: #fff;
+     	cursor: pointer; 
     }
-    /* 버튼 정렬 */
-	.row, #searchDate {
-		display: flex;
-		gap: 10px;
-		justify-content: center;
-		align-items: center;
-	}
-	.row {
-		padding: 10px 0;
-	}
-	#searchDate {
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
-    <%-- 버튼 배경색 변경 --%>
-    .btn.active {
-        background-color: #FFFFFF;
-        color: #2C307D;
-    	border: 1px solid #2C307D; 	
+    .btn:hover {
+     	color: #FFA217; 
     }
-	hr {
-  		border: 1px solid #2C307D;
-  	}
-	<%-- 제목 링크 --%>
-	a {	
-		color: #FFA217;
-		color: #2C307D;
-		text-decoration: none;	
-	}
-	a:hover {color:#FFA217;}
-	
-	.searchBtn {
+    .none {
+    	border-style: none;
+    	background-color: #fff;
+    }
+    .searchBtn {
 		width: 70px;
 		height: 40px;
 		border-radius: 5px;
@@ -134,6 +111,7 @@
 		background-color: #2C307D;
 		font-size: 14px;
 		color: white;
+		cursor: pointer; 
     }
     .searchBtn:hover {
     	background-color: #4349B4;
@@ -142,11 +120,34 @@
     	display: inline-block;
         text-align: center;
     }
+	hr {
+  		border: 1px solid #2C307D;
+  		width: 895px;
+  	}
+	<%-- 제목 링크 --%>
+	a {text-decoration: none;} 
+	a[href^="hosDetail.do"] {	
+  		color: #2C307D;
+  		font-weight: bold;  
+		text-decoration: none;	
+	}
+	a:hover {color:#FFA217;}
+	tbody {border-bottom-style: hidden; }
 	
+	tfoot a {
+		color: #2C307D;
+		font-weight: normal;
+	}
+	tfoot a:hover {color:#FFA217;}
 	
+/* 	페이징 */
+	#paging td {
+		padding-top: 15px;
+	}
+	#paging span{
+		margin: 0 20px 0 20px;
+	}
+	#paging a {
+		text-decoration: none;
+	}
 </style>
-</head>
-<body>
-
-</body>
-</html>

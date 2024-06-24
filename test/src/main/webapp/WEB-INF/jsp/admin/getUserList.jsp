@@ -83,7 +83,7 @@
             </c:forEach>
         </c:otherwise>
     </c:choose>
-   <tfoot>
+   <tfoot id="paging">
 	<tr>
 		<td colspan="12">
 				<!-- [이전]에 대한 사용여부 처리 -->

@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>글등록</title>
-<jsp:include page="../../css/postCss.jsp"/>
+<jsp:include page="../common/navigation.jsp"/>
+<jsp:include page="../../css/insertBoard.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <script>
 function validateForm() {
@@ -23,19 +24,36 @@ function validateForm() {
     return true;
 }
 
+function displayFileName() {
+    const fileInput = document.getElementById('file');
+    const fileNameDisplay = document.getElementById('file-name');
+    if (fileInput.files.length > 0) {
+        fileNameDisplay.textContent = fileInput.files[0].name;
+    } else {
+        fileNameDisplay.textContent = '선택된 파일 없음';
+    }
+}
 
 function clearFileInput() {
-    var fileInput = document.getElementById("file");
-    fileInput.value = "";
+    const fileInput = document.getElementById('file');
+    const fileNameDisplay = document.getElementById('file-name');
+    fileInput.value = '';
+    fileNameDisplay.textContent = '선택된 파일 없음';
 }
+// function clearFileInput() {
+//     var fileInput = document.getElementById("file");
+//     fileInput.value = "";
+// }
 
 </script>
 </head>
 <body>
 
 <div id="container">
+	<h2>새글 등록</h2>
+	<hr>
 	<form name="insertForm" action="insertBoard.do" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
-	<table class="insertBoard top-margin">
+	<table class="insertBoard">
 		<tr>
 			<th>카테고리</th>
 			<td>
@@ -69,20 +87,26 @@ function clearFileInput() {
 		<tr>
 			<th>사진 첨부</th>
 			<td>
-				<input type="file" id="file" name="file">
-				<button type="button" onclick="clearFileInput()"  class="btnWhite">삭제</button>
+				<div class="file-input-wrapper">
+			        <input type="file" id="file" name="file" onchange="displayFileName()">
+			        <label for="file" class="file-input-label">파일 선택</label>
+			        <span class="file-name" id="file-name">선택된 파일 없음</span>
+			    </div>
+<!-- 				<input type="file" id="file" name="file"> -->
+				<button type="button" onclick="clearFileInput()" class="delBtn">삭제</button>
 			</td>
 		</tr>
-		<tr>
-			<td colspan="2" class="center">
-				<input type="submit" value="등록" class="btn">
-			</td>
-		</tr>
+<!-- 		<tr> -->
+<!-- 			<td colspan="2" class="center"> -->
+<!-- 				<input type="submit" value="등록" class="btn"> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
 	</table>
+	<input type="submit" class="btn" value="등록">
+	<input type="reset" class="resetBtn" value="초기화">
+	<input type="button" class="resetBtn" value="취소"
+	onclick="javascript:location.href='../board/getBoardList.do'">
 	</form>
-	<p>
-		<a href="getBoardList.do">글 목록 가기</a>
-	</p>
 </div>
 
 </body>

@@ -19,7 +19,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
-<jsp:include page="../../css/postListCss.jsp"/>
 <script>
 $(document).ready(function(){
 	const notice = '${notice}';
@@ -315,6 +314,14 @@ $(document).ready(function(){
   
 </script>
 <style>
+	#container { width: 1100px; margin: auto; }
+
+	#pageTitle{ 
+		margin-top: 20px;
+		text-align: center; 
+		font-weight: bold;
+	}
+
 	.fc-day-header {
 	  background-color: #E0EAF5;
 	}	
@@ -488,7 +495,7 @@ hr {
 <%-- \${hospital } : ${hospital } --%>
 <%-- \${reservationVO } : ${reservationVO }<br> --%>
 
-	<h1>예약변경하기</h1>
+	<h2 id="pageTitle">예약변경하기</h2>
   <div  id="container">
 	<hr>	
 	<div id="selectDateTimeDiv" class="container">

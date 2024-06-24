@@ -1,25 +1,79 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <style>
-  #reserBody {
+  #container {
     padding: 0;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
     font-size: 14px;
-    width: 2000px; 
+    width: 1100px; 
     margin: auto; 
-    margin-top: 50px;
   }
 
+	#calendar {
+	    margin: 0 auto;
+	    max-width: 500px;
+	    display: inline-block;
+	}
+	
+	.reserInfo {
+	    display: inline-block;
+	}
+
+	
+	#reservation { 
+		margin-top: 40px;
+		/* margin-left: 17px; */
+		margin-bottom: 20px;
+	}
+	#reservation table {
+		width: 800px;
+	}
+	.side {
+		margin-top: 37px;
+	 	position: sticky;
+	    float: left;
+	    margin-left: 0;
+	}
+	ul {
+	  list-style-type: none;
+	  margin: 0;
+	  padding: 0;
+	  width: 200px;
+	  display: flex;
+	  flex-direction: column;
+	  
+	}
+	
+	li a {
+	  display: block;
+	  color: #000;
+	  padding: 8px 16px;
+	  text-decoration: none;
+	  margin-right: auto;
+	}
+	
+	
+	li a:hover {
+	background-color: #F3F3F3;
+	  color: #FFA217;
+	}
+	#container2 {  
+	    width: 800px; 
+	    margin-left: auto;  /* margin-left 값을 auto로 변경 */
+	    margin-right: auto; /* margin-right 값을 추가 */
+	    margin-top: 37px;
+	    float: left;
+	}
+	
   #calendar {
-    max-width: 600px;
-    margin-left: 100px;
-    margin-right: 100px;
+  	margin-left: 150px;
+    max-width: 500px;
+    /* margin-left: 100px; */
+    /* margin-right: 100px; */
     display: inline-block;
   }
-  
   .reserInfo {
     display: inline-block;
-    vertical-align: top;
   }
   
   .time-btn {
@@ -45,27 +99,25 @@
 	  background-color: #6495ED; /* 버튼에 마우스를 올리면 약간 더 어두운 색으로 변경 */
 	} */
 	.reserDate {
-	  color: #f9fafb;
-	  background-color: #3182f6;
-	  margin: 30px 15px 0px 15px;
-	  font-size: 15px;
-	  font-weight: 600;
-	  line-height: 18px;
-	  white-space: nowrap;
-	  text-align: center;
-	  /* vertical-align: middle; */
-	  cursor: pointer;
-	  border: 0 solid transparent;
-	  user-select: none;
-	  transition: background 0.2s ease, color 0.1s ease;
-	  text-decoration: none;
-	  border-radius: 7px;
-	  padding: 11px 16px;
-	  width: 250px;
+		color: #f9fafb;
+		background-color: #3182f6;
+		margin: 30px 15px 0px 15px;
+		font-size: 15px;
+		font-weight: 600;
+		line-height: 18px;
+		white-space: nowrap;
+		text-align: center;
+		/* vertical-align: middle; */
+		cursor: pointer;
+		border: 0 solid transparent;
+		user-select: none;
+		transition: background 0.2s ease, color 0.1s ease;
+		text-decoration: none;
+		border-radius: 7px;
+		padding: 11px 16px;
+		width: 250px;
 	}
 
-/* 	.container { width: 2000px; margin: auto; margin-top: 40px;} */
-	h1, h3, p { text-align: center; }
 	.center { text-align: center; }
 
 	table { 
@@ -80,15 +132,54 @@
 		text-align: center;
 		border: none;
 	}
+	
+	
+	
+	#reservation table {
+		border-collapse: collapse;
+		margin-left:auto;margin-right:auto;
+		margin-top: 23px;
+	}
+	
+	#reservation table th, table td {
+		position: static;
+		text-align: center;
+		margin: auto;
+		padding: 5px;
+		border: 1px #B9B9B9 solid;
+		border-collapse: collapse;
+	}
+	
+	#reservation table th:first-child,
+	table td:first-child {
+		border-left: 0;
+	}
+	
+	#reservation table th:last-child,
+	table td:last-child {
+		border-right: 0;
+	}
+	#reservation th { 
+		background-color: #E0EAF5;
+	}
+/* 	#reservation tbody {
+		border-bottom-style: hidden;
+		border-top-style: hidden; 
+	}
+	 */
+	 #border-top-none {
+	 	border-top-style: hidden; 
+	 }
+	#listDisp {
+		border-bottom-style: hidden;
+	}
 
-	.table table-hove th { background-color: #B6E5FF; }
-
-	#reserBody {
+/* 	#reserBody {
 		margin: auto;
 		padding: 10px;
 		display: flex;
 		justify-content: center;
-	}
+	} */
 	
 	.reserTime {
 		color: blue;
@@ -107,5 +198,12 @@
 	.complete-btn:hover {
 		background-color: #3940C8;
 	}
-	li { font-size: 16px; }
+	
+	.reservNow {
+		font-size: 20px;
+		font-weight: bold;
+		margin-left: 17px;
+		margin-bottom: 10px;
+	}
+/* 	li { font-size: 16px; } */
 </style>

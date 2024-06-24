@@ -37,7 +37,6 @@
 	 	justify-content: space-between;
 	 	line-height: 30px;
 	}
-	
 	.logo {
 		font-weight: 600;
 		font-size: 1.5rem;
@@ -45,16 +44,14 @@
 		margin-left: 20px;
 
 	}
-	
 	.logo img {
 		height: 30px;
 	}
-	
 	.topnav {
 	  overflow: hidden;
 	  background-color: #fff;
+	  display: flex;
 	}
-	
 	.topnav a {
 	  float: left;
 	  display: block;
@@ -65,11 +62,16 @@
 	  margin-left: 10px;
 	  margin-right: 20px;
 	}
-	
 	.topnav a:hover {
 	  color: #E0EAF5;
 	}
-	
+	/* 현재 페이지의 네비게이션 링크 활성화 */
+/*	
+	.topnav a.active {
+ 		color: #FFA217; 
+		font-weight: bold; 
+	}
+*/	
 	.adminDropdown, .userDropdown {
 		float:right;
 		position: relative;
@@ -79,14 +81,14 @@
 	.dropdownList {
 		display: none;
  	  	position: fixed;
- 	  	right: 10px;
+ 	  	right: 95px;
  	  	top: 66px; /* 69px */
 		background-color: #f9f9f9;
    		min-width: 130px; /* 가로 */
-   		width: 150px; /* 세로 */
+   		width: 140px; /* 세로 */
   		z-index: 1;  
 	}
-	.adminDropdown:hover .dropdownList, .userDropdown:hover .dropdownList {
+	.adminDropdown:hover .dropdownList {
 		display: block;
 	}
 /* 	.dropdownList:active { */
@@ -102,7 +104,7 @@
 <div class="nav">
     <div class="logo">
         <a href="../index.jsp">
-        	<img src="../img/2.png" alt="로고">
+        	<img src="https://i.ibb.co/7zMj5XR/2.png" alt="토닥토닥로고">
     	</a>    
     </div>
     
@@ -110,26 +112,18 @@
     	<a href="../hospital/hosMain.do">병원예약</a>
         <a href="../board/getBoardList.do">정보나눔</a>
     	<c:if test="${empty sessionScope.hoUser and empty sessionScope.user}">
-    		<a href="../user/login.do">로그인 /회원가입</a>
+    		<a href="../user/selectLogin.do">로그인 /회원가입</a>
     	</c:if>
     	
     	<c:if test="${not empty sessionScope.hoUser}">
-    		<a href="../membership/checkout.do">멤버십</a>
+    		<a href="../membership/checkout.do">토닥+</a>
 	        <a href="../mypage/hoMyPage.do">병원 마이페이지</a>
 	        <a href="../logout.do">로그아웃</a>    		
     	</c:if>
     	
     	<c:if test="${sessionScope.user.role == 'user'}">
-    		<a href="../membership/usercheckout.do">멤버십</a>
-    		<div class="userDropdown">
-				<a href="../mypage/myPage.do">마이페이지</a>
-				<div class="dropdownList">
-					<a href="../mypage/myReserList.do">진료예약내역</a>
-					<a href="../mypage/myCancleReserList.do">취소예약내역</a>
-					<a href="../mypage/myReviewList.do">지난예약내역</a>
-					<a href="../mypage/myPostList.do">나의 게시물</a>
-				</div>	
-			</div>
+    		<a href="../membership/usercheckout.do">토닥+</a>
+			<a href="../mypage/myPage.do">마이페이지</a>
     		<a href="../logout.do">로그아웃</a>
     	</c:if>
     	<c:if test="${sessionScope.user.role == 'admin'}">
@@ -138,53 +132,32 @@
 				<div class="dropdownList">
 					<a href="../admin/getHosApprovalList.do">병원 승인</a>
 				    <a href="../admin/getUserList.do">개인 회원</a>
-					<a href="../admin/statsPage.do">통계</a>
+					<a href="../admin/statsPage.do">멤버십 통계</a>
 				</div>
 			</div>
 			<a href="../logout.do">로그아웃</a>
     	</c:if>
-    	
     </div>
-<!--     <div class="topnav"> -->
-<%--         <c:choose> --%>
-<%-- 	    	<c:when test="${sessionScope.user.role != 'admin'}"> --%>
-<!-- 		        <a href="../hospital/hosMain.do">병원예약</a> -->
-<!-- 		        <a href="../board/getBoardList.do">정보나눔</a> -->
-<!-- 		        <a href="../membership/checkout.do">멤버십</a> -->
-<%-- 		        <c:choose> --%>
-<%-- 					<c:when test="${empty sessionScope}"> --%>
-<!-- 				        <a href="../user/login.do">로그인 /회원가입</a> -->
-<%-- 				    </c:when> --%>
-<%-- 					<c:when test="${not empty sessionScope.hoUser}"> --%>
-<!-- 				        <a href="../logout.do">로그아웃</a> -->
-<!-- 				        <a href="../mypage/hoMyPage.do">병원 마이페이지</a> -->
-<%-- 				    </c:when> --%>
-<%-- 					<c:when test="${not empty sessionScope.user}"> --%>
-<!-- 				        <a href="../logout.do">로그아웃</a> -->
-<!-- 						<a href="../mypage/myPage.do">마이페이지</a> -->
-<%-- 				    </c:when> --%>
-<%-- 		        </c:choose> --%>
-<%-- 	    	</c:when> --%>
-	    	
-<%-- 			<c:otherwise> --%>
-<!-- 		        <a href="../hospital/hosMain.do">병원예약</a> -->
-<!-- 		        <a href="../board/getBoardList.do">정보나눔</a> -->
-<!-- 		        <a href="../membership/checkout.do">멤버십</a> -->
-<!-- 		        <a href="../logout.do">로그아웃</a> -->
-<!-- 				<a href="../mypage/myPage.do">관리자 마이페이지</a> -->
-		        
-<!-- 				<div class="adminDropdown"> -->
-<!-- 					<a>관리</a> -->
-<!-- 					<div class="dropdownList"> -->
-<!-- 						<a href="../admin/getApprovalList.do">병원 승인</a> -->
-<!-- 						<a href="../admin/statsPage.do">통계</a> -->
-<!-- 					    <a href="../admin/#">예약 내역</a> -->
-<!-- 					    <a href="../admin/#">회원</a> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<%-- 			</c:otherwise> --%>
-<%-- 		</c:choose>	 --%>
-<!--     </div> -->
+    
+<!--     <script> -->
+<!--  	    // 모든 네비게이션 링크 선택 -->
+<!--  	    const navLinks = document.querySelectorAll('.topnav a'); -->
+	
+<!--  	    // 각 링크에 클릭 이벤트 리스너 추가 -->
+<!--  	    navLinks.forEach(link => { -->
+<!--  	    	link.addEventListener('click', () => { -->
+<!--  	    		alert('link : ' + link); -->
+<!--  	    		// 이전에 활성화된 링크의 active 클래스 제거 -->
+<!--  	    	    const activeLink = document.querySelector('.topnav a.active'); -->
+<!--  	    	    if (activeLink) { -->
+<!--  	    	    	activeLink.classList.remove('active'); -->
+<!--  	    	    } -->
+<!--  	    	    // 현재 클릭된 링크에 active 클래스 추가 -->
+<!--  	    	    link.classList.add('active'); -->
+<!--      	    }); -->
+<!--  	    }); -->
+<!--     </script> -->
+    
 </div>
 
 </body>

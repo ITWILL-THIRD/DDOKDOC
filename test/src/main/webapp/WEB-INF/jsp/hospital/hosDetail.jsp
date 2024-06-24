@@ -49,7 +49,12 @@
 						<c:set var="endLunchTime" value="${hospital.endLunchTime}"/>
 						<c:set var="endLunchTimeSub" value="${fn:substring(endLunchTime, 0, 5)}"/>
 						<td>
-							평일 ${openTimeSub} - ${closeTimeSub}
+						<c:if test="${openTimeSub == '00:00' and closeTimeSub == '23:59'}">
+							평 일 24시간
+						</c:if>
+						<c:if test="!${openTimeSub == '00:00' and closeTimeSub == '23:59'}">
+							평 일 ${openTimeSub} - ${closeTimeSub}
+						</c:if>
 						</td>
 						<td>
 							<c:choose>
@@ -74,7 +79,12 @@
 						<c:set var="satEndLunchTime" value="${hospital.satEndLunchTime}"/>
 						<c:set var="satEndLunchTimeSub" value="${fn:substring(satEndLunchTime, 0, 5)}"/>
 						<td>
+						<c:if test="${satOpenTimeSub == '00:00' and satCloseTimeSub == '23:59'}">
+							토요일 24시간
+						</c:if>
+						<c:if test="!${satOpenTimeSub == '00:00' and satCloseTimeSub == '23:59'}">
 							토요일 ${satOpenTimeSub} - ${satCloseTimeSub}
+						</c:if>
 						</td>
 						<td>
 							<c:choose>
@@ -106,7 +116,12 @@
 			                      	<span class="holiday">휴무</span>
 			                    </c:when>
 								<c:otherwise>
-									 ${sunOpenTimeSub} - ${sunCloseTimeSub}
+									<c:if test="${sunOpenTimeSub == '00:00' and sunCloseTimeSub == '23:59'}">
+										24시간
+									</c:if>
+									<c:if test="!${sunOpenTimeSub == '00:00' and sunCloseTimeSub == '23:59'}">
+										${sunOpenTimeSub} - ${sunCloseTimeSub}
+									</c:if>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -148,31 +163,19 @@
 			</div>
 			<div id="map"></div>
 		</div>
-		<!-- 이미지 슬라이더 -->
-		<div class="carousel slide" id="slide" data-bs-ride="true">
-		    <div class="carousel-inner">
-		        <c:forEach var="img" items="${imgList}" varStatus="status">
-		            <c:if test="${status.index == 0}">
-		                <div class="carousel-item active">
-		                    <img src="${img.hosImg}" alt="병원 내부사진">
-		                </div>
-		            </c:if>
-		            <c:if test="${status.index != 0}">
-		                <div class="carousel-item">
-		                    <img src="${img.hosImg}" alt="병원 내부사진">
-		                </div>
-		            </c:if>
+			<!-- 이미지 갤러리 -->
+			<div class="image-gallery">
+		        <c:forEach var="img" items="${imgList}">
+		            <div class="image-item">
+		                <img src="${img.hosImg}" alt="병원 내부사진" onclick="openPopup(this)">
+		            </div>
 		        </c:forEach>
 		    </div>
-		    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
-		        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		        <span class="visually-hidden">Previous</span>
-		    </button>
-		    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
-		        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-		        <span class="visually-hidden">Next</span>
-		    </button>
-		</div>
+	
+	   	 	<div class="overlay" onclick="closePopup()"></div>
+	    	<div class="popup" id="popup">
+	        <img id="popup-img" src="" alt="팝업 이미지">
+	    </div>
 	</div>
 	<div id="rightContainer">
 		<button id="reservation" onclick="userCheck('${user}')">예약하기</button>
@@ -180,13 +183,7 @@
 			<div id="post">
 				<h3>공지사항</h3>
 				<div>
-			<%-- 		<input type="button" value="공지 등록" data-hos-idx="${hosIdx}" --%>
-			<!-- 			onclick="insertNotice(this.dataset.hosIdx)"> -->
 					<table>
-<!-- 					    <tr>
-					        <th>작성일</th>
-					        <th>제목</th>
-					    </tr> -->
 					    <c:choose>
 					        <c:when test="${empty notice}">
 					            <tr>
@@ -246,23 +243,14 @@
 				    </form>
 				</c:if>
 				<table>
-<!-- 					<tr>
-						<th width="50px">닉네임</th>
-						<th width="200px">내용</th>
-						<th width="50px">평점</th>
-						<th width="50px">방문일</th>
-						<th width="50px">등록일</th>
-						<th width="50px">수정</th>
-						<th width="50px">삭제</th>
-					</tr> -->
 					<tbody>
 						<c:if test="${empty reviewList}"><tr colspan="7">작성된 리뷰가 없습니다.</tr></c:if>
 						<c:forEach var="review" items="${reviewList}">
 							<div class="reviewContainer">
 							    <tr id="view_${review.reviewIdx}">
-							        <td id="nickname_view_${review.reviewIdx}" width="50px">${review.nickname}</td>
-							        <td id="content_view_${review.reviewIdx}" width="220px">${review.content}</td>
-							        <td id="score_view_${review.reviewIdx}" width="50px">
+							        <td id="nickname_view_${review.reviewIdx}" width="10%">${review.nickname}</td>
+							        <td id="content_view_${review.reviewIdx}" width="35%">${review.content}</td>
+							        <td id="score_view_${review.reviewIdx}" width="10%">
 							            <c:choose>
 							                <c:when test="${review.score eq 1}">&#9733;</c:when>
 							                <c:when test="${review.score eq 2}">&#9733;&#9733;</c:when>
@@ -271,12 +259,12 @@
 							                <c:when test="${review.score eq 5}">&#9733;&#9733;&#9733;&#9733;&#9733;</c:when>
 							            </c:choose>
 							        </td>
-							        <td width="130px">${review.reserDate} 방문</td>
+							        <td width="25%">${review.reserDate} 방문</td>
 							        <!-- 사용자 본인만 리뷰 수정,삭제 가능 -->		        
 							        <c:if test="${review.userIdx eq userIdx}">	        
-									    <td width="20px"><button class="ubtn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
+									    <td width="10%"><button class="ubtn" type="button" onclick="editReview(${review.reviewIdx})">수정</button></td>
 									    <form id="deleteReviewForm_${review.reviewIdx}" action="deleteReview.do" method="POST">				    
-									        <td width="20px">			 
+									        <td width="10%">			 
 									            <input type="hidden" name="reviewIdx" value="${review.reviewIdx}">
 									            <input type="hidden" name="hosIdx" value="${hospital.hosIdx}">			        	
 									            <input type="hidden" name="reserIdx" value="${review.reserIdx}">			        	
@@ -284,11 +272,7 @@
 									        </td> 
 									    </form>
 									</c:if>
-
 							    </tr>
-<%-- 							    <tr>
-							        <td width="150px">${review.reviewDate} 작성</td>
-							    </tr> --%>
 							    <tr id="edit_${review.reviewIdx}" class="hidden">
 								    <form action="updateReview.do" method="POST">
 								        <td>${review.nickname}</td>	        
@@ -328,17 +312,23 @@
 </div>
 <jsp:include page="partials/hosDatailJS.jsp"></jsp:include>
 <script>
-	// 로그인 유무 체크
+//로그인 유무 체크
 	function userCheck() {
 		const userCondition = '${user.condition}';
+		const hoUser = '${hoUser}';
 		console.log('userCondition:', userCondition);
 		if (userCondition === 'null' || userCondition === '') { // JSP에서 null인 경우 'null' 문자열로 전달될 수 있음
-            alert("로그인 후 예약이 가능합니다.");
-            location.href="../user/login.do";
-        } else if (userCondition === '결제전') {
-            alert("멤버십 가입 후 예약이 가능합니다.");
-        } else if (userCondition === '결제완료')
-            location.href="../reservation/reservation.do?hosIdx=" + ${hospital.hosIdx};
+	        if (hoUser != 'null') {
+	        	alert("병원계정은 예약이 불가능합니다.");
+	        	return false;
+	        }
+			alert("로그인 후 예약이 가능합니다.");
+	        location.href="../user/login.do";
+	    } else if (userCondition === '결제전') {
+	        alert("토탁플러스 가입 후 병원예약이 가능합니다.");
+	    } else if (userCondition === '결제완료')
+	        location.href="../reservation/reservation.do?hosIdx=" + ${hospital.hosIdx};
+		
 	}
 </script>
 </body>

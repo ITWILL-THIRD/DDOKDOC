@@ -29,18 +29,18 @@
 	        '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
 	    </c:forEach>
 	];
- 	alert(closedDates);
+ 	/* alert(closedDates); */
 
 	var calendar = new FullCalendar.Calendar(calendarEl, {
       	googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
       	plugins: [ 'interaction', 'dayGrid', 'googleCalendar' ],
       	header: {
-        	left: 'prevYear,prev,next,nextYear today',
+      		left: 'today',
         	center: 'title',
-        	right: 'dayGridMonth,dayGridWeek,dayGridDay'
+      		right: 'prevYear,prev,next,nextYear'
       	},
       	editable: false,
-      	eventLimit: true, // allow "more" link when too many events
+      	eventLimit: true, 
       	selectable: true,
       	eventSources:[
 	        {
@@ -64,7 +64,6 @@
 	        }
       	},
       	dateClick: function(info) {
-        	alert(info.dateStr);
         
 	        var today = new Date();
 	        today.setHours(0, 0, 0, 0); // 시간을 0으로 설정해야 오늘 날짜를 클릭 가능함.
@@ -79,24 +78,29 @@
 	        if (closedDates.includes(info.dateStr)) {
 	          if (confirm(info.dateStr + "휴무지정 취소하시겠습니까?")) {
 	        	  //휴무 취소 함수 실행시키기
-	        	  alert("휴무 취소하기");
 	        	  deleteHoliday(info.dateStr);
 	          } else {
 		          return;
 	          }
 	        } else {
 	        	selectedDates.push(info.dateStr);
-	          	info.dayEl.style.backgroundColor = 'lightblue'; // 선택된 색상 설정
+	          	info.dayEl.style.backgroundColor = '#E0EAF5'; // 선택된 색상 설정
 	        	
-		          // 선택되지 않은 날짜일 경우 선택
-		          if (confirm(info.dateStr + "휴무지정 하시겠습니까?")) {
-		        	  //휴무 지정 함수 실행시키기
-		        	  alert("휴무 지정하기");
-		        	  insertHoliday(info.dateStr);
-		          } else {
-		        	  
-		        	  return;
-		          }
+	         	// 선택되지 않은 날짜일 경우 선택
+                if (confirm(info.dateStr + " 휴무지정 하시겠습니까?")) {
+                    selectedDates.push(info.dateStr);
+                    info.dayEl.style.backgroundColor = '#E0EAF5'; // 선택된 색상 설정
+                    // 휴무 지정 함수 실행시키기
+                    insertHoliday(info.dateStr);
+                } else {
+                    // 선택 취소 시 선택된 색상 되돌리기
+                    info.dayEl.style.backgroundColor = '';
+                    var index = selectedDates.indexOf(info.dateStr);
+                    if (index > -1) {
+                        selectedDates.splice(index, 1);
+                    }
+                    return;
+                }
 	        	
 	        }
 	        
@@ -147,50 +151,136 @@
 </script>
 <title>병원 휴무일 등록 페이지</title>
 <style>
-  #reserBody {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
+	#container { width: 800px; margin: auto; }
+
+	#pageTitle{ 
+		margin-top: 20px;
+		text-align: center; 
+		font-weight: bold;
+	}
+	
+	.fc-day-header {
+	  background-color: #E0EAF5;
+	}
+	
+   #selectPetDiv, #selectDateTimeDiv {
+	float: left;
+    vertical-align: top;
+    margin-top: 20px;
+  }
+
+  #selectPetDiv {
+    width: calc(30% - 5px);
+    height: 530px;
+    box-sizing: border-box; 
+  	border: 1px solid gray;
+  	border-radius: 5px;
+  	padding: 5px;
+  }
+  
+  #selectPet {
+  	border: 1px solid #bbb;
+  	border-radius: 10px;
+    width: 100%;
+    height: 50px;
+    font-size: 20x; 
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  #selectDateTimeDiv {
+    width: calc(70% - 5px);
+    margin-left: 10px; /* Adjust margin between the two divs */
+    display: flex; /* Flexbox 레이아웃 설정 */
+    align-items: flex-start; /* 위쪽 정렬 */
+
+    /* 선택적으로 간격을 조정할 수 있습니다. */
+    gap: 10px; /* 요소 사이의 간격 */
   }
 
   #calendar {
-    max-width: 700px;
-    margin-left: 100px;
-    display: inline-block;
+  	margin: auto;
+  	flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
+    max-width: 700px; /* 최대 너비 설정 */
   }
   
-  .reserInfo {
-    display: inline-block;
-    vertical-align: top;
-  }
-  
-  .time-btn {
-       margin: 5px;
-       padding: 10px;
-       border: 1px solid #ccc;
-       background-color: #f9f9f9;
-       cursor: pointer;
+   .btn {
+     margin-bottom: 0px;
+     width: 70%;
+     height: 200px;
+     font-size: 16px;
+   }	
+   	
+   .btn.selected {
+       background-color: #E0EAF5;
    }
+   
 
-   .time-btn.selected {
-       background-color: lightblue;
-   }
   
+    /* 모달의 스타일이 기존 CSS와 충돌하지 않도록 별도로 스타일링 */
+.modal-content {
+    background-color: white; /* 모달의 배경색을 흰색으로 설정 */
+    border-radius: 10px; /* 모달의 테두리를 둥글게 설정 */
+}
+
+.modal-header, .modal-footer {
+    border-bottom: 1px solid #e9ecef;
+    border-top: 1px solid #e9ecef;
+}
+
+.modal-title {
+    font-size: 20px;
+}
+
+.modal-body {
+    font-size: 16px;
+    text-align: left;
+}
+
+.modal-footer .btn {
+	width: 100px;
+	height: 30px;
+    font-size: 14px;
+}
+
+hr {
+  border: 1px solid #2C307D;
+  margin-bottom: 20px;
+  }
+  
+  /* FullCalendar 상단 버튼 스타일링 */
+    .fc-button {
+        background-color: #2C307D; /* 원하는 배경색으로 변경 */
+        border-color: #2C307D; /* 원하는 테두리색으로 변경 */
+        color: white; /* 텍스트 색상 변경 */
+    }
+
+    .fc-button:hover {
+        background-color: #1A1F56; /* 버튼 호버 시 색상 변경 */
+        border-color: #1A1F56; /* 호버 시 테두리색 변경 */
+    }
+
+    .fc-button:active {
+        background-color: #2C307D; /* 버튼 클릭 시 색상 변경 */
+        border-color: #2C307D; /* 클릭 시 테두리색 변경 */
+    }
 </style>
 </head>
 <body>
-\${hoUser} : ${hoUser }
-\${hosHolidayList} : ${hosHolidayList }
-	<h2>병원 휴무일 등록</h2>
-	<div id="calendar" class="reserInfo"></div>
-	<form id="holidayForm" action="insertHosHoliday.do" method="post">
-		<input type="hidden" id="holiday" name="holiDateStr">
-		<input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
-	</form>
-	<form id="DelHolidayForm" action="deleteHosHoliday.do" method="post">
-		<input type="hidden" id="holiDateStr" name="holiDateStr" >
-		<input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
-	</form>
+<%-- \${hoUser} : ${hoUser }
+\${hosHolidayList} : ${hosHolidayList } --%>
+	<h2 id="pageTitle">병원 휴무일 등록</h2>
+	<div id="container">
+	<hr>
+		<div id="calendar" class="reserInfo"></div>
+		<form id="holidayForm" action="insertHosHoliday.do" method="post">
+			<input type="hidden" id="holiday" name="holiDateStr">
+			<input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
+		</form>
+		<form id="DelHolidayForm" action="deleteHosHoliday.do" method="post">
+			<input type="hidden" id="holiDateStr" name="holiDateStr" >
+			<input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
+		</form>
+	</div>
 </body>
 </html>

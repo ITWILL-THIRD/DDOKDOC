@@ -57,6 +57,8 @@
 		font-size: 14px;
 	}
 	.searchBtn {
+		width: 70px;
+		height: 40px;
 		border-radius: 5px;
     	background-color: #2C307D;
     	padding: 7px 18px;
@@ -69,20 +71,54 @@
 		background-color: #FFFFFF;
     	color: #2C307D;
     	border: 1px solid #2C307D;}
-	
+	hr {
+  		border: 1px solid #2C307D;
+  	}
 	<%-- 제목 링크 --%>
-	a {	
+	a {text-decoration: none;} 
+	a[href^="get"] {	
 		 color: #2C307D;
+      	 text-decoration: none;
+      	 margin: 0 10px 0 10px; 
          font-weight: bold;  
-      	 text-decoration: none; 
 	}
 	a:hover {color:#FFA217;}
-	
-		
+	<%-- 카테고리 버튼 활성화 --%>
+	a[href^="getBoardList.do"].active {
+        color: #FFA217;
+		text-decoration: none;	
+		margin: 0 10px 0 10px;
+		font-weight: bold;
+	}
+	#paging a {
+		color: #2C307D;
+		text-decoration: none;
+		font-weight: normal;
+	}
+	#paging a:hover {color:#FFA217;}
+	a.none {
+		color: #2C307D;
+		font-weight: bold;
+	}	
 	hr {
-  border: 1px solid #2C307D;
-  }
-
+  		border: 1px solid #2C307D;
+  	}
+	tbody {border-bottom-style: hidden; }
+	/* 	페이징 */
+	tfoot a {
+		color: #2C307D;
+		font-weight: normal;
+	}
+	tfoot a:hover {color:#FFA217;}
+	#paging td {
+		padding-top: 15px;
+	}
+	#paging span{
+		margin: 0 20px 0 20px;
+	}
+	#paging a {
+		text-decoration: none;
+	}
 </style>
 </head>
 <body>

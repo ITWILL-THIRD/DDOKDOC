@@ -80,6 +80,8 @@ function deleteComment(commentIdx) {
 </head>
 <body>
 <div id="container">
+	<h2>게시글 등록</h2>
+	<hr>
 	<form action="updateBoard.do" method="get">
 		<input type="hidden" name="postIdx" value="${board.postidx }">
 		<hr  class="top-margin hr">
@@ -112,7 +114,7 @@ function deleteComment(commentIdx) {
 			
 		</tr>
 		<tr>
-			<td  style="white-space:pre-line" colspan="6" class="content">
+			<td style="white-space:pre-line" colspan="6" class="content">
 				${board.content}
 				<c:if test="${not empty board.img}">
 				<c:forEach var="board.img" items="${board.img}">
@@ -125,8 +127,10 @@ function deleteComment(commentIdx) {
 	</form>
 	<p>
 	<c:if test="${user.userIdx == board.useridx}">
-		<a href="getUpdateBoard.do?postidx=${board.postidx }">수정 |</a>
-		<a href="deleteBoard.do?postidx=${board.postidx }">삭제 |</a>
+		<a href="getUpdateBoard.do?postidx=${board.postidx }">수정</a>
+		<a class="none">|</a>
+		<a href="deleteBoard.do?postidx=${board.postidx }">삭제</a>
+		<a class="none">|</a>
 	</c:if>  	
 		<a href="getBoardList.do"> 목록</a>
 	</p>
@@ -158,12 +162,12 @@ function deleteComment(commentIdx) {
 
 	            <p>작성자 : ${comment.nickname}${comment.hosname} | 작성일시 : ${comment.formattedCommentDate }
 	            <c:if test="${user.userIdx == comment.useridx}">
-	                <button type="button" onclick="editComment(${comment.commentidx})" class="btn deleteBtn">수정</button>
-	                <button type="button" onclick="deleteComment(${comment.commentidx})" class="btn deleteBtn">삭제</button></p>
+	                <button type="button" onclick="editComment(${comment.commentidx})" class="btn upBtn">수정</button>
+	                <button type="button" onclick="deleteComment(${comment.commentidx})" class="btn delBtn">삭제</button></p>
 	            </c:if> 
 	            <c:if test="${hoUser.hosIdx == comment.hosidx}">
-	           		<button type="button" onclick="editComment(${comment.commentidx})" class="btn deleteBtn">수정</button>
-	                <button type="button" onclick="deleteComment(${comment.commentidx})" class="btn deleteBtn">삭제</button></p>
+	           		<button type="button" onclick="editComment(${comment.commentidx})" class="btn upBtn">수정</button>
+	                <button type="button" onclick="deleteComment(${comment.commentidx})" class="btn delBtn">삭제</button></p>
 	            </c:if> 
 	            <p id="content-${comment.commentidx}">${comment.content}</p>
 	            <input type="hidden" name="commentidx" value="${comment.commentidx}">

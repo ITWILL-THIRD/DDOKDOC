@@ -41,80 +41,26 @@
 	}
 
 	th { 
+		background-color: #E0EAF5;
+	}
 	
-	background-color: #E0EAF5;
-	 }
 	.center { text-align: center; }
 	.border-none, .border-none td { border: none; }
 	
-	<%-- 검색창 --%>
-	#category {
-		padding: 10px;
+	.center {
+		margin-bottom: 20px;
 	}
-	.selectTb {
-	border: none;
-	}
-	.select {
-width: 100px;
-height: 40px;
- border: 1px solid #bbb;
-border-radius: 5px;
-  padding: 10px 12px;
-  font-size: 14px;
-}
-.search {
-position: relative;
-	margin-top: 16px;
-  width: 200px;
-  height: 19px;
-  border: 1px solid #bbb;
-border-radius: 5px;
-  padding: 10px 12px;
-  font-size: 14px;
-}
-.center {
-margin-bottom: 20px;
-}
 	<%-- 제목 링크 --%>
-	a {	
+	.hosNameLink {	
+		font-weight: bold;
 		color: #2C307D;
 		text-decoration: none;	
 	}
-	a:hover {color:#FFA217;}
 	
-    .searchBtn {
-    width: 70px;
-  height: 40px;
-  border-radius: 5px;
-  border : none;
-  background-color: #2C307D;
-  font-size: 14px;
-  color: white;
-    }
-    .searchBtn:hover {
-    	background-color: #4349B4;
-    }
-    
-   .searchForm{
-    display: inline-block;
-          text-align: center;
-    }	
-    
-    .resetBtn{
-    width: 70px;
-  height: 40px;
-  border-radius: 5px;
-  border : 1px solid #2C307D;
-  background-color: white;
-  color: #2C307D;
-  font-size: 14px;
- 
-    }
-    .resetBtn:hover {
-    	background-color: #EAEAEA;
-    	
-    }
-    
+	.hosNameLink:hover {
+		color:#FFA217;
+	}
+	
     
         /* 버튼 */
     .btn {
@@ -125,8 +71,8 @@ margin-bottom: 20px;
     	cursor: pointer;
     	color: #FFFFFF;
     	text-decoration: none;
-    	 display: inline-block;
-    	 border: 1px solid #2C307D;
+    	display: inline-block;
+    	border: 1px solid #2C307D;
     }
     
     .btn:hover {
@@ -134,64 +80,21 @@ margin-bottom: 20px;
     	color: #2C307D;
     	border: 1px solid #2C307D;
     }
-    /* 버튼 배경색 변경 */
-    .btn.active {
-        background-color: #FFFFFF;
-        color: #2C307D;
-    	border: 1px solid #2C307D; 	
-    }
 	
-    
-	/* 버튼 정렬 */
-	.row, #searchDate {
-		display: flex;
-		gap: 10px;
-		justify-content: center;
-		align-items: center;
-	}
-	.row {
-		padding: 10px 0;
-	}
-	#searchDate {
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
-	
-    /* 버튼 배경색 변경 */
-    .btn.active, .dateBtn.active {
-        background-color: #2C307D;
-        color: #FFFFFF;   	
-    }
-	.dateBtn.active {
-        background-color: #2E77AE;
-	}
 
   hr {
- 
-  border: 1px solid #2C307D;
+  	border: 1px solid #2C307D;
   }
-  
-  #reserDetailBtn {
-  	border: none;
-  	background-color: white;
-  	color: #2C307D;
-  	text-decoration: none;
-  }
-  
-  #reserDetailBtn:hover {
-  	color:#FFA217;
-  }
-    
-	
 </style>
 </head>
 <body>
 <%-- \${myReserList } : ${myReserList }<br><br>
 \${myOldReserList } : ${myOldReserList }<br><br>
 \${myCancleReserList } : ${myCancleReserList }<br><br> --%>
-	<h1>예약 내역 보기</h1>
+	<h1>진료예약내역</h1>
 	<div id="container">
 		<hr>
+		<a class="hosNameLink" href="myPage.do">마이페이지 가기</a>
 		<table border frame=void>
 			<tr class="reserHead">
 				<th>번호</th>
@@ -201,18 +104,27 @@ margin-bottom: 20px;
 				<th>시간</th>
 				<th>예약변경/취소</th>
 			</tr>
-		<c:forEach var="reser" items="${myReserList }">
-			<tr>
-				<td>${reser.rownum }</td>
-				<td><a href="../hospital/hosDetail.do?hosIdx=${reser.hosIdx}">${reser.hosName }</a></td>
-				<td>${reser.petName }</td>
-				<td>${reser.reserDate }</td>
-				<td>${reser.formattedTime }</td>
-				<td>
-					<button id="reserDetailBtn" onclick="reservationDetail(${reser.reserIdx})">상세보기</button>
-				</td>
-			</tr>
-		</c:forEach>
+			<c:choose>
+				<c:when test="${myReserList.size() == 0 }">
+					<tr>
+						<td colspan="6">예약 내역이 없습니다.</td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="reser" items="${myReserList }">
+						<tr>
+							<td>${reser.rownum }</td>
+							<td><a class="hosNameLink" href="../hospital/hosDetail.do?hosIdx=${reser.hosIdx}">${reser.hosName }</a></td>
+							<td>${reser.petName }</td>
+							<td>${reser.reserDate }</td>
+							<td>${reser.formattedTime }</td>
+							<td>
+								<button class="btn" onclick="reservationDetail(${reser.reserIdx})">상세보기</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</table>
 	</div>
 	
