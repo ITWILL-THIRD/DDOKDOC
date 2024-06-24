@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.todoc.hospital.HospitalService;
 import com.todoc.hospital.HospitalVO;
 import com.todoc.membership.HosMembershipService;
 import com.todoc.membership.HosMembershipVO;
@@ -34,7 +35,8 @@ import java.util.Base64;
 @RequestMapping("/membership")
 @Controller
 public class PayController {
-	
+	@Autowired
+	HospitalService hospitalService;
 	private HosMembershipService hosmembershipService;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -139,9 +141,8 @@ public class PayController {
     @RequestMapping(value = "/checkout.do", method = RequestMethod.GET)
     public String index(HttpServletRequest request, HttpSession session, Model model) throws Exception {
     	HospitalVO hvo = (HospitalVO) session.getAttribute("hoUser");
-    	
+    	hvo = hospitalService.selectOne(hvo.getHosIdx());
     	System.out.println("hvo.getCondition() : " + hvo.getCondition());
-    	hvo.setCondition(hvo.getCondition());
     	session.setAttribute("hoUser", hvo);
     	
         boolean isApproved = hvo != null && "승인완료".equals(hvo.getCondition());
