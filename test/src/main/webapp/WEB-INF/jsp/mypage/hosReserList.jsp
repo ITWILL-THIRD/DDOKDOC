@@ -285,17 +285,20 @@
 </script>
 </head>
 <body>
-	<div id="container">
-		<div class="side">
-			<ul>
-				<li><a href="hoMyPage.do">마이페이지</a></li>
-				<li class="reservNow">병원예약현황</li>
-			  	<li><a href="hosNotice.do">공지사항 작성</a></li>
-			  	<li><a href="hosReviewList.do">리뷰목록 조회</a></li>
-			  	<li><a href="insertHosHoliday.do">휴무일 등록</a></li>
-			</ul>
-		</div>
-	    <div id="container2">    
+<h2 class="title">병원예약 현황</h2>
+<!-- 	<div id="container"> -->
+<!-- 		<div class="side"> -->
+<!-- 			<ul> -->
+<!-- 				<li><a href="hoMyPage.do">마이페이지</a></li> -->
+<!-- 				<li class="reservNow">병원예약현황</li> -->
+<!-- 			  	<li><a href="hosNotice.do">공지사항 작성</a></li> -->
+<!-- 			  	<li><a href="hosReviewList.do">리뷰목록 조회</a></li> -->
+<!-- 			  	<li><a href="insertHosHoliday.do">휴무일 등록</a></li> -->
+<!-- 			</ul> -->
+<!-- 		</div> -->
+	    <div id="container">  
+		<a id="linkTag" href="hoMyPage.do">병원 마이페이지 가기</a>  
+	    <hr>
 	    	<div id="calendar" class="reserInfo"></div>
 	   		<table id="reservation">
 				<thead>
@@ -313,6 +316,5 @@
 			    </tbody>
 			</table>
 	    </div>
-	</div>
 </body>
 </html>

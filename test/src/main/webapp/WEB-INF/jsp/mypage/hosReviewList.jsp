@@ -8,25 +8,18 @@
 <head>
 <meta charset="UTF-8">
 <title>병원 리뷰 목록</title>
-<jsp:include page="../../css/postCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <style>
-	#container {
-	    padding: 0;
-	    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	    font-size: 14px;
-	    width: 1100px; 
-	    margin: auto; 
-  	}
-  	#container2 {  
+	
+  	#container {  
 		width: 800px; 
-		margin-left: 220px;
+		margin-left: auto;
+		margin-right: auto;
 		margin-top: 37px;
-		foat: left;
 	}
 	
-	#container2 table {
+	#container table {
 		width: 800px;
 	}
 	.side {
@@ -159,20 +152,27 @@
 		font-size: 18px bold;
 		font-weight: bold;
 	}
+	hr {
+ 
+  border: 1px solid #2C307D;
+  }
+  h1{ text-align: center; }
+  #linkTag {	
+		font-weight: bold;
+		color: #2C307D;
+		text-decoration: none;	
+	}
+	
+	#linkTag:hover {
+		color:#FFA217;
+	}
 </style>
 </head>
 <body>
-	<div id="container">
-		<div class="side">
-			<ul>
-				<li><a href="hoMyPage.do">마이페이지</a></li>
-			  	<li><a href="hosReserList.do">병원예약 현황</a></li>
-			  	<li><a href="hosNotice.do">공지사항 작성</a></li>
-			  	<li class="review">리뷰목록 조회</a></li>
-			  	<li><a href="insertHosHoliday.do">휴무일 등록</a></li>
-			</ul>
-		</div>
-		<div id="container2">
+<h1>리뷰목록</h1>
+		<div id="container">
+		<a id="linkTag" href="hoMyPage.do">병원 마이페이지 가기</a>
+		<hr>
 			<p>총 평점 &nbsp;
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16" color="#B6E5FF">
 					<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
@@ -214,6 +214,5 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
 </body>
 </html>

@@ -93,8 +93,8 @@
 \${myCancleReserList } : ${myCancleReserList }<br><br> --%>
 	<h1>진료예약내역</h1>
 	<div id="container">
-		<hr>
 		<a class="hosNameLink" href="myPage.do">마이페이지 가기</a>
+		<hr>
 		<table border frame=void>
 			<tr class="reserHead">
 				<th>번호</th>

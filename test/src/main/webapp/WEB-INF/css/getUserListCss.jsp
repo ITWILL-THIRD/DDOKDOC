@@ -35,7 +35,11 @@
 	table th:last-child,
 	table td:last-child {
 		border-right: 0;
+		
 	}
+	table tr:nth-last-child(2) td, table tr:nth-last-child(2) th {
+      border-bottom: none;
+    }
 
 	th { 
 	
@@ -48,6 +52,9 @@
 	#category {
 		padding: 10px;
 	}
+	#condition {
+	padding: 10px;
+	}
 	.selectTb {
 	border: none;
 	}
@@ -58,6 +65,7 @@ height: 40px;
 border-radius: 5px;
   padding: 10px 12px;
   font-size: 14px;
+  margin-right: 5px;
 }
 .search {
 position: relative;
@@ -69,15 +77,35 @@ border-radius: 5px;
   padding: 10px 12px;
   font-size: 14px;
 }
-.center {
-margin-bottom: 20px;
+.hr {border: 1px solid #E0EAF5;  }
+h2 {
+text-align: center;
 }
+.content { min-height: 200px;}
+
+<%-- 카테고리 버튼 활성화 --%>
+	a[href^="userReservPage.do"].active {
+        color: #FFA217;
+		text-decoration: none;	
+		margin: 0 10px 0 10px;
+		font-weight: bold;
+	}
+	
+	a.none {
+		color: #2C307D;
+		font-weight: bold;
+		
+	}	
+	
+
+
 	<%-- 제목 링크 --%>
 	a {text-decoration: none;} 
 	a[href^="user"] {	
 		font-weight: bold;
 		color: #2C307D;
 		text-decoration: none;	
+		margin: 0 10px 0 10px;
 	}
 	a:hover {color:#FFA217;}
 	

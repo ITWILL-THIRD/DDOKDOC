@@ -34,6 +34,7 @@
 	table td:last-child {
 		border-right: 0;
 	}
+	
 	.border-none, .border-none td { border: none; }
 	
 	.getBoard {

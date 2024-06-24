@@ -120,8 +120,8 @@ function deleteNotice(hosIdx){
 <%-- \${hoUser } : ${hoUser } --%>
 <%-- \${hoUser.hosIdx } : ${hoUser.hosIdx } --%>
 	<div id="container">
-		<hr>
 		<a id="linkTag" href="hoMyPage.do">병원 마이페이지 가기</a>
+		<hr>
 		<div>
 			<c:choose>
 				<c:when test="${not empty notice}">

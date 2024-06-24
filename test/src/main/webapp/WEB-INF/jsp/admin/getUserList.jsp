@@ -49,11 +49,10 @@
             <th width="7%">프로필</th>
             <th width="10%">이메일</th>
             <th width="7%">이름</th>
-            <th width="15%">전화번호</th>
+            <th width="13%">전화번호</th>
 	        <th width="7%">예약완료</th>
 	        <th width="7%">진료완료</th>
-	        <th width="5%">노쇼</th>
-	        <th width="7%">예약현황</th>
+	        <th width="8%">예약현황</th>
             <th width="5%">리뷰</th>
 	        <th width="6%">게시물</th>
 	        <th width="5%">댓글</th>
@@ -74,7 +73,6 @@
                     <td>${user.phone}</td>
                     <td>${user.reserCount }</td>
 			        <td>${user.finishCount }</td>
-			        <td>${user.noShowCount }</td>
 			        <td><a href="userReservPage.do?userIdx=${user.userIdx}">예약현황</a></td>
                     <td><a href="userReviewList.do?userIdx=${user.userIdx}">${user.reviewCount}</a></td>
                     <td><a href="userPostList.do?userIdx=${user.userIdx}">${user.postCount}</a></td>
