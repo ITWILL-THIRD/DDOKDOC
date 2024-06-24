@@ -93,20 +93,19 @@
 	
 	/* -----병원정보----- */
 	#leftContainer {
-	    margin-top: 20px;
+	    margin-top: 50px;
 	    width: 500px;
 	    overflow: hidden;
 	}
 	
 	#hospital {
+		margin: 0 auto;
 	    width: 400px;
 	    display: flex;
 	    align-items: center; /* 수직 중앙 정렬 */
 	    vertical-align: middle;
 	    position: relative;
 	    flex-direction: column; /* 자식을 수직으로 배치 */
-	    margin-top: 50px
-	    margin-right: 20px;
 	}
 	
 	#hosDetailContainer{
@@ -142,33 +141,38 @@
 	
 	/* -----submit 버튼-----  */
 	.sbtn {
+		margin: 0 auto;
 		border: none;
 		width:80px;
 		height: 30px;
-		border-radius: 10px 10px;
-		background-color: #B6E5FF;
+		border-radius: 5px;
+		border : none;
+		background-color: #2C307D;
 		margin: 10px;
+		color: white;
 	}
 	.sbtn:hover  {
-		color: #FFFFFF; 
-		background-color: #2C307D;
+		background-color: #4349B4;
 	}
 	
 	.ubtn {
+		margin: 0 auto;
 		border: none;
 		width:40px;
 		height: 20px;
-		border-radius: 10px 10px;
-		background-color: #B6E5FF;
+		border-radius: 5px;
+		border : none;
+		background-color: #2C307D;
+		color:white;
 	}
 	.ubtn:hover  {
-		color: #FFFFFF; 
-		background-color: #86CFF8;
+		background-color: #4349B4;
 	}
 	
 	/* -----지도----- */
 	
 	#map {
+		margin: 0 auto;
 	    width: 400px;
 	    height: 400px;
 	    top:20px;
@@ -206,16 +210,16 @@
 		width:80px;
 		height: 30px;
 		border-radius: 10px / 10px;
-		background-color: #B6E5FF;
-		margin-top: 20px;
+		background-color: #2C307D;
+		margin-top: 15px;
 		float: right;
 		margin-right: 30px;
 		top: 50px;
+		color: white;
 	}
 	
 	#reservation:hover  {
-		color: #FFFFFF; 
-		background-color: #2C307D;
+		background-color: #4349B4;
 	}
 	
 	/* -----공지사항-----  */
@@ -228,11 +232,11 @@
 		width: 500px;
 		display: inline-block;
 	    vertical-align: middle;
-	    margin: 30px; 
+	    margin: 20px; 
 	}
 	
 	#postContainer {
-		margin-top: 30px;
+		margin-top: 15px;
 		margin-left: 20px;
 		/* margin: 30px 50px 20px 20px; */
 		top: 50px;
@@ -240,6 +244,9 @@
 		border: 1px solid #B9B9B9;
 		border-radius: 40px 40px;
 		display: inline-block;
+	}
+	#right {
+		float: right;
 	}
 	
 /* 	.reviewContainer{

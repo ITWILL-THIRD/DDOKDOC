@@ -88,6 +88,7 @@ public class HosMypageAjaxController {
         return response;
     }
     
+    //진료완료 처리
     @RequestMapping(value = "/updateComplete.do", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Map<String, Object>> updateFinish(@RequestBody ReservationVO vo, HttpSession session) {
         System.out.println("updateFinish() 실행");

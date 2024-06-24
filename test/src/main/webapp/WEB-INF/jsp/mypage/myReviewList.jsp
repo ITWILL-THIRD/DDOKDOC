@@ -65,14 +65,14 @@ tr {
 	align-items: center;
 	float: right;
 	text-decoration-line: none;
-	color: #000000;
+	color: #2C307D;
 	margin-right: 20px;
 }
 #back:hover {
 	display: flex; 
 	align-items: center;
 	text-decoration-line: none;
-	color: #B6E5FF;
+	color: #FFA217;
 }
 
 .star-rating input {
@@ -130,28 +130,32 @@ tr {
 }
 
 .ibtn {
+	margin: 0 auto;
 	border: none;
-	width:70px;
-	height: 20px;
-	border-radius: 10px 10px;
-	background-color: #B6E5FF;
-	margin: 3px;
+	width:80px;
+	height: 30px;
+	border-radius: 5px;
+	border : none;
+	background-color: #2C307D;
+	margin: 10px;
+	color: white;
 }
 .ibtn:hover  {
-	color: #FFFFFF; 
-	background-color: #86CFF8;
+	background-color: #4349B4;
 }
 .sbtn {
+	margin: 0 auto;
 	border: none;
-	width:40px;
+	width: 40px;
 	height: 20px;
-	border-radius: 10px 10px;
-	background-color: #B6E5FF;
-	margin: 3px;
+	border-radius: 5px;
+	border : none;
+	background-color: #2C307D;
+	margin: 10px;
+	color: white;
 }
 .sbtn:hover  {
-	color: #FFFFFF; 
-	background-color: #86CFF8;
+	background-color: #4349B4;
 }
 
 .form {
@@ -241,7 +245,7 @@ tr {
 		    <a href="../mypage/myPage.do" id="back">
 		        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace-reverse-fill" viewBox="0 0 16 16">
 		            <path d="M0 3a2 2 0 0 1 2-2h7.08a2 2 0 0 1 1.519.698l4.843 5.651a1 1 0 0 1 0 1.302L10.6 14.3a2 2 0 0 1-1.52.7H2a2 2 0 0 1-2-2zm9.854 2.854a.5.5 0 0 0-.708-.708L7 7.293 4.854 5.146a.5.5 0 1 0-.708.708L6.293 8l-2.147 2.146a.5.5 0 0 0 .708.708L7 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L7.707 8z"/>
-		        </svg> &nbsp;돌아가기
+		        </svg> &nbsp;마이페이지로 가기
 		    </a>
 		</span>
 

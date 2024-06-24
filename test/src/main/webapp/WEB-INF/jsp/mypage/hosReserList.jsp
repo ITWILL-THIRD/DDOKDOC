@@ -26,7 +26,6 @@
 	
 	//달력 띄우기 
 	document.addEventListener('DOMContentLoaded', function() {
-	    // 페이지 로드 시 선택된 날짜 초기화
 	    if (localStorage.getItem('selectedDate')) {
 	        localStorage.removeItem('selectedDate');
 	    }
@@ -37,7 +36,6 @@
 	
 	    var hospitalSundayOff = ${hospital.sunDayOff == 'Y'};
 	
-	    // 휴무일 목록을 받아옴
 	    var closedDates = [
 	        <c:forEach var="date" items="${hosHoliday}">
 	            '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
@@ -121,38 +119,23 @@
 	                    dayEl.style.backgroundColor = '#f0f1f1';
 	                }
 	
-	                // 오늘 날짜를 노란색으로 표시
-	                if (dateStr === today.toISOString().split('T')[0]) {
-	                    dayEl.style.backgroundColor = '#FEFFB8';
+	                var todayStr = new Date().toISOString().split('T')[0];
+	                if (dateStr === todayStr) {
+	                    getJsonTimeData(todayStr, today.getDay());
 	                }
 	            });
-	
-	            // 오늘 날짜에 대한 리스트 출력
-	            var todayStr = today.toISOString().split('T')[0];
-	            if (todayStr === info.view.currentStart.toISOString().split('T')[0]) {
-	                getJsonTimeData(todayStr, today.getDay());
-	            }
 	        }
 	    });
 	
 	    calendar.render();
 	
-	    if (selectedDate) {
-	        getJsonTimeData(selectedDate, selectedDay);
-	    } else {
-	        // 페이지 로드 시 오늘 날짜에 대한 리스트 출력
-	        var today = new Date();
-	        today.setHours(0, 0, 0, 0);
-	        var todayStr = today.toISOString().split('T')[0];
-	        getJsonTimeData(todayStr, today.getDay());
-	    }
+	    window.addEventListener('beforeunload', function() {
+	        localStorage.removeItem('selectedDate');
+	        localStorage.removeItem('todayDataLoaded');
+	    });
 	});
 
 
-
-	window.addEventListener('beforeunload', function() {
-	    localStorage.removeItem('selectedDate');
-	});
 
   function getJsonTimeData(selectedDate, selectedDay) {
 	    let vo = {
@@ -227,7 +210,7 @@
         //console.log(response); // response 객체 구조 확인
 
         if (response.petReserList.length === 0) {
-            dispHtml += '<tr><td colspan="6">진료 내역이 없습니다</td></tr>';
+            dispHtml += '<tr><td colspan="7">진료 내역이 없습니다</td></tr>';
         } else {
        			// 예약된 시간만 표시하는 부분
             for (let time of response.reservedTimes) {
