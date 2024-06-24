@@ -105,8 +105,8 @@
 
 	<h1>예약 상세보기</h1>
 	<div id="container">
-		<hr>
 		<a class="hosNameLink" href="../mypage/myReserList.do">예약 목록</a>
+		<hr>
 		<%-- <h3>${user.name } 님의 예약입니다</h3> --%>
 		<table border frame=void>
 			<tr>

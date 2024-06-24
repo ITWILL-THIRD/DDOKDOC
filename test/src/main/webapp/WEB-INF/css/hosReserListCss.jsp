@@ -65,8 +65,8 @@
 	}
 	
   #calendar {
-  	margin-left: 150px;
-    max-width: 500px;
+  	margin-left: 97px;
+    max-width: 600px;
     /* margin-left: 100px; */
     /* margin-right: 100px; */
     display: inline-block;
@@ -210,9 +210,9 @@
 	text-align: center;
 	margin-top: 20px;
 	}
-	hr {
-  	border: 1px solid #2C307D;
-  }
+	.hr {
+border: 1px solid #2C307D;
+}
 	
 	#linkTag {	
 		font-weight: bold;
