@@ -20,7 +20,7 @@
     	<h1>멤버십 통계</h1>
         <div class="center">
             <button class="btn" id="monthlyRevenueBtn">수익통계</button>
-            <button class="btn" id="memberStatsBtn">가입자통계</button>
+            <button class="btn" id="memberStatsBtn">멤버십 건수</button>
             <button class="btn" id="paymentsByAccountBtn">계정별 결제내역</button>
         </div>
         

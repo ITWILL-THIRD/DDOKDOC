@@ -287,6 +287,16 @@ public class HoMyPageController {
 	//병원탈퇴
 	@PostMapping("/deleteHos.do")
 	public String deleteHos(@RequestParam("hosIdx") int hosIdx, HttpSession session) {
+		HospitalVO hospital = hospitalService.selectOne(hosIdx);
+        if (hospital != null && hospital.getCertificateImg() != null) { //GCS에서 사업자 등록증 삭제
+            gcsService.deleteFile(hospital.getCertificateImg());
+        }
+        List<HosImgVO> hosImgs = hospitalService.getHosImgList(hosIdx);
+        for (HosImgVO img : hosImgs) { //GCS에서 병원 사진 삭제
+            if (img.getHosImg() != null) {
+                gcsService.deleteFile(img.getHosImg());
+            }
+        }
 		hospitalService.deleteHos(hosIdx);
 		session.invalidate();
 		System.out.println(">> 병원탈퇴완료");

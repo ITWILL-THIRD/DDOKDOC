@@ -380,14 +380,14 @@
                             labels: labels,
                             datasets: [
                                 {
-                                    label: '총 가입자',
+                                    label: '총 멤버십 건수',
                                     data: totalMembers,
                                     backgroundColor: 'rgba(182, 229, 255, 0.5)',
                                     borderColor: 'rgba(46, 119, 174, 1)',
                                     borderWidth: 1
                                 },
                                 {
-                                    label: '신규 가입자',
+                                    label: '신규 멤버십 건수',
                                     data: newMembers,
                                     backgroundColor: 'rgba(255, 162, 23, 0.5)',
                                     borderColor: 'rgba(253, 111, 47, 1)',
@@ -457,28 +457,28 @@
                             labels: userLabels.length > hosLabels.length ? userLabels : hosLabels,
                             datasets: [
                                 {
-                                    label: '개인 총 가입자',
+                                    label: '개인 총 멤버십 건수',
                                     data: userTotal,
                                     backgroundColor: 'rgba(182, 229, 255, 0.5)',
                                     borderColor: 'rgba(155, 200, 230, 1)',
                                     borderWidth: 1
                                 },
                                 {
-                                    label: '개인 신규 가입자',
+                                    label: '개인 신규 멤버십 건수',
                                     data: userNew,
                                     backgroundColor: 'rgba(255, 162, 23, 0.5)',
                                     borderColor: 'rgba(255, 162, 23, 1)',
                                     borderWidth: 1
                                 },
                                 {
-                                    label: '병원 총 가입자',
+                                    label: '병원 총 멤버십 건수',
                                     data: hosTotal,
                                     backgroundColor: 'rgba(46, 119, 174, 0.5)',
                                     borderColor: 'rgba(46, 119, 174, 1)',
                                     borderWidth: 1
                                 },
                                 {
-                                    label: '병원 신규 가입자',
+                                    label: '병원 신규 멤버십 건수',
                                     data: hosNew,
                                     backgroundColor: 'rgba(253, 111, 47, 0.5)',
                                     borderColor: 'rgba(253, 111, 47, 1)',

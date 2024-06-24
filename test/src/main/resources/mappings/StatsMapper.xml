@@ -72,14 +72,14 @@
 	<select id="getHosMemberStats" parameterType="map" resultType="map">
 	    SELECT 
 	        period,
-	        TO_CHAR(COUNT(*)) AS totalHos, <!-- 총 병원 수 -->
+	        TO_CHAR(COUNT(*)) AS totalHos, <!-- 총 병원 멤버십 건수 -->
 	        TO_CHAR(SUM(CASE 
 	                WHEN (#{searchType} = 'month' AND TO_CHAR(MIN_HOSSTART, 'MM') = #{dateValue}) 
 	                     OR (#{searchType} = 'year' AND TO_CHAR(MIN_HOSSTART, 'YYYY') = #{dateValue}) 
 	                     OR (#{searchType} = 'all' AND HOSSTART = MIN_HOSSTART)
 	                THEN 1 
 	                ELSE 0 
-	            END)) AS newHos, <!-- 신규 병원 수 -->
+	            END)) AS newHos, <!-- 신규 병원 멤버십 건수 -->
 	        TO_CHAR(ROUND((SUM(CASE 
 	                WHEN (#{searchType} = 'month' AND TO_CHAR(MIN_HOSSTART, 'MM') = #{dateValue}) 
 	                     OR (#{searchType} = 'year' AND TO_CHAR(MIN_HOSSTART, 'YYYY') = #{dateValue}) 
@@ -107,14 +107,14 @@
 	<select id="getUserMemberStats" parameterType="map" resultType="map">
 	    SELECT 
 	        period,
-	        TO_CHAR(COUNT(*)) AS totalUsers, <!-- 총 사용자 수 -->
+	        TO_CHAR(COUNT(*)) AS totalUsers, <!-- 총 개인 멤버십 건수 -->
 	        TO_CHAR(SUM(CASE 
 	                WHEN (#{searchType} = 'month' AND TO_CHAR(MIN_MEMSTART, 'MM') = #{dateValue}) 
 	                     OR (#{searchType} = 'year' AND TO_CHAR(MIN_MEMSTART, 'YYYY') = #{dateValue}) 
 	                     OR (#{searchType} = 'all' AND MEMSTART = MIN_MEMSTART)
 	                THEN 1 
 	                ELSE 0 
-	            END)) AS newUsers, <!-- 신규 사용자 수 -->
+	            END)) AS newUsers, <!-- 신규 개인 멤버십 건수 -->
 	        TO_CHAR(ROUND((SUM(CASE 
 	                WHEN (#{searchType} = 'month' AND TO_CHAR(MIN_MEMSTART, 'MM') = #{dateValue}) 
 	                     OR (#{searchType} = 'year' AND TO_CHAR(MIN_MEMSTART, 'YYYY') = #{dateValue}) 
