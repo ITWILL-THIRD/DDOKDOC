@@ -8,6 +8,6 @@
 ![주요기능 - 통계](https://github.com/ITWILL-THIRD/TODOC/assets/129482143/28b1fd7f-c75e-4db1-a1c0-a70b5af81b97)
 ![주요기능 - 마이펫](https://github.com/ITWILL-THIRD/TODOC/assets/129482143/a568a5ad-2727-4163-b802-a28eee272456)
 ![주요기능 -병원조회](https://github.com/ITWILL-THIRD/TODOC/assets/129482143/82241e1e-19a2-4380-bc93-d5a92cb1958d)
-![주요기능 -병원예약(일반회원)](https://github.com/ITWILL-THIRD/TODOC/assets/129482143/18184f7d-cbc2-4642-bd80-f4c446832944)
-![주요기능 - 리뷰](https://github.com/ITWILL-THIRD/TODOC/assets/129482143/b4443652-fac2-418d-8985-fb685fa77f86)
+![주요기능 -병원예약(일반회원) (1)](https://github.com/JavA-Dream/TODOC/assets/129482143/ced6ad87-06e4-4304-9dbf-5e3a491ad83c)
+![주요기능 - 리뷰 (1)](https://github.com/JavA-Dream/TODOC/assets/129482143/0a96d994-c813-4d68-896e-db33d6ba8425)
 ![주요기능-정보나눔(커뮤니티)](https://github.com/ITWILL-THIRD/TODOC/assets/129482143/680a4de5-23d6-4619-bff0-55099bcaae7d)
