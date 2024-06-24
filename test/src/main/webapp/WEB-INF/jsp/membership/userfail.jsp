@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>병원 입점 멤버십</title>
+    <title>회원 멤버십</title>
     <jsp:include page="../../css/payCss.jsp"/>
   </head>
 

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>토닥토닥[main.jsp]</title>
+<title>토닥토닥</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 <script>
