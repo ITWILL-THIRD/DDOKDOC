@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <style>
-  #container {
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-    width: 1100px; 
-    margin: auto; 
-  }
+/*   #container { */
+/*     padding: 0; */
+/*     font-family: Arial, Helvetica Neue, Helvetica, sans-serif; */
+/*     font-size: 14px; */
+/*     width: 1100px;  */
+/*     margin: auto;  */
+/*   } */
 
 	#calendar {
 	    margin: 0 auto;
@@ -57,12 +57,11 @@
 	background-color: #F3F3F3;
 	  color: #FFA217;
 	}
-	#container2 {  
+	#container {  
 	    width: 800px; 
 	    margin-left: auto;  /* margin-left 값을 auto로 변경 */
 	    margin-right: auto; /* margin-right 값을 추가 */
 	    margin-top: 37px;
-	    float: left;
 	}
 	
   #calendar {
@@ -206,4 +205,23 @@
 		margin-bottom: 10px;
 	}
 /* 	li { font-size: 16px; } */
+	.title {
+	font-weight: bold;
+	text-align: center;
+	margin-top: 20px;
+	}
+	hr {
+  	border: 1px solid #2C307D;
+  }
+	
+	#linkTag {	
+		font-weight: bold;
+		color: #2C307D;
+		text-decoration: none;	
+	}
+	
+	#linkTag:hover {
+		color:#FFA217;
+	}
+	
 </style>

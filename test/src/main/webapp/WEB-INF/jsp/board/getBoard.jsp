@@ -10,6 +10,14 @@
 <jsp:include page="../../css/postCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
+<style>
+table tr:nth-last-child(2) td, table tr:nth-last-child(2) th {
+      border-bottom: none;
+    }
+    table tr:last-child td, table tr:last-child th {
+      border: none;
+    }
+</style>
 <script>
 function editComment(commentIdx) {
     var contentElement = document.getElementById('content-' + commentIdx);
@@ -110,9 +118,7 @@ function deleteComment(commentIdx) {
 			<th>작성일</th>
 			<td>${board.formattedDate }</td>
 		</tr>
-		<tr>
-			
-		</tr>
+		
 		<tr>
 			<td style="white-space:pre-line" colspan="6" class="content">
 				${board.content}

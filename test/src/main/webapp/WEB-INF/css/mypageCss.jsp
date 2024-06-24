@@ -200,6 +200,11 @@ height: 35px;
 	top: 85px;
 	margin-left: -45px;
 }
+.img2 {
+	position: absolute;
+	top: 196px;
+	margin-left: -46px;
+}
 .date {
 	margin-left: 60px;
 }
@@ -241,6 +246,9 @@ margin-bottom: 10px;
 .divBtn {
 margin-top: 15px;
 float: right;
+}
+h1 {
+text-align: center;
 }
 </style>
 </head>

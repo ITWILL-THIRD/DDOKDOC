@@ -13,8 +13,8 @@
 <body>
 <h1>나의 게시물</h1>
 <div id="container">
-<hr>
 <a href="myPage.do" style="font-weight: bold;">마이페이지 가기</a>
+<hr>
 <%-- ${myPostList } --%>
 	<table border frame=void>
 		<thead>

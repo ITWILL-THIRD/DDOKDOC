@@ -9,7 +9,6 @@
 <jsp:include page="../../css/getUserListCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
-<jsp:include page="statsScript.jsp"/>
 </head>
 <body>
 <h1>회원 예약현황</h1>
@@ -21,15 +20,65 @@
 <%-- ${condition } --%>
 <%-- ${userIdx } --%>
 <!-- 카테고리별  -->
-<div id="condition">
-<div class="center">
-	<a class="btn" href="userReservPage.do?userIdx=${userIdx}">전체</a>
-	<a class="btn" href="userReservPage.do?userIdx=${userIdx}&condition=RESERVATION">예약완료</a>
-	<a class="btn" href="userReservPage.do?userIdx=${userIdx}&condition=CANCLE">예약취소</a>
-	<a class="btn" href="userReservPage.do?userIdx=${userIdx}&condition=FINISH">진료완료</a>
-	<a class="btn" href="userReservPage.do?userIdx=${userIdx}&condition=REVIEW">리뷰작성</a>
+
+<div id="condition" class="center">
+	<a href="userReservPage.do?userIdx=${userIdx}">전체</a>
+	<a class="none">|</a>
+	<a href="userReservPage.do?userIdx=${userIdx}&condition=RESERVATION">예약완료</a>
+	<a class="none">|</a>
+	<a href="userReservPage.do?userIdx=${userIdx}&condition=CANCLE">예약취소</a>
+	<a class="none">|</a>
+	<a href="userReservPage.do?userIdx=${userIdx}&condition=FINISH">진료완료</a>
+	<a class="none">|</a>
+	<a href="userReservPage.do?userIdx=${userIdx}&condition=REVIEW">리뷰작성</a>
 </div>
-</div>
+
+
+<script>
+		document.addEventListener('DOMContentLoaded', (event) => {
+	        // 현재 URL에서 searchCondition 값을 가져옵니다.
+	        const params = new URLSearchParams(window.location.search);
+	        const condition = params.get('condition');
+	        
+	        // 모든 링크 요소를 가져옵니다.
+	        const links = document.querySelectorAll('#condition a');
+	        
+	        // 각 링크의 href 속성을 확인하여 searchCondition에 해당하는 경우 active 클래스를 추가합니다.
+	        links.forEach(link => {
+	            const url = new URL(link.href, window.location.origin);
+	            if (url.searchParams.get('condition') === condition) {
+	                link.classList.add('active');
+	            }
+	
+	            // 링크 클릭 시 이벤트를 가로채서 기본 동작을 방지합니다.
+	            link.addEventListener('click', (event) => {
+	                event.preventDefault();
+	                //alert(url.href); // 클릭한 링크의 URL을 출력합니다.
+	                
+	                const text = url.href;
+	                const searchString = "todoc";
+
+
+	                const result = extractStringAfter(text, searchString);
+	                console.log(result);
+	                
+	                function extractStringAfter(text, searchString) {
+	                    const index = text.indexOf(searchString);
+	                    if (index === -1) {
+	                        // searchString이 text에 없는 경우
+	                        return null;
+	                    }
+	                    // 검색된 문자열의 끝 인덱스 이후의 문자열을 추출
+	                    return text.slice(index + searchString.length);
+	                }
+	                // 여기서 원하는 동작을 수행
+	                const locRef = ".." + result;
+					location.href = locRef;
+	            });
+	        });
+	    });
+	</script>
+
 <hr>
 <table border frame=void  style="width:100%">
 	<c:choose>
