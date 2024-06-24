@@ -307,10 +307,11 @@ public class BoardController {
 	@RequestMapping("/deleteBoard.do")
 	public String deleteBoard(BoardVO vo, SessionStatus sessionStatus, Model model) {
 		System.out.println(">> 게시글 삭제");
+		BoardVO board = boardService.getBoard(vo);
+		if (board != null && board.getImg() != null) { // GCS에서 파일 삭제
+			gcsService.deleteFile(board.getImg());
+		}
 		boardService.deleteBoard(vo);
-		 if (vo.getImg() != null) {
-	            gcsService.deleteFile(vo.getImg()); // GCS에서 파일 삭제
-	        }
 		
 		sessionStatus.setComplete(); //@SessionAttributes 저장객체 삭제 처리
 		
