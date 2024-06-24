@@ -18,7 +18,6 @@
 	.reserInfo {
 	    display: inline-block;
 	}
-
 	
 	#reservation { 
 		margin-top: 40px;
@@ -132,36 +131,53 @@
 		text-align: center;
 		border: none;
 	}
-	
-	
-	
+
 	#reservation table {
-		border-collapse: collapse;
-		margin-left:auto;margin-right:auto;
-		margin-top: 23px;
+	    border-collapse: collapse;
+	    margin-left: auto;
+	    margin-right: auto;
+	    margin-top: 23px;
+	}
+	
+	#reservation th {
+	    border-bottom: 1px #B9B9B9 solid;
+	    background-color: #E0EAF5;
 	}
 	
 	#reservation table th, table td {
-		position: static;
-		text-align: center;
-		margin: auto;
-		padding: 5px;
-		border: 1px #B9B9B9 solid;
-		border-collapse: collapse;
+	    position: static;
+	    text-align: center;
+	    margin: auto;
+	    padding: 5px;
+	    border-collapse: collapse;
+	}
+	
+	/* tr 요소 안의 th와 td 사이에 경계선을 추가하는 부분 */
+	#reservation tr th + th,
+	#reservation tr td + td {
+	    border-left: 1px #B9B9B9 solid;
+	}
+	
+	/* tr 요소 사이에 경계선을 추가하는 부분 */
+	#reservation tr {
+	    border-bottom: 1px #B9B9B9 solid;
+	}
+	
+	#reservation tr:last-child {
+	    border-bottom: 0;  /* 마지막 tr 요소에는 경계선을 추가하지 않음 */
 	}
 	
 	#reservation table th:first-child,
 	table td:first-child {
-		border-left: 0;
+	    border-left: 0;
 	}
 	
 	#reservation table th:last-child,
 	table td:last-child {
-		border-right: 0;
+	    border-right: 0;
 	}
-	#reservation th { 
-		background-color: #E0EAF5;
-	}
+
+
 /* 	#reservation tbody {
 		border-bottom-style: hidden;
 		border-top-style: hidden; 
