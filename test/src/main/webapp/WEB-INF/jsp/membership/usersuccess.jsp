@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>병원 입점 멤버십</title>
+    <title>회원 멤버십</title>
     <jsp:include page="../../css/payCss.jsp"/>
   </head>
   <body>
@@ -32,12 +32,12 @@
         <button class="button p-grid-col5" onclick="location.href='http://localhost:8080/todoc/mypage/myPage.do';" style="background-color: #e8f3ff; color: #1b64da">마이페이지</button>
       </div>
     </div>
-
+<%--
     <div class="box_section" style="width: 600px; text-align: left">
       <b>Response Data :</b>
       <div id="response" style="white-space: initial"></div>
     </div>
-
+ --%>
     <script>
       // 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
       // 클라이언트에서 결제 금액을 조작하는 행위를 방지할 수 있습니다.

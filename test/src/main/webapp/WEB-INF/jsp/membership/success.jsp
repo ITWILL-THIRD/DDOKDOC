@@ -33,11 +33,12 @@
       </div>
     </div>
 
+<%-- 
     <div class="box_section" style="width: 600px; text-align: left">
       <b>Response Data :</b>
       <div id="response" style="white-space: initial"></div>
     </div>
-
+--%>
     <script>
       // 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
       // 클라이언트에서 결제 금액을 조작하는 행위를 방지할 수 있습니다.
