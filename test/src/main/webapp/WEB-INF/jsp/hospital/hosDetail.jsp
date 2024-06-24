@@ -325,7 +325,7 @@
 			alert("로그인 후 예약이 가능합니다.");
 	        location.href="../user/login.do";
 	    } else if (userCondition === '결제전') {
-	        alert("멤버십 가입 후 예약이 가능합니다.");
+	        alert("토탁플러스 가입 후 병원예약이 가능합니다.");
 	    } else if (userCondition === '결제완료')
 	        location.href="../reservation/reservation.do?hosIdx=" + ${hospital.hosIdx};
 		
