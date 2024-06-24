@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 - 병원 승인 페이지 [approvalPage.jsp]</title>
+<title>병원 승인 페이지</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <jsp:include page="../../css/hosApprovalListCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>

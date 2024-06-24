@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>휴무일 등록</title>
 <jsp:include page="../common/navigation.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/" ></script>

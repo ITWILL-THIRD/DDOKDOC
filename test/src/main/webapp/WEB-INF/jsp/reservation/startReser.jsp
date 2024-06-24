@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset='utf-8' />
-
+<title>진료 예약</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/" ></script>
 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.css" rel="stylesheet">
@@ -513,15 +513,6 @@ hr {
 </style>
 </head>
 <body>
-<%-- \${hospital } : ${hospital }<br>
-\${reservationList } : ${reservationList }<br>
-\${user } : ${user }<br>
-\${myPetList } : ${myPetList }<br>
-\${session.getAttribute } : ${userIdx }<br> --%>
-<%-- \${hospital } : ${hospital }<br>
-\${hosHoliday } : ${hosHoliday }<br> --%>
-<%-- \${notice } : ${notice }<br> --%>
-
 	<h2 id="pageTitle">진료 예약하기</h2>
   <div id="container">
     <hr>

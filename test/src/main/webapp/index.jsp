@@ -339,7 +339,7 @@
 	<div id="container">
 		<div class="abcd">
 			<div class="a">
-				<div class="txt">토닥토닥</div>
+				<div class="txt"><img src="https://i.ibb.co/cJ8ZmPh/1.png" alt="토닥토닥" width="250px"></div>
 				<img src="https://i.ibb.co/1scnHR7/casual-life-3d-female-veterinarian-with-dog.png" alt="todoc" class="todocImg">
 			</div>
 			

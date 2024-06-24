@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>병원 상세 보기</title>
+<title>${hospital.hosName}</title>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <jsp:include page="../../css/hosDetaiCss.jsp"/>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>userReviewList</title>
+<title>회원 리뷰 목록</title>
 <jsp:include page="../../css/getUserListCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>userPostDetail</title>
+<title>회원 게시글 상세</title>
 <%-- <jsp:include page="../../css/postCss.jsp"/> --%>
 <jsp:include page="../../css/getUserListCss.jsp"/>
 <jsp:include page="../../css/commonCss.jsp"/>
