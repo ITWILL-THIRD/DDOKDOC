@@ -84,7 +84,7 @@
  	  	top: 66px; /* 69px */
 		background-color: #f9f9f9;
    		min-width: 130px; /* 가로 */
-   		width: 150px; /* 세로 */
+   		width: 140px; /* 세로 */
   		z-index: 1;  
 	}
 	.adminDropdown:hover .dropdownList {
