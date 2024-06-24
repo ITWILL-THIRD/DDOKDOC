@@ -27,6 +27,9 @@
 	        } else if (condition === '승인완료') {
 	            $(this).addClass('condition-after');
 	            $(this).val('승인취소');
+	        } else {
+	        	$(this).addClass('condition-none');
+	            $(this).val('');
 	        }
 	    });
 	});
