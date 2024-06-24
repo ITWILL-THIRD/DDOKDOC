@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>예약 상세보기</title>
+<title>예약완료 상세보기</title>
 <jsp:include page="../../css/commonCss.jsp"/>
 <jsp:include page="../common/navigation.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -106,7 +106,7 @@
 	<h1>예약 상세보기</h1>
 	<div id="container">
 		<hr>
-		<a class="hosNameLink" href="javascript:window.history.back();">목록으로 가기</a>
+		<a class="hosNameLink" href="../mypage/myReserList.do">예약 목록</a>
 		<%-- <h3>${user.name } 님의 예약입니다</h3> --%>
 		<table border frame=void>
 			<tr>

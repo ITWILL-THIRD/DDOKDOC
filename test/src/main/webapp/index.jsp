@@ -85,6 +85,7 @@
 	.topnav {
 	  overflow: hidden;
 	  background-color: #fff;
+	  display: flex;
 	}
 	
 	.topnav a {
@@ -117,17 +118,17 @@
 	.dropdownList {
 		display: none;
  	  	position: fixed;
- 	  	right: 10px;
+ 	  	right: 100px;
  	  	top: 66px; /* 69px */
 		background-color: #f9f9f9;
    		min-width: 130px; /* 가로 */
-   		width: 0px; /* 세로 */
+   		width: 140px; /* 세로 */
   		z-index: 1;  
 	}
 	.adminDropdown:hover .dropdownList {
-		
 		display: block;
 	}
+	
 	#container { width: 80%; height:800px; margin: auto; margin-top: 30px;}
 	.abcd {width:100%; height:50%;}
 	
@@ -308,7 +309,7 @@
 				<div class="dropdownList">
 					<a href="admin/getHosApprovalList.do">병원 승인</a>
 				    <a href="admin/getUserList.do">개인 회원</a>
-					<a href="admin/statsPage.do">통계</a>
+					<a href="admin/statsPage.do">멤버십 통계</a>
 				</div>
 			</div>
 			<a href="logout.do">로그아웃</a>
@@ -364,17 +365,24 @@
 			</div>	
 		</div>
 		<div class="abcd">
-			<div class="c">				
+			<div style="cursor:pointer;" onclick="goReservation()" class="c">				
 				<img src="https://i.ibb.co/j8Bs1kN/casual-life-3d-top-view-of-cat-lying-on-back.png" alt="cat" class="catImg">
 				<div class="txt">내 펫을 <span>등록</span>하고 </br> 병원을 <span>예약</span>하세요!</div>
 			</div>
-			<div class="d">
+			<div style="cursor:pointer;" onclick="goBoard()" class="d">
 				<div class="txt">다양한 주제로 </br>  이야기를 나눠요</div>
 				<img src="https://i.ibb.co/5cczVHP/casual-life-3d-front-view-of-a-beagle-dog.png" alt="dog" class="dogImg">
 			</div>
 		</div>
 	</div>
-	
+	<script>
+		function goReservation() {
+			location.href = "hospital/hosMain.do";
+		}
+		function goBoard() {
+			location.href = "board/getBoardList.do";
+		}
+	</script>
 </body>
 </html>
 

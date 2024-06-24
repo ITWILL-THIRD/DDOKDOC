@@ -140,6 +140,10 @@ public class PayController {
     public String index(HttpServletRequest request, HttpSession session, Model model) throws Exception {
     	HospitalVO hvo = (HospitalVO) session.getAttribute("hoUser");
     	
+    	System.out.println("hvo.getCondition() : " + hvo.getCondition());
+    	hvo.setCondition(hvo.getCondition());
+    	session.setAttribute("hoUser", hvo);
+    	
         boolean isApproved = hvo != null && "승인완료".equals(hvo.getCondition());
         model.addAttribute("isApproved", isApproved);
         boolean notApproved = hvo != null && "승인전".equals(hvo.getCondition());

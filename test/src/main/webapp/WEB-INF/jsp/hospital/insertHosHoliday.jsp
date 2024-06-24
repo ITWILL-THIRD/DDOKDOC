@@ -35,12 +35,12 @@
       	googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
       	plugins: [ 'interaction', 'dayGrid', 'googleCalendar' ],
       	header: {
-        	left: 'prevYear,prev,next,nextYear today',
+      		left: 'today',
         	center: 'title',
-        	right: 'dayGridMonth'
+      		right: 'prevYear,prev,next,nextYear'
       	},
       	editable: false,
-      	eventLimit: true, // allow "more" link when too many events
+      	eventLimit: true, 
       	selectable: true,
       	eventSources:[
 	        {
@@ -86,14 +86,21 @@
 	        	selectedDates.push(info.dateStr);
 	          	info.dayEl.style.backgroundColor = '#E0EAF5'; // 선택된 색상 설정
 	        	
-		          // 선택되지 않은 날짜일 경우 선택
-		          if (confirm(info.dateStr + "휴무지정 하시겠습니까?")) {
-		        	  //휴무 지정 함수 실행시키기
-		        	  insertHoliday(info.dateStr);
-		          } else {
-		        	  
-		        	  return;
-		          }
+	         	// 선택되지 않은 날짜일 경우 선택
+                if (confirm(info.dateStr + " 휴무지정 하시겠습니까?")) {
+                    selectedDates.push(info.dateStr);
+                    info.dayEl.style.backgroundColor = '#E0EAF5'; // 선택된 색상 설정
+                    // 휴무 지정 함수 실행시키기
+                    insertHoliday(info.dateStr);
+                } else {
+                    // 선택 취소 시 선택된 색상 되돌리기
+                    info.dayEl.style.backgroundColor = '';
+                    var index = selectedDates.indexOf(info.dateStr);
+                    if (index > -1) {
+                        selectedDates.splice(index, 1);
+                    }
+                    return;
+                }
 	        	
 	        }
 	        
@@ -241,6 +248,22 @@ hr {
   margin-bottom: 20px;
   }
   
+  /* FullCalendar 상단 버튼 스타일링 */
+    .fc-button {
+        background-color: #2C307D; /* 원하는 배경색으로 변경 */
+        border-color: #2C307D; /* 원하는 테두리색으로 변경 */
+        color: white; /* 텍스트 색상 변경 */
+    }
+
+    .fc-button:hover {
+        background-color: #1A1F56; /* 버튼 호버 시 색상 변경 */
+        border-color: #1A1F56; /* 호버 시 테두리색 변경 */
+    }
+
+    .fc-button:active {
+        background-color: #2C307D; /* 버튼 클릭 시 색상 변경 */
+        border-color: #2C307D; /* 클릭 시 테두리색 변경 */
+    }
 </style>
 </head>
 <body>

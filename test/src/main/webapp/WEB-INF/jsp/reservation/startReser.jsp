@@ -22,7 +22,7 @@
 <jsp:include page="../../css/commonCss.jsp"/>
 <script>
 $(document).ready(function(){
-	const notice = '${notice}';
+	const notice = '${notice.hosIdx}';
 	if (notice != "") {
     	$('#exampleModal').modal('show');
 	}

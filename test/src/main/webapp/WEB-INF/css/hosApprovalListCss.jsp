@@ -142,6 +142,11 @@
     	color: #2C307D;
     	border: 1px solid #2C307D;
     }
+    .condition-none {
+    	border: 0;
+   		background-color:#FFFFFF;
+    }
+    
     /* 	페이징 */
 	#paging td {
 		padding-top: 15px;
