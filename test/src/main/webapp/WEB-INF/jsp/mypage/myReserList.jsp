@@ -104,23 +104,27 @@
 				<th>시간</th>
 				<th>예약변경/취소</th>
 			</tr>
-			<c:if test="${myReserList.size() == 0 }">
-				<tr>
-					<td colspan="6">예약 내역이 없습니다.</td>
-				</tr>
-			</c:if>
-			<c:forEach var="reser" items="${myReserList }">
-				<tr>
-					<td>${reser.rownum }</td>
-					<td><a class="hosNameLink" href="../hospital/hosDetail.do?hosIdx=${reser.hosIdx}">${reser.hosName }</a></td>
-					<td>${reser.petName }</td>
-					<td>${reser.reserDate }</td>
-					<td>${reser.formattedTime }</td>
-					<td>
-						<button class="btn" onclick="reservationDetail(${reser.reserIdx})">상세보기</button>
-					</td>
-				</tr>
-			</c:forEach>
+			<c:choose>
+				<c:when test="${myReserList.size() == 0 }">
+					<tr>
+						<td colspan="6">예약 내역이 없습니다.</td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="reser" items="${myReserList }">
+						<tr>
+							<td>${reser.rownum }</td>
+							<td><a class="hosNameLink" href="../hospital/hosDetail.do?hosIdx=${reser.hosIdx}">${reser.hosName }</a></td>
+							<td>${reser.petName }</td>
+							<td>${reser.reserDate }</td>
+							<td>${reser.formattedTime }</td>
+							<td>
+								<button class="btn" onclick="reservationDetail(${reser.reserIdx})">상세보기</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</table>
 	</div>
 	

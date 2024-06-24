@@ -95,6 +95,43 @@ public class ReservationController {
 		return "reservation/startReser";
 	}
 
+	//예약 완료
+	@RequestMapping("/endReser.do")
+	public String endReser(HttpSession session, Model model, @RequestParam String reserIdx) {
+		System.out.println(">> 예약 조회");
+		
+		int idx = Integer.parseInt(reserIdx);
+		System.out.println(idx);
+		
+		ReservationVO vo = new ReservationVO();
+		vo.setReserIdx(idx);
+		
+		ReservationVO reservation = reservationService.getReservation(vo);
+		System.out.println("reservation : " + reservation);
+		
+		// 예약에서 병원인덱스가져와서 병원vo
+		HospitalVO hospital = hospitalService.selectOne(reservation.getHosIdx());
+		System.out.println("hospital : " + hospital);
+		
+		// 예약에서 마이펫 인덱스 가져와서 마이펫vo
+		MyPetVO myPet = myPetService.getMyPet(reservation.getPetIdx());
+		System.out.println("myPet : " + myPet);
+		
+		// 예약에서 시간 뽑아서 형식 변환
+		String formattedTime = reservation.getReserTime().toString().substring(0, 5);
+		reservation.setFormattedTime(formattedTime);
+		
+		// 세션에서 유저 가져오기
+		UserVO user = (UserVO) session.getAttribute("user");
+		
+		model.addAttribute("reservation", reservation);
+		model.addAttribute("hospital", hospital);
+		model.addAttribute("myPet", myPet);
+		model.addAttribute("user", user);
+		
+		return "reservation/endReser";
+	}
+	
 	//예약조회
 	@RequestMapping("/reservationDetail.do")
 	public String getReservation(HttpSession session, Model model, @RequestParam String reserIdx) {
@@ -167,7 +204,7 @@ public class ReservationController {
 		System.out.println("작성완료");
 		
         // 예약 등록 후 넘어가는 페이지로 이동시키기
-        return "redirect:reservationDetail.do?reserIdx=" + idx;
+        return "redirect:endReser.do?reserIdx=" + idx;
 	}
 	
 	//예약 취소
