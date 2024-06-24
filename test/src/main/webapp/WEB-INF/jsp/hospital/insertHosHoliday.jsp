@@ -6,7 +6,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>휴무일 등록</title>
 <jsp:include page="../common/navigation.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/" ></script>
@@ -17,77 +16,77 @@
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@4.4.0/main.min.js"></script>
 <script>
-	//달력 띄우기
-	document.addEventListener('DOMContentLoaded', function() {
-	    var calendarEl = document.getElementById('calendar');
-	    var selectedDate = null; 
-	    var selectedDay = null;
-	    var selectedDates = []; // 선택된 날짜들을 저장할 배열
+   //달력 띄우기
+   document.addEventListener('DOMContentLoaded', function() {
+       var calendarEl = document.getElementById('calendar');
+       var selectedDate = null; 
+       var selectedDay = null;
+       var selectedDates = []; // 선택된 날짜들을 저장할 배열
     
     // 휴무일 목록을 받아옴
     var closedDates = [
-	    <c:forEach var="date" items="${hosHolidayList}">
-	        '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
-	    </c:forEach>
-	];
- 	/* alert(closedDates); */
+       <c:forEach var="date" items="${hosHolidayList}">
+           '<fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>',
+       </c:forEach>
+   ];
+    /* alert(closedDates); */
 
-	var calendar = new FullCalendar.Calendar(calendarEl, {
-      	googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
-      	plugins: [ 'interaction', 'dayGrid', 'googleCalendar' ],
-      	header: {
-      		left: 'today',
-        	center: 'title',
-      		right: 'prevYear,prev,next,nextYear'
-      	},
-      	editable: false,
-      	eventLimit: true, 
-      	selectable: true,
-      	eventSources:[
-	        {
-	          googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-	          className: 'ko_event',
-	          color: 'white',
-	          textColor: 'red'
-	        }
-      	],
-      	eventRender: function(info) {
-	        // href 속성 제거
-	        if (info.el.tagName === 'A') {
-	          info.el.removeAttribute('href');
-	        }
-	        // 부모 노드로부터 링크 제거
-	        if (info.el.parentNode) {
-	          var parent = info.el.parentNode;
-	          if (parent.tagName === 'A') {
-	            parent.replaceWith(info.el);
-	          }
-	        }
-      	},
-      	dateClick: function(info) {
+   var calendar = new FullCalendar.Calendar(calendarEl, {
+         googleCalendarApiKey:'AIzaSyCpdR-Qoefgl33LiyjqpiZglfgJogfB16Y',
+         plugins: [ 'interaction', 'dayGrid', 'googleCalendar' ],
+         header: {
+            left: 'today',
+           center: 'title',
+            right: 'prevYear,prev,next,nextYear'
+         },
+         editable: false,
+         eventLimit: true, 
+         selectable: true,
+         eventSources:[
+           {
+             googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+             className: 'ko_event',
+             color: 'white',
+             textColor: 'red'
+           }
+         ],
+         eventRender: function(info) {
+           // href 속성 제거
+           if (info.el.tagName === 'A') {
+             info.el.removeAttribute('href');
+           }
+           // 부모 노드로부터 링크 제거
+           if (info.el.parentNode) {
+             var parent = info.el.parentNode;
+             if (parent.tagName === 'A') {
+               parent.replaceWith(info.el);
+             }
+           }
+         },
+         dateClick: function(info) {
         
-	        var today = new Date();
-	        today.setHours(0, 0, 0, 0); // 시간을 0으로 설정해야 오늘 날짜를 클릭 가능함.
-	        var clickedDate = new Date(info.dateStr);
+           var today = new Date();
+           today.setHours(0, 0, 0, 0); // 시간을 0으로 설정해야 오늘 날짜를 클릭 가능함.
+           var clickedDate = new Date(info.dateStr);
 
-	        // 오늘 이전 날짜 클릭 비활성화
-	        if (clickedDate < today) {
-	          alert('지난 날짜는 선택할 수 없습니다.');
-	          return;
-	        }
-	        // 휴무일 클릭 비활성화
-	        if (closedDates.includes(info.dateStr)) {
-	          if (confirm(info.dateStr + "휴무지정 취소하시겠습니까?")) {
-	        	  //휴무 취소 함수 실행시키기
-	        	  deleteHoliday(info.dateStr);
-	          } else {
-		          return;
-	          }
-	        } else {
-	        	selectedDates.push(info.dateStr);
-	          	info.dayEl.style.backgroundColor = '#E0EAF5'; // 선택된 색상 설정
-	        	
-	         	// 선택되지 않은 날짜일 경우 선택
+           // 오늘 이전 날짜 클릭 비활성화
+           if (clickedDate < today) {
+             alert('지난 날짜는 선택할 수 없습니다.');
+             return;
+           }
+           // 휴무일 클릭 비활성화
+           if (closedDates.includes(info.dateStr)) {
+             if (confirm(info.dateStr + "휴무지정 취소하시겠습니까?")) {
+                //휴무 취소 함수 실행시키기
+                deleteHoliday(info.dateStr);
+             } else {
+                return;
+             }
+           } else {
+              selectedDates.push(info.dateStr);
+                info.dayEl.style.backgroundColor = '#E0EAF5'; // 선택된 색상 설정
+              
+               // 선택되지 않은 날짜일 경우 선택
                 if (confirm(info.dateStr + " 휴무지정 하시겠습니까?")) {
                     selectedDates.push(info.dateStr);
                     info.dayEl.style.backgroundColor = '#E0EAF5'; // 선택된 색상 설정
@@ -102,32 +101,32 @@
                     }
                     return;
                 }
-	        	
-	        }
-	        
-	        
-	        // 숨겨진 필드 업데이트
-	        document.getElementById('holidays').value = JSON.stringify(selectedDates);
-	        alert("선택된 날짜들: " + selectedDates.join(', '));
-	        
+              
+           }
+           
+           
+           // 숨겨진 필드 업데이트
+           document.getElementById('holidays').value = JSON.stringify(selectedDates);
+           alert("선택된 날짜들: " + selectedDates.join(', '));
+           
         },
       
-     	// 과거 날짜, 휴무일 회색으로 설정
-      	datesRender: function(info) {
-	        var today = new Date();
-	        today.setHours(0, 0, 0, 0);
-	
-	        var allDayEls = document.querySelectorAll('.fc-day');
-	
-	        allDayEls.forEach(function(dayEl) {
-	        	var dateStr = dayEl.getAttribute('data-date');
-	          	var date = new Date(dateStr);
-	          
-	          	if (date < today || closedDates.includes(dateStr)) {
-	              	dayEl.style.backgroundColor = '#f0f1f1';
-	          	}
-        	});
-      	} 
+        // 과거 날짜, 휴무일 회색으로 설정
+         datesRender: function(info) {
+           var today = new Date();
+           today.setHours(0, 0, 0, 0);
+   
+           var allDayEls = document.querySelectorAll('.fc-day');
+   
+           allDayEls.forEach(function(dayEl) {
+              var dateStr = dayEl.getAttribute('data-date');
+                var date = new Date(dateStr);
+             
+                if (date < today || closedDates.includes(dateStr)) {
+                    dayEl.style.backgroundColor = '#f0f1f1';
+                }
+           });
+         } 
 
     });
 
@@ -140,32 +139,32 @@
   }
   
   function insertHoliday(dateStr) {
-	  document.getElementById('holiday').value = dateStr;
-	  document.getElementById('holidayForm').submit();
+     document.getElementById('holiday').value = dateStr;
+     document.getElementById('holidayForm').submit();
   }
   
   function deleteHoliday(dateStr) {
-	  document.getElementById('holiDateStr').value = dateStr;
-	  document.getElementById('DelHolidayForm').submit();
+     document.getElementById('holiDateStr').value = dateStr;
+     document.getElementById('DelHolidayForm').submit();
   }
   
 </script>
 <title>병원 휴무일 등록 페이지</title>
 <style>
-	#container { width: 800px; margin: auto; }
+   #container { width: 800px; margin: auto; }
 
-	#pageTitle{ 
-		margin-top: 20px;
-		text-align: center; 
-		font-weight: bold;
-	}
-	
-	.fc-day-header {
-	  background-color: #E0EAF5;
-	}
-	
+   #pageTitle{ 
+      margin-top: 20px;
+      text-align: center; 
+      font-weight: bold;
+   }
+   
+   .fc-day-header {
+     background-color: #E0EAF5;
+   }
+   
    #selectPetDiv, #selectDateTimeDiv {
-	float: left;
+   float: left;
     vertical-align: top;
     margin-top: 20px;
   }
@@ -174,14 +173,14 @@
     width: calc(30% - 5px);
     height: 530px;
     box-sizing: border-box; 
-  	border: 1px solid gray;
-  	border-radius: 5px;
-  	padding: 5px;
+     border: 1px solid gray;
+     border-radius: 5px;
+     padding: 5px;
   }
   
   #selectPet {
-  	border: 1px solid #bbb;
-  	border-radius: 10px;
+     border: 1px solid #bbb;
+     border-radius: 10px;
     width: 100%;
     height: 50px;
     font-size: 20x; 
@@ -200,8 +199,8 @@
   }
 
   #calendar {
-  	margin: auto;
-  	flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
+     margin: auto;
+     flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
     max-width: 700px; /* 최대 너비 설정 */
   }
   
@@ -210,10 +209,22 @@
      width: 70%;
      height: 200px;
      font-size: 16px;
-   }	
-   	
+   }   
+      
    .btn.selected {
        background-color: #E0EAF5;
+   }
+   
+   <%-- 제목 링크 --%>
+   #linkTag {   
+      font-weight: bold;
+      color: #2C307D;
+      text-decoration: none;   
+      margin-bottom: 20px;
+   }
+   
+   #linkTag:hover {
+      color:#FFA217;
    }
    
 
@@ -239,8 +250,8 @@
 }
 
 .modal-footer .btn {
-	width: 100px;
-	height: 30px;
+   width: 100px;
+   height: 30px;
     font-size: 14px;
 }
 
@@ -270,18 +281,19 @@ hr {
 <body>
 <%-- \${hoUser} : ${hoUser }
 \${hosHolidayList} : ${hosHolidayList } --%>
-	<h2 id="pageTitle">병원 휴무일 등록</h2>
-	<div id="container">
-	<hr>
-		<div id="calendar" class="reserInfo"></div>
-		<form id="holidayForm" action="insertHosHoliday.do" method="post">
-			<input type="hidden" id="holiday" name="holiDateStr">
-			<input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
-		</form>
-		<form id="DelHolidayForm" action="deleteHosHoliday.do" method="post">
-			<input type="hidden" id="holiDateStr" name="holiDateStr" >
-			<input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
-		</form>
-	</div>
+   <h2 id="pageTitle">병원 휴무일 등록</h2>
+   <div id="container">
+   <a id="linkTag" href="hoMyPage.do">병원 마이페이지 가기</a>
+   <hr>
+      <div id="calendar" class="reserInfo"></div>
+      <form id="holidayForm" action="insertHosHoliday.do" method="post">
+         <input type="hidden" id="holiday" name="holiDateStr">
+         <input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
+      </form>
+      <form id="DelHolidayForm" action="deleteHosHoliday.do" method="post">
+         <input type="hidden" id="holiDateStr" name="holiDateStr" >
+         <input type="hidden" id="hosIdx" name="hosIdx" value="${hoUser.hosIdx }">
+      </form>
+   </div>
 </body>
 </html>
