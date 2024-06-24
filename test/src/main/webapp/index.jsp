@@ -364,17 +364,24 @@
 			</div>	
 		</div>
 		<div class="abcd">
-			<div class="c">				
+			<div style="cursor:pointer;" onclick="goReservation()" class="c">				
 				<img src="https://i.ibb.co/j8Bs1kN/casual-life-3d-top-view-of-cat-lying-on-back.png" alt="cat" class="catImg">
 				<div class="txt">내 펫을 <span>등록</span>하고 </br> 병원을 <span>예약</span>하세요!</div>
 			</div>
-			<div class="d">
+			<div style="cursor:pointer;" onclick="goBoard()" class="d">
 				<div class="txt">다양한 주제로 </br>  이야기를 나눠요</div>
 				<img src="https://i.ibb.co/5cczVHP/casual-life-3d-front-view-of-a-beagle-dog.png" alt="dog" class="dogImg">
 			</div>
 		</div>
 	</div>
-	
+	<script>
+		function goReservation() {
+			location.href = "hospital/hosMain.do";
+		}
+		function goBoard() {
+			location.href = "board/getBoardList.do";
+		}
+	</script>
 </body>
 </html>
 
