@@ -69,12 +69,15 @@
     	border-radius: 5px;
     	background-color: #2C307D;
     	padding: 7px 18px;
+    	margin-top: 10px;
+    	margin-left: 5px;
     	border: none;
     	cursor: pointer;
     	color: #FFFFFF;
     	text-decoration: none;
     	display: inline-block;
     	border: 1px solid #2C307D;
+    	float: right;
     }
     
     .btn:hover {
@@ -86,6 +89,11 @@
 
   hr {
   	border: 1px solid #2C307D;
+  }
+  
+  .info {
+  	font-style: italic;
+  	color: gray;
   }
 </style>
 </head>
@@ -135,7 +143,10 @@
 	    <%-- 예약 날짜와 현재 날짜 비교 --%>
 	    <c:choose>
 	        <c:when test="${reservation.reserDate == sessionScope.currentDateStr && reservation.formattedTime <= sessionScope.currentTimeStr}">
-	            <p id="info">예약 시간이 지나 변경/취소가 불가능 합니다.</p>
+	            <p class="info">예약 시간이 지나 변경/취소가 불가능 합니다.</p>
+	        </c:when>
+	        <c:when test="${reservation.condition == 'CANCLE' }">
+	        	<p class="info">취소된 예약 내역 입니다.</p>
 	        </c:when>
 	        <c:otherwise>
 	            <button class="btn" onclick="reserUpdate(${reservation.reserIdx})">예약 변경</button>
@@ -150,7 +161,11 @@
 			location.href="updateReservation.do?reserIdx=" + reserIdx;
 		}
 		function reserDelete(reserIdx) {
-			location.href="cancleReservation.do?reserIdx=" + reserIdx;
+			if (confirm("예약을 취소하시겠습니까?")) {
+				location.href="cancleReservation.do?reserIdx=" + reserIdx;
+			} else {
+				return;
+			}
 		}
 	</script>
 </body>
