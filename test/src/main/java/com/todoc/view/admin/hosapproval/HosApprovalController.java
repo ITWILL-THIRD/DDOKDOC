@@ -3,6 +3,7 @@ package com.todoc.view.admin.hosapproval;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,9 @@ import com.todoc.admin.hosapproval.HosApprovalService;
 import com.todoc.admin.hosapproval.HosApprovalVO;
 import com.todoc.common.Paging;
 import com.todoc.hospital.HospitalService;
+import com.todoc.hospital.HospitalVO;
+import com.todoc.membership.HosMembershipService;
+import com.todoc.membership.HosMembershipVO;
 
 @RequestMapping("/admin")
 @Controller
@@ -23,6 +27,8 @@ public class HosApprovalController {
 	HosApprovalService hosApprovalService;
 	@Autowired
 	HospitalService hospitalService;
+//	@Autowired
+//	HosMembershipService hosmembershipService;
 	
 	//병원 전체 조회 + 페이징
 	@RequestMapping("/getHosApprovalList.do")
@@ -204,7 +210,9 @@ public class HosApprovalController {
 	
 	//병원 승인 클릭
 	@RequestMapping("/approvalPro.do")
-	public String aprrovalClick(HosApprovalVO hosptial, Model model) {
+	public String aprrovalClick(HosApprovalVO hosptial, Model model
+//								, HttpSession session, HospitalVO hvo
+								) {
 		System.out.println(">> approvalClick() 메소드 실행~~");
 		System.out.println("hosptial : " + hosptial);
 		
@@ -214,6 +222,10 @@ public class HosApprovalController {
 			System.out.println("hosptial.getHosIdx() : " + hosptial.getHosIdx()
 			+ ", clickCnt : " + clickCnt);
 			if (clickCnt == 1) {
+//				hvo.setCondition("결제완료");
+//				hosmembershipService.updateHosCondition(hvo); 
+//				session.setAttribute("hoUser", hvo);
+
 				System.out.println("승인 완료!!");
 			} 
 		} catch (Exception e) {
